@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momance — Texture Discovery V3</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0A0A0E;
+    --surface: #111116;
+    --gold: #C9A84C;
+    --cream: #F2EDE4;
+    --text: #F0EAE0;
+    --text-muted: #B2AEBC;
+    --text-label: #8E8A96;
+    --text-dark: #1E1C24;
+    --text-dark-muted: #6A6775;
+    --border: rgba(255,255,255,0.07);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Source Sans 3', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --tex-opacity: 0.18;
+  }
+
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-weight: 300; line-height: 1.6; }
+
+  /* ── Header ── */
+  header { padding: 48px 40px 24px; max-width: 960px; }
+  .page-label {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+  }
+  h1 {
+    font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400; font-style: italic; color: var(--gold); margin-bottom: 12px;
+  }
+  .subtitle { font-size: 15px; color: var(--text-muted); max-width: 720px; line-height: 1.7; }
+
+  /* ── Learnings ── */
+  .learnings {
+    padding: 24px 40px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .learnings h3 {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+  }
+  .learning-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px;
+  }
+  .learn-item {
+    font-size: 13px; line-height: 1.6; color: var(--text-muted);
+    padding-left: 16px; border-left: 2px solid var(--border);
+  }
+  .learn-item.good { border-color: var(--gold); }
+  .learn-item strong { color: var(--text); font-weight: 400; }
+
+  /* ── Sticky Controls ── */
+  .controls {
+    position: sticky; top: 0; z-index: 100;
+    padding: 12px 40px;
+    background: rgba(10,10,14,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+  }
+  .controls label {
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-label);
+  }
+  .controls input[type="range"] { width: 140px; accent-color: var(--gold); }
+  .val {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--gold); min-width: 32px; display: inline-block;
+  }
+  .sel {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--text); background: var(--bg); border: 1px solid var(--border);
+    padding: 3px 6px; border-radius: 4px;
+  }
+
+  /* ── Section ── */
+  .section-head { padding: 48px 40px 8px; }
+  .section-head .tag {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 8px;
+  }
+  .section-head h2 {
+    font-family: var(--font-display); font-size: 24px; font-weight: 400;
+    font-style: italic; color: var(--gold); margin-bottom: 8px;
+  }
+  .section-head p {
+    font-size: 13px; color: var(--text-muted); max-width: 700px; line-height: 1.7; margin-bottom: 16px;
+  }
+
+  /* ── Panels ── */
+  .panel-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    padding: 0 40px; margin-bottom: 16px;
+  }
+  .panel-full { padding: 0 40px; margin-bottom: 16px; }
+  .panel-full .panel { width: 100%; }
+
+  .panel {
+    position: relative;
+    min-height: 420px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 12px; overflow: hidden;
+  }
+  .panel.dark { background: var(--bg); border: 1px solid var(--border); }
+  .panel.cream { background: var(--cream); }
+
+  /* ── Texture overlay: ::after ── */
+  .panel.textured::after {
+    content: ''; position: absolute; inset: 0;
+    background-repeat: repeat; background-size: 512px 512px;
+    opacity: var(--tex-opacity);
+    pointer-events: none; z-index: 2;
+  }
+
+  /* Dark: normal texture + hard-light */
+  .panel.dark.textured::after { mix-blend-mode: hard-light; }
+  /* Cream: INVERTED texture + multiply (dark structures on light bg) */
+  .panel.cream.textured::after { mix-blend-mode: multiply; }
+
+  /* Texture sources — dark uses normal, cream uses inverted */
+  .panel.dark.tex-slate::after { background-image: url('grain-slate-1024.webp'); }
+  .panel.cream.tex-slate::after { background-image: url('grain-slate-inv-1024.webp'); }
+
+  .panel.dark.tex-tree::after { background-image: url('grain-tree-1024.webp'); }
+  .panel.cream.tex-tree::after { background-image: url('grain-tree-inv-1024.webp'); }
+
+  /* ── Compositional overlays: ::before ── */
+  /* Roots: single placement, from top-right */
+  .panel.comp-roots::before {
+    content: ''; position: absolute;
+    top: -8%; right: -5%; width: 60%; height: 85%;
+    background-size: contain; background-repeat: no-repeat;
+    background-position: top right;
+    opacity: var(--tex-opacity);
+    pointer-events: none; z-index: 3;
+  }
+  /* Cream: dark roots (original) + multiply */
+  .panel.cream.comp-roots::before {
+    background-image: url('comp-roots.webp');
+    mix-blend-mode: multiply;
+  }
+  /* Dark: light roots (inverted) + screen */
+  .panel.dark.comp-roots::before {
+    background-image: url('comp-roots-inv.webp');
+    mix-blend-mode: screen;
+  }
+
+  /* Leaf: single large placement, not tiled */
+  .panel.comp-leaf::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: url('comp-leaf.webp');
+    background-size: cover; background-position: center;
+    opacity: calc(var(--tex-opacity) * 0.5);
+    pointer-events: none; z-index: 3;
+  }
+  .panel.cream.comp-leaf::before { mix-blend-mode: multiply; }
+  .panel.dark.comp-leaf::before { mix-blend-mode: screen; opacity: calc(var(--tex-opacity) * 0.4); }
+
+  /* Tree compositional: right half with mask fade */
+  .panel.comp-tree::before {
+    content: ''; position: absolute;
+    top: 0; right: 0; width: 55%; height: 100%;
+    background-size: cover; background-position: center;
+    opacity: calc(var(--tex-opacity) * 0.5);
+    pointer-events: none; z-index: 3;
+    mask-image: linear-gradient(to right, transparent 0%, black 30%, black 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%, black 100%);
+  }
+  .panel.dark.comp-tree::before {
+    background-image: url('comp-tree.webp');
+    mix-blend-mode: hard-light;
+  }
+  .panel.cream.comp-tree::before {
+    background-image: url('comp-tree.webp');
+    mix-blend-mode: soft-light;
+    opacity: calc(var(--tex-opacity) * 0.4);
+  }
+
+  /* ── Content ── */
+  .panel-content { position: relative; z-index: 5; padding: 40px; }
+  .panel-content.centered { text-align: center; max-width: 560px; }
+  .panel-content.left { text-align: left; max-width: 50%; align-self: center; margin-right: auto; }
+
+  .panel-content h3 {
+    font-family: var(--font-display); font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-weight: 400; font-style: italic; line-height: 1.2; margin-bottom: 12px;
+  }
+  .panel-content p { font-size: 14px; line-height: 1.7; }
+  .dark .panel-content h3 { color: var(--text); }
+  .dark .panel-content p { color: var(--text-muted); }
+  .cream .panel-content h3 { color: var(--text-dark); }
+  .cream .panel-content p { color: var(--text-dark-muted); }
+
+  .panel-label {
+    position: absolute; bottom: 10px; left: 14px;
+    font-family: var(--font-mono); font-size: 8px;
+    letter-spacing: 0.1em; text-transform: uppercase; z-index: 10;
+  }
+  .dark .panel-label { color: var(--text-label); }
+  .cream .panel-label { color: var(--text-dark-muted); }
+
+  .badge {
+    position: absolute; top: 10px; right: 14px;
+    font-family: var(--font-mono); font-size: 8px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px; z-index: 10;
+  }
+  .badge.pick {
+    color: var(--gold); background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .divider { height: 1px; background: var(--border); margin: 32px 40px; }
+
+  /* ── Verdict ── */
+  .verdict { padding: 48px 40px; border-top: 1px solid var(--border); }
+  .verdict h2 {
+    font-family: var(--font-display); font-size: 22px; font-weight: 400;
+    font-style: italic; color: var(--gold); margin-bottom: 16px;
+  }
+  .verdict p { font-size: 14px; color: var(--text-muted); max-width: 700px; line-height: 1.7; margin-bottom: 12px; }
+  .verdict strong { color: var(--text); }
+
+  footer {
+    padding: 24px 40px; border-top: 1px solid var(--border);
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-label);
+  }
+
+  @media (max-width: 768px) {
+    header, .learnings, .section-head, .controls, .verdict, footer { padding-left: 20px; padding-right: 20px; }
+    .panel-row { grid-template-columns: 1fr; padding: 0 20px; }
+    .panel-full { padding: 0 20px; }
+    .learning-grid { grid-template-columns: 1fr; }
+    .panel-content.left { max-width: 70%; }
+    .divider { margin: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="page-label">Momance · Texture Discovery V3</div>
+  <h1>Iteration. Was funktioniert.</h1>
+  <p class="subtitle">V2 hat gezeigt: Schiefer auf Dark und Wurzeln kompositorisch auf Cream funktionieren. Aber: helle Texturen verschwinden auf Cream, und Blatt/Wurzel lassen sich nicht kacheln. V3 loest das mit invertierten Texturen fuer Cream und klarer Trennung zwischen Flaechenkorn und kompositorischen Elementen.</p>
+</header>
+
+<!-- ── Learnings from V2 ── -->
+<div class="learnings">
+  <h3>Erkenntnisse aus V2</h3>
+  <div class="learning-grid">
+    <div class="learn-item good"><strong>Schiefer auf Dark</strong> — Materialitaet stimmt. Steinig, subtil, traegt den Text.</div>
+    <div class="learn-item good"><strong>Wurzel kompositorisch auf Cream</strong> — Von oben angeschnitten, rechte Haelfte. Narrativ, organisch.</div>
+    <div class="learn-item"><strong>Schiefer auf Cream</strong> — Unsichtbar. Helle Textur auf hellem Grund = nichts. Fix: Invertierte Version.</div>
+    <div class="learn-item"><strong>Blatt/Wurzel gekachelt</strong> — Wiederholung sofort erkennbar. Zu markant fuer Tiling. Nur einmalig verwendbar.</div>
+  </div>
+</div>
+
+<!-- ── Controls ── -->
+<div class="controls">
+  <label>Opazitaet:</label>
+  <input type="range" id="opSlider" min="0" max="60" value="18" step="1">
+  <span class="val" id="opVal">18%</span>
+
+  <label>Dark:</label>
+  <select class="sel" id="blendDark">
+    <option value="hard-light" selected>Hard Light</option>
+    <option value="screen">Screen</option>
+    <option value="overlay">Overlay</option>
+  </select>
+
+  <label>Cream:</label>
+  <select class="sel" id="blendCream">
+    <option value="multiply" selected>Multiply</option>
+    <option value="soft-light">Soft Light</option>
+    <option value="overlay">Overlay</option>
+  </select>
+
+  <label>Tile:</label>
+  <select class="sel" id="tileSize">
+    <option value="256">256</option>
+    <option value="512" selected>512</option>
+    <option value="768">768</option>
+    <option value="1024">1024</option>
+  </select>
+</div>
+
+<!-- ═══════════════════════════════════════
+     BESTAETIGT: Die zwei guten Faelle
+     ═══════════════════════════════════════ -->
+
+<div class="section-head">
+  <span class="tag">Bestaetigt</span>
+  <h2>Die zwei Treffer aus V2.</h2>
+  <p>Diese beiden haben sofort funktioniert. Referenz fuer alles Weitere.</p>
+</div>
+
+<!-- Schiefer Dark + Links -->
+<div class="panel-full">
+  <div class="panel dark textured tex-slate" style="min-height:500px;">
+    <span class="badge pick">Treffer</span>
+    <span class="panel-label">Schiefer · Flaeche · Dark</span>
+    <div class="panel-content left">
+      <h3>Eine App, die will, dass du sie loeschst.</h3>
+      <p>Kein Tracking, kein Feed, kein Algorithmus. Nur du und die Frage: Was macht mein Leben gerade gut?</p>
+    </div>
+  </div>
+</div>
+
+<!-- Wurzel Cream + Kompositorisch -->
+<div class="panel-full">
+  <div class="panel cream comp-roots" style="min-height:500px;">
+    <span class="badge pick">Treffer</span>
+    <span class="panel-label">Wurzel · Kompositorisch · Cream</span>
+    <div class="panel-content left">
+      <h3>Dein Glueck ist schon da.</h3>
+      <p>Es waechst leise. Unter der Oberflaeche. In dem, was du jeden Tag uebersiehst.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     NEU: Invertierte Texturen auf Cream
+     ═══════════════════════════════════════ -->
+
+<div class="section-head">
+  <span class="tag">Neu — Invertierte Texturen auf Cream</span>
+  <h2>Dunkle Strukturen auf hellem Grund.</h2>
+  <p>Die Texturen invertiert: Was vorher hell war, ist jetzt dunkel. So werden die Steinstrukturen auch auf Cream sichtbar. Blend Mode Multiply verstaerkt die dunklen Bereiche.</p>
+</div>
+
+<!-- Schiefer invertiert auf Cream -->
+<div class="panel-row">
+  <div class="panel cream textured tex-slate">
+    <span class="panel-label">Schiefer invertiert · Cream · Zentriert</span>
+    <div class="panel-content centered">
+      <h3>Was war heute nicht schlimm?</h3>
+      <p>Eine Frage, die den Blick veraendert.</p>
+    </div>
+  </div>
+  <div class="panel cream textured tex-slate" style="min-height:420px;">
+    <span class="panel-label">Schiefer invertiert · Cream · Links</span>
+    <div class="panel-content left">
+      <h3>Wann hast du zuletzt etwas Schoenes bemerkt?</h3>
+      <p>Nicht etwas Grosses. Etwas Kleines. Licht auf einem Tisch. Der Geruch von Regen.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Baum invertiert auf Cream -->
+<div class="panel-row">
+  <div class="panel cream textured tex-tree">
+    <span class="panel-label">Baum invertiert · Cream · Zentriert</span>
+    <div class="panel-content centered">
+      <h3>Momente sehen lernen.</h3>
+      <p>Die Maserung deines Alltags — wenn du hinschaust.</p>
+    </div>
+  </div>
+  <div class="panel cream textured tex-tree" style="min-height:420px;">
+    <span class="panel-label">Baum invertiert · Cream · Links</span>
+    <div class="panel-content left">
+      <h3>Sieh, was schon da ist.</h3>
+      <p>Nimm dein Glueck bewusster wahr — und entdecke mehr davon.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     FLAECHENTEXTUR: Schiefer + Baum auf Dark
+     ═══════════════════════════════════════ -->
+
+<div class="section-head">
+  <span class="tag">Flaechentextur auf Dark</span>
+  <h2>Schiefer vs. Baum — welches Korn?</h2>
+  <p>Beide als kachelbare Flaechentextur. Schiefer ist richtungslos und neutral. Baum hat starke Bewegung und Richtung — das kann kraftvoll sein, aber auch unruhig.</p>
+</div>
+
+<div class="panel-row">
+  <div class="panel dark textured tex-slate">
+    <span class="panel-label">Schiefer · Dark · Zentriert</span>
+    <div class="panel-content centered">
+      <h3>Sieh, was schon da ist.</h3>
+      <p>Nimm dein Glueck bewusster wahr — und entdecke mehr davon.</p>
+    </div>
+  </div>
+  <div class="panel dark textured tex-tree">
+    <span class="panel-label">Baum · Dark · Zentriert</span>
+    <div class="panel-content centered">
+      <h3>Sieh, was schon da ist.</h3>
+      <p>Nimm dein Glueck bewusster wahr — und entdecke mehr davon.</p>
+    </div>
+  </div>
+</div>
+
+<div class="panel-row">
+  <div class="panel dark textured tex-slate" style="min-height:420px;">
+    <span class="panel-label">Schiefer · Dark · Links</span>
+    <div class="panel-content left">
+      <h3>Bewusstere Wahrnehmung strahlt aus.</h3>
+      <p>Auf Beziehungen. Auf die Welt.</p>
+    </div>
+  </div>
+  <div class="panel dark textured tex-tree" style="min-height:420px;">
+    <span class="panel-label">Baum · Dark · Links</span>
+    <div class="panel-content left">
+      <h3>Bewusstere Wahrnehmung strahlt aus.</h3>
+      <p>Auf Beziehungen. Auf die Welt.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     KOMPOSITORISCH: Organische Elemente
+     ═══════════════════════════════════════ -->
+
+<div class="section-head">
+  <span class="tag">Kompositorisch — Einmalige Platzierung</span>
+  <h2>Wurzel, Blatt, Maserung als Gestaltung.</h2>
+  <p>Nicht gekachelt, nicht subtil — bewusste Platzierung eines organischen Elements. Text links, Natur rechts. Die Textur wird zum Bild.</p>
+</div>
+
+<!-- Wurzel auf Dark -->
+<div class="panel-full">
+  <div class="panel dark comp-roots" style="min-height:500px;">
+    <span class="panel-label">Wurzel · Kompositorisch · Dark</span>
+    <div class="panel-content left">
+      <h3>Bewusstere Wahrnehmung strahlt aus.</h3>
+      <p>Wie Wurzeln — unsichtbar, aber tragend. Von innen nach aussen.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Wurzel auf Cream + Schiefer-Grain darunter -->
+<div class="panel-full">
+  <div class="panel cream textured tex-slate comp-roots" style="min-height:500px;">
+    <span class="panel-label">Wurzel + Schiefer-Grain · Cream</span>
+    <div class="panel-content left">
+      <h3>Dein Glueck ist schon da.</h3>
+      <p>Es waechst leise. Unter der Oberflaeche.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Blatt als grosse Komposition -->
+<div class="panel-full">
+  <div class="panel dark comp-leaf" style="min-height:500px;">
+    <span class="panel-label">Blattadern · Kompositorisch · Dark</span>
+    <div class="panel-content centered">
+      <h3>Alles ist verbunden.</h3>
+      <p>Jede Ader fuehrt zum Stamm. Jeder Moment fuehrt zu dir.</p>
+    </div>
+  </div>
+</div>
+
+<div class="panel-full">
+  <div class="panel cream comp-leaf" style="min-height:500px;">
+    <span class="panel-label">Blattadern · Kompositorisch · Cream</span>
+    <div class="panel-content centered">
+      <h3>Sieh genauer hin.</h3>
+      <p>Die feinsten Strukturen tragen das Groesste.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Baum als halbe Fläche -->
+<div class="panel-full">
+  <div class="panel dark textured tex-slate comp-tree" style="min-height:500px;">
+    <span class="panel-label">Maserung + Schiefer · Dark</span>
+    <div class="panel-content left">
+      <h3>Eine App, die will, dass du sie loeschst.</h3>
+      <p>Wachstum braucht Zeit. Ringe, nicht Sprints.</p>
+    </div>
+  </div>
+</div>
+
+<div class="panel-full">
+  <div class="panel cream textured tex-slate comp-tree" style="min-height:500px;">
+    <span class="panel-label">Maserung + Schiefer inv. · Cream</span>
+    <div class="panel-content left">
+      <h3>Momente sehen lernen.</h3>
+      <p>Die Maserung deines Alltags — wenn du hinschaust.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     FULL SIMULATION
+     ═══════════════════════════════════════ -->
+
+<div class="section-head">
+  <span class="tag">Simulation — Scrollbare Sequenz</span>
+  <h2>Fuenf Container, wie auf der Landingpage.</h2>
+  <p>Eine moegliche Abfolge: Schiefer-Grain durchgehend als Grundtextur, Wurzeln und Blatt als Akzente auf einzelnen Panels.</p>
+</div>
+
+<!-- 1. Hero Dark -->
+<div class="panel-full">
+  <div class="panel dark textured tex-slate" style="min-height:90vh;">
+    <span class="panel-label">1 · Hero</span>
+    <div class="panel-content centered">
+      <h3 style="color: var(--gold); font-size: clamp(2rem, 5vw, 3.2rem);">Sieh, was schon da ist.</h3>
+      <p>Nimm dein Glueck bewusster wahr — und entdecke mehr davon.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Idee Cream -->
+<div class="panel-full">
+  <div class="panel cream textured tex-slate" style="min-height:90vh;">
+    <span class="panel-label">2 · Idee</span>
+    <div class="panel-content left">
+      <h3>Was war heute nicht schlimm?</h3>
+      <p>Eine Frage, die den Blick veraendert. Nicht, was schlecht war. Sondern was einfach okay war.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Haltung Dark + Wurzeln -->
+<div class="panel-full">
+  <div class="panel dark textured tex-slate comp-roots" style="min-height:90vh;">
+    <span class="panel-label">3 · Haltung</span>
+    <div class="panel-content left">
+      <h3>Eine App, die will, dass du sie loeschst.</h3>
+      <p>Kein Tracking, kein Feed, kein Algorithmus. Nur du und die Frage: Was macht mein Leben gerade gut?</p>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Reflexion Cream + Blatt -->
+<div class="panel-full">
+  <div class="panel cream textured tex-slate comp-leaf" style="min-height:90vh;">
+    <span class="panel-label">4 · Reflexion</span>
+    <div class="panel-content centered">
+      <h3>Wann hast du zuletzt etwas Schoenes bemerkt?</h3>
+      <p>Nicht etwas Grosses. Etwas Kleines. Licht auf einem Tisch. Der Geruch von Regen. Ein Laecheln, das nicht dir galt.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 5. CTA Dark -->
+<div class="panel-full">
+  <div class="panel dark textured tex-slate" style="min-height:90vh;">
+    <span class="panel-label">5 · CTA</span>
+    <div class="panel-content centered">
+      <h3 style="color: var(--gold);">Momance kommt bald.</h3>
+      <p>Trag dich ein — und wir sagen dir, wenn es soweit ist.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── Verdict ── -->
+<div class="verdict">
+  <h2>Zusammenfassung V3</h2>
+  <p><strong>Cream geloest:</strong> Invertierte Texturen (dunkle Strukturen auf hellem Grund) + Multiply Blend Mode machen die Steinkoernung auf Cream sichtbar.</p>
+  <p><strong>Zwei Ebenen:</strong> Schiefer als durchgehende Grundtextur (kachelbar, neutral), organische Elemente (Wurzel, Blatt, Maserung) als kompositorische Akzente auf einzelnen Panels.</p>
+  <p><strong>Offene Entscheidung:</strong> Baum-Maserung als Flaechentextur — staerker als Schiefer, mehr Richtung. Funktioniert das, oder ist es zu unruhig?</p>
+  <p><strong>Quellbild-Qualitaet:</strong> Schiefer (626x417) und Wurzeln (612x376) sind niedrig aufgeloest. Fuer die finale Implementierung brauchen wir hoeherwertige Quellen — idealerweise 2048+ oder eigene Fotografien.</p>
+</div>
+
+<footer>
+  Momance Texture Discovery V3 · Iteration auf V2-Erkenntnissen · Invertierte Texturen fuer Cream
+</footer>
+
+<script>
+  const opSlider = document.getElementById('opSlider');
+  const opVal = document.getElementById('opVal');
+  const blendDark = document.getElementById('blendDark');
+  const blendCream = document.getElementById('blendCream');
+  const tileSize = document.getElementById('tileSize');
+
+  function dynStyle(id) {
+    let el = document.getElementById(id);
+    if (!el) { el = document.createElement('style'); el.id = id; document.head.appendChild(el); }
+    return el;
+  }
+
+  opSlider.addEventListener('input', () => {
+    const v = opSlider.value;
+    opVal.textContent = v + '%';
+    document.documentElement.style.setProperty('--tex-opacity', v / 100);
+  });
+
+  blendDark.addEventListener('change', () => {
+    const m = blendDark.value;
+    dynStyle('s-bd').textContent = `
+      .panel.dark.textured::after { mix-blend-mode: ${m} !important; }
+      .panel.dark.comp-roots::before { mix-blend-mode: ${m === 'hard-light' ? 'screen' : m} !important; }
+      .panel.dark.comp-tree::before { mix-blend-mode: ${m} !important; }
+      .panel.dark.comp-leaf::before { mix-blend-mode: ${m === 'hard-light' ? 'screen' : m} !important; }
+    `;
+  });
+
+  blendCream.addEventListener('change', () => {
+    const m = blendCream.value;
+    dynStyle('s-bc').textContent = `
+      .panel.cream.textured::after { mix-blend-mode: ${m} !important; }
+      .panel.cream.comp-roots::before { mix-blend-mode: ${m} !important; }
+      .panel.cream.comp-tree::before { mix-blend-mode: ${m === 'multiply' ? 'soft-light' : m} !important; }
+      .panel.cream.comp-leaf::before { mix-blend-mode: ${m} !important; }
+    `;
+  });
+
+  tileSize.addEventListener('change', () => {
+    const s = tileSize.value + 'px';
+    dynStyle('s-ts').textContent = `.panel.textured::after { background-size: ${s} ${s} !important; }`;
+  });
+</script>
+
+</body>
+</html>

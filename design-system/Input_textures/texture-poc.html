@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momance — Texture PoC: Echte Texturen</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0A0A0E;
+    --surface: #111116;
+    --gold: #C9A84C;
+    --cream: #F2EDE4;
+    --text: #F0EAE0;
+    --text-muted: #B2AEBC;
+    --text-label: #8E8A96;
+    --text-dark: #1E1C24;
+    --text-dark-muted: #6A6775;
+    --border: rgba(255,255,255,0.07);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Source Sans 3', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --texture-opacity: 0.15;
+    --roots-opacity: 0.08;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  header {
+    padding: 48px 40px 32px;
+    max-width: 960px;
+  }
+
+  .page-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 720px;
+    line-height: 1.7;
+  }
+
+  /* ── Controls ── */
+  .controls {
+    padding: 20px 40px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .controls label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-label);
+  }
+
+  .controls input[type="range"] {
+    width: 180px;
+    accent-color: var(--gold);
+  }
+
+  .opacity-value {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gold);
+    min-width: 36px;
+  }
+
+  .blend-select {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  .toggle-btn {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-label);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .toggle-btn:hover { color: var(--text-muted); border-color: var(--text-label); }
+  .toggle-btn.active {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* ── Section Labels ── */
+  .section {
+    padding: 48px 40px 16px;
+  }
+
+  .section h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .section p {
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 700px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  /* ── Panels (simulated scroll-snap containers) ── */
+  .panel {
+    position: relative;
+    width: calc(100% - 80px);
+    margin: 0 40px 24px;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  /* The texture overlay via ::after pseudo-element */
+  .panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('grain-slate-1024.webp');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    opacity: var(--texture-opacity);
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: hard-light;
+  }
+
+  /* Dark panels need hard-light or screen to actually show texture on near-black */
+  .panel.dark::after {
+    mix-blend-mode: hard-light;
+  }
+
+  /* Cream panels work better with overlay or soft-light */
+  .panel.cream::after {
+    mix-blend-mode: soft-light;
+    opacity: calc(var(--texture-opacity) * 0.7);
+  }
+
+  .panel.dark {
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+
+  .panel.cream {
+    background: var(--cream);
+  }
+
+  /* Blend mode class variations */
+  .panel.blend-overlay::after { mix-blend-mode: overlay; }
+  .panel.blend-soft-light::after { mix-blend-mode: soft-light; }
+  .panel.blend-multiply::after { mix-blend-mode: multiply; }
+  .panel.blend-screen::after { mix-blend-mode: screen; }
+  .panel.blend-hard-light::after { mix-blend-mode: hard-light; }
+  .panel.blend-luminosity::after { mix-blend-mode: luminosity; }
+
+  .panel-content {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    max-width: 560px;
+    padding: 40px;
+  }
+
+  .panel-content h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 2.4rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .panel-content p {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .dark .panel-content h3 { color: var(--text); }
+  .dark .panel-content p { color: var(--text-muted); }
+  .cream .panel-content h3 { color: var(--text-dark); }
+  .cream .panel-content p { color: var(--text-dark-muted); }
+
+  .panel-label {
+    position: absolute;
+    bottom: 10px;
+    left: 14px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 10;
+  }
+  .dark .panel-label { color: var(--text-label); }
+  .cream .panel-label { color: var(--text-dark-muted); }
+
+  /* ── Comparison: With vs Without ── */
+  .comparison-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 0 40px;
+    margin-bottom: 24px;
+  }
+
+  .comparison-row .panel {
+    width: 100%;
+    margin: 0;
+    min-height: 360px;
+  }
+
+  .panel.no-texture::after {
+    display: none;
+  }
+
+  /* ── Roots overlay experiment ── */
+  .panel.with-roots::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('roots.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: var(--roots-opacity);
+    pointer-events: none;
+    z-index: 3;
+    mix-blend-mode: hard-light;
+  }
+
+  .panel.cream.with-roots::before {
+    mix-blend-mode: multiply;
+    opacity: var(--roots-opacity);
+  }
+
+  /* ── Size Test ── */
+  .size-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 0 40px;
+    margin-bottom: 24px;
+  }
+
+  .size-row .panel {
+    width: 100%;
+    margin: 0;
+    min-height: 320px;
+  }
+
+  .panel.size-256::after { background-size: 256px 256px; }
+  .panel.size-512::after { background-size: 512px 512px; }
+  .panel.size-1024::after { background-size: 1024px 1024px; }
+
+  /* ── Verdict ── */
+  .verdict {
+    padding: 48px 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .verdict h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .verdict p {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 700px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  footer {
+    padding: 24px 40px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-label);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 768px) {
+    header, .section, .controls, .verdict, footer { padding-left: 20px; padding-right: 20px; }
+    .comparison-row, .size-row { grid-template-columns: 1fr; padding: 0 20px; }
+    .panel { width: calc(100% - 40px); margin-left: 20px; margin-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="page-label">Momance · Texture PoC · Echte Texturen</div>
+    <h1>Fotografische Textur statt Noise.</h1>
+    <p class="subtitle">Proof of Concept: Der Schiefer als Grayscale-WebP, per CSS mix-blend-mode ueber die Container gelegt. Kein Canvas, kein JavaScript, kein Perlin. Nur ein echtes Foto und ein Pseudo-Element.</p>
+  </header>
+
+  <!-- ── Controls ── -->
+  <div class="controls">
+    <label>Stein-Textur:</label>
+    <input type="range" id="opacitySlider" min="0" max="60" value="15" step="1">
+    <span class="opacity-value" id="opacityLabel">15%</span>
+
+    <label>Wurzeln:</label>
+    <input type="range" id="rootsSlider" min="0" max="40" value="8" step="1">
+    <span class="opacity-value" id="rootsLabel">8%</span>
+
+    <label>Dark Blend:</label>
+    <select class="blend-select" id="blendDarkSelect">
+      <option value="hard-light" selected>Hard Light</option>
+      <option value="screen">Screen</option>
+      <option value="overlay">Overlay</option>
+      <option value="soft-light">Soft Light</option>
+      <option value="luminosity">Luminosity</option>
+    </select>
+
+    <label>Cream Blend:</label>
+    <select class="blend-select" id="blendCreamSelect">
+      <option value="soft-light" selected>Soft Light</option>
+      <option value="overlay">Overlay</option>
+      <option value="multiply">Multiply</option>
+      <option value="hard-light">Hard Light</option>
+    </select>
+
+    <label>Tile:</label>
+    <select class="blend-select" id="sizeSelect">
+      <option value="256">256px</option>
+      <option value="512" selected>512px</option>
+      <option value="1024">1024px</option>
+    </select>
+  </div>
+
+  <!-- ── 1: Vorher / Nachher ── -->
+  <div class="section">
+    <h2>Vorher / Nachher</h2>
+    <p>Links: Flach, digital, perfekt. Rechts: Dieselbe Flaeche mit Schiefer-Textur. Gleicher Content, gleiche Farben — nur die Oberflaeche hat Substanz bekommen.</p>
+  </div>
+
+  <div class="comparison-row">
+    <div class="panel dark no-texture">
+      <span class="panel-label">Ohne Textur</span>
+      <div class="panel-content">
+        <h3>Sieh, was schon da ist.</h3>
+        <p>Nimm dein Glueck bewusster wahr — und entdecke mehr davon.</p>
+      </div>
+    </div>
+    <div class="panel dark textured">
+      <span class="panel-label">Mit Schiefer-Textur</span>
+      <div class="panel-content">
+        <h3>Sieh, was schon da ist.</h3>
+        <p>Nimm dein Glueck bewusster wahr — und entdecke mehr davon.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="comparison-row">
+    <div class="panel cream no-texture">
+      <span class="panel-label">Ohne Textur</span>
+      <div class="panel-content">
+        <h3>Was war heute nicht schlimm?</h3>
+        <p>Eine Frage, die den Blick veraendert.</p>
+      </div>
+    </div>
+    <div class="panel cream textured">
+      <span class="panel-label">Mit Schiefer-Textur</span>
+      <div class="panel-content">
+        <h3>Was war heute nicht schlimm?</h3>
+        <p>Eine Frage, die den Blick veraendert.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2: Blend Modes im Vergleich ── -->
+  <div class="section">
+    <h2>Blend Modes</h2>
+    <p>Auf dunklem Grund (#0A0A0E) wirkt Overlay kaum — Hard Light und Screen machen die Textur sichtbar. Auf Cream funktioniert Soft Light am besten. Deshalb getrennte Regler oben.</p>
+  </div>
+
+  <div class="size-row">
+    <div class="panel dark textured blend-demo" data-blend="hard-light">
+      <span class="panel-label">Hard Light (empfohlen fuer Dark)</span>
+      <div class="panel-content">
+        <h3>Eine App, die will, dass du sie loeschst.</h3>
+      </div>
+    </div>
+    <div class="panel dark textured blend-demo" data-blend="screen">
+      <span class="panel-label">Screen</span>
+      <div class="panel-content">
+        <h3>Eine App, die will, dass du sie loeschst.</h3>
+      </div>
+    </div>
+    <div class="panel dark textured blend-demo" data-blend="overlay">
+      <span class="panel-label">Overlay (zu subtil auf Dark)</span>
+      <div class="panel-content">
+        <h3>Eine App, die will, dass du sie loeschst.</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="size-row">
+    <div class="panel cream textured blend-demo" data-blend="overlay">
+      <span class="panel-label">Overlay</span>
+      <div class="panel-content">
+        <h3>Wann hast du zuletzt etwas Schoenes bemerkt?</h3>
+      </div>
+    </div>
+    <div class="panel cream textured blend-demo" data-blend="soft-light">
+      <span class="panel-label">Soft Light</span>
+      <div class="panel-content">
+        <h3>Wann hast du zuletzt etwas Schoenes bemerkt?</h3>
+      </div>
+    </div>
+    <div class="panel cream textured blend-demo" data-blend="multiply">
+      <span class="panel-label">Multiply</span>
+      <div class="panel-content">
+        <h3>Wann hast du zuletzt etwas Schoenes bemerkt?</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 3: Wurzeln als organische Schicht ── -->
+  <div class="section">
+    <h2>Organische Schicht: Wurzeln</h2>
+    <p>Das Wurzel-Bild als zweiter Layer — nicht als Textur-Korn, sondern als organische Struktur. Sehr niedrige Opazitaet, Soft Light Blend. Wie Adern unter der Oberflaeche.</p>
+  </div>
+
+  <div class="comparison-row">
+    <div class="panel dark textured">
+      <span class="panel-label">Nur Schiefer-Grain</span>
+      <div class="panel-content">
+        <h3>Bewusstere Wahrnehmung strahlt aus.</h3>
+        <p>Auf Beziehungen. Auf die Welt.</p>
+      </div>
+    </div>
+    <div class="panel dark textured with-roots">
+      <span class="panel-label">Schiefer + Wurzeln</span>
+      <div class="panel-content">
+        <h3>Bewusstere Wahrnehmung strahlt aus.</h3>
+        <p>Auf Beziehungen. Auf die Welt.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="comparison-row">
+    <div class="panel cream textured">
+      <span class="panel-label">Nur Schiefer-Grain</span>
+      <div class="panel-content">
+        <h3>Dein Glueck ist schon da.</h3>
+        <p>Nimm es wahr.</p>
+      </div>
+    </div>
+    <div class="panel cream textured with-roots">
+      <span class="panel-label">Schiefer + Wurzeln</span>
+      <div class="panel-content">
+        <h3>Dein Glueck ist schon da.</h3>
+        <p>Nimm es wahr.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 4: Full Container Simulation ── -->
+  <div class="section">
+    <h2>Volle Container-Simulation</h2>
+    <p>So wuerden die Scroll-Snap-Container der Landingpage aussehen. Viewport-fuellend, mit Textur. Bewege den Opazitaets-Regler oben, um den Sweet Spot zu finden.</p>
+  </div>
+
+  <div class="panel dark textured" style="min-height: 90vh; margin-bottom: 24px;">
+    <span class="panel-label">Hero — Dark</span>
+    <div class="panel-content">
+      <h3 style="color: var(--gold); font-size: clamp(2rem, 5vw, 3.2rem);">Sieh, was schon da ist.</h3>
+      <p>Nimm dein Glueck bewusster wahr — und entdecke mehr davon.</p>
+    </div>
+  </div>
+
+  <div class="panel cream textured" style="min-height: 90vh; margin-bottom: 24px;">
+    <span class="panel-label">Reflexion — Cream</span>
+    <div class="panel-content">
+      <h3>Was war heute nicht schlimm?</h3>
+      <p>Eine Frage, die den Blick veraendert. Nicht, was schlecht war. Sondern was einfach okay war. Was vielleicht sogar gut war — und was du sonst uebersehen haettest.</p>
+    </div>
+  </div>
+
+  <div class="panel dark textured with-roots" style="min-height: 90vh; margin-bottom: 24px;">
+    <span class="panel-label">Haltung — Dark + Wurzeln</span>
+    <div class="panel-content">
+      <h3>Eine App, die will, dass du sie loeschst.</h3>
+      <p>Designed to be deleted. Kein Tracking, kein Feed, kein Algorithmus. Nur du und die Frage: Was macht mein Leben gerade gut?</p>
+    </div>
+  </div>
+
+  <!-- ── Verdict ── -->
+  <div class="verdict">
+    <h2>Ergebnis</h2>
+    <p><strong style="color: var(--text);">Dark braucht Hard Light oder Screen</strong> — Overlay/Soft Light verschwinden auf fast-schwarzem Grund. Hard Light bei 10-20% macht die Steinstruktur spuerbar, ohne den Text zu stoeren.</p>
+    <p><strong style="color: var(--text);">Cream braucht Soft Light</strong> — sanfter, waermer, passt zur hellen Aesthetik. 8-12% Opazitaet reicht.</p>
+    <p><strong style="color: var(--text);">Wurzeln als zweite Schicht:</strong> Eigener Opacity-Regler. Auf 1-2 Panels als Akzent, nicht ueberall. Hard Light auf Dark, Multiply auf Cream.</p>
+    <p><strong style="color: var(--text);">Naechster Schritt:</strong> Hoeherwertiges Quellbild (das Original war nur 626x417). Ein Schiefer/Granit-Foto in 2048x2048+ wuerde die Textur schaerfer und natuerlicher machen. Ausserdem: Wurzel-Bild mit Freistellung auf transparentem Grund wuerde noch besser blenden.</p>
+  </div>
+
+  <footer>
+    Momance Texture PoC · Fotografische Texturen · Referenz: E·18 (ANTIPOL), 13-brand-identity.md (Momance)
+  </footer>
+
+<script>
+  const slider = document.getElementById('opacitySlider');
+  const label = document.getElementById('opacityLabel');
+  const rootsSlider = document.getElementById('rootsSlider');
+  const rootsLabel = document.getElementById('rootsLabel');
+  const blendDarkSelect = document.getElementById('blendDarkSelect');
+  const blendCreamSelect = document.getElementById('blendCreamSelect');
+  const sizeSelect = document.getElementById('sizeSelect');
+
+  function getDynStyle(id) {
+    let el = document.getElementById(id);
+    if (!el) { el = document.createElement('style'); el.id = id; document.head.appendChild(el); }
+    return el;
+  }
+
+  function updateOpacity() {
+    const val = slider.value;
+    label.textContent = val + '%';
+    document.documentElement.style.setProperty('--texture-opacity', val / 100);
+  }
+
+  function updateRoots() {
+    const val = rootsSlider.value;
+    rootsLabel.textContent = val + '%';
+    document.documentElement.style.setProperty('--roots-opacity', val / 100);
+  }
+
+  function updateBlendDark() {
+    const mode = blendDarkSelect.value;
+    getDynStyle('dyn-blend-dark').textContent =
+      `.panel.dark.textured:not(.blend-demo)::after { mix-blend-mode: ${mode} !important; }
+       .panel.dark.with-roots::before { mix-blend-mode: ${mode} !important; }`;
+  }
+
+  function updateBlendCream() {
+    const mode = blendCreamSelect.value;
+    getDynStyle('dyn-blend-cream').textContent =
+      `.panel.cream.textured:not(.blend-demo)::after { mix-blend-mode: ${mode} !important; }`;
+  }
+
+  function updateSize() {
+    const size = sizeSelect.value + 'px';
+    getDynStyle('dyn-size').textContent =
+      `.panel.textured:not(.blend-demo)::after { background-size: ${size} ${size} !important; }`;
+  }
+
+  // Apply blend modes to demo panels
+  document.querySelectorAll('.blend-demo').forEach(p => {
+    const mode = p.dataset.blend;
+    p.classList.add('blend-' + mode);
+  });
+
+  slider.addEventListener('input', updateOpacity);
+  rootsSlider.addEventListener('input', updateRoots);
+  blendDarkSelect.addEventListener('change', updateBlendDark);
+  blendCreamSelect.addEventListener('change', updateBlendCream);
+  sizeSelect.addEventListener('change', updateSize);
+
+  // Initialize
+  updateOpacity();
+  updateRoots();
+</script>
+
+</body>
+</html>

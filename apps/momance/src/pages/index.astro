@@ -10,9 +10,10 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
   <!-- Scroll Dot Navigation -->
   <nav class="scroll-dots" role="navigation" aria-label="Seitenabschnitte">
     <button class="scroll-dot active" data-target="hero" aria-label="Start"></button>
-    <button class="scroll-dot" data-target="haltung" aria-label="Die Haltung"></button>
-    <button class="scroll-dot" data-target="reflexion" aria-label="Eine Frage"></button>
-    <button class="scroll-dot" data-target="folge" aria-label="Bleib dran"></button>
+    <button class="scroll-dot" data-target="haltung" aria-label="Haltung"></button>
+    <button class="scroll-dot" data-target="reflexion" aria-label="Reflexion"></button>
+    <button class="scroll-dot" data-target="ripple" aria-label="Ausstrahlung"></button>
+    <button class="scroll-dot" data-target="folge" aria-label="Folge uns"></button>
   </nav>
 
   <!-- ── Hero: Two-Column with Puls ── -->
@@ -37,60 +38,56 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     </div>
   </section>
 
-  <!-- ── Die Haltung: Two-Column ── -->
+  <!-- ── Die Haltung ── -->
   <section class="panel haltung-panel" id="haltung">
-    <div class="haltung-grid">
-      <div class="haltung-left">
-        <p class="section-label fade-in">Die Haltung</p>
-        <h2 class="panel-headline fade-in">
-          Wir glauben, dass du schon alles hast, was du <span class="gold">brauchst.</span>
-        </h2>
-      </div>
-      <div class="haltung-right">
-        <p class="body-text fade-in">
-          Die meisten Apps wollen, dass du bleibst.
-          Mehr Zeit, mehr Klicks, mehr Daten.
-          Momance arbeitet daran, dass du gehst —
-          weil du gelernt hast, selbst zu sehen,
-          was vorher unsichtbar war.
-        </p>
-        <p class="body-text fade-in">
-          Kein Tracking deiner Stimmung.
-          Kein sozialer Feed.
-          Kein Algorithmus, der dir sagt, wie du dich fühlen sollst.
-          Nur ein stiller Begleiter, der dir hilft,
-          die Momente zu bemerken, die ohnehin da sind.
-        </p>
-        <p class="body-text gold-accent fade-in">
-          Wenn du das irgendwann ohne uns kannst —
-          dann haben wir alles richtig gemacht.
-        </p>
-      </div>
-    </div>
+    <p class="section-label fade-in">Weniger App. Mehr du.</p>
+    <h2 class="panel-headline fade-in">
+      Kein Tracking. Kein Feed.<br>Kein <span class="gold">Algorithmus.</span>
+    </h2>
+    <p class="body-text haltung-text fade-in">
+      Die meisten Apps wollen, dass du bleibst.
+      Momance will, dass du gehst — weil du gelernt hast,
+      selbst zu sehen, was vorher unsichtbar war.
+    </p>
+    <p class="body-text gold-accent haltung-text fade-in">
+      Wenn du das ohne uns kannst,
+      haben wir alles richtig gemacht.
+    </p>
   </section>
 
   <!-- ── Reflexionsfrage (Cream / Light) ── -->
   <section class="panel reflexion-panel theme-light" id="reflexion">
-    <p class="section-label fade-in">Eine Frage</p>
+    <p class="section-label fade-in">Schau genauer hin.</p>
     <blockquote class="reflexion-frage fade-in">
       Was war heute<br>nicht schlimm?
     </blockquote>
     <p class="reflexion-kontext fade-in">
       Nicht jeder Tag ist gut. Aber in jedem Tag steckt etwas,
-      das nicht schlimm war. Und manchmal reicht es,
+      das nicht schlimm war. Manchmal reicht es,
       genau dort hinzuschauen.
+    </p>
+  </section>
+
+  <!-- ── Ripple: Ausstrahlung (Dark) ── -->
+  <section class="panel ripple-panel" id="ripple">
+    <p class="section-label fade-in">Es strahlt aus.</p>
+    <h2 class="panel-headline ripple-headline fade-in">
+      Wer anders hinschaut,<br>lebt <span class="gold">anders.</span>
+    </h2>
+    <p class="body-text ripple-text fade-in">
+      Bewusstere Wahrnehmung bleibt nicht bei dir.
+      Sie wirkt — auf Beziehungen, auf die Welt.
     </p>
   </section>
 
   <!-- ── Folge uns (Dark) ── -->
   <section class="panel folge-panel" id="folge">
-    <p class="section-label fade-in">Bleib dran</p>
+    <p class="section-label fade-in">Der Anfang.</p>
     <h2 class="panel-headline fade-in">
-      Momance erscheint <span class="gold">bald.</span>
+      Momance kommt <span class="gold">bald.</span>
     </h2>
     <p class="body-text folge-intro fade-in">
-      Wir verraten noch nicht alles — aber wenn du erfahren willst,
-      wann es losgeht, folge uns dort, wo du schon bist.
+      Folge uns dort, wo du schon bist.
     </p>
 
     <div class="social-cards fade-in">
@@ -179,6 +176,7 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     line-height: 1.2;
     letter-spacing: -0.02em;
     max-width: 700px;
+    opacity: 0.92;
   }
 
   .body-text {
@@ -188,6 +186,7 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     color: var(--color-text-muted);
     line-height: 1.7;
     margin-bottom: 1.25rem;
+    opacity: 0.85;
   }
 
   .body-text:last-child { margin-bottom: 0; }
@@ -279,24 +278,68 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     50% { opacity: 1; }
   }
 
-  /* ── Haltung Panel: Two-Column, static (no internal scroll) ── */
+  /* ── Texture Overlays ── */
+
+  /* Schiefer grain on dark panels: two layers at different scales + rotation
+     to break the visible tiling pattern */
+  .haltung-panel::after,
+  .ripple-panel::after,
+  .folge-panel::after {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    background-image:
+      url('/textures/grain-slate-1024.webp'),
+      url('/textures/grain-slate-1024.webp');
+    background-repeat: repeat, repeat;
+    background-size: 800px 800px, 1200px 1200px;
+    background-position: 0 0, 137px 211px;
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+    z-index: 0;
+    transform: rotate(7deg);
+  }
+
+  .haltung-panel::after { opacity: 0.14; }
+  .ripple-panel::after { opacity: 0.12; }
+  .folge-panel::after { opacity: 0.09; }
+
+  /* Reflexion (Cream): nur Wurzeln, keine weitere Textur */
+  .reflexion-panel::before {
+    content: '';
+    position: absolute;
+    top: -2%;
+    right: -3%;
+    width: 60%;
+    height: 95%;
+    background-image: url('/textures/comp-roots.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top right;
+    mix-blend-mode: multiply;
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Ensure panel content stays above textures */
+  .haltung-panel > *,
+  .reflexion-panel > *,
+  .ripple-panel > *,
+  .folge-panel > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── Haltung Panel ── */
   .haltung-panel {
-    align-items: center;
-    border-bottom: 1px solid var(--panel-border);
+    align-items: flex-start;
     overflow: hidden;
   }
 
-  .haltung-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    width: 100%;
-    max-width: 1100px;
-  }
-
-  .haltung-right {
+  .haltung-text {
     max-width: 520px;
+    margin-top: 0.25rem;
   }
 
   /* ── Reflexion Panel (Cream / Light) ── */
@@ -306,6 +349,7 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     background: var(--color-bg);
     border-top: 1px solid rgba(0, 0, 0, 0.06);
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    overflow: hidden;
   }
 
   .reflexion-panel .section-label {
@@ -333,13 +377,46 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     max-width: 460px;
   }
 
+  /* ── Ripple Panel ── */
+  .ripple-panel {
+    align-items: flex-start;
+    overflow: hidden;
+  }
+
+  .ripple-headline {
+    max-width: 600px;
+  }
+
+  .ripple-text {
+    max-width: 420px;
+    margin-top: 0.5rem;
+  }
+
+  /* Baum-Maserung: kompositorisch, rechte Hälfte */
+  .ripple-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background-image: url('/textures/comp-tree.webp');
+    background-size: cover;
+    background-position: center;
+    mix-blend-mode: hard-light;
+    opacity: 0.22;
+    pointer-events: none;
+    z-index: 1;
+    mask-image: linear-gradient(to right, transparent 0%, black 25%, black 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%, black 100%);
+  }
+
   /* ── Folge Panel ── */
   .folge-panel {
-    min-height: auto;
+    min-height: 100vh;
     align-items: center;
     text-align: center;
-    padding-top: 100px;
-    padding-bottom: 40px;
+    overflow: hidden;
   }
 
   .folge-intro {
@@ -466,16 +543,6 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
       order: -1;
       max-width: 260px;
       margin: 0 auto;
-    }
-
-    .haltung-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .haltung-left {
-      position: static;
-      transform: none;
     }
 
     .social-card { padding: 16px 16px; }

@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momance — Texture &amp; Surface Discovery</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0A0A0E;
+    --surface: #111116;
+    --surface-el: #1C1C22;
+    --gold: #C9A84C;
+    --gold-muted: rgba(201,168,76,0.3);
+    --cream: #F0EAE0;
+    --cream-bg: #F2EDE4;
+    --text: #F0EAE0;
+    --text-muted: #B2AEBC;
+    --text-label: #8E8A96;
+    --border: rgba(255,255,255,0.07);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Source Sans 3', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .svg-filters { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  header {
+    padding: 48px 40px 32px;
+    max-width: 960px;
+  }
+
+  .page-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 720px;
+    line-height: 1.7;
+  }
+
+  /* ── Reference Image ── */
+  .reference-section {
+    padding: 24px 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .reference-section h3 {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-label);
+    margin-bottom: 12px;
+  }
+
+  .reference-row {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .reference-img {
+    width: 200px;
+    height: 140px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+  }
+
+  .reference-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 500px;
+    line-height: 1.7;
+  }
+
+  .reference-text em {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* ── Benchmarking ── */
+  .benchmarking {
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    max-width: 800px;
+  }
+
+  .benchmarking h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .bench-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .bench-row .level {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    min-width: 16px;
+    flex-shrink: 0;
+  }
+
+  .bench-row strong { color: var(--text); font-weight: 500; }
+
+  /* ── Discovery Sections ── */
+  .discovery-section {
+    padding: 48px 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-header {
+    max-width: 700px;
+    margin-bottom: 32px;
+  }
+
+  .section-header .tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .section-header p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ── Surface Blocks ── */
+  .demo-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .surface-block {
+    position: relative;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .surface-block canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .surface-block .grain-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    opacity: 0;
+  }
+
+  .surface-block .overlay-text {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 380px;
+    padding: 32px;
+  }
+
+  .surface-block .overlay-text h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .surface-block .overlay-text p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .surface-block .block-label {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-label);
+    z-index: 11;
+  }
+
+  .surface-block .regen {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-label);
+    background: rgba(10, 10, 14, 0.6);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 11;
+    transition: all 0.2s ease;
+  }
+
+  .surface-block .regen:hover {
+    color: var(--gold);
+    border-color: var(--gold-muted);
+  }
+
+  /* ── Combo Section ── */
+  .combo-demo {
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin-top: 32px;
+  }
+
+  .combo-demo canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+  .combo-demo .overlay-text {
+    position: relative; z-index: 10; text-align: center; max-width: 560px; padding: 40px;
+  }
+  .combo-demo .overlay-text h3 {
+    font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 400; font-style: italic; color: var(--gold); margin-bottom: 12px; line-height: 1.2;
+  }
+  .combo-demo .overlay-text p { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+  .combo-demo .block-label {
+    position: absolute; bottom: 10px; left: 12px;
+    font-family: var(--font-mono); font-size: 8px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-label); z-index: 11;
+  }
+  .combo-demo .regen {
+    position: absolute; top: 10px; right: 10px;
+    font-family: var(--font-mono); font-size: 8px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-label);
+    background: rgba(10, 10, 14, 0.6); border: 1px solid var(--border);
+    padding: 3px 8px; border-radius: 4px; cursor: pointer; z-index: 11;
+    transition: all 0.2s ease;
+  }
+  .combo-demo .regen:hover { color: var(--gold); border-color: var(--gold-muted); }
+
+  /* ── Global Controls ── */
+  .global-controls {
+    padding: 20px 40px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .global-controls label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-label);
+  }
+
+  .toggle-btn {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-label);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .toggle-btn:hover { color: var(--text-muted); border-color: var(--text-label); }
+  .toggle-btn.active {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* ── Verdict Section ── */
+  .verdict {
+    padding: 48px 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .verdict h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .verdict p {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 700px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  footer {
+    padding: 24px 40px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-label);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 768px) {
+    header, .discovery-section, .global-controls, .verdict, footer, .reference-section { padding-left: 20px; padding-right: 20px; }
+    .demo-row { grid-template-columns: 1fr; }
+    .reference-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+  <svg class="svg-filters" xmlns="http://www.w3.org/2000/svg">
+    <filter id="grain-fine">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+    </filter>
+    <filter id="grain-medium">
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+    </filter>
+    <filter id="grain-coarse">
+      <feTurbulence type="fractalNoise" baseFrequency="0.35" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+    </filter>
+  </svg>
+
+  <header>
+    <div class="page-label">Momance &middot; Design System &middot; Texture Discovery</div>
+    <h1>Texture &amp; Surface Discovery</h1>
+    <p class="subtitle">Sechs Oberflaechen von poliertem Stein bis poroesem Vulkangestein - auf Dark und Cream. Jede Textur variiert ihre Dichte ueber die Flaeche, wie bei echtem Material. Ziel: Die digitale Glaette brechen, ohne die Eleganz zu verlieren.</p>
+
+    <div class="benchmarking">
+      <h3>Sechs Stufen - von kaum spuerbar bis grob</h3>
+      <div class="bench-row"><span class="level">A</span> <strong>Geschliffen</strong> - Polierter Marmor, Granit. Hauchduennes Korn, fast glatt. SVG feTurbulence, hohe Frequenz, 3-5% Opazitaet.</div>
+      <div class="bench-row"><span class="level">B</span> <strong>Kalkstein</strong> - Gehonter Kalkstein. Subtile Koernung, spuerbar aber kaum sichtbar. feTurbulence + Perlin-Modulation.</div>
+      <div class="bench-row"><span class="level">C</span> <strong>Sandstein</strong> - Kompaktierter Sand. Sichtbares Korn, zusammenhaengend. FBM-Noise, 3-4 Oktaven.</div>
+      <div class="bench-row"><span class="level">D</span> <strong>Travertin</strong> - Naturstein mit Poren und Adern. Loecher variieren in Groesse. Perlin + gestreute Poren.</div>
+      <div class="bench-row"><span class="level">E</span> <strong>Rauputz</strong> - Grober Wandputz, sichtbares Aggregat. FBM grob + Partikelstreuung.</div>
+      <div class="bench-row"><span class="level">F</span> <strong>Bimsstein</strong> - Vulkangestein. Grosse Poren, zellulaere Struktur. Worley/Voronoi-Noise.</div>
+    </div>
+  </header>
+
+  <!-- Reference -->
+  <div class="reference-section">
+    <h3>Input-Referenz</h3>
+    <div class="reference-row">
+      <img class="reference-img" src="dunkelgrauer-schwarzer-schieferhintergrund-oder-textur-schwarzer-granitplattenhintergrund_483511-4345.avif" alt="Schiefer-Textur Referenz">
+      <p class="reference-text">Dunkler Schiefer/Granit als Ausgangspunkt. Die feine, natuerliche Koernung bricht die digitale Perfektion, ohne laut zu sein. Ziel: Diese <em>Materialitaet</em> in die Scroll-Snap-Container uebertragen - die Oberflaeche soll sich anfuehlen, als haette sie Substanz.</p>
+    </div>
+  </div>
+
+  <!-- Global Controls -->
+  <div class="global-controls">
+    <label>Layer:</label>
+    <button class="toggle-btn active" onclick="toggleGrain(this)" data-layer="grain">Grain Overlay</button>
+    <button class="toggle-btn" onclick="toggleGrain(this)" data-layer="vein">Haar-Riss</button>
+    <label style="margin-left: 16px;">Grain:</label>
+    <button class="toggle-btn active" onclick="setGrainLevel('fine')" data-grain="fine">Fein</button>
+    <button class="toggle-btn" onclick="setGrainLevel('medium')" data-grain="medium">Mittel</button>
+    <button class="toggle-btn" onclick="setGrainLevel('coarse')" data-grain="coarse">Grob</button>
+  </div>
+
+  <!-- A: GESCHLIFFEN -->
+  <div class="discovery-section">
+    <div class="section-header">
+      <span class="tag">A - Geschliffen</span>
+      <h2>Fast glatt. Hauchduennes Korn.</h2>
+      <p>Wie polierter Marmor oder Granit. Die Textur ist mehr gefuehlt als gesehen - ein feiner Hauch, der die digitale Glaette bricht. Empfehlung fuer Momance: subtil genug fuer die elegante Dark-Aesthetik.</p>
+    </div>
+    <div class="demo-row">
+      <div class="surface-block" style="background: #0A0A0E;" id="A-dark">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-fine)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('A-dark')">Neu</button>
+        <span class="block-label">Dark #0A0A0E</span>
+        <div class="overlay-text">
+          <h3>Sieh, was schon da ist.</h3>
+          <p>Nimm dein Glueck bewusster wahr - und entdecke mehr davon.</p>
+        </div>
+      </div>
+      <div class="surface-block" style="background: #F2EDE4;" id="A-cream">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-fine)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('A-cream')">Neu</button>
+        <span class="block-label">Cream #F2EDE4</span>
+        <div class="overlay-text">
+          <h3 style="color: #1E1C24;">Was war heute nicht schlimm?</h3>
+          <p style="color: #6A6775;">Eine Frage, die den Blick veraendert.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: KALKSTEIN -->
+  <div class="discovery-section">
+    <div class="section-header">
+      <span class="tag">B - Kalkstein</span>
+      <h2>Subtile Koernung.</h2>
+      <p>Wie gehonter Kalkstein. Man spuert die Textur, bevor man sie sieht. Leichte Variationen in der Dichte. Nah am Schiefer-Input.</p>
+    </div>
+    <div class="demo-row">
+      <div class="surface-block" style="background: #0A0A0E;" id="B-dark">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-fine)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('B-dark')">Neu</button>
+        <span class="block-label">Dark #0A0A0E</span>
+        <div class="overlay-text">
+          <h3>Eine App, die will, dass du sie loeschst.</h3>
+        </div>
+      </div>
+      <div class="surface-block" style="background: #F2EDE4;" id="B-cream">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-fine)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('B-cream')">Neu</button>
+        <span class="block-label">Cream #F2EDE4</span>
+        <div class="overlay-text">
+          <h3 style="color: #1E1C24;">Wann hast du zuletzt etwas Schoenes bemerkt?</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C: SANDSTEIN -->
+  <div class="discovery-section">
+    <div class="section-header">
+      <span class="tag">C - Sandstein</span>
+      <h2>Sichtbares Korn.</h2>
+      <p>Wie kompaktierter Sandstein. Die Koernung ist deutlich, die Flaeche bleibt zusammenhaengend. Mehr Praesenz als Kalkstein.</p>
+    </div>
+    <div class="demo-row">
+      <div class="surface-block" style="background: #0A0A0E;" id="C-dark">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-medium)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('C-dark')">Neu</button>
+        <span class="block-label">Dark #0A0A0E</span>
+        <div class="overlay-text">
+          <h3>Kein Tracking. Kein Feed. Kein Algorithmus.</h3>
+        </div>
+      </div>
+      <div class="surface-block" style="background: #F2EDE4;" id="C-cream">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-medium)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('C-cream')">Neu</button>
+        <span class="block-label">Cream #F2EDE4</span>
+        <div class="overlay-text">
+          <h3 style="color: #1E1C24;">Dein Glueck ist schon da.</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D: TRAVERTIN -->
+  <div class="discovery-section">
+    <div class="section-header">
+      <span class="tag">D - Travertin</span>
+      <h2>Poren und Adern.</h2>
+      <p>Warmer Naturstein mit charakteristischen Loechern - kleine und grosse, ungleich verteilt. Mehr Charakter, weniger Eleganz.</p>
+    </div>
+    <div class="demo-row">
+      <div class="surface-block" style="background: #0A0A0E;" id="D-dark">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-medium)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('D-dark')">Neu</button>
+        <span class="block-label">Dark #0A0A0E</span>
+        <div class="overlay-text">
+          <h3>Bewusstere Wahrnehmung strahlt aus.</h3>
+        </div>
+      </div>
+      <div class="surface-block" style="background: #F2EDE4;" id="D-cream">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-medium)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('D-cream')">Neu</button>
+        <span class="block-label">Cream #F2EDE4</span>
+        <div class="overlay-text">
+          <h3 style="color: #1E1C24;">Auf Beziehungen. Auf die Welt.</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- E: RAUPUTZ -->
+  <div class="discovery-section">
+    <div class="section-header">
+      <span class="tag">E - Rauputz</span>
+      <h2>Grob, uneben.</h2>
+      <p>Sichtbares Aggregat, wie grober Wandputz. Die Oberflaeche hat Tiefe. Wahrscheinlich zu viel fuer Momance, aber als Kontrast-Referenz hilfreich.</p>
+    </div>
+    <div class="demo-row">
+      <div class="surface-block" style="background: #0A0A0E;" id="E-dark">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-coarse)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('E-dark')">Neu</button>
+        <span class="block-label">Dark #0A0A0E</span>
+        <div class="overlay-text">
+          <h3>Momente sehen lernen.</h3>
+        </div>
+      </div>
+      <div class="surface-block" style="background: #F2EDE4;" id="E-cream">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-coarse)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('E-cream')">Neu</button>
+        <span class="block-label">Cream #F2EDE4</span>
+        <div class="overlay-text">
+          <h3 style="color: #1E1C24;">Und wachsen.</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- F: BIMSSTEIN -->
+  <div class="discovery-section">
+    <div class="section-header">
+      <span class="tag">F - Bimsstein</span>
+      <h2>Zellulaer, poroes.</h2>
+      <p>Vulkangestein mit grossen Poren. Zellulaere Struktur, ungleiche Dichte. Definitiv zu grob fuer Momance - hier nur als obere Grenze.</p>
+    </div>
+    <div class="demo-row">
+      <div class="surface-block" style="background: #0A0A0E;" id="F-dark">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-coarse)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('F-dark')">Neu</button>
+        <span class="block-label">Dark #0A0A0E</span>
+        <div class="overlay-text">
+          <h3>Designed to be deleted.</h3>
+        </div>
+      </div>
+      <div class="surface-block" style="background: #F2EDE4;" id="F-cream">
+        <canvas class="tex-canvas"></canvas>
+        <svg class="grain-layer" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#grain-coarse)" /></svg>
+        <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;display:none;"></canvas>
+        <button class="regen" onclick="renderBlock('F-cream')">Neu</button>
+        <span class="block-label">Cream #F2EDE4</span>
+        <div class="overlay-text">
+          <h3 style="color: #1E1C24;">Alles hat Substanz.</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Combo: Recommended -->
+  <div class="discovery-section">
+    <div class="section-header">
+      <span class="tag">Kombination - Empfehlung</span>
+      <h2>Geschliffen + Haar-Riss auf Dark</h2>
+      <p>Die Kombination aus feinstem Grain (A) und einem einzelnen Haar-Riss ergibt die Materialitaet, die Momance braucht: spuerbar, aber nicht laut. Wie der Puls - lebendig unter der Oberflaeche.</p>
+    </div>
+    <div class="combo-demo" style="background: #0A0A0E;" id="combo-dark">
+      <canvas class="tex-canvas"></canvas>
+      <svg class="grain-layer" width="100%" height="100%" style="opacity: 0.04;"><rect width="100%" height="100%" filter="url(#grain-fine)" /></svg>
+      <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;"></canvas>
+      <button class="regen" onclick="renderBlock('combo-dark')">Neu</button>
+      <span class="block-label">Empfehlung: A + Haar-Riss</span>
+      <div class="overlay-text">
+        <h3>Sieh, was schon da ist.</h3>
+        <p>Nimm dein Glueck bewusster wahr - und entdecke mehr davon.</p>
+      </div>
+    </div>
+    <div class="combo-demo" style="background: #F2EDE4; margin-top: 16px;" id="combo-cream">
+      <canvas class="tex-canvas"></canvas>
+      <svg class="grain-layer" width="100%" height="100%" style="opacity: 0.03;"><rect width="100%" height="100%" filter="url(#grain-fine)" /></svg>
+      <canvas class="vein-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;"></canvas>
+      <button class="regen" onclick="renderBlock('combo-cream')">Neu</button>
+      <span class="block-label">Empfehlung: A + Haar-Riss auf Cream</span>
+      <div class="overlay-text">
+        <h3 style="color: #1E1C24;">Was war heute nicht schlimm?</h3>
+        <p style="color: #6A6775;">Eine Frage, die den Blick veraendert.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <h2>Entscheidungshilfe</h2>
+    <p><strong style="color: var(--text);">A (Geschliffen)</strong> passt am besten zu Momance. Die Koernung ist kaum sichtbar, bricht aber die digitale Perfektion. Kombiniert mit einem einzelnen Haar-Riss pro Container entsteht die "Materialitaet statt Flachheit", die in der Brand Identity definiert ist.</p>
+    <p><strong style="color: var(--text);">B (Kalkstein)</strong> ist die Alternative, wenn A zu subtil wirkt. Etwas mehr Praesenz, immer noch elegant.</p>
+    <p><strong style="color: var(--text);">C-F</strong> sind als Kontrast-Referenz gedacht. Ab C wird die Textur zum Gestaltungselement statt zum atmosphaerischen Hauch - das widerspricht der Momance-Aesthetik ("Stille als Gestaltungsmittel").</p>
+  </div>
+
+  <footer>
+    Momance Texture Discovery &middot; Referenz: E&middot;18 (ANTIPOL), 13-brand-identity.md (Momance) &middot; Input: Schiefer/Granit-Textur
+  </footer>
+
+<script>
+// ── Perlin Noise (simplified) ──
+class Perlin {
+  constructor() {
+    this.p = [];
+    for (let i = 0; i < 256; i++) this.p[i] = i;
+    for (let i = 255; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.p[i], this.p[j]] = [this.p[j], this.p[i]];
+    }
+    this.p = this.p.concat(this.p);
+  }
+
+  fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
+  lerp(a, b, t) { return a + t * (b - a); }
+
+  grad(hash, x, y) {
+    const h = hash & 3;
+    const u = h < 2 ? x : y;
+    const v = h < 2 ? y : x;
+    return ((h & 1) ? -u : u) + ((h & 2) ? -v : v);
+  }
+
+  noise(x, y) {
+    const X = Math.floor(x) & 255;
+    const Y = Math.floor(y) & 255;
+    x -= Math.floor(x);
+    y -= Math.floor(y);
+    const u = this.fade(x);
+    const v = this.fade(y);
+    const A = this.p[X] + Y;
+    const B = this.p[X + 1] + Y;
+    return this.lerp(
+      this.lerp(this.grad(this.p[A], x, y), this.grad(this.p[B], x - 1, y), u),
+      this.lerp(this.grad(this.p[A + 1], x, y - 1), this.grad(this.p[B + 1], x - 1, y - 1), u),
+      v
+    );
+  }
+
+  fbm(x, y, octaves, lacunarity = 2.0, gain = 0.5) {
+    let sum = 0, amp = 1, freq = 1, max = 0;
+    for (let i = 0; i < octaves; i++) {
+      sum += this.noise(x * freq, y * freq) * amp;
+      max += amp;
+      amp *= gain;
+      freq *= lacunarity;
+    }
+    return sum / max;
+  }
+}
+
+// ── Texture Configs ──
+const CONFIGS = {
+  A: { scale: 120, octaves: 1, opacity: 0.025, particleDensity: 0, poreSize: 0 },
+  B: { scale: 80, octaves: 2, opacity: 0.04, particleDensity: 0, poreSize: 0 },
+  C: { scale: 50, octaves: 3, opacity: 0.06, particleDensity: 0.001, poreSize: 0 },
+  D: { scale: 40, octaves: 3, opacity: 0.07, particleDensity: 0.003, poreSize: 3 },
+  E: { scale: 25, octaves: 4, opacity: 0.1, particleDensity: 0.008, poreSize: 2 },
+  F: { scale: 18, octaves: 4, opacity: 0.12, particleDensity: 0.015, poreSize: 5 },
+};
+
+let grainEnabled = true;
+let veinEnabled = false;
+let currentGrainLevel = 'fine';
+
+function getBlockBg(id) {
+  const el = document.getElementById(id);
+  return el ? getComputedStyle(el).backgroundColor : 'rgb(10,10,14)';
+}
+
+function isDark(id) {
+  return id.includes('dark');
+}
+
+function renderTexture(canvas, level) {
+  const perlin = new Perlin();
+  const w = canvas.parentElement.offsetWidth;
+  const h = canvas.parentElement.offsetHeight;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, w, h);
+
+  const cfg = CONFIGS[level];
+  const imgData = ctx.createImageData(w, h);
+  const data = imgData.data;
+
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const nx = x / cfg.scale;
+      const ny = y / cfg.scale;
+      let n = perlin.fbm(nx, ny, cfg.octaves);
+      n = (n + 1) * 0.5; // normalize to 0-1
+
+      const idx = (y * w + x) * 4;
+      const v = Math.floor(n * 255);
+      const alpha = Math.floor(cfg.opacity * 255);
+
+      data[idx] = v;
+      data[idx + 1] = v;
+      data[idx + 2] = v;
+      data[idx + 3] = alpha;
+
+      // Add pores for D-F
+      if (cfg.poreSize > 0 && Math.random() < cfg.particleDensity) {
+        const poreR = Math.random() * cfg.poreSize + 1;
+        for (let py = -poreR; py <= poreR; py++) {
+          for (let px = -poreR; px <= poreR; px++) {
+            if (px * px + py * py <= poreR * poreR) {
+              const pi = ((y + py) * w + (x + px)) * 4;
+              if (pi >= 0 && pi < data.length - 3) {
+                data[pi + 3] = Math.floor(cfg.opacity * 400);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ctx.putImageData(imgData, 0, 0);
+}
+
+function renderVein(canvas, dark) {
+  const w = canvas.parentElement.offsetWidth;
+  const h = canvas.parentElement.offsetHeight;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, w, h);
+
+  // Draw 1-2 hair-thin veins
+  const numVeins = Math.random() < 0.4 ? 2 : 1;
+
+  for (let v = 0; v < numVeins; v++) {
+    // Start from edge
+    const edge = Math.floor(Math.random() * 4);
+    let sx, sy;
+    if (edge === 0) { sx = Math.random() * w * 0.3; sy = Math.random() * h; }
+    else if (edge === 1) { sx = w - Math.random() * w * 0.3; sy = Math.random() * h; }
+    else if (edge === 2) { sx = Math.random() * w; sy = Math.random() * h * 0.3; }
+    else { sx = Math.random() * w; sy = h - Math.random() * h * 0.3; }
+
+    const baseAlpha = dark ? 0.08 : 0.06;
+    const color = dark ? `rgba(255,255,255,${baseAlpha})` : `rgba(0,0,0,${baseAlpha})`;
+
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+
+    let cx = sx, cy = sy;
+    const angle = Math.random() * Math.PI * 0.5 + Math.PI * 0.25; // mostly diagonal/vertical
+    const steps = 60 + Math.floor(Math.random() * 40);
+    const stepLen = Math.max(w, h) / steps * 1.2;
+
+    let branchDone = false;
+
+    for (let i = 0; i < steps; i++) {
+      const wobble = (Math.random() - 0.5) * 0.3;
+      cx += Math.cos(angle + wobble) * stepLen;
+      cy += Math.sin(angle + wobble) * stepLen;
+      ctx.lineTo(cx, cy);
+
+      // Branch once
+      if (!branchDone && i > steps * 0.3 && Math.random() < 0.15) {
+        branchDone = true;
+        const branchAngle = angle + (Math.random() < 0.5 ? 0.3 : -0.3);
+        let bx = cx, by = cy;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(bx, by);
+        const branchSteps = 10 + Math.floor(Math.random() * 20);
+        for (let j = 0; j < branchSteps; j++) {
+          const bw = (Math.random() - 0.5) * 0.25;
+          bx += Math.cos(branchAngle + bw) * stepLen * 0.8;
+          by += Math.sin(branchAngle + bw) * stepLen * 0.8;
+          ctx.lineTo(bx, by);
+        }
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 0.3 + Math.random() * 0.3;
+        ctx.stroke();
+
+        // Continue main vein
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+      }
+    }
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 0.4 + Math.random() * 0.5;
+    ctx.stroke();
+
+    // Ghost line
+    ctx.beginPath();
+    ctx.moveTo(sx + 2, sy + 1);
+    let gx = sx + 2, gy = sy + 1;
+    for (let i = 0; i < steps; i++) {
+      const wobble = (Math.random() - 0.5) * 0.2;
+      gx += Math.cos(angle + wobble) * stepLen;
+      gy += Math.sin(angle + wobble) * stepLen;
+      ctx.lineTo(gx, gy);
+    }
+    ctx.strokeStyle = dark ? `rgba(255,255,255,0.03)` : `rgba(0,0,0,0.025)`;
+    ctx.lineWidth = 0.3;
+    ctx.stroke();
+  }
+}
+
+function renderBlock(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const level = id.split('-')[0].replace('combo', 'A');
+  const dark = isDark(id);
+
+  // Render texture
+  const texCanvas = el.querySelector('.tex-canvas');
+  if (texCanvas) renderTexture(texCanvas, level);
+
+  // Render vein
+  const veinCanvas = el.querySelector('.vein-canvas');
+  if (veinCanvas) renderVein(veinCanvas, dark);
+
+  // Update grain
+  updateGrainState(el);
+  updateVeinState(el);
+}
+
+function updateGrainState(el) {
+  const grain = el.querySelector('.grain-layer');
+  if (!grain) return;
+  const isCombo = el.classList.contains('combo-demo');
+  if (isCombo) {
+    grain.style.opacity = grainEnabled ? '0.04' : '0';
+  } else {
+    const level = el.id.split('-')[0];
+    const cfg = CONFIGS[level];
+    grain.style.opacity = grainEnabled ? (cfg ? cfg.opacity : '0.04') : '0';
+  }
+}
+
+function updateVeinState(el) {
+  const vein = el.querySelector('.vein-canvas');
+  if (!vein) return;
+  const isCombo = el.classList.contains('combo-demo');
+  vein.style.display = (veinEnabled || isCombo) ? 'block' : 'none';
+}
+
+function toggleGrain(btn) {
+  const layer = btn.dataset.layer;
+  if (layer === 'grain') {
+    grainEnabled = !grainEnabled;
+    btn.classList.toggle('active', grainEnabled);
+  } else if (layer === 'vein') {
+    veinEnabled = !veinEnabled;
+    btn.classList.toggle('active', veinEnabled);
+  }
+  document.querySelectorAll('.surface-block, .combo-demo').forEach(el => {
+    updateGrainState(el);
+    updateVeinState(el);
+  });
+}
+
+function setGrainLevel(level) {
+  currentGrainLevel = level;
+  document.querySelectorAll('[data-grain]').forEach(b => {
+    b.classList.toggle('active', b.dataset.grain === level);
+  });
+
+  const filterMap = { fine: 'grain-fine', medium: 'grain-medium', coarse: 'grain-coarse' };
+  document.querySelectorAll('.grain-layer rect').forEach(rect => {
+    rect.setAttribute('filter', `url(#${filterMap[level]})`);
+  });
+}
+
+// ── Init ──
+function initAll() {
+  const ids = [];
+  document.querySelectorAll('.surface-block, .combo-demo').forEach(el => {
+    if (el.id) ids.push(el.id);
+  });
+  ids.forEach(id => renderBlock(id));
+}
+
+// Debounced resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(initAll, 300);
+});
+
+// Init on load
+window.addEventListener('load', initAll);
+// Also init immediately in case load already fired
+if (document.readyState === 'complete') initAll();
+</script>
+
+</body>
+</html>
