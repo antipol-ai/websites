@@ -1,144 +1,676 @@
 ---
 import MomanceLayout from '../layouts/MomanceLayout.astro';
-import Hero from '@antipol/shared/components/Hero.astro';
-import Card from '@antipol/shared/components/Card.astro';
-import CTA from '@antipol/shared/components/CTA.astro';
 ---
 
 <MomanceLayout
-  title="Dein Wahrnehmungstraining"
-  description="Halte fest, was dich bewegt. Entdecke Muster in deiner Wahrnehmung."
+  title="Sieh, was schon da ist"
+  description="Eine App, die dir hilft, die guten Momente in deinem Alltag zu sehen. Und sich dann überflüssig macht."
   activePage="home"
 >
-  <Hero layout="centered">
-    <p class="hero-eyebrow fade-in">Wahrnehmungstraining</p>
-    <h1 class="hero-title fade-in">Momance</h1>
-    <p class="hero-subtitle fade-in">
-      Halte fest, was dich bewegt.
-    </p>
-    <p class="hero-body fade-in">
-      Nicht um festzuhalten — sondern um bewusster wahrzunehmen.
-      Momance begleitet dich auf dem Weg zu einer tieferen,
-      reicheren Wahrnehmung deines Alltags.
-    </p>
-  </Hero>
+  <!-- Scroll Dot Navigation -->
+  <nav class="scroll-dots" role="navigation" aria-label="Seitenabschnitte">
+    <button class="scroll-dot active" data-target="hero" aria-label="Start"></button>
+    <button class="scroll-dot" data-target="haltung" aria-label="Die Haltung"></button>
+    <button class="scroll-dot" data-target="reflexion" aria-label="Eine Frage"></button>
+    <button class="scroll-dot" data-target="folge" aria-label="Bleib dran"></button>
+  </nav>
 
-  <section class="section" id="wie-es-funktioniert">
-    <p class="section-eyebrow fade-in">Die Idee</p>
-    <h2 class="section-title fade-in">
-      Eine App, die sich selbst überflüssig macht
-    </h2>
-    <p class="section-body fade-in">
-      Momance ist kein weiteres Achtsamkeits-Tool, das dich an den
-      Bildschirm fesselt. Es ist ein Wahrnehmungstraining.
-    </p>
-
-    <div class="dimensions-grid fade-in fade-in-delay">
-      <Card><h3>Tiefe</h3><p>Wie intensiv nimmst du einzelne Momente wahr?</p></Card>
-      <Card><h3>Breite</h3><p>Wie vielfältig sind die Bereiche, die dich berühren?</p></Card>
-      <Card><h3>Spontaneität</h3><p>Wie schnell erkennst du, wenn etwas Besonderes passiert?</p></Card>
-      <Card><h3>Autonomie</h3><p>Wie eigenständig gestaltest du bewusste Momente?</p></Card>
+  <!-- ── Hero: Two-Column with Puls ── -->
+  <section class="panel hero-panel" id="hero">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <p class="section-label fade-in">Sieh, was schon da ist</p>
+        <h1 class="hero-title fade-in">
+          Eine App, die will,<br>dass du sie <span class="gold">löschst.</span>
+        </h1>
+        <p class="hero-sub fade-in">
+          Nimm dein Glück bewusster wahr — und entdecke mehr davon.
+        </p>
+      </div>
+      <div class="hero-right fade-in fade-in-delay">
+        <canvas class="hero-puls-canvas" id="heroPuls" width="560" height="560"></canvas>
+      </div>
+    </div>
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="arrow"></div>
     </div>
   </section>
 
-  <CTA
-    overline="Bald verfügbar"
-    headline="Bereit, bewusster wahrzunehmen?"
-  >
-    <span class="coming-soon">Coming Soon</span>
-  </CTA>
+  <!-- ── Die Haltung: Two-Column ── -->
+  <section class="panel haltung-panel" id="haltung">
+    <div class="haltung-grid">
+      <div class="haltung-left">
+        <p class="section-label fade-in">Die Haltung</p>
+        <h2 class="panel-headline fade-in">
+          Wir glauben, dass du schon alles hast, was du <span class="gold">brauchst.</span>
+        </h2>
+      </div>
+      <div class="haltung-right">
+        <p class="body-text fade-in">
+          Die meisten Apps wollen, dass du bleibst.
+          Mehr Zeit, mehr Klicks, mehr Daten.
+          Momance arbeitet daran, dass du gehst —
+          weil du gelernt hast, selbst zu sehen,
+          was vorher unsichtbar war.
+        </p>
+        <p class="body-text fade-in">
+          Kein Tracking deiner Stimmung.
+          Kein sozialer Feed.
+          Kein Algorithmus, der dir sagt, wie du dich fühlen sollst.
+          Nur ein stiller Begleiter, der dir hilft,
+          die Momente zu bemerken, die ohnehin da sind.
+        </p>
+        <p class="body-text gold-accent fade-in">
+          Wenn du das irgendwann ohne uns kannst —
+          dann haben wir alles richtig gemacht.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Reflexionsfrage (Cream / Light) ── -->
+  <section class="panel reflexion-panel theme-light" id="reflexion">
+    <p class="section-label fade-in">Eine Frage</p>
+    <blockquote class="reflexion-frage fade-in">
+      Was war heute<br>nicht schlimm?
+    </blockquote>
+    <p class="reflexion-kontext fade-in">
+      Nicht jeder Tag ist gut. Aber in jedem Tag steckt etwas,
+      das nicht schlimm war. Und manchmal reicht es,
+      genau dort hinzuschauen.
+    </p>
+  </section>
+
+  <!-- ── Folge uns (Dark) ── -->
+  <section class="panel folge-panel" id="folge">
+    <p class="section-label fade-in">Bleib dran</p>
+    <h2 class="panel-headline fade-in">
+      Momance erscheint <span class="gold">bald.</span>
+    </h2>
+    <p class="body-text folge-intro fade-in">
+      Wir verraten noch nicht alles — aber wenn du erfahren willst,
+      wann es losgeht, folge uns dort, wo du schon bist.
+    </p>
+
+    <div class="social-cards fade-in">
+      <!-- WhatsApp Channel -->
+      <a href="#" class="social-card" aria-label="WhatsApp Channel folgen">
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/>
+            <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1Zm0 0a5 5 0 0 0 5 5m0 0a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1h1Z"/>
+          </svg>
+        </div>
+        <div class="social-text">
+          <span class="social-name">WhatsApp</span>
+          <span class="social-desc">Updates direkt aufs Handy — kein Spam, versprochen.</span>
+        </div>
+        <span class="social-arrow">→</span>
+      </a>
+
+      <!-- Instagram -->
+      <a href="#" class="social-card" aria-label="Instagram folgen">
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="social-text">
+          <span class="social-name">Instagram</span>
+          <span class="social-desc">Reflexionsfragen, Haltung und die Geschichte hinter Momance.</span>
+        </div>
+        <span class="social-arrow">→</span>
+      </a>
+
+      <!-- TikTok -->
+      <a href="#" class="social-card" aria-label="TikTok folgen">
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+          </svg>
+        </div>
+        <div class="social-text">
+          <span class="social-name">TikTok</span>
+          <span class="social-desc">Kurze Impulse über Wahrnehmung und bewusstes Erleben.</span>
+        </div>
+        <span class="social-arrow">→</span>
+      </a>
+    </div>
+  </section>
 </MomanceLayout>
 
 <style>
-  .hero-eyebrow {
+  /* ── Scroll Snap ── */
+  html { scroll-snap-type: y proximity; }
+
+  /* ── Panel Base ── */
+  .panel {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 4rem;
+    position: relative;
+    scroll-snap-align: start;
+    background: var(--color-bg);
+  }
+
+  /* ── Shared Typography ── */
+  .section-label {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 0.7rem;
     font-weight: 300;
-    letter-spacing: 3px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-primary-muted);
-    margin-bottom: 24px;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+  }
+
+  .panel-headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 5vw, 3.5rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--color-text);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    max-width: 700px;
+  }
+
+  .body-text {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .body-text:last-child { margin-bottom: 0; }
+
+  /* Gold highlighting */
+  .gold { color: var(--color-primary); }
+  .gold-accent { color: var(--color-primary-accessible); font-style: italic; }
+
+  /* ── Hero Panel: Two-Column ── */
+  .hero-panel {
+    padding-top: 80px;
+    align-items: center;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(40px, 8vw, 72px);
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
     font-weight: 400;
     font-style: italic;
-    color: var(--color-primary);
-    margin-bottom: 20px;
-    line-height: 1.1;
-  }
-
-  .hero-subtitle {
-    font-family: var(--font-display);
-    font-size: clamp(18px, 3vw, 24px);
-    font-weight: 400;
     color: var(--color-text);
-    margin-bottom: 16px;
-    max-width: 560px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
   }
 
-  .hero-body {
-    font-size: 16px;
-    color: var(--color-text-muted);
-    max-width: 480px;
-    margin-bottom: 48px;
-    line-height: 1.7;
-  }
-
-  .section {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 100px 24px;
-  }
-
-  .section-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
+  .hero-sub {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
     font-weight: 300;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--color-primary-muted);
-    margin-bottom: 16px;
-  }
-
-  .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 5vw, 40px);
-    font-weight: 400;
-    color: var(--color-text);
-    margin-bottom: 32px;
-    line-height: 1.2;
-  }
-
-  .section-body {
-    font-size: 17px;
     color: var(--color-text-muted);
-    line-height: 1.8;
-    margin-bottom: 24px;
+    line-height: 1.7;
+    max-width: 460px;
   }
 
-  .dimensions-grid {
+  .hero-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .hero-puls-canvas {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  .hero-scroll-hint .arrow {
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(var(--color-text-muted), transparent);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* ── Haltung Panel: Two-Column, static (no internal scroll) ── */
+  .haltung-panel {
+    align-items: center;
+    border-bottom: 1px solid var(--panel-border);
+    overflow: hidden;
+  }
+
+  .haltung-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 40px;
+    gap: 4rem;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px;
   }
 
-  @media (max-width: 600px) {
-    .dimensions-grid { grid-template-columns: 1fr; }
+  .haltung-right {
+    max-width: 520px;
   }
 
-  .coming-soon {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 13px;
+  /* ── Reflexion Panel (Cream / Light) ── */
+  .reflexion-panel {
+    align-items: center;
+    text-align: center;
+    background: var(--color-bg);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .reflexion-panel .section-label {
+    color: var(--color-text-label);
+  }
+
+  .reflexion-frage {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
     font-weight: 400;
-    letter-spacing: 2px;
+    font-style: italic;
+    color: var(--color-text);
+    line-height: 1.15;
+    margin: 0 0 2.5rem;
+    padding: 0;
+    border: none;
+  }
+
+  .reflexion-kontext {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    max-width: 460px;
+  }
+
+  /* ── Folge Panel ── */
+  .folge-panel {
+    min-height: auto;
+    align-items: center;
+    text-align: center;
+    padding-top: 100px;
+    padding-bottom: 40px;
+  }
+
+  .folge-intro {
+    max-width: 480px;
+    margin: 0 auto 3rem;
+  }
+
+  .social-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-width: 460px;
+    text-align: left;
+  }
+
+  .social-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: border-color 0.25s ease, transform 0.2s ease;
+  }
+
+  .social-card:hover {
+    border-color: var(--color-primary-muted);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .social-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--color-primary);
-    border: 1px solid var(--color-primary-muted);
-    padding: 14px 36px;
-    border-radius: var(--radius-full);
+  }
+
+  .social-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .social-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .social-name {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .social-desc {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .social-arrow {
+    flex-shrink: 0;
+    font-size: 18px;
+    color: var(--color-text-muted);
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+
+  .social-card:hover .social-arrow {
+    color: var(--color-primary);
+    transform: translateX(3px);
+  }
+
+  /* ── Scroll Dots ── */
+  .scroll-dots {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .scroll-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-border);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .scroll-dot:hover { background: var(--color-text-muted); transform: scale(1.3); }
+  .scroll-dot.active { background: var(--color-primary); transform: scale(1.3); }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .panel { padding: 3rem 1.5rem; }
+
+    .hero-panel { padding-top: 70px; }
+
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .hero-right {
+      order: -1;
+      max-width: 260px;
+      margin: 0 auto;
+    }
+
+    .haltung-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .haltung-left {
+      position: static;
+      transform: none;
+    }
+
+    .social-card { padding: 16px 16px; }
+
+    .scroll-dots { right: 0.75rem; gap: 0.6rem; }
+    .scroll-dot { width: 6px; height: 6px; }
+  }
+
+  /* ── Reduced Motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-scroll-hint { animation: none; opacity: 0.6; }
   }
 </style>
+
+<script>
+  // ── Dot navigation ──
+  document.querySelectorAll('.scroll-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      const target = document.getElementById((dot as HTMLElement).dataset.target!);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  const panels = document.querySelectorAll('.panel[id]');
+  const dots = document.querySelectorAll('.scroll-dot');
+
+  const dotObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        dots.forEach(d => d.classList.remove('active'));
+        const activeDot = document.querySelector(`.scroll-dot[data-target="${entry.target.id}"]`);
+        if (activeDot) activeDot.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  panels.forEach(panel => dotObserver.observe(panel));
+
+  // ── Hero Puls Animation (splash-style, large) ──
+  const BREATH_PERIOD = 6;
+  const COLOR_PERIOD = 9;
+  const CREAM = [240, 234, 224];
+  const CATEGORIES = [
+    [194, 178, 110], // still
+    [101, 148, 199], // connect
+    [199, 105, 82],  // body
+    [93, 173, 126],  // nature
+    [163, 113, 191], // create
+    [191, 101, 143], // senses
+  ];
+
+  function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
+  function hermite(t: number) { return t * t * (3 - 2 * t); }
+  function rgba(rgb: number[], a: number) { return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`; }
+
+  function getCycleColor(sec: number) {
+    const t = (sec % COLOR_PERIOD) / COLOR_PERIOD * CATEGORIES.length;
+    const i = Math.floor(t) % CATEGORIES.length;
+    const j = (i + 1) % CATEGORIES.length;
+    const f = hermite(t - Math.floor(t));
+    return CATEGORIES[i].map((c, k) => Math.round(lerp(c, CATEGORIES[j][k], f)));
+  }
+
+  function drawMoment(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number, rgb: number[], seed: number) {
+    // Wide glow
+    let g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 2.8);
+    g.addColorStop(0, rgba(rgb, 0.45));
+    g.addColorStop(0.2, rgba(rgb, 0.25));
+    g.addColorStop(0.5, rgba(rgb, 0.06));
+    g.addColorStop(1, rgba(rgb, 0));
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(cx, cy, r * 2.8, 0, Math.PI * 2); ctx.fill();
+
+    // Organic body
+    const N = 72;
+    ctx.beginPath();
+    for (let i = 0; i <= N; i++) {
+      const a = (i / N) * Math.PI * 2;
+      const d = 1 + Math.sin(a * 3 + seed) * 0.03 + Math.cos(a * 5 + seed * 1.7) * 0.015;
+      const x = cx + Math.cos(a) * r * d;
+      const y = cy + Math.sin(a) * r * d;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+
+    const lighter = rgb.map(c => Math.min(255, c + 40));
+    const body = ctx.createRadialGradient(cx - r * 0.2, cy - r * 0.2, r * 0.05, cx + r * 0.15, cy + r * 0.15, r * 1.1);
+    body.addColorStop(0, rgba(lighter, 1));
+    body.addColorStop(0.4, rgba(rgb, 1));
+    body.addColorStop(1, rgba(rgb.map(c => Math.max(0, c - 30)), 1));
+    ctx.fillStyle = body;
+    ctx.fill();
+
+    // Specular highlight
+    const spec = ctx.createRadialGradient(cx - r * 0.2, cy - r * 0.25, 0, cx - r * 0.08, cy - r * 0.1, r * 0.5);
+    spec.addColorStop(0, 'rgba(255,255,245,0.30)');
+    spec.addColorStop(0.4, 'rgba(255,255,245,0.06)');
+    spec.addColorStop(1, 'rgba(255,255,245,0)');
+    ctx.fillStyle = spec;
+    ctx.fill();
+  }
+
+  function drawHeroPuls(ctx: CanvasRenderingContext2D, cx: number, cy: number, S: number, breathScale: number, color: number[], seed: number) {
+    const r1 = S * 0.33 * breathScale;
+    const r2 = S * 0.39 * breathScale;
+    const r3 = S * 0.45 * breathScale;
+    const mr = S * 0.24;
+    const lw1 = Math.max(1.2, S / 100 * 1.5);
+    const lwO = lw1 * 0.6;
+    const bn = (breathScale - 1) / 0.15;
+
+    // Wide ambient corona
+    const cg2 = ctx.createRadialGradient(cx, cy, r1 * 0.1, cx, cy, S * 0.9);
+    cg2.addColorStop(0, rgba(color, 0.10));
+    cg2.addColorStop(0.2, rgba(color, 0.06));
+    cg2.addColorStop(0.5, rgba(color, 0.02));
+    cg2.addColorStop(1, rgba(color, 0));
+    ctx.fillStyle = cg2;
+    ctx.beginPath(); ctx.arc(cx, cy, S * 0.9, 0, Math.PI * 2); ctx.fill();
+
+    // Corona glow
+    const cg = ctx.createRadialGradient(cx, cy, r1 * 0.3, cx, cy, r3 * 2.2);
+    cg.addColorStop(0, rgba(color, 0.18));
+    cg.addColorStop(0.3, rgba(color, 0.08));
+    cg.addColorStop(1, rgba(color, 0));
+    ctx.fillStyle = cg;
+    ctx.beginPath(); ctx.arc(cx, cy, r3 * 2.2, 0, Math.PI * 2); ctx.fill();
+
+    // Outer ring
+    ctx.strokeStyle = rgba(CREAM, 0.15 + 0.06 * bn);
+    ctx.lineWidth = lwO;
+    ctx.beginPath(); ctx.arc(cx, cy, r3, 0, Math.PI * 2); ctx.stroke();
+
+    // Middle ring
+    ctx.strokeStyle = rgba(CREAM, 0.22 + 0.08 * bn);
+    ctx.lineWidth = lwO;
+    ctx.beginPath(); ctx.arc(cx, cy, r2, 0, Math.PI * 2); ctx.stroke();
+
+    // Inner ring
+    ctx.strokeStyle = rgba(CREAM, 0.35 + 0.12 * bn);
+    ctx.lineWidth = lw1;
+    ctx.beginPath(); ctx.arc(cx, cy, r1, 0, Math.PI * 2); ctx.stroke();
+
+    // Dark core
+    const kernR = S * 0.33 * 0.85;
+    const kg = ctx.createRadialGradient(cx, cy, 0, cx, cy, kernR);
+    kg.addColorStop(0, 'rgba(10,10,14,0.95)');
+    kg.addColorStop(0.7, 'rgba(10,10,14,0.88)');
+    kg.addColorStop(1, 'rgba(10,10,14,0.3)');
+    ctx.fillStyle = kg;
+    ctx.beginPath(); ctx.arc(cx, cy, kernR, 0, Math.PI * 2); ctx.fill();
+
+    // Moment nucleus
+    drawMoment(ctx, cx, cy, mr, color, seed);
+  }
+
+  // Hero canvas animation loop
+  const heroCanvas = document.getElementById('heroPuls') as HTMLCanvasElement;
+  if (heroCanvas) {
+    const ctx = heroCanvas.getContext('2d')!;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    function resizeHeroCanvas() {
+      const rect = heroCanvas.getBoundingClientRect();
+      heroCanvas.width = rect.width * dpr;
+      heroCanvas.height = rect.height * dpr;
+    }
+    resizeHeroCanvas();
+    window.addEventListener('resize', resizeHeroCanvas);
+
+    const start = performance.now();
+
+    function heroFrame(timestamp: number) {
+      const sec = (timestamp - start) / 1000;
+      const w = heroCanvas.width;
+      const h = heroCanvas.height;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      const logicalW = w / dpr;
+      const logicalH = h / dpr;
+      const cx = logicalW * 0.5;
+      const cy = logicalH * 0.5;
+      const S = Math.min(logicalW, logicalH) * 0.48;
+
+      const breathPhase = (sec % BREATH_PERIOD) / BREATH_PERIOD;
+      const breathSin = Math.sin(breathPhase * Math.PI * 2);
+      const breathScale = 1.0 + ((1 + breathSin) / 2) * 0.15;
+
+      const color = getCycleColor(sec);
+      const seed = 17 + sec * 0.8;
+
+      drawHeroPuls(ctx, cx, cy, S, breathScale, color, seed);
+      requestAnimationFrame(heroFrame);
+    }
+    requestAnimationFrame(heroFrame);
+  }
+</script>

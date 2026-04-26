@@ -1,6 +1,6 @@
 ---
 /**
- * Nav — Shared Navigation Bar.
+ * Nav - Shared Navigation Bar.
  *
  * Verwendet CSS-Variablen aus dem jeweiligen Theme (--nav-bg, --nav-border,
  * --color-primary, --font-display, etc.)
@@ -22,7 +22,7 @@ const { brand, brandHighlight, brandHref = '/', links } = Astro.props;
 ---
 
 <nav class="site-nav" role="navigation" aria-label="Hauptnavigation">
-  <a href={brandHref} class="nav-item brand" aria-label={`${brand}${brandHighlight || ''} — Startseite`}>
+  <a href={brandHref} class="nav-item brand" aria-label={`${brand}${brandHighlight || ''} - Startseite`}>
     {brand}{brandHighlight && <span class="pol">{brandHighlight}</span>}
   </a>
   {links.map(link => (

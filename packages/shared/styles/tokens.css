@@ -1,18 +1,17 @@
 /*
- * ANTIPOL × Momance — Shared Design Tokens
- *
- * Werte, die in beiden Themes identisch sind.
- * Projekt-spezifische Farben und Fonts stehen in den jeweiligen theme.css.
+ * ANTIPOL x Momance - Shared Design Tokens
+ * AUTO-GENERIERT aus design-system/foundation/tokens.json
+ * Nicht manuell bearbeiten - aendere die JSON-Quelle.
  */
 
 :root {
   /* Spacing */
-  --space-xs: 0.5rem;    /*  8px */
-  --space-sm: 1rem;      /* 16px */
-  --space-md: 1.5rem;    /* 24px */
-  --space-lg: 2.5rem;    /* 40px */
-  --space-xl: 4rem;      /* 64px */
-  --space-2xl: 6rem;     /* 96px */
+  --space-xs: 0.5rem;  /* 8px */
+  --space-sm: 1rem;  /* 16px */
+  --space-md: 1.5rem;  /* 24px */
+  --space-lg: 2.5rem;  /* 40px */
+  --space-xl: 4rem;  /* 64px */
+  --space-2xl: 6rem;  /* 96px */
 
   /* Radii */
   --radius-sm: 3px;
@@ -35,6 +34,7 @@
   --z-nav: 100;
   --z-overlay: 200;
   --z-modal: 300;
+
 }
 
 @media (max-width: 768px) {

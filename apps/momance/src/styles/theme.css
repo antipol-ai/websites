@@ -1,45 +1,62 @@
 /*
  * Momance Theme
- *
- * Extrahiert aus momance-landing/app/globals.css
- * Referenz: momance/docs/13-brand-identity.md
+ * AUTO-GENERIERT aus design-system/brands/momance/tokens.json
+ * Nicht manuell bearbeiten - aendere die JSON-Quelle.
  */
 
 :root {
-  /* ── Farben ── */
-  --color-primary: #C9A84C;        /* Gold */
+  /* -- Farben -- */
+  --color-primary: #C9A84C;  /* Gold */
   --color-primary-deep: #A8893E;
   --color-primary-light: #D4B85C;
   --color-primary-accessible: #C9A84C;
-  --color-primary-muted: rgba(201, 168, 76, 0.45); /* Gold Muted */
-
-  --color-bg: #0A0A0E;             /* Black */
-  --color-surface: #16161A;        /* Surface */
-  --color-surface-elevated: #1E1E24; /* Surface Elevated */
+  --color-primary-muted: rgba(201, 168, 76, 0.45);
+  --color-bg: #0A0A0E;  /* Canvas */
+  --color-surface: #111116;  /* Surface */
+  --color-surface-elevated: #1C1C22;  /* Surface Elevated */
   --color-border: rgba(255, 255, 255, 0.07);
-
-  --color-text: #F0EAE0;           /* Cream */
-  --color-text-muted: #B2AEBC;     /* Text Secondary */
-  --color-text-label: #8E8A96;     /* Text Label */
+  --color-text: #F0EAE0;  /* Cream */
+  --color-text-muted: #B2AEBC;
+  --color-text-label: #8E8A96;
   --color-text-light: #F0EAE0;
   --color-text-pure: #FFFFFF;
-
   --color-footer-text: #B2AEBC;
   --color-footer-meta: #8E8A96;
 
-  /* ── Typografie ── */
+  /* -- Typografie -- */
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Source Sans 3', -apple-system, sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 
-  /* ── Komponenten-Varianten ── */
-  --card-radius: var(--radius-lg);  /* Momance: rundere Cards */
+  /* -- Komponenten-Varianten -- */
+  --card-radius: var(--radius-lg);
   --card-bg: var(--color-surface);
   --card-border: var(--color-border);
   --card-hover-border: rgba(201, 168, 76, 0.4);
-
   --nav-bg: rgba(10, 10, 14, 0.95);
   --nav-border: rgba(255, 255, 255, 0.05);
-
   --panel-border: rgba(255, 255, 255, 0.05);
+}
+
+/* Heller Kontext: .theme-light auf Container-Element
+   Inverses System: Kein Gold auf Creme — nur dunkler Text auf hellem Grund. */
+.theme-light {
+  --color-bg: #F2EDE4;  /* Cream */
+  --color-bg-secondary: #E8E0D4;  /* Cream-2 */
+  --color-text: #1E1C24;
+  --color-text-muted: #4C4A56;
+  --color-text-label: #6A6775;
+  --color-primary: #1E1C24;  /* Kein Gold — Primärfarbe wird zu Textfarbe */
+  --color-primary-accessible: #1E1C24;
+  --color-primary-muted: rgba(30, 28, 36, 0.35);
+}
+
+/* Kategorie-Farben (6 Lebensbereiche) */
+:root {
+  --color-category-still: hsl(45, 55%, 62%);
+  --color-category-connect: hsl(210, 58%, 66%);
+  --color-category-body: hsl(12, 68%, 58%);
+  --color-category-nature: hsl(152, 45%, 54%);
+  --color-category-create: hsl(280, 42%, 65%);
+  --color-category-senses: hsl(340, 50%, 64%);
 }

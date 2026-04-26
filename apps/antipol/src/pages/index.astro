@@ -1,34 +1,298 @@
 ---
+/**
+ * Startseite - ANTIPOL
+ *
+ * Migriert aus: antipol/website/index.html
+ * Hero, Thesen, Haltungen, Empathie-Gleichung, Schichtmodell, Gründer, Kontakt.
+ */
 import AntipolLayout from '../layouts/AntipolLayout.astro';
-import Hero from '@antipol/shared/components/Hero.astro';
-import SectionLabel from '@antipol/shared/components/SectionLabel.astro';
-import CTA from '@antipol/shared/components/CTA.astro';
 ---
 
-<AntipolLayout title="Radikal an die Wurzel" activePage="home">
-  <Hero layout="centered">
-    <SectionLabel class="fade-in">Kulturtransformation</SectionLabel>
-    <h1 class="panel-headline fade-in">
-      Radikal an die Wurzel.
-    </h1>
-    <p class="panel-sub fade-in">
-      ANTIPOL begleitet Organisationen durch Transformation —
-      mit radikaler Empathie und dem Mut zum Experiment.
-    </p>
-  </Hero>
+<AntipolLayout title="Radikal an die Wurzel" description="ANTIPOL - Beratung, die an die Wurzel geht. Empathie, Kulturwandel und Experimentieren statt fertiger Antworten.">
 
-  <CTA
-    overline="Bereit für den ersten Schritt?"
-    headline="Starte mit uns ein Experiment."
-    href="mailto:wir@antipol.ai"
-    linkText="wir@antipol.ai"
-  />
+  <!-- Scroll Dot Navigation -->
+  <nav class="scroll-dots" role="navigation" aria-label="Seitenabschnitte">
+    <button class="scroll-dot active" data-target="hero" aria-label="Start"></button>
+    <button class="scroll-dot" data-target="these-01" aria-label="These 1"></button>
+    <button class="scroll-dot" data-target="these-02" aria-label="These 2"></button>
+    <button class="scroll-dot" data-target="these-03" aria-label="These 3"></button>
+    <button class="scroll-dot" data-target="haltung-01" aria-label="Empathie"></button>
+    <button class="scroll-dot" data-target="haltung-02" aria-label="Demokratisierung"></button>
+    <button class="scroll-dot" data-target="haltung-03" aria-label="Wurzel"></button>
+    <button class="scroll-dot" data-target="modell" aria-label="Schichtmodell"></button>
+    <button class="scroll-dot" data-target="team" aria-label="Team"></button>
+    <button class="scroll-dot" data-target="kontakt" aria-label="Kontakt"></button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="panel hero" id="hero" aria-label="ANTIPOL">
+    <h1>ANTI<span class="pol">POL</span></h1>
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- THESE 01 -->
+  <section class="panel thesis" id="these-01" aria-label="These 1">
+    <div class="section-label fade-in">These 01</div>
+    <h2 class="thesis-text fade-in">Die meisten Probleme sind keine Technikprobleme.</h2>
+    <p class="thesis-sub fade-in">Sie sitzen im Miteinander, in Strukturen, in den weichen Faktoren. Technologie ist meistens das Symptom, nicht die Ursache. Wer nur die Technik repariert, repariert das Falsche.</p>
+  </section>
+
+  <!-- THESE 02 -->
+  <section class="panel thesis panel-red" id="these-02" aria-label="These 2">
+    <div class="section-label fade-in">These 02</div>
+    <h2 class="thesis-text fade-in">Kultur frisst Strategie und Technologie zum Frühstück.</h2>
+    <p class="thesis-sub fade-in">Jedes Tool, jeder Prozess, jede AI scheitert an einer Kultur, die keine Fehler erlaubt. Wer Transformation will, muss bei der Kultur anfangen - nicht beim Tech Stack.</p>
+  </section>
+
+  <!-- THESE 03 -->
+  <section class="panel thesis" id="these-03" aria-label="These 3">
+    <div class="section-label fade-in">These 03</div>
+    <h2 class="thesis-text fade-in">Wer nur die erste Warum-Antwort akzeptiert, löst das falsche Problem.</h2>
+    <p class="thesis-sub fade-in">Hinter jedem formulierten Auftrag steckt ein tieferes Anliegen. Wir fragen weiter - nicht aus Neugier, sondern weil die Wurzel selten an der Oberfläche liegt.</p>
+  </section>
+
+  <!-- HALTUNG 01 - Empathie-Gleichung -->
+  <section class="panel equation-panel" id="haltung-01" aria-label="Haltung: Empathie">
+    <div class="section-label fade-in">Haltung 01</div>
+    <div class="equation fade-in" role="text" aria-label="Empathie gleich Skill, nicht Soft Skill">
+      Empathie <span class="equals">=</span><br>
+      <span class="strikethrough">Soft</span> <span class="the-skill">Skill</span>
+    </div>
+    <p class="thesis-sub fade-in">Fachlich stark zu sein reicht irgendwann nicht mehr. Den Menschen gegenüber wirklich zu verstehen - zu spüren, was jemand braucht, auch wenn er es selbst nicht sagen kann - das macht den Unterschied.</p>
+  </section>
+
+  <!-- HALTUNG 02 -->
+  <section class="panel thesis panel-light" id="haltung-02" aria-label="Haltung: Demokratisierung">
+    <div class="section-label fade-in">Haltung 02</div>
+    <h2 class="thesis-text fade-in">AI demokratisiert den Zugang. Aber nicht automatisch.</h2>
+    <p class="thesis-sub fade-in">AI gibt Menschen Möglichkeiten, die sie vorher nicht hatten. Aber die Chance kommt nicht von alleine. Jemand muss den Weg zeigen - ohne Gatekeeping, ohne Belehrung, auf Augenhöhe.</p>
+  </section>
+
+  <!-- HALTUNG 03 -->
+  <section class="panel thesis panel-red" id="haltung-03" aria-label="Haltung: An die Wurzel">
+    <div class="section-label fade-in">Haltung 03</div>
+    <h2 class="thesis-text fade-in">Wir gehen an die Wurzel. Nicht an die Oberfläche.</h2>
+    <p class="thesis-sub fade-in">Radikal kommt von radix - Wurzel. Wir hinterfragen Strukturen, Annahmen und Gewohnheiten. Das ist unbequem. Aber es ist der einzige Weg, der wirklich etwas verändert.</p>
+  </section>
+
+  <!-- SCHICHTMODELL -->
+  <section class="schicht-section" id="modell" aria-label="Schichtmodell: Wie wir arbeiten">
+    <div class="schicht-header fade-in">
+      <div class="section-label">Wie wir arbeiten</div>
+      <h2>Kein Katalog. Ein Kern.</h2>
+      <p>Anfragen kommen von außen. Manche bleiben an der Oberfläche. Andere müssen bis zur Wurzel. Wir finden die richtige Tiefe.</p>
+    </div>
+
+    <div class="rings-container fade-in fade-in-delay" role="img" aria-label="Konzentrisches Schichtmodell: Von außen nach innen - Anfragen und Symptome, Tätigkeiten, Kontext (AI und Kulturwandel), Haltung (Empathie, Wurzel, Holismus)">
+      <div class="ring ring-4"></div>
+      <div class="ring ring-3">
+        <div class="ring-label">
+          Tätigkeiten
+          <span class="label-sub">Begleiten, aufsetzen, Impulse geben, teilen</span>
+        </div>
+      </div>
+      <div class="ring ring-2">
+        <div class="ring-label">
+          Kontext
+          <span class="label-sub">AI &amp; Kulturwandel</span>
+        </div>
+      </div>
+      <div class="ring ring-1">
+        <div class="ring-label">
+          Haltung
+          <span class="label-sub">Empathie, Wurzel, Holismus</span>
+        </div>
+      </div>
+      <div class="ring-4-label">Anfragen &amp; Symptome</div>
+    </div>
+
+    <div class="entry-points fade-in fade-in-delay" aria-label="Typische Anfragen">
+      <span class="entry-tag">&ldquo;Wir brauchen ein Produkt&rdquo;</span>
+      <span class="entry-tag">&ldquo;Wir wollen AI einsetzen&rdquo;</span>
+      <span class="entry-tag">&ldquo;Unsere Teams stecken fest&rdquo;</span>
+      <span class="entry-tag">&ldquo;Unsere Kultur funktioniert nicht&rdquo;</span>
+      <span class="entry-tag">&ldquo;Bei uns funktioniert nichts mehr&rdquo;</span>
+    </div>
+  </section>
+
+  <!-- WER WIR SIND -->
+  <section class="panel founders" id="team" aria-label="Wer wir sind">
+    <div class="section-label fade-in">Wer wir sind</div>
+
+    <div class="founders-grid">
+      <article class="founder-card fade-in">
+        <div class="founder-photo" role="img" aria-label="Portrait Stefan Bodeit - Platzhalter">
+          <span class="placeholder-label">Foto Stefan</span>
+        </div>
+        <div>
+          <h3>Stefan Bodeit</h3>
+          <p>Über 25 Jahre im Digitalen - als UX-Designer, Strategieberater, Experience Architect. Hat für Marken wie Sennheiser, XING, Adidas und TUI Cruises gearbeitet. Sein eigentlicher Wert zeigt sich dort, wo er über den Auftrag hinausdenkt: Er spürt, wo das echte Problem liegt - oft bevor es jemand ausspricht - und bringt Menschen zu den Erkenntnissen, die sie wirklich brauchen.</p>
+        </div>
+      </article>
+      <article class="founder-card fade-in">
+        <div class="founder-photo" role="img" aria-label="Portrait Catrin Schröder-Jaross - Platzhalter">
+          <span class="placeholder-label">Foto Catrin</span>
+        </div>
+        <div>
+          <h3>Catrin Schröder-Jaross</h3>
+          <p>Über 25 Jahre in der IT - von der Entwicklerin über Lead Developer und Director Engineering bis zur Projektleitung. Hat in Organisationen wie mobile.de, OTTO, Yieldlab und adesso Engineering-Teams geformt und Prozesse zum Leben gebracht. Bringt Agile nicht als Methode mit, sondern als gelebte Haltung - und weiß, wie man Organisationen dazu bringt, es wirklich zu leben.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="founders-connection fade-in">
+      <p>Was Stefan und Catrin verbindet, ist nicht das Fachliche - da ergänzen sie sich. Es ist die Empathie: die Fähigkeit, Menschen wirklich zu lesen, zu verstehen und respektvoll dorthin zu begleiten, wo Veränderung anfängt. Fachlich stark zu sein reicht irgendwann nicht mehr. Den Menschen gegenüber wirklich zu verstehen - das macht den Unterschied.</p>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section class="panel contact" id="kontakt" aria-label="Kontakt">
+    <div class="section-label fade-in">Erkannt?</div>
+    <h2 class="contact-headline fade-in">Wenn du uns verstanden hast -<br>starte mit uns ein Experiment.</h2>
+    <p class="contact-sub fade-in">Kein Kontaktformular. Kein Funnel. Kein Chatbot.<br>Ein Gespräch. Eine Hypothese. Ein erster Schritt.</p>
+    <div class="contact-options fade-in">
+      <a href="mailto:we@antipol.ai" class="contact-primary">Experiment starten</a>
+      <span class="contact-divider">oder</span>
+      <div class="contact-secondary">
+        <a href="mailto:we@antipol.ai">we@antipol.ai</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
 </AntipolLayout>
 
 <style>
-  .panel-headline {
+  /* === SCROLL SNAP === */
+  html { scroll-snap-type: y proximity; }
+
+  /* === PANELS === */
+  .panel {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem;
+    position: relative;
+    scroll-snap-align: start;
+  }
+
+  @media (max-width: 768px) {
+    .panel { padding: 2.5rem 1.5rem; }
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary-accessible);
+    margin-bottom: 2rem;
+  }
+
+  /* === HERO === */
+  .hero {
+    background: var(--color-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -30%; right: -15%;
+    width: 70vw; height: 70vw;
+    background: radial-gradient(circle, rgba(139, 37, 0, 0.1) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(4rem, 12vw, 10rem);
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--color-text-pure);
+    margin-bottom: 2rem;
+  }
+
+  h1 .pol { color: var(--color-primary); }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 3rem; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  .hero-scroll-hint .arrow {
+    width: 1px; height: 40px;
+    background: linear-gradient(var(--color-text-muted), transparent);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  /* === THESIS PANELS === */
+  .thesis {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--panel-border);
+  }
+
+  .thesis-text {
     font-family: var(--font-display);
     font-size: clamp(1.8rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--color-text-pure);
+    max-width: 900px;
+  }
+
+  .thesis-sub {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--color-text-muted);
+    max-width: 650px;
+    margin-top: 2rem;
+  }
+
+  /* Red Panel variant */
+  .panel-red { background: var(--color-primary-deep); }
+  .panel-red .thesis-text { color: var(--color-text); }
+  .panel-red .thesis-sub { color: rgba(245, 242, 237, 0.85); }
+  .panel-red .section-label { color: rgba(245, 242, 237, 0.7); }
+
+  /* Light Panel variant */
+  .panel-light { background: var(--color-text); }
+  .panel-light .thesis-text { color: var(--color-bg); }
+  .panel-light .thesis-sub { color: var(--color-text-label); }
+  .panel-light .section-label { color: var(--color-primary); }
+
+  /* === EMPATHIE-GLEICHUNG === */
+  .equation-panel {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--panel-border);
+  }
+
+  .equation {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 6rem);
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.1;
@@ -36,13 +300,232 @@ import CTA from '@antipol/shared/components/CTA.astro';
     max-width: 900px;
   }
 
-  .panel-sub {
-    font-family: var(--font-body);
-    font-size: clamp(1rem, 1.8vw, 1.1rem);
-    font-weight: 300;
-    line-height: 1.6;
+  .equation .strikethrough {
+    text-decoration: line-through;
+    text-decoration-color: var(--color-primary);
+    text-decoration-thickness: 0.06em;
+    color: var(--color-text-label);
+  }
+
+  .equation .equals { color: var(--color-primary); }
+  .equation .the-skill { color: var(--color-primary); }
+
+  /* === SCHICHTMODELL === */
+  .schicht-section {
+    background: var(--color-surface);
+    min-height: 100vh;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    scroll-snap-align: start;
+  }
+
+  @media (max-width: 768px) {
+    .schicht-section { padding: 2.5rem 1.5rem; }
+  }
+
+  .schicht-header { text-align: center; max-width: 700px; }
+  .schicht-header .section-label { margin-bottom: 1.5rem; }
+
+  .schicht-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    font-weight: 600;
+    color: var(--color-text-pure);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .schicht-header p {
+    font-size: 1.05rem;
     color: var(--color-text-muted);
-    max-width: 600px;
-    margin-top: var(--space-md);
+    line-height: 1.7;
+  }
+
+  .rings-container {
+    position: relative;
+    width: min(500px, 75vw);
+    height: min(500px, 75vw);
+  }
+
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+
+  .ring-4 { width: 100%; height: 100%; top: 0; left: 0; background: var(--color-surface-elevated); border: 1px solid var(--color-border); }
+  .ring-3 { width: 70%; height: 70%; top: 15%; left: 15%; background: var(--color-surface); border: 1px solid var(--color-border); }
+  .ring-2 { width: 44%; height: 44%; top: 28%; left: 28%; background: var(--color-primary-deep); }
+  .ring-1 { width: 22%; height: 22%; top: 39%; left: 39%; background: var(--color-primary); z-index: 10; }
+
+  .ring-label { font-family: var(--font-display); text-align: center; pointer-events: none; }
+  .ring-1 .ring-label { font-size: clamp(0.6rem, 1.4vw, 0.9rem); font-weight: 600; color: var(--color-text-pure); line-height: 1.3; }
+  .ring-2 .ring-label { font-size: clamp(0.55rem, 1.1vw, 0.8rem); font-weight: 500; color: var(--color-text); position: absolute; bottom: 10%; width: 80%; line-height: 1.3; }
+  .ring-3 .ring-label { font-size: clamp(0.55rem, 1vw, 0.75rem); font-weight: 500; color: var(--color-text-light); position: absolute; bottom: 7%; width: 80%; line-height: 1.3; }
+  .ring-4-label { position: absolute; bottom: 4%; width: 100%; text-align: center; font-family: var(--font-display); font-size: clamp(0.55rem, 1vw, 0.75rem); font-weight: 500; color: var(--color-text-muted); pointer-events: none; }
+
+  .ring-label .label-sub { font-family: var(--font-body); font-size: 0.7em; font-weight: 300; font-style: italic; display: block; margin-top: 0.2rem; opacity: 0.8; }
+
+  .entry-points { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; max-width: 600px; margin-top: 1rem; }
+
+  .entry-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    color: var(--color-primary-accessible);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 0.4rem 0.7rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .entry-tag:hover { border-color: var(--color-primary-accessible); color: var(--color-text-pure); }
+
+  /* === WER WIR SIND === */
+  .founders {
+    background: var(--color-bg);
+    min-height: 100vh;
+    padding: 6rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: start;
+  }
+
+  @media (max-width: 768px) { .founders { padding: 4rem 1.5rem; } }
+
+  .founders-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin-bottom: 3rem; }
+  @media (max-width: 768px) { .founders-grid { grid-template-columns: 1fr; gap: 3rem; } }
+
+  .founder-card { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .founder-photo {
+    width: 100%; aspect-ratio: 4 / 5;
+    background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+  }
+
+  .founder-photo .placeholder-label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted); }
+
+  .founder-photo::after {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(58, 58, 58, 0.15) 2px, rgba(58, 58, 58, 0.15) 4px);
+    pointer-events: none;
+  }
+
+  .founder-card h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--color-text-pure); margin-bottom: 0.5rem; }
+  .founder-card p { font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.8; }
+
+  .founders-connection { max-width: 700px; padding-top: 3rem; border-top: 1px solid var(--color-border); }
+  .founders-connection p { font-size: 1.05rem; color: var(--color-text-light); line-height: 1.8; font-style: italic; }
+
+  /* === CONTACT === */
+  .contact {
+    background: var(--color-bg); text-align: center; min-height: 80vh;
+    border-top: 1px solid var(--color-border); scroll-snap-align: start;
+  }
+
+  .contact-headline { font-family: var(--font-display); font-size: clamp(1.5rem, 3.5vw, 2.5rem); font-weight: 600; color: var(--color-text-pure); margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+
+  .contact-sub { font-size: 1.05rem; color: var(--color-text-muted); margin-bottom: 3rem; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+
+  .contact-options { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+
+  .contact-primary {
+    font-family: var(--font-display); font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 600;
+    color: var(--color-text-pure); background: var(--color-primary);
+    text-decoration: none; padding: 1rem 2.5rem; border-radius: 4px;
+    transition: background 0.3s ease; display: inline-block;
+  }
+  .contact-primary:hover { background: var(--color-primary-deep); text-decoration: none; }
+
+  .contact-divider { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-text-muted); }
+  .contact-secondary { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; }
+  .contact-secondary a { font-family: var(--font-display); font-size: 1rem; font-weight: 500; color: var(--color-text-muted); text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s ease; padding-bottom: 0.2rem; }
+  .contact-secondary a:hover { color: var(--color-primary); border-color: var(--color-primary); text-decoration: none; }
+
+  /* === SCROLL DOTS === */
+  .scroll-dots {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .scroll-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-border);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .scroll-dot:hover { background: var(--color-text-muted); transform: scale(1.3); }
+  .scroll-dot.active { background: var(--color-primary); transform: scale(1.3); }
+
+  @media (max-width: 768px) {
+    .scroll-dots { right: 0.75rem; gap: 0.6rem; }
+    .scroll-dot { width: 6px; height: 6px; }
   }
 </style>
+
+<script>
+  // Dot navigation
+  document.querySelectorAll('.scroll-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      const target = document.getElementById((dot as HTMLElement).dataset.target!);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  const dotPanels = document.querySelectorAll('.panel[id], .schicht-section[id]');
+  const allDots = document.querySelectorAll('.scroll-dot');
+
+  const dotObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        allDots.forEach(d => d.classList.remove('active'));
+        const activeDot = document.querySelector(`.scroll-dot[data-target="${entry.target.id}"]`);
+        if (activeDot) activeDot.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  dotPanels.forEach(panel => dotObserver.observe(panel));
+
+  // Navigation: delayed appearance on homepage
+  const nav = document.querySelector('.site-nav') as HTMLElement | null;
+  if (nav) {
+    nav.style.transform = 'translateY(-100%)';
+    nav.style.opacity = '0';
+    nav.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
+
+    let navShown = false;
+    function showNav() {
+      if (navShown || !nav) return;
+      navShown = true;
+      nav.style.transform = 'translateY(0)';
+      nav.style.opacity = '1';
+    }
+
+    setTimeout(showNav, 3000);
+    window.addEventListener('scroll', showNav, { once: true });
+  }
+</script>

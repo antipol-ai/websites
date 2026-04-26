@@ -1,0 +1,52 @@
+{
+  "$description": "ANTIPOL Foundation - Regeln die fur alle Brands und Plattformen gelten",
+
+  "sprache": {
+    "ansprache": {
+      "regel": "Konsequent Du - ueberall, auch in rechtlichen Texten",
+      "gilt-fuer": ["antipol", "momance", "alle-zukuenftigen-produkte"]
+    },
+    "zeichenregeln": {
+      "keine-gedankenstriche": {
+        "regel": "Keine Gedankenstriche (em-dash). Ausschliesslich normale Bindestriche (-)",
+        "betrifft": "Alle Texte: App, Website, Docs, Marketing",
+        "beispiel-falsch": "Nicht um festzuhalten \u2014 sondern um wahrzunehmen",
+        "beispiel-richtig": "Nicht um festzuhalten - sondern um wahrzunehmen"
+      }
+    },
+    "vermeidungswoerter": [
+      "helfen (impliziert Hilfsbeduerfigkeit)",
+      "inspirieren (abgegriffen)",
+      "Hustle-Culture-Begriffe",
+      "Gamification-Sprache (Streak, Level, Achievement)",
+      "Esoterik-Sprache"
+    ]
+  },
+
+  "barrierefreiheit": {
+    "standard": "WCAG 2.1 Level AA",
+    "prinzip": "Barrierefreiheit ist Designprinzip, kein Nachgedanke",
+    "anforderungen": [
+      "Skip-Links auf jeder Seite",
+      "Focus-States sichtbar und deutlich",
+      "ARIA-Labels auf interaktiven Elementen",
+      "prefers-reduced-motion Support",
+      "Semantisches HTML (nav, main, article, section)",
+      "Kontrastverhaltnis mindestens 4.5:1 (normaler Text), 3:1 (grosser Text)"
+    ]
+  },
+
+  "prinzipien": {
+    "build-to-delete": "Jedes Produkt arbeitet auf seine eigene Ueberfluessigkeit hin",
+    "kein-data-business": "Nutzerdaten werden nie monetarisiert",
+    "kein-social-layer": "Kein Sharing, kein Feed, kein Posing",
+    "transparenz": "Kein Kleingedrucktes, kein stiller Tausch",
+    "zeitlosigkeit": "Trends folgen wir nicht - eigener Weg aus Ueberzeugung"
+  },
+
+  "animation": {
+    "prinzip": "Organisch, nicht mechanisch. Atmen statt Blinken.",
+    "reduced-motion": "Alle Animationen muessen bei prefers-reduced-motion: reduce deaktivierbar sein",
+    "keine-blinks": "Kein Blinken, kein Grelles, kein Neon"
+  }
+}

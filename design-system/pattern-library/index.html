@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANTIPOL Design System - Pattern Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Source+Sans+3:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & Base ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Source Sans 3', sans-serif; background: #f8f6f2; color: #1a1a1a; line-height: 1.6; }
+
+/* ── Page Header ── */
+.page-header { padding: 3rem 2rem 1rem; max-width: 1300px; margin: 0 auto; }
+.page-header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; }
+.page-header p { font-size: 0.9rem; color: #6b6158; margin-top: 0.5rem; max-width: 680px; }
+.page-header .meta { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: #9c9489; margin-top: 1rem; }
+
+/* ── Tab Navigation ── */
+.tab-bar { position: sticky; top: 0; z-index: 100; background: rgba(248,246,242,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid #e8e2d9; max-width: 1300px; margin: 0 auto; padding: 0 2rem; display: flex; gap: 0; }
+.tab-btn { font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; font-weight: 500; color: #9c9489; background: none; border: none; padding: 0.85rem 1.5rem; cursor: pointer; position: relative; transition: color 0.2s; letter-spacing: -0.01em; }
+.tab-btn:hover { color: #1a1a1a; }
+.tab-btn.active { color: #1a1a1a; font-weight: 600; }
+.tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: #C4421A; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── Sub-Navigation (Components Tab) ── */
+.sub-nav { background: rgba(248,246,242,0.95); border-bottom: 1px solid #f0ece6; padding: 0.6rem 2rem; max-width: 1300px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.sub-nav a { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; color: #6b6158; text-decoration: none; padding: 0.3rem 0.65rem; border-radius: 4px; border: 1px solid transparent; transition: all 0.2s; }
+.sub-nav a:hover, .sub-nav a:focus { background: white; border-color: #e8e2d9; color: #1a1a1a; }
+
+/* ── Sections ── */
+.section { max-width: 1300px; margin: 0 auto 3rem; padding: 0 2rem; }
+.section:first-child { margin-top: 2rem; }
+.section-title { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #9c9489; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e8e2d9; }
+
+/* ── Foundation Tokens ── */
+.token-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.token-card { background: white; border: 1px solid #e8e2d9; border-radius: 8px; padding: 16px; }
+.token-card .label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #9c9489; }
+.token-card .value { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; margin-top: 4px; }
+.token-card .visual { margin-top: 8px; }
+
+/* ── Color Swatches ─��� */
+.brand-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 2rem; }
+@media (max-width: 768px) { .brand-row { grid-template-columns: 1fr; } }
+.brand-col { background: white; border: 1px solid #e8e2d9; border-radius: 12px; padding: 20px; overflow: hidden; }
+.brand-col h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.brand-tag { font-size: 0.6rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; }
+.swatch-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid #f0ece6; }
+.swatch-row:last-child { border-bottom: none; }
+.swatch { width: 36px; height: 36px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; }
+.swatch-info { flex: 1; }
+.swatch-name { font-size: 0.8rem; font-weight: 500; }
+.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #9c9489; }
+.swatch-desc { font-size: 0.7rem; color: #9c9489; }
+
+/* ── Typography ── */
+.type-sample { padding: 16px 0; border-bottom: 1px solid #f0ece6; }
+.type-sample:last-child { border-bottom: none; }
+.type-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #9c9489; margin-top: 4px; }
+
+/* ── Brand Preview (Guidelines Tab) ── */
+.preview-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 1.5rem; }
+@media (max-width: 900px) { .preview-row { grid-template-columns: 1fr; } }
+.preview-frame { border-radius: 12px; padding: 32px 24px; }
+.preview-label { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; opacity: 0.5; }
+.demo-card { padding: 1.25rem; border: 1px solid; border-radius: var(--demo-card-radius, 4px); transition: border-color 0.3s; }
+.demo-card h4 { font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; }
+.demo-card p { font-size: 0.85rem; line-height: 1.6; opacity: 0.7; }
+.demo-nav { display: flex; align-items: center; gap: 2rem; padding: 0.8rem 1.5rem; border-radius: 8px; font-size: 0.85rem; }
+.demo-nav .brand { font-weight: 700; font-size: 1rem; letter-spacing: -0.03em; }
+.demo-nav .links { display: flex; gap: 1.5rem; margin-left: auto; font-size: 0.8rem; opacity: 0.6; }
+.demo-cta { text-align: center; padding: 2rem; }
+.demo-cta .overline { font-size: 0.85rem; opacity: 0.6; margin-bottom: 0.5rem; }
+.demo-cta h4 { font-size: 1.3rem; font-weight: 500; margin-bottom: 1rem; }
+.demo-cta .btn { display: inline-block; padding: 10px 28px; border-radius: 50px; font-size: 0.85rem; }
+
+/* ── Rules ── */
+.rule-card { background: white; border: 1px solid #e8e2d9; border-radius: 8px; padding: 16px 20px; margin-bottom: 8px; }
+.rule-card .rule-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: #C4421A; margin-bottom: 4px; }
+.rule-card .rule-text { font-size: 0.9rem; }
+.rule-card .rule-example { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #6b6158; margin-top: 8px; padding: 8px 12px; background: #f8f6f2; border-radius: 4px; }
+.rule-wrong { text-decoration: line-through; color: #c44; }
+.rule-right { color: #2a7; }
+
+/* ══ COMPONENTS TAB STYLES ══ */
+
+/* ── Component Block ── */
+.component { background: white; border: 1px solid #e8e2d9; border-radius: 12px; margin-bottom: 2.5rem; overflow: hidden; }
+.component-header { padding: 1.5rem 2rem 1rem; border-bottom: 1px solid #f0ece6; }
+.component-name { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 600; letter-spacing: -0.02em; display: flex; align-items: center; gap: 0.75rem; }
+.component-name .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; background: #f0ece6; color: #6b6158; }
+.component-name .tag.shared { background: #C4421A; color: white; }
+.component-desc { font-size: 0.9rem; color: #6b6158; margin-top: 0.5rem; max-width: 600px; }
+.component-file { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #9c9489; margin-top: 0.5rem; }
+
+/* ── Props Table ── */
+.props-section { padding: 1.25rem 2rem; border-bottom: 1px solid #f0ece6; }
+.props-section h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: #9c9489; margin-bottom: 0.75rem; }
+.props-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.props-table th { text-align: left; font-weight: 500; font-size: 0.75rem; color: #6b6158; padding: 0.4rem 1rem 0.4rem 0; border-bottom: 1px solid #f0ece6; }
+.props-table td { padding: 0.5rem 1rem 0.5rem 0; border-bottom: 1px solid #f8f6f2; vertical-align: top; }
+.props-table .prop-name { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #C4421A; white-space: nowrap; }
+.props-table .prop-type { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #9c9489; }
+.props-table .prop-default { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #6b6158; }
+.slot-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; padding: 2px 8px; border-radius: 3px; background: #e8f0e8; color: #2a7a3a; margin-right: 0.5rem; margin-bottom: 0.25rem; }
+
+/* ── Theme Variables ── */
+.vars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
+.var-item { display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #6b6158; padding: 6px 8px; background: #f8f6f2; border-radius: 4px; }
+.var-swatch { width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.1); flex-shrink: 0; }
+
+/* ── Component Preview ── */
+.preview-section { padding: 0; }
+.preview-contexts { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 1000px) { .preview-contexts { grid-template-columns: 1fr; } }
+.preview-ctx { padding: 2rem 1.5rem; position: relative; }
+.preview-ctx-label { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem; opacity: 0.5; }
+
+/* ── Customization ── */
+.custom-section { padding: 1.25rem 2rem 1.5rem; background: #faf9f6; }
+.custom-section h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: #9c9489; margin-bottom: 0.75rem; }
+.code-block { background: #1a1a1a; color: #e8e2d9; padding: 1rem 1.25rem; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 1.8; overflow-x: auto; white-space: pre; margin-bottom: 0.75rem; }
+.code-block .comment { color: #6b6158; }
+.code-block .tag { color: #C4421A; }
+.code-block .attr { color: #C9A84C; }
+.code-block .str { color: #8BC49A; }
+.code-block .css-prop { color: #D4652E; }
+.code-block .css-val { color: #B2AEBC; }
+.custom-tip { font-size: 0.85rem; color: #6b6158; line-height: 1.6; margin-top: 0.5rem; padding: 0.75rem 1rem; background: white; border-left: 3px solid #C4421A; border-radius: 0 4px 4px 0; }
+
+/* ── Levels ── */
+.levels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 1.5rem 0; }
+@media (max-width: 800px) { .levels { grid-template-columns: 1fr; } }
+.level-card { background: white; border: 1px solid #e8e2d9; border-radius: 8px; padding: 1.25rem; }
+.level-card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+.level-card .level-num { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #C4421A; margin-bottom: 0.25rem; }
+.level-card p { font-size: 0.85rem; color: #6b6158; line-height: 1.6; }
+
+/* ── Starwind ── */
+.starwind-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.starwind-item { background: white; border: 1px solid #e8e2d9; border-radius: 6px; padding: 10px 14px; font-size: 0.82rem; }
+.starwind-item .sw-name { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; }
+.starwind-item .sw-desc { font-size: 0.72rem; color: #9c9489; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>ANTIPOL Design System</h1>
+  <p>Pattern Library - Brand Guidelines, Tokens, Regeln und Komponenten fuer alle Produkte.</p>
+  <div class="meta">Stand: 26.04.2026 &middot; generiert aus design-system/*.json &middot; 8 Shared Components &middot; Starwind UI verfuegbar</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- TAB BAR                                                    -->
+<!-- ═══���═══════════════��══════════════════════════════════════ -->
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="guidelines">Brand Guidelines</button>
+  <button class="tab-btn" data-tab="components">Components</button>
+</div>
+
+<!-- ═════════════════���═════════════════════════���══════════════ -->
+<!-- TAB 1: BRAND GUIDELINES                                    -->
+<!-- ���═══════════════════════════���═════════════════════════════ -->
+<div class="tab-panel active" id="tab-guidelines">
+
+<!-- Foundation Tokens -->
+<div class="section" style="margin-top:2rem;">
+  <div class="section-title">Schicht 1: Foundation - Geteilte Tokens</div>
+  <div class="token-grid">
+    <div class="token-card"><div class="label">space-xs</div><div class="value">0.5rem (8px)</div><div class="visual" style="height:8px;background:#C4421A;border-radius:2px;width:8px;"></div></div>
+    <div class="token-card"><div class="label">space-sm</div><div class="value">1rem (16px)</div><div class="visual" style="height:8px;background:#C4421A;border-radius:2px;width:16px;"></div></div>
+    <div class="token-card"><div class="label">space-md</div><div class="value">1.5rem (24px)</div><div class="visual" style="height:8px;background:#C4421A;border-radius:2px;width:24px;"></div></div>
+    <div class="token-card"><div class="label">space-lg</div><div class="value">2.5rem (40px)</div><div class="visual" style="height:8px;background:#C4421A;border-radius:2px;width:40px;"></div></div>
+    <div class="token-card"><div class="label">space-xl</div><div class="value">4rem (64px)</div><div class="visual" style="height:8px;background:#C4421A;border-radius:2px;width:64px;"></div></div>
+    <div class="token-card"><div class="label">radius-sm / md / lg</div><div class="value">3px / 4px / 16px</div><div class="visual" style="display:flex;gap:8px;margin-top:4px;"><div style="width:32px;height:32px;border:2px solid #C4421A;border-radius:3px;"></div><div style="width:32px;height:32px;border:2px solid #C4421A;border-radius:4px;"></div><div style="width:32px;height:32px;border:2px solid #C4421A;border-radius:16px;"></div></div></div>
+  </div>
+</div>
+
+<!-- Foundation Rules -->
+<div class="section">
+  <div class="section-title">Schicht 1: Foundation - Regeln (alle Brands)</div>
+  <div class="rule-card"><div class="rule-label">Zeichenregel</div><div class="rule-text">Keine Gedankenstriche. Ausschliesslich normale Bindestriche.</div><div class="rule-example"><span class="rule-wrong">Nicht um festzuhalten &mdash; sondern</span><br><span class="rule-right">Nicht um festzuhalten - sondern</span></div></div>
+  <div class="rule-card"><div class="rule-label">Barrierefreiheit</div><div class="rule-text">WCAG 2.1 AA minimum. Skip-Links, Focus-States, prefers-reduced-motion, semantisches HTML.</div></div>
+  <div class="rule-card"><div class="rule-label">Prinzip</div><div class="rule-text">Build to Delete - jedes Produkt arbeitet auf seine eigene Ueberfluessigkeit hin.</div></div>
+</div>
+
+<!-- Brand Colors -->
+<div class="section">
+  <div class="section-title">Schicht 2: Brand Tokens - Farben</div>
+  <div class="brand-row">
+    <div class="brand-col">
+      <h3>ANTIPOL <span class="brand-tag" style="background:#C4421A;color:white;">web</span></h3>
+      <div class="swatch-row"><div class="swatch" style="background:#C4421A;"></div><div class="swatch-info"><div class="swatch-name">Ember (primary)</div><div class="swatch-hex">#C4421A</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#8B2500;"></div><div class="swatch-info"><div class="swatch-name">Root Red</div><div class="swatch-hex">#8B2500</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#D4652E;"></div><div class="swatch-info"><div class="swatch-name">Warm Signal</div><div class="swatch-hex">#D4652E</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#E07A42;"></div><div class="swatch-info"><div class="swatch-name">Signal Accessible</div><div class="swatch-hex">#E07A42</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#0D0D0D;"></div><div class="swatch-info"><div class="swatch-name">Deep Black (bg)</div><div class="swatch-hex">#0D0D0D</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#1A1A1A;"></div><div class="swatch-info"><div class="swatch-name">Almost Black (surface)</div><div class="swatch-hex">#1A1A1A</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#222222;"></div><div class="swatch-info"><div class="swatch-name">Dark Surface (elevated)</div><div class="swatch-hex">#222222</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#3A3A3A;"></div><div class="swatch-info"><div class="swatch-name">Raw Gray (border)</div><div class="swatch-hex">#3A3A3A</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#F5F2ED;border-color:#ccc;"></div><div class="swatch-info"><div class="swatch-name">Off-White (text)</div><div class="swatch-hex">#F5F2ED</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#9C9489;"></div><div class="swatch-info"><div class="swatch-name">Stone (text-muted)</div><div class="swatch-hex">#9C9489</div></div></div>
+    </div>
+    <div class="brand-col">
+      <h3>Momance <span class="brand-tag" style="background:#C9A84C;color:#0A0A0E;">web dark</span> <span class="brand-tag" style="background:#F2EDE4;color:#1E1C24;">web light</span> <span class="brand-tag" style="background:#0A0A0E;color:#C9A84C;border:1px solid #333;">app</span></h3>
+      <div class="swatch-row"><div class="swatch" style="background:#C9A84C;"></div><div class="swatch-info"><div class="swatch-name">Gold (primary)</div><div class="swatch-hex">#C9A84C</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#0A0A0E;"></div><div class="swatch-info"><div class="swatch-name">Canvas (bg)</div><div class="swatch-hex">#0A0A0E</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#111116;"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#111116</div><div class="swatch-desc">Korrigiert (war #16161A)</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#1C1C22;"></div><div class="swatch-info"><div class="swatch-name">Surface Elevated</div><div class="swatch-hex">#1C1C22</div><div class="swatch-desc">Korrigiert (war #1E1E24)</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#F0EAE0;border-color:#ccc;"></div><div class="swatch-info"><div class="swatch-name">Cream (text / light bg)</div><div class="swatch-hex">#F0EAE0</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#B2AEBC;"></div><div class="swatch-info"><div class="swatch-name">Text Secondary</div><div class="swatch-hex">#B2AEBC</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#F2EDE4;border-color:#ccc;"></div><div class="swatch-info"><div class="swatch-name">Cream BG (light mode)</div><div class="swatch-hex">#F2EDE4</div></div></div>
+      <div class="swatch-row"><div class="swatch" style="background:#1E1C24;"></div><div class="swatch-info"><div class="swatch-name">Text on Light</div><div class="swatch-hex">#1E1C24</div></div></div>
+      <div style="margin-top:12px;display:flex;gap:6px;">
+        <div style="width:28px;height:28px;border-radius:50%;background:hsl(45,55%,62%);" title="still"></div>
+        <div style="width:28px;height:28px;border-radius:50%;background:hsl(210,58%,66%);" title="connect"></div>
+        <div style="width:28px;height:28px;border-radius:50%;background:hsl(12,68%,58%);" title="body"></div>
+        <div style="width:28px;height:28px;border-radius:50%;background:hsl(152,45%,54%);" title="nature"></div>
+        <div style="width:28px;height:28px;border-radius:50%;background:hsl(280,42%,65%);" title="create"></div>
+        <div style="width:28px;height:28px;border-radius:50%;background:hsl(340,50%,64%);" title="senses"></div>
+      </div>
+      <div style="font-size:0.65rem;color:#9c9489;margin-top:4px;">Kategorie-Farben: still, connect, body, nature, create, senses</div>
+    </div>
+  </div>
+</div>
+
+<!-- Typography -->
+<div class="section">
+  <div class="section-title">Schicht 2: Brand Tokens - Typografie</div>
+  <div class="brand-row">
+    <div class="brand-col">
+      <h3>ANTIPOL</h3>
+      <div class="type-sample"><div style="font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:600;letter-spacing:-0.03em;">Radikal an die Wurzel</div><div class="type-meta">Space Grotesk 600, Headlines</div></div>
+      <div class="type-sample"><div style="font-family:'Source Serif 4',Georgia,serif;font-size:1rem;font-weight:300;line-height:1.8;">ANTIPOL befaehigt Menschen und Organisationen, die digitale Transformation radikal von der Wurzel her zu denken - holistisch, empathisch und mit dem Mut, alles in Frage zu stellen.</div><div class="type-meta">Source Serif 4, 300, Body</div></div>
+      <div class="type-sample"><div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:#6b6158;">Schritt 01 - Verstehen</div><div class="type-meta">JetBrains Mono 400, Labels</div></div>
+    </div>
+    <div class="brand-col">
+      <h3>Momance</h3>
+      <div class="type-sample"><div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:2rem;font-weight:400;font-style:italic;">Halte fest, was dich bewegt.</div><div class="type-meta">Cormorant Garamond Italic 400, Headlines</div></div>
+      <div class="type-sample"><div style="font-family:'Source Sans 3',-apple-system,sans-serif;font-size:1rem;font-weight:400;line-height:1.7;">Momance ist kein weiteres Achtsamkeits-Tool, das dich an den Bildschirm fesselt. Es ist ein Wahrnehmungstraining.</div><div class="type-meta">Source Sans 3, 400, Body</div></div>
+      <div class="type-sample"><div style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:#8E8A96;">Wahrnehmungstraining</div><div class="type-meta">IBM Plex Mono 300, Eyebrow</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Brand Context Preview -->
+<div class="section">
+  <div class="section-title">Schicht 3: Komponenten im Kontext (Uebersicht)</div>
+  <div class="preview-row">
+    <div class="preview-frame" style="background:#0D0D0D;color:#F5F2ED;">
+      <div class="preview-label" style="color:#6B6158;">ANTIPOL - Web</div>
+      <div class="demo-nav" style="background:rgba(13,13,13,0.95);border:1px solid rgba(58,58,58,0.5);"><div class="brand" style="font-family:'Space Grotesk',sans-serif;">ANTI<span style="color:#C4421A;">POL</span></div><div class="links" style="font-family:'Space Grotesk',sans-serif;color:#9C9489;">Fokus &nbsp; Experimente</div></div>
+      <div style="height:16px;"></div>
+      <div class="demo-card" style="background:#1A1A1A;border-color:#3A3A3A;border-radius:4px;"><h4 style="font-family:'Space Grotesk',sans-serif;color:#F5F2ED;">Kulturtransformation</h4><p style="font-family:'Source Serif 4',serif;color:#9C9489;">Nicht nur AI-Beratung - Wurzelarbeit.</p></div>
+      <div style="height:16px;"></div>
+      <div class="demo-cta" style="border-top:1px solid #3A3A3A;padding-top:24px;"><div class="overline" style="font-family:'Source Serif 4',serif;font-style:italic;color:#9C9489;">Bereit?</div><h4 style="font-family:'Space Grotesk',sans-serif;color:#FFFFFF;font-size:1.1rem;">Lass uns reden.</h4><span class="btn" style="background:#C4421A;color:#FFFFFF;font-family:'Space Grotesk',sans-serif;">Kontakt</span></div>
+    </div>
+    <div class="preview-frame" style="background:#0A0A0E;color:#F0EAE0;">
+      <div class="preview-label" style="color:#8E8A96;">Momance - Web Dark</div>
+      <div class="demo-nav" style="background:rgba(10,10,14,0.95);border:1px solid rgba(255,255,255,0.05);"><div class="brand" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;color:#C9A84C;">Momance</div><div class="links" style="font-family:'Source Sans 3',sans-serif;color:#B2AEBC;">Impressum</div></div>
+      <div style="height:16px;"></div>
+      <div class="demo-card" style="background:#111116;border-color:rgba(255,255,255,0.07);border-radius:16px;"><h4 style="font-family:'Cormorant Garamond',serif;font-weight:400;color:#F0EAE0;">Tiefe</h4><p style="font-family:'Source Sans 3',sans-serif;color:#B2AEBC;">Wie intensiv nimmst du einzelne Momente wahr?</p></div>
+      <div style="height:16px;"></div>
+      <div class="demo-cta" style="border-top:1px solid rgba(255,255,255,0.07);padding-top:24px;"><div class="overline" style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(201,168,76,0.45);">Bald verfuegbar</div><h4 style="font-family:'Cormorant Garamond',serif;font-weight:400;color:#F0EAE0;font-size:1.1rem;">Bereit, bewusster wahrzunehmen?</h4><span class="btn" style="border:1px solid rgba(201,168,76,0.4);color:#C9A84C;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;">Coming Soon</span></div>
+    </div>
+    <div class="preview-frame" style="background:#F2EDE4;color:#1E1C24;">
+      <div class="preview-label" style="color:#5C4700;">Momance - Web Light</div>
+      <div class="demo-nav" style="background:rgba(242,237,228,0.95);border:1px solid rgba(0,0,0,0.08);"><div class="brand" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;color:#A8893E;">Momance</div><div class="links" style="font-family:'Source Sans 3',sans-serif;color:#4C4A56;">Impressum</div></div>
+      <div style="height:16px;"></div>
+      <div class="demo-card" style="background:#E8E0D4;border-color:rgba(0,0,0,0.08);border-radius:16px;"><h4 style="font-family:'Cormorant Garamond',serif;font-weight:400;color:#1E1C24;">Tiefe</h4><p style="font-family:'Source Sans 3',sans-serif;color:#4C4A56;">Wie intensiv nimmst du einzelne Momente wahr?</p></div>
+      <div style="height:16px;"></div>
+      <div class="demo-cta" style="border-top:1px solid rgba(0,0,0,0.08);padding-top:24px;"><div class="overline" style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:#5C4700;">Bald verfuegbar</div><h4 style="font-family:'Cormorant Garamond',serif;font-weight:400;color:#1E1C24;font-size:1.1rem;">Bereit, bewusster wahrzunehmen?</h4><span class="btn" style="border:1px solid rgba(168,137,62,0.4);color:#A8893E;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;">Coming Soon</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Architecture -->
+<div class="section">
+  <div class="section-title">Dateistruktur</div>
+  <div style="background:white;border:1px solid #e8e2d9;border-radius:8px;padding:20px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;line-height:2;color:#3a3a3a;">
+    <div><strong>design-system/</strong></div>
+    <div>&nbsp;&nbsp;foundation/tokens.json &nbsp;&nbsp;<span style="color:#9c9489;">&larr; Spacing, Radii, Transitions</span></div>
+    <div>&nbsp;&nbsp;foundation/rules.json &nbsp;&nbsp;<span style="color:#9c9489;">&larr; Sprache, A11y, Prinzipien</span></div>
+    <div>&nbsp;&nbsp;brands/antipol/tokens.json &nbsp;&nbsp;<span style="color:#C4421A;">&larr; Ember, Space Grotesk</span></div>
+    <div>&nbsp;&nbsp;brands/momance/tokens.json &nbsp;&nbsp;<span style="color:#C9A84C;">&larr; Gold, Cormorant Garamond</span></div>
+    <div>&nbsp;&nbsp;build-tokens.mjs &nbsp;&nbsp;<span style="color:#9c9489;">&larr; JSON &rarr; CSS Generierung</span></div>
+    <div>&nbsp;&nbsp;pattern-library/index.html &nbsp;&nbsp;<span style="color:#9c9489;">&larr; Dieses Dokument</span></div>
+    <div style="margin-top:8px;border-top:1px solid #f0ece6;padding-top:8px;"><strong>Generiert:</strong></div>
+    <div>&nbsp;&nbsp;packages/shared/styles/tokens.css &nbsp;&nbsp;<span style="color:#9c9489;">&larr; Foundation CSS</span></div>
+    <div>&nbsp;&nbsp;apps/antipol/src/styles/theme.css &nbsp;&nbsp;<span style="color:#9c9489;">&larr; ANTIPOL CSS</span></div>
+    <div>&nbsp;&nbsp;apps/momance/src/styles/theme.css &nbsp;&nbsp;<span style="color:#9c9489;">&larr; Momance CSS (dark + light + categories)</span></div>
+  </div>
+</div>
+
+</div><!-- /tab-guidelines -->
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- TAB 2: COMPONENTS                                          -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="tab-components">
+
+<div class="sub-nav">
+  <a href="#customization-levels">Anpassungsebenen</a>
+  <a href="#comp-nav">Nav</a>
+  <a href="#comp-hero">Hero</a>
+  <a href="#comp-section-label">SectionLabel</a>
+  <a href="#comp-card">Card</a>
+  <a href="#comp-step-card">StepCard</a>
+  <a href="#comp-scroll-panel">ScrollPanel</a>
+  <a href="#comp-cta">CTA</a>
+  <a href="#comp-footer">Footer</a>
+  <a href="#comp-base-layout">BaseLayout</a>
+  <a href="#starwind">Starwind UI</a>
+</div>
+
+<!-- Customization Levels -->
+<div class="section" id="customization-levels" style="margin-top:2rem;">
+  <div class="section-title">Drei Ebenen der Anpassung</div>
+  <p style="font-size:0.9rem;color:#6b6158;margin-bottom:1.5rem;max-width:720px;">Jede Komponente kann auf drei Ebenen angepasst werden - von einfach bis tief. Die erste Ebene passiert automatisch ueber das Theme, die weiteren erfordern bewusste Entscheidungen.</p>
+  <div class="levels">
+    <div class="level-card">
+      <div class="level-num">Ebene 1 - Automatisch</div>
+      <h4>Token-Level</h4>
+      <p>Farben, Radii, Fonts, Spacing - alles, was ueber CSS Custom Properties definiert ist. Aendert sich automatisch je nach Brand-Theme.</p>
+      <div class="code-block" style="margin-top:0.75rem;font-size:0.7rem;"><span class="comment">/* tokens.json aendern -> build-tokens.mjs -> CSS */</span>
+<span class="css-prop">--card-radius</span>: <span class="css-val">4px</span>   <span class="comment">/* ANTIPOL: eckig */</span>
+<span class="css-prop">--card-radius</span>: <span class="css-val">16px</span>  <span class="comment">/* Momance: rund */</span></div>
+    </div>
+    <div class="level-card">
+      <div class="level-num">Ebene 2 - Props & Slots</div>
+      <h4>Komponenten-API</h4>
+      <p>Jede Komponente bietet Props (z.B. <code>variant</code>, <code>layout</code>) und Slots fuer flexible Inhalte.</p>
+      <div class="code-block" style="margin-top:0.75rem;font-size:0.7rem;"><span class="tag">&lt;Hero</span> <span class="attr">layout</span>=<span class="str">"two-column"</span><span class="tag">&gt;</span>  <span class="comment">&lt;!-- ANTIPOL --&gt;</span>
+<span class="tag">&lt;Hero</span> <span class="attr">layout</span>=<span class="str">"centered"</span><span class="tag">&gt;</span>    <span class="comment">&lt;!-- Momance --&gt;</span></div>
+    </div>
+    <div class="level-card">
+      <div class="level-num">Ebene 3 - Tief</div>
+      <h4>Scoped Styles & Overrides</h4>
+      <p>In der .astro-Seite koennen Styles ueber <code>:global()</code> oder eigene CSS Custom Properties ueberschrieben werden.</p>
+      <div class="code-block" style="margin-top:0.75rem;font-size:0.7rem;"><span class="tag">.my-section</span> <span class="tag">:global(.card)</span> {
+  <span class="css-prop">padding</span>: <span class="css-val">3rem</span>;
+  <span class="css-prop">border-style</span>: <span class="css-val">dashed</span>;
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="section" id="comp-nav">
+  <div class="component">
+    <div class="component-header">
+      <div class="component-name">Nav <span class="tag shared">shared</span> <span class="tag">layout</span></div>
+      <div class="component-desc">Fixierte Navigationsleiste mit Glasmorphism-Effekt. Passt sich ueber Theme-Variablen automatisch an jede Brand an.</div>
+      <div class="component-file">packages/shared/components/Nav.astro</div>
+    </div>
+    <div class="props-section">
+      <h4>Props</h4>
+      <table class="props-table">
+        <tr><th>Prop</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr>
+        <tr><td class="prop-name">brand</td><td class="prop-type">string</td><td class="prop-default">-</td><td>Markenname links</td></tr>
+        <tr><td class="prop-name">brandHighlight</td><td class="prop-type">string?</td><td class="prop-default">-</td><td>Farbiger Teil (z.B. "POL")</td></tr>
+        <tr><td class="prop-name">brandHref</td><td class="prop-type">string?</td><td class="prop-default">"/"</td><td>Link des Brand-Elements</td></tr>
+        <tr><td class="prop-name">links</td><td class="prop-type">NavLink[]</td><td class="prop-default">-</td><td>Array mit {label, href, active?}</td></tr>
+      </table>
+    </div>
+    <div class="props-section">
+      <h4>Theme-Variablen</h4>
+      <div class="vars-grid">
+        <div class="var-item"><div class="var-swatch" style="background:rgba(13,13,13,0.95);"></div> --nav-bg</div>
+        <div class="var-item"><div class="var-swatch" style="background:rgba(58,58,58,0.5);"></div> --nav-border</div>
+        <div class="var-item"><div class="var-swatch" style="background:#C4421A;"></div> --color-primary</div>
+        <div class="var-item">--font-display, --z-nav</div>
+      </div>
+    </div>
+    <div class="preview-section">
+      <div class="preview-contexts">
+        <div class="preview-ctx" style="background:#0D0D0D;"><div class="preview-ctx-label" style="color:#6B6158;">ANTIPOL</div><div style="display:flex;align-items:center;gap:2rem;padding:0.8rem 1.5rem;border-radius:8px;background:rgba(13,13,13,0.95);border:1px solid rgba(58,58,58,0.5);"><div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:-0.03em;color:#F5F2ED;">ANTI<span style="color:#C4421A;">POL</span></div><div style="display:flex;gap:1.5rem;margin-left:auto;"><span style="font-family:'Space Grotesk',sans-serif;font-size:0.8rem;color:#FFFFFF;font-weight:600;">Fokus</span><span style="font-family:'Space Grotesk',sans-serif;font-size:0.8rem;color:#9C9489;">Experimente</span></div></div></div>
+        <div class="preview-ctx" style="background:#0A0A0E;"><div class="preview-ctx-label" style="color:#8E8A96;">Momance Dark</div><div style="display:flex;align-items:center;gap:2rem;padding:0.8rem 1.5rem;border-radius:8px;background:rgba(10,10,14,0.95);border:1px solid rgba(255,255,255,0.05);"><div style="font-family:'Cormorant Garamond',serif;font-weight:400;font-style:italic;font-size:1.1rem;color:#C9A84C;">Momance</div><div style="display:flex;gap:1.5rem;margin-left:auto;"><span style="font-family:'Source Sans 3',sans-serif;font-size:0.8rem;color:#B2AEBC;">Impressum</span><span style="font-family:'Source Sans 3',sans-serif;font-size:0.8rem;color:#B2AEBC;">Datenschutz</span></div></div></div>
+        <div class="preview-ctx" style="background:#F2EDE4;"><div class="preview-ctx-label" style="color:#5C4700;">Momance Light</div><div style="display:flex;align-items:center;gap:2rem;padding:0.8rem 1.5rem;border-radius:8px;background:rgba(242,237,228,0.95);border:1px solid rgba(0,0,0,0.08);"><div style="font-family:'Cormorant Garamond',serif;font-weight:400;font-style:italic;font-size:1.1rem;color:#A8893E;">Momance</div><div style="display:flex;gap:1.5rem;margin-left:auto;"><span style="font-family:'Source Sans 3',sans-serif;font-size:0.8rem;color:#4C4A56;">Impressum</span><span style="font-family:'Source Sans 3',sans-serif;font-size:0.8rem;color:#4C4A56;">Datenschutz</span></div></div></div>
+      </div>
+    </div>
+    <div class="custom-section"><h4>Tiefere Anpassung (Ebene 3)</h4><div class="custom-tip">Die Nav hat keine Slots - bewusst schlank. Fuer komplett andere Layouts (Hamburger, Sidebar) erstelle eine eigene Komponente in deiner App.</div></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="section" id="comp-hero">
+  <div class="component">
+    <div class="component-header">
+      <div class="component-name">Hero <span class="tag shared">shared</span> <span class="tag">layout</span></div>
+      <div class="component-desc">Vollbild-Hero-Section. Inhalte kommen komplett ueber Slots - die Komponente liefert nur Struktur und Responsive-Verhalten.</div>
+      <div class="component-file">packages/shared/components/Hero.astro</div>
+    </div>
+    <div class="props-section">
+      <h4>Props & Slots</h4>
+      <table class="props-table">
+        <tr><th>Prop</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr>
+        <tr><td class="prop-name">layout</td><td class="prop-type">"centered" | "two-column"</td><td class="prop-default">"centered"</td><td>centered (Momance) oder two-column mit Grid (ANTIPOL Fokus)</td></tr>
+        <tr><td class="prop-name">class</td><td class="prop-type">string?</td><td class="prop-default">-</td><td>Zusaetzliche CSS-Klassen</td></tr>
+      </table>
+      <p style="margin-top:0.5rem;font-size:0.85rem;color:#6b6158;"><span class="slot-tag">default</span> Hauptinhalt <span class="slot-tag">right</span> Rechte Spalte (nur two-column)</p>
+    </div>
+    <div class="preview-section">
+      <div class="preview-contexts">
+        <div class="preview-ctx" style="background:#0D0D0D;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#6B6158;">ANTIPOL - two-column</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:center;min-height:140px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:#E07A42;margin-bottom:0.5rem;">Fokus</div><div style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:#FFFFFF;letter-spacing:-0.02em;line-height:1.2;">Empathie ist keine Methode.</div></div><div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;"><span style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;padding:5px 8px;border-radius:4px;border:1px solid #3A3A3A;color:#9C9489;background:#1A1A1A;">"Teams stecken fest"</span><span style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;padding:5px 8px;border-radius:4px;border:1px solid #3A3A3A;color:#9C9489;background:#1A1A1A;">"AI veraendert alles"</span></div></div></div>
+        <div class="preview-ctx" style="background:#0A0A0E;text-align:center;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#8E8A96;text-align:left;">Momance - centered</div><div style="min-height:140px;display:flex;flex-direction:column;justify-content:center;align-items:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;font-style:italic;color:#C9A84C;line-height:1.1;">Momance</div><div style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:#F0EAE0;margin-top:0.5rem;">Halte fest, was dich bewegt.</div><div style="margin-top:1rem;font-family:'Source Sans 3',sans-serif;font-size:0.75rem;color:#0A0A0E;background:#C9A84C;padding:8px 24px;border-radius:50px;">Entdecken</div></div></div>
+        <div class="preview-ctx" style="background:#F2EDE4;text-align:center;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#5C4700;text-align:left;">Momance Light</div><div style="min-height:140px;display:flex;flex-direction:column;justify-content:center;align-items:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;font-style:italic;color:#A8893E;line-height:1.1;">Momance</div><div style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:#1E1C24;margin-top:0.5rem;">Halte fest, was dich bewegt.</div><div style="margin-top:1rem;font-family:'Source Sans 3',sans-serif;font-size:0.75rem;color:#F2EDE4;background:#A8893E;padding:8px 24px;border-radius:50px;">Entdecken</div></div></div>
+      </div>
+    </div>
+    <div class="custom-section"><h4>Tiefere Anpassung</h4><div class="custom-tip">Die Hero ist bewusst eine leere Buehne. Alle visuellen Details kommen ueber Slot-Content oder Scoped Styles auf Seitenebene. Hintergrund-Effekte (radial gradients, noise) per ::before Pseudo-Element.</div></div>
+  </div>
+</div>
+
+<!-- SECTION LABEL -->
+<div class="section" id="comp-section-label">
+  <div class="component">
+    <div class="component-header">
+      <div class="component-name">SectionLabel <span class="tag shared">shared</span> <span class="tag">typografie</span></div>
+      <div class="component-desc">Eyebrow-Label ueber Sektionen. Mono-Font, uppercase, Signal-Farbe.</div>
+      <div class="component-file">packages/shared/components/SectionLabel.astro</div>
+    </div>
+    <div class="props-section"><h4>Props</h4><table class="props-table"><tr><th>Prop</th><th>Typ</th><th>Beschreibung</th></tr><tr><td class="prop-name">class</td><td class="prop-type">string?</td><td>Zusaetzliche CSS-Klassen</td></tr></table><p style="margin-top:0.5rem;font-size:0.85rem;color:#6b6158;"><span class="slot-tag">default</span> Label-Text</p></div>
+    <div class="preview-section"><div class="preview-contexts">
+      <div class="preview-ctx" style="background:#0D0D0D;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#6B6158;">ANTIPOL</div><p style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:#E07A42;">These 01</p><p style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:#E07A42;margin-top:1rem;">Wie wir arbeiten</p></div>
+      <div class="preview-ctx" style="background:#0A0A0E;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#8E8A96;">Momance Dark</div><p style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:#C9A84C;">Wahrnehmungstraining</p></div>
+      <div class="preview-ctx" style="background:#F2EDE4;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#5C4700;">Momance Light</div><p style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:#5C4700;">Wahrnehmungstraining</p></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- CARD -->
+<div class="section" id="comp-card">
+  <div class="component">
+    <div class="component-header">
+      <div class="component-name">Card <span class="tag shared">shared</span> <span class="tag">content</span></div>
+      <div class="component-desc">Universelle Card. Radius und Farben aendern sich automatisch per Brand (ANTIPOL: eckig 4px, Momance: rund 16px). Variante "highlight" faerbt Titel in Primary.</div>
+      <div class="component-file">packages/shared/components/Card.astro</div>
+    </div>
+    <div class="props-section"><h4>Props</h4><table class="props-table"><tr><th>Prop</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr><tr><td class="prop-name">variant</td><td class="prop-type">"default" | "highlight"</td><td class="prop-default">"default"</td><td>highlight faerbt h3/h4 in --color-primary</td></tr><tr><td class="prop-name">class</td><td class="prop-type">string?</td><td class="prop-default">-</td><td>Zusaetzliche CSS-Klassen</td></tr></table><p style="margin-top:0.5rem;font-size:0.85rem;color:#6b6158;"><span class="slot-tag">default</span> Card-Inhalt (h3/h4 + p automatisch gestylt)</p></div>
+    <div class="props-section"><h4>Theme-Variablen</h4><div class="vars-grid"><div class="var-item"><div class="var-swatch" style="background:#1A1A1A;"></div> --card-bg</div><div class="var-item"><div class="var-swatch" style="background:#3A3A3A;"></div> --card-border</div><div class="var-item"><div class="var-swatch" style="background:rgba(196,66,26,0.5);"></div> --card-hover-border</div><div class="var-item"><div class="var-swatch" style="border:2px solid #3A3A3A;background:transparent;border-radius:2px;"></div> --card-radius (4px / 16px)</div></div></div>
+    <div class="preview-section"><div class="preview-contexts">
+      <div class="preview-ctx" style="background:#0D0D0D;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#6B6158;">ANTIPOL - 4px</div><div style="display:grid;gap:12px;"><div style="padding:1.25rem;border:1px solid #3A3A3A;border-radius:4px;background:#1A1A1A;"><h4 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;color:#F5F2ED;letter-spacing:-0.02em;margin-bottom:0.4rem;">Default</h4><p style="font-size:0.82rem;color:#9C9489;line-height:1.65;">Inhalt mit normalem Titel.</p></div><div style="padding:1.25rem;border:1px solid #3A3A3A;border-radius:4px;background:#1A1A1A;"><h4 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;color:#C4421A;letter-spacing:-0.02em;margin-bottom:0.4rem;">Highlight</h4><p style="font-size:0.82rem;color:#9C9489;line-height:1.65;">Titel in Ember.</p></div></div></div>
+      <div class="preview-ctx" style="background:#0A0A0E;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#8E8A96;">Momance - 16px</div><div style="display:grid;gap:12px;"><div style="padding:1.25rem;border:1px solid rgba(255,255,255,0.07);border-radius:16px;background:#111116;"><h4 style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;color:#F0EAE0;margin-bottom:0.4rem;">Tiefe</h4><p style="font-size:0.82rem;color:#B2AEBC;line-height:1.65;">Wie intensiv nimmst du wahr?</p></div><div style="padding:1.25rem;border:1px solid rgba(255,255,255,0.07);border-radius:16px;background:#111116;"><h4 style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;color:#C9A84C;margin-bottom:0.4rem;">Highlight</h4><p style="font-size:0.82rem;color:#B2AEBC;line-height:1.65;">Titel in Gold.</p></div></div></div>
+      <div class="preview-ctx" style="background:#F2EDE4;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#5C4700;">Momance Light</div><div style="display:grid;gap:12px;"><div style="padding:1.25rem;border:1px solid rgba(0,0,0,0.08);border-radius:16px;background:#E8E0D4;"><h4 style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;color:#1E1C24;margin-bottom:0.4rem;">Tiefe</h4><p style="font-size:0.82rem;color:#4C4A56;line-height:1.65;">Wie intensiv nimmst du wahr?</p></div></div></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- STEPCARD -->
+<div class="section" id="comp-step-card">
+  <div class="component">
+    <div class="component-header">
+      <div class="component-name">StepCard <span class="tag shared">shared</span> <span class="tag">content</span></div>
+      <div class="component-desc">Nummerierte Card fuer Prozessschritte. Optionale "wendepunkt"-Variante hebt Nummer und Titel in Primary hervor.</div>
+      <div class="component-file">packages/shared/components/StepCard.astro</div>
+    </div>
+    <div class="props-section"><h4>Props</h4><table class="props-table"><tr><th>Prop</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr><tr><td class="prop-name">number</td><td class="prop-type">string</td><td class="prop-default">-</td><td>Schrittbezeichnung ("01", "Phase 3")</td></tr><tr><td class="prop-name">title</td><td class="prop-type">string</td><td class="prop-default">-</td><td>Titel des Schritts</td></tr><tr><td class="prop-name">body</td><td class="prop-type">string</td><td class="prop-default">-</td><td>Beschreibungstext</td></tr><tr><td class="prop-name">highlight</td><td class="prop-type">boolean?</td><td class="prop-default">false</td><td>Wendepunkt (Primary fuer Nummer + Titel)</td></tr></table></div>
+    <div class="preview-section"><div class="preview-contexts">
+      <div class="preview-ctx" style="background:#0D0D0D;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#6B6158;">ANTIPOL</div><div style="display:grid;gap:12px;"><div style="padding:1.25rem;border:1px solid #3A3A3A;border-radius:4px;background:#1A1A1A;"><span style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:#FFFFFF;display:block;">01</span><h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;color:#FFFFFF;margin-bottom:0.4rem;">Verstehen</h3><p style="font-size:0.82rem;color:#9C9489;">Zuhoeren, Fragen, Wurzel finden.</p></div><div style="padding:1.25rem;border:1px solid #3A3A3A;border-radius:4px;background:#1A1A1A;"><span style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:#C4421A;display:block;">03</span><h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:600;color:#C4421A;margin-bottom:0.4rem;">Wendepunkt</h3><p style="font-size:0.82rem;color:#9C9489;">highlight=true</p></div></div></div>
+      <div class="preview-ctx" style="background:#0A0A0E;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#8E8A96;">Momance Dark</div><div style="display:grid;gap:12px;"><div style="padding:1.25rem;border:1px solid rgba(255,255,255,0.07);border-radius:16px;background:#111116;"><span style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:#FFFFFF;display:block;">01</span><h3 style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;color:#FFFFFF;margin-bottom:0.4rem;">Moment festhalten</h3><p style="font-size:0.82rem;color:#B2AEBC;">Etwas hat dich beruehrt?</p></div><div style="padding:1.25rem;border:1px solid rgba(255,255,255,0.07);border-radius:16px;background:#111116;"><span style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:#C9A84C;display:block;">03</span><h3 style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;color:#C9A84C;margin-bottom:0.4rem;">Wachsen</h3><p style="font-size:0.82rem;color:#B2AEBC;">highlight=true in Gold</p></div></div></div>
+      <div class="preview-ctx" style="background:#F2EDE4;padding:2rem 1.5rem;"><div class="preview-ctx-label" style="color:#5C4700;">Momance Light</div><div style="padding:1.25rem;border:1px solid rgba(0,0,0,0.08);border-radius:16px;background:#E8E0D4;"><span style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:#1E1C24;display:block;">01</span><h3 style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;color:#1E1C24;margin-bottom:0.4rem;">Moment festhalten</h3><p style="font-size:0.82rem;color:#4C4A56;">Etwas hat dich beruehrt?</p></div></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- SCROLL PANEL -->
+<div class="section" id="comp-scroll-panel">
+  <div class="component">
+    <div class="component-header">
+      <div class="component-name">ScrollPanel <span class="tag shared">shared</span> <span class="tag">layout</span></div>
+      <div class="component-desc">Vollbild scroll-snap Section. Basis fuer Scrollytelling. Zwei Hintergrund-Varianten und Alignment-Optionen.</div>
+      <div class="component-file">packages/shared/components/ScrollPanel.astro</div>
+    </div>
+    <div class="props-section"><h4>Props</h4><table class="props-table"><tr><th>Prop</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr><tr><td class="prop-name">id</td><td class="prop-type">string</td><td class="prop-default">-</td><td>Section-ID</td></tr><tr><td class="prop-name">background</td><td class="prop-type">"primary" | "alternate"</td><td class="prop-default">"primary"</td><td>--color-bg vs. --color-surface</td></tr><tr><td class="prop-name">align</td><td class="prop-type">"start" | "center"</td><td class="prop-default">"center"</td><td>Vertikale Ausrichtung</td></tr></table><p style="margin-top:0.5rem;font-size:0.85rem;color:#6b6158;"><span class="slot-tag">default</span> Panel-Inhalt</p></div>
+    <div class="preview-section"><div class="preview-contexts">
+      <div class="preview-ctx" style="background:#0D0D0D;padding:1.5rem;"><div class="preview-ctx-label" style="color:#6B6158;">ANTIPOL</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="background:#0D0D0D;border:1px solid rgba(58,58,58,0.5);border-radius:6px;padding:1.25rem;text-align:center;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;color:#6B6158;margin-bottom:0.5rem;">primary</div><div style="font-family:'Space Grotesk',sans-serif;font-size:0.8rem;color:#F5F2ED;">#0D0D0D</div></div><div style="background:#1A1A1A;border-radius:6px;padding:1.25rem;text-align:center;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;color:#6B6158;margin-bottom:0.5rem;">alternate</div><div style="font-family:'Space Grotesk',sans-serif;font-size:0.8rem;color:#F5F2ED;">#1A1A1A</div></div></div></div>
+      <div class="preview-ctx" style="background:#0A0A0E;padding:1.5rem;"><div class="preview-ctx-label" style="color:#8E8A96;">Momance Dark</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="background:#0A0A0E;border:1px solid rgba(255,255,255,0.05);border-radius:6px;padding:1.25rem;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;color:#8E8A96;margin-bottom:0.5rem;">primary</div><div style="font-family:'Cormorant Garamond',serif;font-size:0.8rem;color:#F0EAE0;">#0A0A0E</div></div><div style="background:#111116;border-radius:6px;padding:1.25rem;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;color:#8E8A96;margin-bottom:0.5rem;">alternate</div><div style="font-family:'Cormorant Garamond',serif;font-size:0.8rem;color:#F0EAE0;">#111116</div></div></div></div>
+      <div class="preview-ctx" style="background:#F2EDE4;padding:1.5rem;"><div class="preview-ctx-label" style="color:#5C4700;">Momance Light</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="background:#F2EDE4;border:1px solid rgba(0,0,0,0.08);border-radius:6px;padding:1.25rem;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:0.5rem;color:#5C4700;margin-bottom:0.5rem;">primary</div><div style="font-family:'Cormorant Garamond',serif;font-size:0.8rem;color:#1E1C24;">#F2EDE4</div></div><div style="background:#E8E0D4;border-radius:6px;padding:1.25rem;text-align:center;"><div style="font-family:'IBM Plex Mono',monospace;font-size:0.5rem;color:#5C4700;margin-bottom:0.5rem;">alternate</div><div style="font-family:'Cormorant Garamond',serif;font-size:0.8rem;color:#1E1C24;">#E8E0D4</div></div></div></div>
+    </div></div>
+    <div class="custom-section"><h4>Hinweis</h4><div class="custom-tip">Die ANTIPOL-Startseite nutzt eigene .panel-Klassen statt ScrollPanel - das ist voellig okay (Ebene 3). Fuer einfachere Scrollytelling-Seiten reicht ScrollPanel.</div></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="section" id="comp-cta">
+  <div class="component">
+    <div class="component-header">
+      <div class="component-name">CTA <span class="tag shared">shared</span> <span class="tag">conversion</span></div>
+      <div class="component-desc">Call-to-Action Section. Overline, Headline, optionaler Link-Button. Zusaetzlicher Content ueber Slot.</div>
+      <div class="component-file">packages/shared/components/CTA.astro</div>
+    </div>
+    <div class="props-section"><h4>Props</h4><table class="props-table"><tr><th>Prop</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr><tr><td class="prop-name">overline</td><td class="prop-type">string?</td><td class="prop-default">-</td><td>Kleine Zeile ueber Headline</td></tr><tr><td class="prop-name">headline</td><td class="prop-type">string</td><td class="prop-default">-</td><td>Hauptueberschrift</td></tr><tr><td class="prop-name">href</td><td class="prop-type">string?</td><td class="prop-default">-</td><td>Link-URL</td></tr><tr><td class="prop-name">linkText</td><td class="prop-type">string?</td><td class="prop-default">-</td><td>Button-Text</td></tr></table><p style="margin-top:0.5rem;font-size:0.85rem;color:#6b6158;"><span class="slot-tag">default</span> Zusaetzlicher Content (Badges, Text)</p></div>
+    <div class="preview-section"><div class="preview-contexts">
+      <div class="preview-ctx" style="background:#0D0D0D;padding:2rem 1.5rem;text-align:center;"><div class="preview-ctx-label" style="color:#6B6158;text-align:left;">ANTIPOL - mit Link</div><div style="border-top:1px solid rgba(58,58,58,0.5);padding-top:1.5rem;"><div style="font-family:'Source Serif 4',serif;font-size:0.85rem;font-style:italic;color:#9C9489;margin-bottom:0.5rem;">Erkannt?</div><div style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;color:#FFFFFF;margin-bottom:1rem;">Lass uns reden.</div><span style="display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:0.85rem;font-weight:600;color:#FFFFFF;background:#C4421A;padding:10px 28px;border-radius:4px;">Experiment starten</span></div></div>
+      <div class="preview-ctx" style="background:#0A0A0E;padding:2rem 1.5rem;text-align:center;"><div class="preview-ctx-label" style="color:#8E8A96;text-align:left;">Momance - mit Slot</div><div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:1.5rem;"><div style="font-family:'Source Sans 3',sans-serif;font-size:0.85rem;font-style:italic;color:#B2AEBC;margin-bottom:0.5rem;">Bald verfuegbar</div><div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#F0EAE0;margin-bottom:1rem;">Bereit, bewusster wahrzunehmen?</div><span style="display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;color:#C9A84C;border:1px solid rgba(201,168,76,0.4);padding:10px 28px;border-radius:50px;">Coming Soon</span></div></div>
+      <div class="preview-ctx" style="background:#F2EDE4;padding:2rem 1.5rem;text-align:center;"><div class="preview-ctx-label" style="color:#5C4700;text-align:left;">Momance Light</div><div style="border-top:1px solid rgba(0,0,0,0.08);padding-top:1.5rem;"><div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#1E1C24;margin-bottom:1rem;">Bereit, bewusster wahrzunehmen?</div><span style="display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;color:#A8893E;border:1px solid rgba(168,137,62,0.4);padding:10px 28px;border-radius:50px;">Coming Soon</span></div></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="section" id="comp-footer">
+  <div class="component">
+    <div class="component-header">
+      <div class="component-name">Footer <span class="tag shared">shared</span> <span class="tag">layout</span></div>
+      <div class="component-desc">Minimaler Footer mit Markenname, Gruender-Zeile und Link-Liste.</div>
+      <div class="component-file">packages/shared/components/Footer.astro</div>
+    </div>
+    <div class="props-section"><h4>Props</h4><table class="props-table"><tr><th>Prop</th><th>Typ</th><th>Default</th><th>Beschreibung</th></tr><tr><td class="prop-name">company</td><td class="prop-type">string</td><td class="prop-default">-</td><td>Firmenname</td></tr><tr><td class="prop-name">companyHighlight</td><td class="prop-type">string?</td><td class="prop-default">-</td><td>Farbiger Teil</td></tr><tr><td class="prop-name">people</td><td class="prop-type">string?</td><td class="prop-default">-</td><td>Gruender-Zeile</td></tr><tr><td class="prop-name">links</td><td class="prop-type">FooterLink[]</td><td class="prop-default">-</td><td>{label, href}</td></tr></table></div>
+    <div class="preview-section"><div class="preview-contexts">
+      <div class="preview-ctx" style="background:#0D0D0D;padding:0;"><div style="padding:0.5rem 1.5rem 0;"><div class="preview-ctx-label" style="color:#6B6158;">ANTIPOL</div></div><div style="padding:1.25rem 1.5rem;border-top:1px solid #3A3A3A;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;"><div><div style="font-family:'Space Grotesk',sans-serif;font-size:0.85rem;font-weight:500;color:#9C9489;">ANTI<span style="color:#C4421A;">POL</span></div><div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#7A7068;margin-top:4px;">Stefan Bodeit & Catrin Schroeder-Jaross</div></div><div style="display:flex;gap:1rem;"><span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#A89E94;">Impressum</span><span style="color:#3A3A3A;font-size:0.7rem;">/</span><span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#A89E94;">Datenschutz</span></div></div></div>
+      <div class="preview-ctx" style="background:#0A0A0E;padding:0;"><div style="padding:0.5rem 1.5rem 0;"><div class="preview-ctx-label" style="color:#8E8A96;">Momance Dark</div></div><div style="padding:1.25rem 1.5rem;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;"><div><div style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;font-style:italic;color:#B2AEBC;">Momance</div><div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#8E8A96;margin-top:4px;">Ein Experiment von ANTIPOL</div></div><div style="display:flex;gap:1rem;"><span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#B2AEBC;">Impressum</span><span style="color:rgba(255,255,255,0.07);font-size:0.7rem;">/</span><span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#B2AEBC;">Datenschutz</span></div></div></div>
+      <div class="preview-ctx" style="background:#F2EDE4;padding:0;"><div style="padding:0.5rem 1.5rem 0;"><div class="preview-ctx-label" style="color:#5C4700;">Momance Light</div></div><div style="padding:1.25rem 1.5rem;border-top:1px solid rgba(0,0,0,0.08);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;"><div><div style="font-family:'Cormorant Garamond',serif;font-size:0.85rem;font-style:italic;color:#4C4A56;">Momance</div><div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#5C4700;margin-top:4px;">Ein Experiment von ANTIPOL</div></div><div style="display:flex;gap:1rem;"><span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#4C4A56;">Impressum</span><span style="color:rgba(0,0,0,0.1);font-size:0.7rem;">/</span><span style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#4C4A56;">Datenschutz</span></div></div></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- BASE LAYOUT -->
+<div class="section" id="comp-base-layout">
+  <div class="component">
+    <div class="component-header">
+      <div class="component-name">BaseLayout <span class="tag shared">shared</span> <span class="tag">layout</span></div>
+      <div class="component-desc">HTML-Grundgeruest. Wird von AntipolLayout/MomanceLayout gewrapped. Laedt Reset, Tokens, Animations. Skip-Link und IntersectionObserver eingebaut.</div>
+      <div class="component-file">packages/shared/layouts/BaseLayout.astro</div>
+    </div>
+    <div class="props-section"><h4>Props & Slots</h4><table class="props-table"><tr><th>Prop</th><th>Typ</th><th>Default</th></tr><tr><td class="prop-name">title</td><td class="prop-type">string</td><td class="prop-default">-</td></tr><tr><td class="prop-name">description</td><td class="prop-type">string?</td><td class="prop-default">""</td></tr><tr><td class="prop-name">lang</td><td class="prop-type">string?</td><td class="prop-default">"de"</td></tr></table><p style="margin-top:0.5rem;font-size:0.85rem;color:#6b6158;"><span class="slot-tag">head</span> Fonts, Styles <span class="slot-tag">nav</span> Navigation <span class="slot-tag">default</span> Seiteninhalt <span class="slot-tag">footer</span> Footer <span class="slot-tag">scripts</span> Scripts</p></div>
+    <div class="custom-section"><h4>Hinweis</h4><div class="custom-tip">BaseLayout nie direkt nutzen - immer ueber AntipolLayout oder MomanceLayout. Fuer ein neues Produkt: neues App-Layout erstellen, das BaseLayout wrapped.</div></div>
+  </div>
+</div>
+
+<!-- STARWIND UI -->
+<div class="section" id="starwind">
+  <div class="section-title">Starwind UI - Erweiterbare Komponentenbibliothek</div>
+  <p style="font-size:0.9rem;color:#6b6158;margin-bottom:1rem;max-width:720px;">
+    <strong><a href="https://starwind.dev" style="color:#C4421A;" target="_blank">Starwind UI</a></strong> ist eine shadcn/ui-Portierung fuer Astro mit Tailwind v4. Aktuell sind <strong>keine Starwind-Komponenten installiert</strong> - bei Bedarf via <code>npx starwind add [name]</code>. Jede Komponente landet als editierbare .astro-Datei in eurem Repo.
+  </p>
+  <div style="background:white;border:1px solid #e8e2d9;border-radius:8px;padding:1.25rem;margin-bottom:1.5rem;">
+    <h4 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;margin-bottom:0.75rem;">Verfuegbare Komponenten (Auswahl)</h4>
+    <div class="starwind-grid">
+      <div class="starwind-item"><div class="sw-name">Accordion</div><div class="sw-desc">Aufklappbar</div></div>
+      <div class="starwind-item"><div class="sw-name">Alert</div><div class="sw-desc">Hinweisbanner</div></div>
+      <div class="starwind-item"><div class="sw-name">Avatar</div><div class="sw-desc">Benutzerbilder</div></div>
+      <div class="starwind-item"><div class="sw-name">Badge</div><div class="sw-desc">Status-Labels</div></div>
+      <div class="starwind-item"><div class="sw-name">Button</div><div class="sw-desc">Interaktive Buttons</div></div>
+      <div class="starwind-item"><div class="sw-name">Card</div><div class="sw-desc">Container</div></div>
+      <div class="starwind-item"><div class="sw-name">Checkbox</div><div class="sw-desc">Ankreuzfelder</div></div>
+      <div class="starwind-item"><div class="sw-name">Dialog</div><div class="sw-desc">Modale Dialoge</div></div>
+      <div class="starwind-item"><div class="sw-name">Dropdown</div><div class="sw-desc">Kontextmenues</div></div>
+      <div class="starwind-item"><div class="sw-name">Input</div><div class="sw-desc">Texteingabe</div></div>
+      <div class="starwind-item"><div class="sw-name">Popover</div><div class="sw-desc">Schwebendes Panel</div></div>
+      <div class="starwind-item"><div class="sw-name">Progress</div><div class="sw-desc">Fortschritt</div></div>
+      <div class="starwind-item"><div class="sw-name">Select</div><div class="sw-desc">Auswahllisten</div></div>
+      <div class="starwind-item"><div class="sw-name">Sheet</div><div class="sw-desc">Seitenpanels</div></div>
+      <div class="starwind-item"><div class="sw-name">Switch</div><div class="sw-desc">Toggle</div></div>
+      <div class="starwind-item"><div class="sw-name">Tabs</div><div class="sw-desc">Tab-Navigation</div></div>
+      <div class="starwind-item"><div class="sw-name">Table</div><div class="sw-desc">Datentabellen</div></div>
+      <div class="starwind-item"><div class="sw-name">Toast</div><div class="sw-desc">Benachrichtigungen</div></div>
+      <div class="starwind-item"><div class="sw-name">Tooltip</div><div class="sw-desc">Hover-Hinweise</div></div>
+    </div>
+  </div>
+  <div style="background:white;border:1px solid #e8e2d9;border-radius:8px;padding:1.25rem;">
+    <h4 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:600;margin-bottom:0.75rem;">Installation</h4>
+    <div class="code-block"><span class="comment"># Komponente hinzufuegen (wird kopiert, nicht als Dependency)</span>
+npx starwind add button
+
+<span class="comment"># Landet als editierbare .astro-Datei
+# Nutzung:</span>
+<span class="tag">&lt;Button</span> <span class="attr">variant</span>=<span class="str">"outline"</span><span class="tag">&gt;</span>Experiment starten<span class="tag">&lt;/Button&gt;</span></div>
+    <div class="custom-tip">Starwind nutzt Tailwind-Klassen und CSS-Variablen. Euer Theme passt automatisch. Fuer tiefere Anpassung die kopierte .astro-Datei editieren.</div>
+  </div>
+</div>
+
+<!-- SUMMARY TABLE -->
+<div class="section">
+  <div class="section-title">Zusammenfassung</div>
+  <div style="background:white;border:1px solid #e8e2d9;border-radius:8px;overflow:hidden;">
+    <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+      <thead><tr style="background:#f8f6f2;"><th style="text-align:left;padding:0.75rem 1rem;font-weight:600;border-bottom:1px solid #e8e2d9;">Komponente</th><th style="text-align:left;padding:0.75rem 1rem;font-weight:600;border-bottom:1px solid #e8e2d9;">Typ</th><th style="text-align:left;padding:0.75rem 1rem;font-weight:600;border-bottom:1px solid #e8e2d9;">Props</th><th style="text-align:left;padding:0.75rem 1rem;font-weight:600;border-bottom:1px solid #e8e2d9;">Slots</th><th style="text-align:left;padding:0.75rem 1rem;font-weight:600;border-bottom:1px solid #e8e2d9;">Token-gesteuert</th></tr></thead>
+      <tbody>
+        <tr><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-weight:500;">Nav</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">Layout</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-family:'JetBrains Mono',monospace;font-size:0.72rem;">brand, brandHighlight, brandHref, links</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">-</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">nav-bg, nav-border, fonts</td></tr>
+        <tr><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-weight:500;">Hero</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">Layout</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-family:'JetBrains Mono',monospace;font-size:0.72rem;">layout, class</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">default, right</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">spacing</td></tr>
+        <tr><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-weight:500;">SectionLabel</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">Typografie</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-family:'JetBrains Mono',monospace;font-size:0.72rem;">class</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">default</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">font-mono, primary-accessible</td></tr>
+        <tr><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-weight:500;">Card</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">Content</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-family:'JetBrains Mono',monospace;font-size:0.72rem;">variant, class</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">default</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">card-radius, card-bg, card-border</td></tr>
+        <tr><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-weight:500;">StepCard</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">Content</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-family:'JetBrains Mono',monospace;font-size:0.72rem;">number, title, body, highlight</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">-</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">card-radius, card-bg, fonts</td></tr>
+        <tr><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-weight:500;">ScrollPanel</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">Layout</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-family:'JetBrains Mono',monospace;font-size:0.72rem;">id, background, align</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">default</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">color-bg, color-surface</td></tr>
+        <tr><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-weight:500;">CTA</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">Conversion</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-family:'JetBrains Mono',monospace;font-size:0.72rem;">overline, headline, href, linkText</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">default</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">fonts, colors, primary</td></tr>
+        <tr><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-weight:500;">Footer</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">Layout</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;font-family:'JetBrains Mono',monospace;font-size:0.72rem;">company, companyHighlight, people, links</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">-</td><td style="padding:0.5rem 1rem;border-bottom:1px solid #f0ece6;">footer-text, footer-meta</td></tr>
+        <tr><td style="padding:0.5rem 1rem;font-weight:500;">BaseLayout</td><td style="padding:0.5rem 1rem;">Layout</td><td style="padding:0.5rem 1rem;font-family:'JetBrains Mono',monospace;font-size:0.72rem;">title, description, lang</td><td style="padding:0.5rem 1rem;">head, nav, default, footer, scripts</td><td style="padding:0.5rem 1rem;">skip-link, fade-in observer</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:0.7rem;color:#9c9489;margin-top:1rem;font-family:'JetBrains Mono',monospace;">+ 45 Starwind UI Komponenten bei Bedarf via npx starwind add [name]</p>
+</div>
+
+</div><!-- /tab-components -->
+
+<div style="text-align:center;padding:3rem 2rem;color:#9c9489;font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;">
+  ANTIPOL Design System &middot; Pattern Library &middot; 26.04.2026
+</div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Handle hash links to components tab
+if (window.location.hash) {
+  const target = document.querySelector(window.location.hash);
+  if (target && target.closest('#tab-components')) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector('[data-tab="components"]').classList.add('active');
+    document.getElementById('tab-components').classList.add('active');
+    setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), 100);
+  }
+}
+
+// Sub-nav anchor clicks switch to components tab
+document.querySelectorAll('.sub-nav a').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href').slice(1);
+    const target = document.getElementById(id);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>

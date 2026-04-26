@@ -1,10 +1,9 @@
 ---
 /**
- * MomanceLayout — Momance-spezifisches Layout.
+ * MomanceLayout - Momance-spezifisches Layout.
+ * Pre-Launch-Version: Kein Nav, eigener Header mit Puls-Animation, klassischer Footer.
  */
 import BaseLayout from '@antipol/shared/layouts/BaseLayout.astro';
-import Nav from '@antipol/shared/components/Nav.astro';
-import Footer from '@antipol/shared/components/Footer.astro';
 import '@antipol/shared/styles/base.css';
 import '@antipol/shared/styles/animations.css';
 import '../styles/theme.css';
@@ -16,17 +15,7 @@ interface Props {
 }
 
 const { title, description, activePage } = Astro.props;
-
-const navLinks = [
-  { label: 'So funktioniert es', href: '/#wie-es-funktioniert', active: false },
-  { label: 'Impressum', href: '/impressum', active: activePage === 'impressum' },
-  { label: 'Datenschutz', href: '/datenschutz', active: activePage === 'datenschutz' },
-];
-
-const footerLinks = [
-  { label: 'Impressum', href: '/impressum' },
-  { label: 'Datenschutz', href: '/datenschutz' },
-];
+const currentYear = new Date().getFullYear();
 ---
 
 <BaseLayout title={`Momance — ${title}`} description={description}>
@@ -34,24 +23,296 @@ const footerLinks = [
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Source+Sans+3:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Source+Sans+3:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&family=Space+Grotesk:wght@700&display=swap"
       rel="stylesheet"
     />
   </Fragment>
 
-  <Nav
-    slot="nav"
-    brand="Momance"
-    brandHref="/"
-    links={navLinks}
-  />
+  <!-- Minimaler Header mit Puls-Canvas + Wortmarke -->
+  <header class="site-header" slot="nav">
+    <a href="/" class="header-brand" aria-label="Momance — Startseite">
+      <canvas class="header-puls" id="headerPuls" width="120" height="120"></canvas>
+      <span class="header-name">Momance</span>
+    </a>
+  </header>
 
   <slot />
 
-  <Footer
-    slot="footer"
-    company="Momance"
-    people="Ein Produkt von ANTIPOL GbR"
-    links={footerLinks}
-  />
+  <!-- Klassischer Footer -->
+  <footer class="site-footer" slot="footer">
+    <div class="footer-row">
+      <span class="footer-copyright">&copy; {currentYear} Momance</span>
+      <span class="footer-sep" aria-hidden="true">/</span>
+      <a href="/impressum" class:list={{ active: activePage === 'impressum' }}>Impressum</a>
+      <span class="footer-sep" aria-hidden="true">/</span>
+      <a href="/datenschutz" class:list={{ active: activePage === 'datenschutz' }}>Datenschutz</a>
+    </div>
+    <div class="footer-meta">
+      Ein Experiment von
+      <svg class="footer-antipol-logo" viewBox="0 0 108 18" xmlns="http://www.w3.org/2000/svg" aria-label="ANTIPOL" role="img">
+        <text y="15" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="18" letter-spacing="-0.5">
+          <tspan fill="#F0EAE0">ANTI</tspan><tspan fill="#C4421A">POL</tspan>
+        </text>
+      </svg>
+    </div>
+  </footer>
 </BaseLayout>
+
+<style>
+  /* ── Header ── */
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-nav);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 10, 14, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--nav-border);
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    text-decoration: none;
+  }
+
+  .header-brand:hover {
+    text-decoration: none;
+  }
+
+  .header-puls {
+    width: 52px;
+    height: 52px;
+    margin-right: -8px;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .header-name {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--color-primary);
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    padding: 20px 32px;
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .footer-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-copyright {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    letter-spacing: 0.03em;
+  }
+
+  .footer-row a {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-footer-text);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: color 0.2s ease;
+  }
+
+  .footer-row a:hover,
+  .footer-row a.active {
+    color: var(--color-text-pure);
+    text-decoration: none;
+  }
+
+  .footer-sep {
+    color: var(--color-border);
+    font-size: 0.72rem;
+    user-select: none;
+  }
+
+  .footer-meta {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--color-footer-meta);
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .footer-antipol-logo {
+    height: 12px;
+    width: auto;
+    vertical-align: middle;
+    position: relative;
+    top: -0.5px;
+  }
+
+  @media (max-width: 600px) {
+    .site-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 16px 20px;
+      gap: 4px;
+    }
+  }
+</style>
+
+<script>
+  // ── Puls Canvas Animation (basierend auf 19-logo-und-assets.md Spezifikation) ──
+  const BREATH_PERIOD = 6;
+  const COLOR_PERIOD = 9;
+  const CREAM = [240, 234, 224];
+  const CATEGORIES = [
+    [194, 178, 110], // still
+    [101, 148, 199], // connect
+    [199, 105, 82],  // body
+    [93, 173, 126],  // nature
+    [163, 113, 191], // create
+    [191, 101, 143], // senses
+  ];
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function hermite(t) { return t * t * (3 - 2 * t); }
+  function rgba(rgb, a) { return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`; }
+
+  function getCycleColor(sec) {
+    const t = (sec % COLOR_PERIOD) / COLOR_PERIOD * CATEGORIES.length;
+    const i = Math.floor(t) % CATEGORIES.length;
+    const j = (i + 1) % CATEGORIES.length;
+    const f = hermite(t - Math.floor(t));
+    return CATEGORIES[i].map((c, k) => Math.round(lerp(c, CATEGORIES[j][k], f)));
+  }
+
+  function drawPuls(ctx, cx, cy, S, breathScale, color, seed) {
+    const r1 = S * 0.33 * breathScale;
+    const r2 = S * 0.39 * breathScale;
+    const r3 = S * 0.45 * breathScale;
+    const mr = S * 0.24;
+    const lw1 = Math.max(0.8, S / 100 * 1.2);
+    const lwO = lw1 * 0.5;
+    const bn = (breathScale - 1) / 0.15;
+
+    // Corona glow
+    const cg = ctx.createRadialGradient(cx, cy, r1 * 0.3, cx, cy, r3 * 2);
+    cg.addColorStop(0, rgba(color, 0.14));
+    cg.addColorStop(0.3, rgba(color, 0.05));
+    cg.addColorStop(1, rgba(color, 0));
+    ctx.fillStyle = cg;
+    ctx.beginPath(); ctx.arc(cx, cy, r3 * 2, 0, Math.PI * 2); ctx.fill();
+
+    // Outer ring
+    ctx.strokeStyle = rgba(CREAM, 0.18 + 0.06 * bn);
+    ctx.lineWidth = lwO;
+    ctx.beginPath(); ctx.arc(cx, cy, r3, 0, Math.PI * 2); ctx.stroke();
+
+    // Middle ring
+    ctx.strokeStyle = rgba(CREAM, 0.25 + 0.08 * bn);
+    ctx.lineWidth = lwO;
+    ctx.beginPath(); ctx.arc(cx, cy, r2, 0, Math.PI * 2); ctx.stroke();
+
+    // Inner ring
+    ctx.strokeStyle = rgba(CREAM, 0.40 + 0.12 * bn);
+    ctx.lineWidth = lw1;
+    ctx.beginPath(); ctx.arc(cx, cy, r1, 0, Math.PI * 2); ctx.stroke();
+
+    // Dark core behind moment
+    const kernR = S * 0.33 * 0.85;
+    const kg = ctx.createRadialGradient(cx, cy, 0, cx, cy, kernR);
+    kg.addColorStop(0, 'rgba(10,10,14,0.95)');
+    kg.addColorStop(0.7, 'rgba(10,10,14,0.90)');
+    kg.addColorStop(1, 'rgba(10,10,14,0.4)');
+    ctx.fillStyle = kg;
+    ctx.beginPath(); ctx.arc(cx, cy, kernR, 0, Math.PI * 2); ctx.fill();
+
+    // Moment nucleus
+    drawMoment(ctx, cx, cy, mr, color, seed);
+  }
+
+  function drawMoment(ctx, cx, cy, r, rgb, seed) {
+    // Wide glow
+    let g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 2.8);
+    g.addColorStop(0, rgba(rgb, 0.45));
+    g.addColorStop(0.2, rgba(rgb, 0.25));
+    g.addColorStop(0.5, rgba(rgb, 0.06));
+    g.addColorStop(1, rgba(rgb, 0));
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(cx, cy, r * 2.8, 0, Math.PI * 2); ctx.fill();
+
+    // Organic body
+    const N = 72;
+    ctx.beginPath();
+    for (let i = 0; i <= N; i++) {
+      const a = (i / N) * Math.PI * 2;
+      const d = 1 + Math.sin(a*3+seed)*0.03 + Math.cos(a*5+seed*1.7)*0.015;
+      const x = cx + Math.cos(a) * r * d;
+      const y = cy + Math.sin(a) * r * d;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+
+    const lighter = rgb.map(c => Math.min(255, c + 40));
+    const body = ctx.createRadialGradient(cx - r*0.2, cy - r*0.2, r*0.05, cx + r*0.15, cy + r*0.15, r*1.1);
+    body.addColorStop(0, rgba(lighter, 1));
+    body.addColorStop(0.4, rgba(rgb, 1));
+    body.addColorStop(1, rgba(rgb.map(c => Math.max(0, c - 30)), 1));
+    ctx.fillStyle = body;
+    ctx.fill();
+
+    // Specular highlight
+    const spec = ctx.createRadialGradient(cx - r*0.2, cy - r*0.25, 0, cx - r*0.08, cy - r*0.1, r*0.5);
+    spec.addColorStop(0, 'rgba(255,255,245,0.30)');
+    spec.addColorStop(0.4, 'rgba(255,255,245,0.06)');
+    spec.addColorStop(1, 'rgba(255,255,245,0)');
+    ctx.fillStyle = spec;
+    ctx.fill();
+  }
+
+  // Animation loop
+  const canvas = document.getElementById('headerPuls') as HTMLCanvasElement;
+  if (canvas) {
+    const ctx = canvas.getContext('2d')!;
+    const start = performance.now();
+
+    function frame(timestamp: number) {
+      const sec = (timestamp - start) / 1000;
+      const w = canvas.width;
+      ctx.clearRect(0, 0, w, w);
+
+      const cx = w * 0.5, cy = w * 0.5;
+      const S = w * 0.58;
+
+      const breathPhase = (sec % BREATH_PERIOD) / BREATH_PERIOD;
+      const breathSin = Math.sin(breathPhase * Math.PI * 2);
+      const breathScale = 1.0 + ((1 + breathSin) / 2) * 0.15;
+
+      const color = getCycleColor(sec);
+      const seed = 17 + sec * 0.8;
+
+      drawPuls(ctx, cx, cy, S, breathScale, color, seed);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+</script>

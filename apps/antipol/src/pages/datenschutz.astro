@@ -1,0 +1,138 @@
+---
+import AntipolLayout from '../layouts/AntipolLayout.astro';
+---
+
+<AntipolLayout
+  title="Datenschutz"
+  description="Datenschutzerklärung der ANTIPOL GbR"
+  activePage="datenschutz"
+>
+  <main class="legal-page">
+    <h1 class="legal-title">Datenschutzerklärung</h1>
+
+    <section class="legal-section">
+      <h2>1. Verantwortlicher</h2>
+      <p>
+        ANTIPOL GbR<br />
+        Stefan Bodeit & Catrin Schröder-Jaross<br />
+        Hamburg<br />
+        E-Mail: <a href="mailto:we@antipol.ai">we@antipol.ai</a>
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>2. Allgemeine Hinweise</h2>
+      <p>
+        Diese Datenschutzerklärung informiert über die Art, den Umfang und
+        Zweck der Verarbeitung personenbezogener Daten auf dieser Website.
+        Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst.
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>3. Hosting</h2>
+      <p>
+        Diese Website wird statisch ausgeliefert. Beim Besuch der Website
+        werden automatisch Informationen in Server-Logfiles gespeichert,
+        die Ihr Browser übermittelt - darunter IP-Adresse, Browsertyp,
+        Betriebssystem, Referrer-URL und Uhrzeit der Anfrage.
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>4. Keine Cookies, kein Tracking</h2>
+      <p>
+        Diese Website verwendet weder Cookies noch Tracking-Tools.
+        Es werden keine Analyse-Dienste wie Google Analytics oder
+        vergleichbare Werkzeuge eingesetzt.
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>5. Externe Schriftarten</h2>
+      <p>
+        Diese Website nutzt Google Fonts. Beim Laden der Seite stellt
+        Ihr Browser eine Verbindung zu Servern von Google LLC her.
+        Dabei kann Ihre IP-Adresse an Google übertragen werden.
+        Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO
+        (berechtigtes Interesse an einheitlicher Darstellung).
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>6. Ihre Rechte</h2>
+      <p>
+        Sie haben das Recht auf Auskunft, Berichtigung, Löschung und
+        Einschränkung der Verarbeitung Ihrer personenbezogenen Daten.
+        Darüber hinaus steht Ihnen ein Beschwerderecht bei der
+        zuständigen Aufsichtsbehörde zu.
+      </p>
+      <p>
+        Bei Fragen wenden Sie sich an:
+        <a href="mailto:we@antipol.ai">we@antipol.ai</a>
+      </p>
+    </section>
+
+    <p class="legal-note">
+      Diese Datenschutzerklärung ist ein Platzhalter und wird vor dem
+      offiziellen Launch durch eine vollständige, rechtlich geprüfte
+      Fassung ersetzt.
+    </p>
+  </main>
+</AntipolLayout>
+
+<style>
+  .legal-page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 8rem 1.5rem 4rem;
+    min-height: 100vh;
+  }
+
+  .legal-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 3rem;
+    letter-spacing: -0.02em;
+  }
+
+  .legal-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .legal-section h2 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-section p {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-section a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: opacity var(--transition-base);
+  }
+
+  .legal-section a:hover {
+    opacity: 0.8;
+  }
+
+  .legal-note {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--color-text-label, var(--color-text-muted));
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+</style>

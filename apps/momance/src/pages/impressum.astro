@@ -1,0 +1,102 @@
+---
+import MomanceLayout from '../layouts/MomanceLayout.astro';
+---
+
+<MomanceLayout
+  title="Impressum"
+  description="Impressum - Momance, ein Produkt der ANTIPOL GbR"
+  activePage="impressum"
+>
+  <main class="legal-page">
+    <h1 class="legal-title">Impressum</h1>
+
+    <section class="legal-section">
+      <h2>Angaben gemäß § 5 TMG</h2>
+      <p>
+        ANTIPOL GbR<br />
+        Stefan Bodeit & Catrin Schröder-Jaross<br />
+        Hamburg
+      </p>
+      <p class="legal-note">
+        Vollständige Adresse und Kontaktdaten werden nach Abschluss
+        der Gewerbeanmeldung ergänzt.
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>Kontakt</h2>
+      <p>
+        E-Mail: <a href="mailto:kontakt@momance.de">kontakt@momance.de</a>
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+      <p>
+        Stefan Bodeit & Catrin Schröder-Jaross<br />
+        (Anschrift wie oben)
+      </p>
+    </section>
+
+    <section class="legal-section">
+      <h2>Haftungsausschluss</h2>
+      <p>
+        Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung
+        für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten
+        sind ausschließlich deren Betreiber verantwortlich.
+      </p>
+    </section>
+  </main>
+</MomanceLayout>
+
+<style>
+  .legal-page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 8rem 1.5rem 4rem;
+    min-height: 100vh;
+  }
+
+  .legal-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    color: var(--color-text);
+    margin-bottom: 3rem;
+  }
+
+  .legal-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .legal-section h2 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-section p {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-section a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .legal-section a:hover {
+    opacity: 0.8;
+  }
+
+  .legal-note {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--color-text-label, var(--color-text-muted));
+  }
+</style>

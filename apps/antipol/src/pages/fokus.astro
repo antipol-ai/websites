@@ -1,0 +1,779 @@
+---
+/**
+ * Fokus-Seite - The Radical Empathy & Experimentation Process™
+ *
+ * Migriert aus: antipol/website/fokus.html
+ * Scrollytelling mit 6 Panels, Bubble Cloud, Process SVG, Progress Bars, Dot Navigation.
+ */
+import AntipolLayout from '../layouts/AntipolLayout.astro';
+---
+
+<AntipolLayout title="Fokus" description="Empathie ist keine Methode. Es ist der Anfang von allem. Unser Prozess: Radical Empathy & Experimentation." activePage="fokus">
+
+  <!-- Scroll Dot Navigation -->
+  <nav class="scroll-dots" role="navigation" aria-label="Seitenabschnitte">
+    <button class="scroll-dot active" data-target="pitch" aria-label="Elevator Pitch"></button>
+    <button class="scroll-dot" data-target="process" aria-label="Prozess"></button>
+    <button class="scroll-dot" data-target="radical" aria-label="Radical Empathy"></button>
+    <button class="scroll-dot" data-target="experimentation" aria-label="Experimentation"></button>
+    <button class="scroll-dot" data-target="leben" aria-label="Leben"></button>
+    <button class="scroll-dot" data-target="cta" aria-label="Kontakt"></button>
+  </nav>
+
+  <!-- ============================================ -->
+  <!-- PANEL 1: ELEVATOR PITCH                      -->
+  <!-- ============================================ -->
+  <section class="panel pitch" id="pitch" aria-label="Elevator Pitch">
+    <div class="pitch-layout">
+      <div class="pitch-left">
+        <div class="section-label fade-in">Fokus</div>
+        <h1 class="panel-headline fade-in">Empathie ist keine Methode.<br>Es ist der Anfang von allem.</h1>
+        <p class="panel-sub fade-in">Organisationen kommen zu uns mit Symptomen. Wir finden die Wurzel. Nicht durch Analyse allein, sondern durch echtes Verstehen - und einen Prozess, der auf Experiment statt auf Empfehlung setzt.</p>
+      </div>
+      <div class="bubble-cloud fade-in fade-in-delay" role="list" aria-label="Typische Symptome">
+        <div class="bubble" role="listitem">"Wir wissen nicht, wie AI unser Geschäft verändert."</div>
+        <div class="bubble" role="listitem">"Unsere Teams funktionieren nicht mehr zusammen."</div>
+        <div class="bubble" role="listitem">"Wir brauchen ein Produkt, aber nicht den üblichen Prozess."</div>
+        <div class="bubble" role="listitem">"Alles verändert sich und niemand weiß, wohin."</div>
+        <div class="bubble" role="listitem">"Wir haben Berater gehabt. Es hat nichts gebracht."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- PANEL 2: PROCESS OVERVIEW                    -->
+  <!-- ============================================ -->
+  <section class="panel process-panel" id="process" aria-label="Der Prozess">
+    <div class="section-label fade-in">Wie wir arbeiten</div>
+    <h2 class="panel-headline fade-in">The Radical Empathy<br>&amp; Experimentation Process<span class="tm">™</span></h2>
+    <p class="panel-sub fade-in">Jede Zusammenarbeit beginnt mit Verstehen. Was danach kommt, hängt davon ab, was wir gemeinsam freilegen. Kein fester Plan - ein Prozess, der sich der Realität anpasst.</p>
+
+    <div class="svg-container fade-in fade-in-delay">
+      <svg viewBox="0 0 960 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Prozessdiagramm: Fünf Schritte als Welle">
+        <defs>
+          <linearGradient id="wave-fill" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#8B2500;stop-opacity:0.10"/>
+            <stop offset="35%" style="stop-color:#C4421A;stop-opacity:0.20"/>
+            <stop offset="65%" style="stop-color:#D4652E;stop-opacity:0.16"/>
+            <stop offset="100%" style="stop-color:#8B2500;stop-opacity:0.06"/>
+          </linearGradient>
+          <linearGradient id="wave-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#8B2500"/>
+            <stop offset="25%" style="stop-color:#C4421A"/>
+            <stop offset="55%" style="stop-color:#D4652E"/>
+            <stop offset="80%" style="stop-color:#C4421A"/>
+            <stop offset="100%" style="stop-color:#9C9489"/>
+          </linearGradient>
+        </defs>
+
+        <line x1="60" y1="190" x2="910" y2="190" stroke="#3A3A3A" stroke-width="0.5" stroke-dasharray="6,8" opacity="0.3"/>
+        <line x1="800" y1="145" x2="910" y2="145" stroke="#9C9489" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.25"/>
+
+        <path d="M80,190 C130,190 170,188 220,205 C280,228 320,318 390,333 C450,346 475,270 520,200 C560,140 600,88 670,75 C730,65 770,95 810,118 C845,135 870,145 910,145 L910,190 L80,190 Z" fill="url(#wave-fill)"/>
+        <path d="M80,190 C130,190 170,188 220,205 C280,228 320,318 390,333 C450,346 475,270 520,200 C560,140 600,88 670,75 C730,65 770,95 810,118 C845,135 870,145 910,145" fill="none" stroke="url(#wave-stroke)" stroke-width="2.5" stroke-linecap="round"/>
+
+        <circle cx="130" cy="189" r="28" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
+        <text x="130" y="183" fill="#F5F2ED" font-size="12" font-weight="700" text-anchor="middle" font-family="JetBrains Mono, monospace">01</text>
+        <text x="130" y="199" fill="#F5F2ED" font-size="9" text-anchor="middle" font-weight="500" font-family="Space Grotesk, sans-serif">Verstehen</text>
+
+        <circle cx="390" cy="333" r="28" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
+        <text x="390" y="327" fill="#C4421A" font-size="12" font-weight="700" text-anchor="middle" font-family="JetBrains Mono, monospace">02</text>
+        <text x="390" y="343" fill="#C4421A" font-size="9" text-anchor="middle" font-weight="500" font-family="Space Grotesk, sans-serif">Freilegen</text>
+
+        <circle cx="570" cy="130" r="28" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
+        <text x="570" y="124" fill="#F5F2ED" font-size="12" font-weight="700" text-anchor="middle" font-family="JetBrains Mono, monospace">03</text>
+        <text x="570" y="140" fill="#F5F2ED" font-size="9" text-anchor="middle" font-weight="500" font-family="Space Grotesk, sans-serif">Entwerfen</text>
+
+        <circle cx="700" cy="73" r="28" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
+        <text x="700" y="67" fill="#C4421A" font-size="12" font-weight="700" text-anchor="middle" font-family="JetBrains Mono, monospace">04</text>
+        <text x="700" y="83" fill="#C4421A" font-size="9" text-anchor="middle" font-weight="500" font-family="Space Grotesk, sans-serif">Erproben</text>
+
+        <circle cx="890" cy="145" r="28" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.5"/>
+        <text x="890" y="139" fill="#F5F2ED" font-size="12" font-weight="700" text-anchor="middle" font-family="JetBrains Mono, monospace">05</text>
+        <text x="890" y="155" fill="#F5F2ED" font-size="9" text-anchor="middle" font-weight="500" font-family="Space Grotesk, sans-serif">Leben</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- PANEL 3: RADICAL EMPATHY (Steps 01 + 02)     -->
+  <!-- ============================================ -->
+  <section class="panel phase-panel" id="radical" aria-label="Radical Empathy">
+    <div class="progress-bar fade-in" role="navigation" aria-label="Prozessfortschritt">
+      <div class="progress-step active">01 Verstehen</div>
+      <div class="progress-step active">02 Freilegen</div>
+      <div class="progress-step">03 Entwerfen</div>
+      <div class="progress-step">04 Erproben</div>
+      <div class="progress-step">05 Leben</div>
+    </div>
+
+    <h2 class="phase-headline fade-in">Radical Empathy</h2>
+    <p class="phase-intro fade-in">Bevor wir handeln, verstehen wir. Bevor wir lösen, legen wir frei. Die ersten beiden Schritte bilden das Fundament - ohne sie ist jede Intervention ein Schuss ins Dunkle.</p>
+
+    <div class="step-cards fade-in fade-in-delay">
+      <div class="step-card">
+        <div class="card-num"><span>01</span></div>
+        <h3>Verstehen</h3>
+        <p>Zuhören, bevor wir handeln. Wir tauchen ein in eure Realität - nicht mit Fragebögen, sondern mit echtem Interesse. Was ist die Situation? Was wurde schon versucht? Was macht Angst? Wir erfassen die Ausgangslage und schaffen gleichzeitig die Vertrauensbasis, ohne die keine ehrliche Diagnose möglich ist. Interviews, Workshops, Beobachtung - mit euch, nicht für euch.</p>
+      </div>
+      <div class="step-card wendepunkt">
+        <div class="card-num"><span>02</span></div>
+        <h3>Freilegen</h3>
+        <p>Das, was euch zu uns geführt hat, ist selten das eigentliche Problem. Wir legen frei, was darunterliegt - nicht durch Einordnung in ein Schema, sondern durch gemeinsames Erarbeiten eines Arbeitsmodells: Was hält das Problem aufrecht? Welche Faktoren wirken zusammen? Das Ergebnis ist eine Fallkonzeption - ein Verständnis davon, warum das Problem existiert und was es aufrechterhält, aus dem sich Hypothesen ableiten lassen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- PANEL 4: EXPERIMENTATION (Steps 03 + 04)     -->
+  <!-- ============================================ -->
+  <section class="panel experimentation-panel" id="experimentation" aria-label="Experimentation">
+    <div class="progress-bar fade-in" role="navigation" aria-label="Prozessfortschritt">
+      <div class="progress-step done">01 Verstehen</div>
+      <div class="progress-step done">02 Freilegen</div>
+      <div class="progress-step active">03 Entwerfen</div>
+      <div class="progress-step active">04 Erproben</div>
+      <div class="progress-step">05 Leben</div>
+    </div>
+
+    <h2 class="phase-headline fade-in">Experimentation</h2>
+    <p class="phase-intro fade-in">Aus der Fallkonzeption werden Hypothesen. Aus Hypothesen werden Experimente. Der Experiment Loop dreht so lange, bis die Hypothese trägt - ohne jedes Mal die Wurzelarbeit wiederholen zu müssen.</p>
+
+    <div class="exp-layout fade-in fade-in-delay">
+      <div class="exp-cards">
+        <div class="step-card">
+          <div class="card-num"><span>03</span></div>
+          <h3>Entwerfen</h3>
+          <p>Aus der Fallkonzeption wird eine Hypothese: Was könnte helfen? Kein Maßnahmenkatalog, sondern ein gezielter Ansatz - ein Experiment, das wir zusammen gestalten, mit klarem Rahmen und messbaren Zielen. Der Ansatz leitet sich direkt aus der Fallkonzeption ab - spezifisch für die identifizierten Aufrechterhaltungsfaktoren.</p>
+        </div>
+        <div class="step-card wendepunkt">
+          <div class="card-num"><span>04</span></div>
+          <h3>Erproben</h3>
+          <p>Das Experiment läuft. In einem Team, an einem Produkt, in einem definierten Zeitraum. Wir begleiten, messen, lernen. Am Ende steht eine ehrliche Auswertung: Hat es gewirkt? Drei mögliche Ausgänge: Erfolg, Hypothese nachschärfen, oder anderes Experiment-Design. Rückschleifen sind kein Scheitern, sondern Teil des Prozesses.</p>
+        </div>
+      </div>
+
+      <div class="exp-loop">
+        <svg viewBox="0 0 580 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Experiment-Loop">
+          <defs>
+            <marker id="arr-ember" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0,0 8,3 0,6" fill="#C4421A"/>
+            </marker>
+            <marker id="arr-stone" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0,0 8,3 0,6" fill="#9C9489"/>
+            </marker>
+            <marker id="arr-signal" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0,0 8,3 0,6" fill="#D4652E"/>
+            </marker>
+          </defs>
+
+          <circle cx="290" cy="260" r="165" fill="none" stroke="#3A3A3A" stroke-width="0.5" stroke-dasharray="4,6" opacity="0.3"/>
+
+          <path d="M 172,155 A 165,165 0 0,1 408,155" fill="none" stroke="#C4421A" stroke-width="1.5" marker-end="url(#arr-ember)"/>
+          <path d="M 428,205 A 165,165 0 0,1 325,405" fill="none" stroke="#C4421A" stroke-width="1.5" marker-end="url(#arr-ember)"/>
+          <path d="M 255,405 A 165,165 0 0,1 152,205" fill="none" stroke="#D4652E" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arr-signal)"/>
+
+          <!-- HYPOTHESE -->
+          <rect x="105" y="85" width="170" height="80" rx="4" fill="#1A1A1A" stroke="#D4652E" stroke-width="1.5"/>
+          <text x="190" y="115" fill="#E8E2D9" font-size="15" font-weight="600" text-anchor="middle" font-family="Space Grotesk, sans-serif">Hypothese</text>
+          <text x="190" y="135" fill="#9C9489" font-size="10" text-anchor="middle" font-style="italic" font-family="Source Serif 4, serif">Was könnte helfen?</text>
+          <text x="190" y="152" fill="#9C9489" font-size="10" text-anchor="middle" font-style="italic" font-family="Source Serif 4, serif">Wie messen wir Erfolg?</text>
+
+          <!-- EXPERIMENT -->
+          <rect x="305" y="85" width="170" height="80" rx="4" fill="#1A1A1A" stroke="#C4421A" stroke-width="1.5"/>
+          <text x="390" y="115" fill="#E8E2D9" font-size="15" font-weight="600" text-anchor="middle" font-family="Space Grotesk, sans-serif">Experiment</text>
+          <text x="390" y="135" fill="#9C9489" font-size="10" text-anchor="middle" font-style="italic" font-family="Source Serif 4, serif">Rahmen, Team, Zeitraum</text>
+          <text x="390" y="152" fill="#9C9489" font-size="10" text-anchor="middle" font-style="italic" font-family="Source Serif 4, serif">Begleiten, messen</text>
+
+          <!-- AUSWERTUNG -->
+          <rect x="205" y="370" width="170" height="80" rx="4" fill="#1A1A1A" stroke="#8B2500" stroke-width="1.5"/>
+          <text x="290" y="400" fill="#E8E2D9" font-size="15" font-weight="600" text-anchor="middle" font-family="Space Grotesk, sans-serif">Auswertung</text>
+          <text x="290" y="420" fill="#9C9489" font-size="10" text-anchor="middle" font-style="italic" font-family="Source Serif 4, serif">Hat es gewirkt?</text>
+          <text x="290" y="437" fill="#9C9489" font-size="10" text-anchor="middle" font-style="italic" font-family="Source Serif 4, serif">Was haben wir gelernt?</text>
+
+          <!-- ENTRY -->
+          <line x1="15" y1="125" x2="100" y2="125" stroke="#9C9489" stroke-width="1.5" marker-end="url(#arr-stone)"/>
+          <text x="15" y="110" fill="#9C9489" font-size="10" font-weight="500" font-family="Source Serif 4, serif" font-style="italic">Freigelegte</text>
+          <text x="15" y="145" fill="#9C9489" font-size="9" font-style="italic" font-family="Source Serif 4, serif">Ursachen</text>
+
+          <!-- EXIT -->
+          <line x1="376" y1="410" x2="480" y2="410" stroke="#9C9489" stroke-width="1.5" marker-end="url(#arr-stone)"/>
+          <text x="486" y="403" fill="#9C9489" font-size="10" font-weight="500" font-family="Source Serif 4, serif" font-style="italic">Blueprint</text>
+          <text x="486" y="420" fill="#9C9489" font-size="9" font-style="italic" font-family="Source Serif 4, serif">ausrollen</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- PANEL 5: LEBEN / SELF-MANAGEMENT             -->
+  <!-- ============================================ -->
+  <section class="panel leben-panel" id="leben" aria-label="Leben">
+    <div class="progress-bar fade-in" role="navigation" aria-label="Prozessfortschritt">
+      <div class="progress-step done">01 Verstehen</div>
+      <div class="progress-step done">02 Freilegen</div>
+      <div class="progress-step done">03 Entwerfen</div>
+      <div class="progress-step done">04 Erproben</div>
+      <div class="progress-step active">05 Leben</div>
+    </div>
+
+    <h2 class="phase-headline fade-in">Self-Management</h2>
+    <p class="phase-intro fade-in">Wenn das Experiment funktioniert, wird es Praxis. Und das Wichtigste: Ihr könnt es jetzt selbst. Der Prozess ist internalisiert, der Begleiter hat sich überflüssig gemacht.</p>
+
+    <div class="step-cards single fade-in">
+      <div class="step-card">
+        <div class="card-num"><span>05</span></div>
+        <h3>Leben</h3>
+        <p>Gewachsen, aber geerdet. Die Organisation operiert auf einem neuen Niveau - nachhaltig, nicht euphorisch. Verstehen, Freilegen, Entwerfen, Erproben - das ist keine Beratungsleistung mehr. Das ist eure Fähigkeit.</p>
+      </div>
+    </div>
+
+    <div class="leben-outcomes fade-in fade-in-delay">
+      <div class="outcome-card">
+        <h4>Ausrollen</h4>
+        <p>Was im Experiment funktioniert hat, wird zum Standard. Blueprints, Learnings und Muster werden dokumentiert und auf andere Teams, Produkte oder Bereiche übertragen.</p>
+      </div>
+      <div class="outcome-card">
+        <h4>Skalieren</h4>
+        <p>Die erprobten Ansätze wachsen mit der Organisation. Nicht durch Copy-Paste, sondern durch Anpassung an den jeweiligen Kontext - mit dem Prozess, den ihr jetzt selbst beherrscht.</p>
+      </div>
+      <div class="outcome-card">
+        <h4>Loslassen</h4>
+        <p>ANTIPOL fadet aus. Nicht abrupt, sondern sobald ihr den Prozess eigenständig lebt. Unser Ziel war nie permanente Beratung - sondern dass ihr uns nicht mehr braucht.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- PANEL 6: CTA                                 -->
+  <!-- ============================================ -->
+  <section class="panel cta-panel" id="cta" aria-label="Kontakt aufnehmen">
+    <p class="cta-overline fade-in">Wenn du uns verstanden hast -</p>
+    <h2 class="cta-headline fade-in">Starte mit uns ein Experiment.</h2>
+    <a href="mailto:we@antipol.ai" class="cta-link fade-in fade-in-delay">we@antipol.ai</a>
+  </section>
+
+</AntipolLayout>
+
+<style>
+  /* === SCROLL SNAP === */
+  html {
+    scroll-snap-type: y proximity;
+  }
+
+  /* === PANELS === */
+  .panel {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 4rem 4rem;
+    position: relative;
+    scroll-snap-align: start;
+  }
+
+  @media (max-width: 768px) {
+    .panel { padding: 5rem 1.5rem 2.5rem; }
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary-accessible);
+    margin-bottom: 2rem;
+  }
+
+  .panel-headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--color-text-pure);
+    max-width: 900px;
+  }
+
+  .panel-headline .tm {
+    font-size: 0.35em;
+    vertical-align: super;
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+
+  .panel-sub {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.8vw, 1.1rem);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin-top: 1.5rem;
+  }
+
+  svg text { font-family: var(--font-display); }
+
+  /* === PANEL 1: ELEVATOR PITCH === */
+  .pitch {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--panel-border);
+  }
+
+  .pitch-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  .pitch-left .section-label { margin-bottom: 1.5rem; }
+
+  .bubble-cloud {
+    position: relative;
+    min-height: 300px;
+    width: 100%;
+  }
+
+  .bubble {
+    position: relative;
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--color-text-light);
+    padding: 1.2rem 1.6rem 1.2rem 1.4rem;
+    border: 1px solid var(--color-border);
+    border-radius: 18px 18px 18px 4px;
+    background: var(--color-surface);
+    line-height: 1.5;
+    max-width: 420px;
+    transition: border-color 0.3s ease;
+  }
+
+  .bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -10px; left: 18px;
+    width: 0; height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid var(--color-border);
+  }
+
+  .bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 19px;
+    width: 0; height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid var(--color-surface);
+  }
+
+  .bubble:nth-child(even) { border-radius: 18px 18px 4px 18px; }
+  .bubble:nth-child(even)::before { left: auto; right: 18px; }
+  .bubble:nth-child(even)::after { left: auto; right: 19px; }
+
+  .bubble:hover { border-color: rgba(196, 66, 26, 0.5); }
+  .bubble:hover::before { border-top-color: rgba(196, 66, 26, 0.5); }
+
+  @media (max-width: 900px) {
+    .pitch-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .bubble { max-width: 100%; }
+  }
+
+  /* Bubble rotation animation */
+  .bubble-cloud .bubble {
+    position: absolute;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    pointer-events: none;
+  }
+
+  .bubble-cloud .bubble.bubble-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .bubble-cloud .bubble:nth-child(1) { top: 10%; left: 55%; }
+  .bubble-cloud .bubble:nth-child(2) { top: 60%; left: 15%; }
+  .bubble-cloud .bubble:nth-child(3) { top: 30%; left: 40%; }
+  .bubble-cloud .bubble:nth-child(4) { top: 5%; left: 20%; }
+  .bubble-cloud .bubble:nth-child(5) { top: 50%; left: 50%; }
+
+  /* === PANEL 2: PROCESS OVERVIEW === */
+  .process-panel {
+    background: var(--color-surface);
+    align-items: center;
+    text-align: center;
+  }
+
+  .process-panel .panel-sub {
+    margin: 0.75rem auto 1.5rem;
+    text-align: center;
+  }
+
+  .svg-container {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .svg-container svg { max-width: 100%; height: auto; }
+
+  /* === PROGRESS BAR === */
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 2.5rem;
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+
+  .progress-step {
+    flex: 1;
+    padding: 0.6rem 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    font-weight: 500;
+    border-right: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    opacity: 0.5;
+  }
+
+  .progress-step:last-child { border-right: none; }
+
+  .progress-step.active {
+    background: rgba(196, 66, 26, 0.12);
+    color: var(--color-primary);
+    font-weight: 600;
+    opacity: 1;
+  }
+
+  .progress-step.done {
+    opacity: 0.7;
+    color: var(--color-text-muted);
+  }
+
+  /* === PHASE PANELS === */
+  .phase-panel {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--panel-border);
+    justify-content: flex-start;
+    padding-top: 5rem;
+    max-width: 100%;
+  }
+
+  .phase-headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-text-pure);
+    margin-bottom: 0.5rem;
+  }
+
+  .phase-intro {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  /* Step Cards */
+  .step-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .step-cards.single {
+    grid-template-columns: 1fr;
+    max-width: 550px;
+  }
+
+  .step-card {
+    padding: 1.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: var(--color-surface);
+    transition: border-color 0.3s ease;
+  }
+
+  .step-card:hover { border-color: rgba(196, 66, 26, 0.5); }
+
+  .step-card .card-num {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-label);
+    margin-bottom: 0.2rem;
+  }
+
+  .step-card .card-num span {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-pure);
+    display: block;
+    margin-bottom: 0.1rem;
+    letter-spacing: -0.03em;
+  }
+
+  .step-card.wendepunkt .card-num span { color: var(--color-primary); }
+
+  .step-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-text-pure);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+  }
+
+  .step-card.wendepunkt h3 { color: var(--color-primary); }
+
+  .step-card p {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+  }
+
+  @media (max-width: 768px) {
+    .step-cards { grid-template-columns: 1fr; }
+  }
+
+  /* === PANEL 4: EXPERIMENTATION === */
+  .experimentation-panel {
+    background: var(--color-surface);
+    justify-content: flex-start;
+    padding-top: 5rem;
+  }
+
+  .exp-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+    width: 100%;
+  }
+
+  .exp-cards {
+    display: flex !important;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .exp-loop { width: 100%; }
+  .exp-loop svg { max-width: 100%; height: auto; }
+
+  @media (max-width: 768px) {
+    .exp-layout { grid-template-columns: 1fr; }
+  }
+
+  /* === PANEL 5: LEBEN === */
+  .leben-panel {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--panel-border);
+    justify-content: flex-start;
+    padding-top: 5rem;
+  }
+
+  .leben-outcomes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 900px;
+    margin-top: 1.5rem;
+  }
+
+  .outcome-card {
+    padding: 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: var(--color-surface);
+    transition: border-color 0.3s ease;
+  }
+
+  .outcome-card:hover { border-color: rgba(196, 66, 26, 0.4); }
+
+  .outcome-card h4 {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-pure);
+    margin-bottom: 0.4rem;
+  }
+
+  .outcome-card p {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 768px) {
+    .leben-outcomes { grid-template-columns: 1fr; }
+  }
+
+  /* === PANEL 6: CTA === */
+  .cta-panel {
+    background: var(--color-bg);
+    text-align: center;
+    align-items: center;
+    min-height: 80vh;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .cta-overline {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    font-weight: 600;
+    color: var(--color-text-pure);
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+
+  .cta-link {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 600;
+    color: var(--color-text-pure);
+    text-decoration: none;
+    padding: 1rem 2.5rem;
+    background: var(--color-primary);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+  }
+
+  .cta-link:hover {
+    background: var(--color-primary-deep);
+    text-decoration: none;
+  }
+
+  /* === SCROLL DOTS === */
+  .scroll-dots {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .scroll-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-border);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .scroll-dot:hover { background: var(--color-text-muted); transform: scale(1.3); }
+  .scroll-dot.active { background: var(--color-primary); transform: scale(1.3); }
+
+  @media (max-width: 768px) {
+    .scroll-dots { right: 0.75rem; gap: 0.6rem; }
+    .scroll-dot { width: 6px; height: 6px; }
+  }
+
+  /* === REDUCED MOTION === */
+  @media (prefers-reduced-motion: reduce) {
+    .bubble-cloud .bubble { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+
+<script>
+  // Dot navigation
+  document.querySelectorAll('.scroll-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      const target = document.getElementById((dot as HTMLElement).dataset.target!);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  const panels = document.querySelectorAll('.panel[id]');
+  const dots = document.querySelectorAll('.scroll-dot');
+
+  const dotObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        dots.forEach(d => d.classList.remove('active'));
+        const activeDot = document.querySelector(`.scroll-dot[data-target="${entry.target.id}"]`);
+        if (activeDot) activeDot.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  panels.forEach(panel => dotObserver.observe(panel));
+
+  // Bubble rotation: show 1 at a time, cycle through
+  const bubbles = document.querySelectorAll('.bubble-cloud .bubble');
+  const CYCLE_INTERVAL = 3200;
+  let currentBubble = 0;
+  let bubbleTimer: ReturnType<typeof setInterval> | null = null;
+
+  function showBubbles() {
+    bubbles.forEach((b, i) => {
+      if (i === currentBubble) {
+        b.classList.add('bubble-visible');
+      } else {
+        b.classList.remove('bubble-visible');
+      }
+    });
+    currentBubble = (currentBubble + 1) % bubbles.length;
+  }
+
+  // Start cycling when pitch panel is visible
+  const pitchPanel = document.getElementById('pitch');
+  if (pitchPanel) {
+    const bubbleObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          showBubbles();
+          if (!bubbleTimer) {
+            bubbleTimer = setInterval(showBubbles, CYCLE_INTERVAL);
+          }
+        } else {
+          if (bubbleTimer) {
+            clearInterval(bubbleTimer);
+            bubbleTimer = null;
+          }
+        }
+      });
+    }, { threshold: 0.3 });
+
+    bubbleObserver.observe(pitchPanel);
+  }
+</script>
