@@ -453,6 +453,168 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
   .contact-secondary a { font-family: var(--font-display); font-size: 1rem; font-weight: 500; color: var(--color-text-muted); text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s ease; padding-bottom: 0.2rem; }
   .contact-secondary a:hover { color: var(--color-primary); border-color: var(--color-primary); text-decoration: none; }
 
+  /* === TEXTUREN === */
+
+  /* Panels mit kompositorischen Elementen: Text auf ~50% begrenzen */
+  #these-03 .thesis-text,
+  #these-03 .thesis-sub,
+  #these-03 .section-label,
+  #haltung-01 .thesis-text,
+  #haltung-01 .thesis-sub,
+  #haltung-01 .section-label,
+  #haltung-01 .equation,
+  #haltung-03 .thesis-text,
+  #haltung-03 .thesis-sub,
+  #haltung-03 .section-label {
+    max-width: 50%;
+  }
+
+  @media (max-width: 768px) {
+    #these-03 .thesis-text,
+    #these-03 .thesis-sub,
+    #these-03 .section-label,
+    #haltung-01 .thesis-text,
+    #haltung-01 .thesis-sub,
+    #haltung-01 .section-label,
+    #haltung-01 .equation,
+    #haltung-03 .thesis-text,
+    #haltung-03 .thesis-sub,
+    #haltung-03 .section-label {
+      max-width: 100%;
+    }
+  }
+
+  /* Flächentextur: Baumstruktur auf dunklem Panel (Problemraum) */
+  #these-01::after {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    background-image:
+      url('/textures/grain-tree-1024.webp'),
+      url('/textures/grain-tree-1024.webp');
+    background-repeat: repeat, repeat;
+    background-size: 1000px 1000px, 1400px 1400px;
+    background-position: 0 0, 137px 211px;
+    mix-blend-mode: hard-light;
+    opacity: 0.09;
+    pointer-events: none;
+    z-index: 0;
+    transform: rotate(7deg);
+  }
+
+  /* Flächentextur: Diamond auf rotem Panel (Problemraum) */
+  #these-02::after {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    background-image:
+      url('/textures/pixel-diamond-512.webp'),
+      url('/textures/pixel-diamond-512.webp');
+    background-repeat: repeat, repeat;
+    background-size: 800px 800px, 1200px 1200px;
+    background-position: 0 0, 137px 211px;
+    mix-blend-mode: hard-light;
+    opacity: 0.50;
+    pointer-events: none;
+    z-index: 0;
+    transform: rotate(7deg);
+  }
+
+  /* === FALLENDE BLÄTTER (These 03 — Symptome) === */
+
+
+  /*
+   * REGEL: Flächentexturen (Diamond, Crosshatch) und kompositorische
+   * Elemente (Wurzel, Gehirn, Blume) NIE auf demselben Panel mischen.
+   * Entweder Fläche ODER Element — nie beides.
+   */
+
+  /* Baumkrone kompositorisch: These 03 (über der Erde — Krone + Stamm) */
+  /* Konzept: Panel-Unterkante = Grasnarbe. Krone wächst nach oben. */
+  /* Haltung 03 Oberkante = gleiche Grasnarbe, Wurzeln wachsen nach unten. */
+  #these-03::before {
+    content: '';
+    position: absolute;
+    bottom: -3%; right: 5%; width: 45%; height: 85%;
+    background-image: url('/textures/comp-tree-crown-inv.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    mix-blend-mode: screen;
+    opacity: 0.16;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Wurzel kompositorisch: Haltung 03 / radix-Panel (stärkste Platzierung) */
+  /* Stamm beginnt am oberen Panel-Rand, Wurzeln breiten sich nach unten aus */
+  #haltung-03::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; width: 60%; height: 110%;
+    background-image: url('/textures/comp-roots-inv.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top right;
+    mix-blend-mode: screen;
+    opacity: 0.20;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Gehirn kompositorisch: Haltung 01 / Empathie-Panel (rechte Hälfte rot) */
+  /* HINWEIS: brain.png hat Wasserzeichen — saubere Quelle nötig! */
+  #haltung-01::before {
+    content: '';
+    position: absolute;
+    top: 5%; right: 0; width: 45%; height: 90%;
+    background-image: url('/textures/comp-brain-inv.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center right;
+    mix-blend-mode: screen;
+    opacity: 0.14;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Rechte Hirnhälfte mit Ember-Rot eingefärbt */
+  #haltung-01::after {
+    content: '';
+    position: absolute;
+    top: 5%; right: 0; width: 45%; height: 90%;
+    background-image: url('/textures/comp-brain-inv.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center right;
+    mix-blend-mode: screen;
+    opacity: 0.22;
+    pointer-events: none;
+    z-index: 1;
+    /* Nur rechte Hälfte des Gehirns zeigen, rot eingefärbt */
+    clip-path: inset(0 0 0 50%);
+    filter: sepia(1) saturate(3) hue-rotate(350deg) brightness(0.8);
+  }
+
+  /* Content über Texturen */
+  #these-01 > *,
+  #these-02 > *,
+  #these-03 > *,
+  #haltung-01 > *,
+  #haltung-03 > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Overflow hidden auf Panels mit Texturen/Elementen */
+  #these-01,
+  #these-02,
+  #these-03,
+  #haltung-01,
+  #haltung-03 {
+    overflow: hidden;
+  }
+
   /* === SCROLL DOTS === */
   .scroll-dots {
     position: fixed;
@@ -528,4 +690,5 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
     setTimeout(showNav, 3000);
     window.addEventListener('scroll', showNav, { once: true });
   }
+
 </script>

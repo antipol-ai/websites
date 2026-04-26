@@ -48,5 +48,36 @@
     "prinzip": "Organisch, nicht mechanisch. Atmen statt Blinken.",
     "reduced-motion": "Alle Animationen muessen bei prefers-reduced-motion: reduce deaktivierbar sein",
     "keine-blinks": "Kein Blinken, kein Grelles, kein Neon"
+  },
+
+  "texturen": {
+    "trennungsregel": {
+      "regel": "Flaechentexturen (Diamond, Baumstruktur, Crosshatch) und kompositorische Elemente (Wurzel, Gehirn, Baumkrone) duerfen NIE auf demselben Panel kombiniert werden. Entweder Flaeche ODER Element - nie beides.",
+      "begruendung": "Kompositorische Elemente brauchen eine ruhige Flaeche, um zu wirken. Flaechentexturen erzeugen Rauschen, das das Element visuell ueberlagert und die Lesbarkeit zerstoert.",
+      "gilt-fuer": ["antipol", "momance", "alle-zukuenftigen-produkte"]
+    },
+    "konzept": {
+      "flaechentextur-bedeutung": "Textur = Problemraum (Disruption, das Unbequeme). Clean = methodische Klarheit (Loesungen, Logik).",
+      "kompositorische-elemente": "Einzelplatzierte Visuals (Wurzel, Gehirn, Baumkrone) die inhaltlich zum Panel-Thema passen. Nie gekachelt, immer mit Fade/Mask. Text auf max 50% Breite begrenzen, damit das Element Raum hat.",
+      "blend-modes": "Grayscale-Assets + mix-blend-mode: hard-light (auf dunkel/rot), multiply invertiert (auf hell). Kompositorische Elemente: screen.",
+      "astro-hinweis": "Astro Scoped CSS greift nicht auf dynamisch erzeugte Elemente. Fuer JS-generierte Textur-Elemente immer Inline-Styles verwenden."
+    },
+    "antipol-texturen": {
+      "baumstruktur": "Flaechentextur fuer dunkle Panels. Sehr dezent: 9% Opacity, Dual-Layer (1000px + 1400px), 7deg Rotation. Asset: grain-tree-1024.webp",
+      "diamond-weave": "Flaechentextur fuer rote Panels (Problemraum). 50% Opacity, Dual-Layer (800px + 1200px), 7deg Rotation. Asset: pixel-diamond-512.webp",
+      "crosshatch": "Flaechentextur (Reserve). 37% Opacity, Dual-Layer, 7deg Rotation. Asset: pixel-crosshatch-512.webp. Aktuell nicht auf der Landingpage im Einsatz.",
+      "baumkrone": "Kompositorisches Element. These 03 (ueber der Erde). Stamm kuenstlich verlaengert. Screen-Blend, 16% Opacity. Asset: comp-tree-crown-inv.webp",
+      "wurzel": "Kompositorisches Element. Haltung 03 (unter der Erde, radix). Staerkste Platzierung. Screen-Blend, 20% Opacity. Asset: comp-roots-inv.webp",
+      "gehirn": "Kompositorisches Element. Haltung 01 (Empathie). Zwei Layer: volles Gehirn (14%) + rechte Haelfte rot eingefaerbt (22%, clip-path + sepia/hue-rotate). HINWEIS: Saubere Quelle ohne Wasserzeichen noetig. Asset: comp-brain-inv.webp"
+    },
+    "panel-zuordnung": {
+      "these-01-dunkel": "Baumstruktur (Flaechentextur, 9%)",
+      "these-02-rot": "Diamond Weave (Flaechentextur, 50%)",
+      "these-03-dunkel": "Baumkrone (Kompositorisch, 16%) - ueber der Erde",
+      "haltung-01-dunkel": "Gehirn (Kompositorisch, 14%+22%)",
+      "haltung-02-hell": "Clean (methodische Klarheit)",
+      "haltung-03-rot": "Wurzel (Kompositorisch, 20%) - unter der Erde",
+      "alle-anderen": "Clean (methodische Klarheit)"
+    }
   }
 }

@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Texture Discovery V4 — Momance + ANTIPOL</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ══════════════════════════════════════
+     BRAND TOKENS — switched by tab
+     ══════════════════════════════════════ */
+  :root {
+    /* Momance defaults */
+    --bg: #0A0A0E;
+    --surface: #111116;
+    --primary: #C9A84C;
+    --cream: #F2EDE4;
+    --text: #F0EAE0;
+    --text-muted: #B2AEBC;
+    --text-label: #8E8A96;
+    --text-dark: #1E1C24;
+    --text-dark-muted: #6A6775;
+    --border: rgba(255,255,255,0.07);
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Source Sans 3', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --tex-opacity: 0.18;
+
+    /* ANTIPOL tokens (used when .brand-antipol is active) */
+    --ap-bg: #0D0D0D;
+    --ap-surface: #1A1A1A;
+    --ap-primary: #C4421A;
+    --ap-primary-deep: #8B2500;
+    --ap-offwhite: #F5F2ED;
+    --ap-text: #F5F2ED;
+    --ap-text-muted: #9C9489;
+    --ap-text-label: #6B6158;
+    --ap-text-dark: #1A1A1A;
+    --ap-text-dark-muted: #6B6158;
+    --ap-border: rgba(58,58,58,0.5);
+    --ap-font-display: 'Space Grotesk', sans-serif;
+    --ap-font-body: 'Source Serif 4', Georgia, serif;
+    --ap-font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* ── Tab Navigation ── */
+  .brand-tabs {
+    position: sticky; top: 0; z-index: 200;
+    display: flex;
+    background: rgba(10,10,14,0.98);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .brand-tab {
+    flex: 1;
+    padding: 16px 24px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .brand-tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 20%; right: 20%;
+    height: 2px;
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+  .brand-tab.active::after { background: var(--primary); left: 10%; right: 10%; }
+
+  .brand-tab[data-brand="momance"] {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text-muted);
+  }
+  .brand-tab[data-brand="momance"].active { color: #C9A84C; }
+
+  .brand-tab[data-brand="antipol"] {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+  }
+  .brand-tab[data-brand="antipol"].active { color: #C4421A; }
+
+  .brand-section { display: none; }
+  .brand-section.active { display: block; }
+
+  /* ── Header ── */
+  header { padding: 48px 40px 24px; max-width: 960px; }
+  .page-label {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400; margin-bottom: 12px;
+  }
+  .subtitle { font-size: 15px; color: var(--text-muted); max-width: 720px; line-height: 1.7; }
+
+  /* Momance header style */
+  .brand-momance .page-label { color: #C9A84C; }
+  .brand-momance h1 { font-family: 'Cormorant Garamond', serif; font-style: italic; color: #C9A84C; }
+
+  /* ANTIPOL header style */
+  .brand-antipol .page-label { font-family: 'JetBrains Mono', monospace; color: #C4421A; }
+  .brand-antipol h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-style: normal; color: #F5F2ED; letter-spacing: -0.03em; }
+  .brand-antipol h1 em { font-style: normal; color: #C4421A; }
+  .brand-antipol .subtitle { color: #9C9489; }
+
+  /* ── Learnings ── */
+  .learnings {
+    padding: 24px 40px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .learnings h3 {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .brand-momance .learnings h3 { color: #C9A84C; }
+  .brand-antipol .learnings h3 { font-family: 'JetBrains Mono', monospace; color: #C4421A; }
+
+  .learning-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px;
+  }
+  .learn-item {
+    font-size: 13px; line-height: 1.6; color: var(--text-muted);
+    padding-left: 16px; border-left: 2px solid var(--border);
+  }
+  .learn-item.good { border-color: var(--primary); }
+  .brand-momance .learn-item.good { border-color: #C9A84C; }
+  .brand-antipol .learn-item.good { border-color: #C4421A; }
+  .learn-item strong { color: var(--text); font-weight: 400; }
+
+  /* ── Controls ── */
+  .controls {
+    position: sticky; top: 52px; z-index: 100;
+    padding: 12px 40px;
+    background: rgba(10,10,14,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+  }
+  .controls label {
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-label);
+  }
+  .controls input[type="range"] { width: 140px; }
+  .brand-momance .controls input[type="range"] { accent-color: #C9A84C; }
+  .brand-antipol .controls input[type="range"] { accent-color: #C4421A; }
+  .val {
+    font-family: var(--font-mono); font-size: 11px;
+    min-width: 32px; display: inline-block;
+  }
+  .brand-momance .val { color: #C9A84C; }
+  .brand-antipol .val { color: #C4421A; }
+  .sel {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--text); background: var(--bg); border: 1px solid var(--border);
+    padding: 3px 6px; border-radius: 4px;
+  }
+
+  /* ── Section ── */
+  .section-head { padding: 48px 40px 8px; }
+  .section-head .tag {
+    font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; display: block; margin-bottom: 8px;
+  }
+  .brand-momance .section-head .tag { font-family: 'IBM Plex Mono', monospace; color: #C9A84C; }
+  .brand-antipol .section-head .tag { font-family: 'JetBrains Mono', monospace; color: #C4421A; }
+
+  .section-head h2 {
+    font-size: 24px; font-weight: 400; margin-bottom: 8px;
+  }
+  .brand-momance .section-head h2 { font-family: 'Cormorant Garamond', serif; font-style: italic; color: #C9A84C; }
+  .brand-antipol .section-head h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-style: normal; color: #F5F2ED; letter-spacing: -0.02em; }
+
+  .section-head p {
+    font-size: 13px; color: var(--text-muted); max-width: 700px; line-height: 1.7; margin-bottom: 16px;
+  }
+
+  /* ── Panels ── */
+  .panel-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    padding: 0 40px; margin-bottom: 16px;
+  }
+  .panel-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+  .panel-full { padding: 0 40px; margin-bottom: 16px; }
+  .panel-full .panel { width: 100%; }
+
+  .panel {
+    position: relative;
+    min-height: 420px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 12px; overflow: hidden;
+  }
+  .panel.dark { background: var(--bg); border: 1px solid var(--border); }
+  .panel.cream { background: var(--cream); }
+
+  /* ANTIPOL specific panel backgrounds */
+  .panel.ap-dark { background: #0D0D0D; border: 1px solid rgba(58,58,58,0.5); }
+  .panel.ap-red { background: #8B2500; }
+  .panel.ap-light { background: #F5F2ED; }
+
+  /* ── Texture overlay: ::after ── */
+  .panel.textured::after {
+    content: ''; position: absolute; inset: 0;
+    background-repeat: repeat; background-size: 512px 512px;
+    opacity: var(--tex-opacity);
+    pointer-events: none; z-index: 2;
+  }
+
+  /* Momance blend modes */
+  .panel.dark.textured::after { mix-blend-mode: hard-light; }
+  .panel.cream.textured::after { mix-blend-mode: multiply; }
+
+  /* ANTIPOL blend modes */
+  .panel.ap-dark.textured::after { mix-blend-mode: hard-light; }
+  .panel.ap-red.textured::after { mix-blend-mode: hard-light; }
+  .panel.ap-light.textured::after { mix-blend-mode: multiply; }
+
+  /* ── Texture sources ── */
+  /* Momance: slate */
+  .panel.dark.tex-slate::after { background-image: url('grain-slate-1024.webp'); }
+  .panel.cream.tex-slate::after { background-image: url('grain-slate-inv-1024.webp'); }
+
+  /* Momance: tree */
+  .panel.dark.tex-tree::after { background-image: url('grain-tree-1024.webp'); }
+  .panel.cream.tex-tree::after { background-image: url('grain-tree-inv-1024.webp'); }
+
+  /* ── PIXEL-BASIERTE TEXTUREN (generiert, perfekt tileable) ── */
+
+  /* Crosshatch — Kreuzgewebe, Leinen-Charakter */
+  .panel.ap-dark.tex-px-cross::after { background-image: url('pixel-crosshatch-512.webp'); }
+  .panel.ap-red.tex-px-cross::after { background-image: url('pixel-crosshatch-512.webp'); }
+  .panel.ap-light.tex-px-cross::after { background-image: url('pixel-crosshatch-inv-512.webp'); }
+
+  /* Stipple — Zufaellige Punkte, wie feines Schleifpapier */
+  .panel.ap-dark.tex-px-stipple::after { background-image: url('pixel-stipple-512.webp'); }
+  .panel.ap-red.tex-px-stipple::after { background-image: url('pixel-stipple-512.webp'); }
+  .panel.ap-light.tex-px-stipple::after { background-image: url('pixel-stipple-inv-512.webp'); }
+
+  /* Diamond — Rautengewebe, fein strukturiert */
+  .panel.ap-dark.tex-px-diamond::after { background-image: url('pixel-diamond-512.webp'); }
+  .panel.ap-red.tex-px-diamond::after { background-image: url('pixel-diamond-512.webp'); }
+  .panel.ap-light.tex-px-diamond::after { background-image: url('pixel-diamond-inv-512.webp'); }
+
+  /* Micrograin — Ultrafein, 2x2 Bloecke, wie mattes Papier */
+  .panel.ap-dark.tex-px-micro::after { background-image: url('pixel-micrograin-512.webp'); }
+  .panel.ap-red.tex-px-micro::after { background-image: url('pixel-micrograin-512.webp'); }
+  .panel.ap-light.tex-px-micro::after { background-image: url('pixel-micrograin-inv-512.webp'); }
+
+  /* Legacy photo-based (kept for comparison) */
+  .panel.ap-dark.tex-sp-fine::after { background-image: url('grain-sandpaper-fine-1024.webp'); }
+  .panel.ap-red.tex-sp-fine::after { background-image: url('grain-sandpaper-fine-1024.webp'); }
+  .panel.ap-light.tex-sp-fine::after { background-image: url('grain-sandpaper-fine-inv-1024.webp'); }
+
+  /* ANTIPOL: Original Sandpaper (coarse, for comparison) */
+  .panel.ap-dark.tex-sandpaper::after { background-image: url('grain-sandpaper-1024.webp'); }
+  .panel.ap-red.tex-sandpaper::after { background-image: url('grain-sandpaper-1024.webp'); }
+  .panel.ap-light.tex-sandpaper::after { background-image: url('grain-sandpaper-inv-1024.webp'); }
+
+  /* Shared: Slate (reusable across brands) */
+  .panel.ap-dark.tex-slate::after { background-image: url('grain-slate-1024.webp'); }
+  .panel.ap-red.tex-slate::after { background-image: url('grain-slate-1024.webp'); }
+  .panel.ap-light.tex-slate::after { background-image: url('grain-slate-inv-1024.webp'); }
+
+  /* ── Anti-tiling: dual layer ── */
+  .panel.textured.dual-layer::after {
+    background-repeat: repeat, repeat;
+    background-size: 800px 800px, 1200px 1200px;
+    background-position: 0 0, 137px 211px;
+    inset: -20%;
+    transform: rotate(7deg);
+  }
+  /* dual-layer needs both images set per texture. Override per class: */
+  .panel.ap-dark.tex-px-cross.dual-layer::after {
+    background-image: url('pixel-crosshatch-512.webp'), url('pixel-crosshatch-512.webp');
+  }
+  .panel.ap-red.tex-px-cross.dual-layer::after {
+    background-image: url('pixel-crosshatch-512.webp'), url('pixel-crosshatch-512.webp');
+  }
+  .panel.ap-dark.tex-px-diamond.dual-layer::after {
+    background-image: url('pixel-diamond-512.webp'), url('pixel-diamond-512.webp');
+  }
+  .panel.ap-red.tex-px-diamond.dual-layer::after {
+    background-image: url('pixel-diamond-512.webp'), url('pixel-diamond-512.webp');
+  }
+  .panel.ap-dark.tex-sp-med.dual-layer::after {
+    background-image: url('grain-sandpaper-med-1024.webp'), url('grain-sandpaper-med-1024.webp');
+  }
+  .panel.ap-red.tex-sp-med.dual-layer::after {
+    background-image: url('grain-sandpaper-med-1024.webp'), url('grain-sandpaper-med-1024.webp');
+  }
+  .panel.ap-dark.tex-sp2-fine.dual-layer::after {
+    background-image: url('grain-sandpaper2-fine-1024.webp'), url('grain-sandpaper2-fine-1024.webp');
+  }
+  .panel.ap-red.tex-sp2-fine.dual-layer::after {
+    background-image: url('grain-sandpaper2-fine-1024.webp'), url('grain-sandpaper2-fine-1024.webp');
+  }
+  .panel.ap-dark.tex-cr-fine.dual-layer::after {
+    background-image: url('grain-cracks-fine-1024.webp'), url('grain-cracks-fine-1024.webp');
+  }
+  .panel.ap-red.tex-cr-fine.dual-layer::after {
+    background-image: url('grain-cracks-fine-1024.webp'), url('grain-cracks-fine-1024.webp');
+  }
+  .panel.ap-dark.tex-slate.dual-layer::after {
+    background-image: url('grain-slate-1024.webp'), url('grain-slate-1024.webp');
+  }
+  .panel.ap-red.tex-slate.dual-layer::after {
+    background-image: url('grain-slate-1024.webp'), url('grain-slate-1024.webp');
+  }
+  .panel.dark.tex-slate.dual-layer::after {
+    background-image: url('grain-slate-1024.webp'), url('grain-slate-1024.webp');
+  }
+
+  /* ── Compositional overlays: ::before ── */
+  /* Roots */
+  .panel.comp-roots::before {
+    content: ''; position: absolute;
+    top: -2%; right: -3%; width: 60%; height: 95%;
+    background-size: contain; background-repeat: no-repeat;
+    background-position: top right;
+    opacity: var(--tex-opacity);
+    pointer-events: none; z-index: 3;
+  }
+  .panel.cream.comp-roots::before { background-image: url('comp-roots.webp'); mix-blend-mode: multiply; }
+  .panel.dark.comp-roots::before { background-image: url('comp-roots-inv.webp'); mix-blend-mode: screen; }
+  .panel.ap-dark.comp-roots::before { background-image: url('comp-roots-inv.webp'); mix-blend-mode: screen; }
+  .panel.ap-red.comp-roots::before { background-image: url('comp-roots-inv.webp'); mix-blend-mode: screen; }
+  .panel.ap-light.comp-roots::before { background-image: url('comp-roots.webp'); mix-blend-mode: multiply; }
+
+  /* Walnut: compositional, centered-right, like a brain/thought visual */
+  .panel.comp-brain::before {
+    content: ''; position: absolute;
+    top: 5%; right: 5%; width: 45%; height: 90%;
+    background-size: contain; background-repeat: no-repeat;
+    background-position: center right;
+    opacity: var(--tex-opacity);
+    pointer-events: none; z-index: 3;
+    mask-image: linear-gradient(to right, transparent 0%, black 20%, black 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%, black 100%);
+  }
+  .panel.ap-dark.comp-brain::before { background-image: url('comp-brain.webp'); mix-blend-mode: normal; }
+  .panel.ap-red.comp-brain::before { background-image: url('comp-brain.webp'); mix-blend-mode: normal; }
+  .panel.ap-light.comp-brain::before { background-image: url('comp-brain-inv.webp'); mix-blend-mode: normal; }
+
+  /* Tree (shared, from Momance) */
+  .panel.comp-tree::before {
+    content: ''; position: absolute;
+    top: 0; right: 0; width: 55%; height: 100%;
+    background-size: cover; background-position: center;
+    opacity: calc(var(--tex-opacity) * 0.5);
+    pointer-events: none; z-index: 3;
+    mask-image: linear-gradient(to right, transparent 0%, black 30%, black 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%, black 100%);
+  }
+  .panel.dark.comp-tree::before { background-image: url('comp-tree.webp'); mix-blend-mode: hard-light; }
+  .panel.cream.comp-tree::before { background-image: url('comp-tree.webp'); mix-blend-mode: soft-light; opacity: calc(var(--tex-opacity) * 0.4); }
+
+  /* Leaf (Momance only) */
+  .panel.comp-leaf::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: url('comp-leaf.webp');
+    background-size: cover; background-position: center;
+    opacity: calc(var(--tex-opacity) * 0.5);
+    pointer-events: none; z-index: 3;
+  }
+  .panel.cream.comp-leaf::before { mix-blend-mode: multiply; }
+  .panel.dark.comp-leaf::before { mix-blend-mode: screen; opacity: calc(var(--tex-opacity) * 0.4); }
+
+  /* ── Content ── */
+  .panel-content { position: relative; z-index: 5; padding: 40px; }
+  .panel-content.centered { text-align: center; max-width: 560px; }
+  .panel-content.left { text-align: left; max-width: 50%; align-self: center; margin-right: auto; }
+
+  .panel-content h3 {
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-weight: 400; line-height: 1.2; margin-bottom: 12px;
+  }
+  .panel-content p { font-size: 14px; line-height: 1.7; }
+
+  /* Momance panel text */
+  .brand-momance .dark .panel-content h3,
+  .panel.dark .panel-content h3 { font-family: 'Cormorant Garamond', serif; font-style: italic; color: #F0EAE0; }
+  .panel.dark .panel-content p { color: #B2AEBC; }
+  .panel.cream .panel-content h3 { font-family: 'Cormorant Garamond', serif; font-style: italic; color: #1E1C24; }
+  .panel.cream .panel-content p { color: #6A6775; }
+
+  /* ANTIPOL panel text */
+  .panel.ap-dark .panel-content h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-style: normal; color: #F5F2ED; letter-spacing: -0.02em; }
+  .panel.ap-dark .panel-content p { font-family: 'Source Serif 4', serif; color: #9C9489; }
+  .panel.ap-red .panel-content h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-style: normal; color: #F5F2ED; letter-spacing: -0.02em; }
+  .panel.ap-red .panel-content p { font-family: 'Source Serif 4', serif; color: rgba(245,242,237,0.85); }
+  .panel.ap-red .panel-content .section-lbl { color: rgba(245,242,237,0.7); }
+  .panel.ap-light .panel-content h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-style: normal; color: #1A1A1A; letter-spacing: -0.02em; }
+  .panel.ap-light .panel-content p { font-family: 'Source Serif 4', serif; color: #6B6158; }
+
+  /* ── Panel labels ── */
+  .panel-label {
+    position: absolute; bottom: 10px; left: 14px;
+    font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; z-index: 10;
+  }
+  .panel.dark .panel-label,
+  .panel.ap-dark .panel-label { font-family: var(--font-mono); color: var(--text-label); }
+  .panel.cream .panel-label { font-family: var(--font-mono); color: var(--text-dark-muted); }
+  .panel.ap-red .panel-label { font-family: 'JetBrains Mono', monospace; color: rgba(245,242,237,0.6); }
+  .panel.ap-light .panel-label { font-family: 'JetBrains Mono', monospace; color: #6B6158; }
+
+  .badge {
+    position: absolute; top: 10px; right: 14px;
+    font-family: var(--font-mono); font-size: 8px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px; z-index: 10;
+  }
+  .badge.pick-gold { color: #C9A84C; background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.3); }
+  .badge.pick-red { color: #C4421A; background: rgba(196,66,26,0.12); border: 1px solid rgba(196,66,26,0.3); }
+  .badge.new { color: #9C9489; background: rgba(156,148,137,0.12); border: 1px solid rgba(156,148,137,0.3); }
+
+  .divider { height: 1px; background: var(--border); margin: 32px 40px; }
+
+  /* ── Verdict ── */
+  .verdict { padding: 48px 40px; border-top: 1px solid var(--border); }
+  .brand-momance .verdict h2 { font-family: 'Cormorant Garamond', serif; font-style: italic; color: #C9A84C; }
+  .brand-antipol .verdict h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: #F5F2ED; letter-spacing: -0.02em; }
+  .verdict h2 { font-size: 22px; margin-bottom: 16px; }
+  .verdict p { font-size: 14px; color: var(--text-muted); max-width: 700px; line-height: 1.7; margin-bottom: 12px; }
+  .verdict strong { color: var(--text); }
+
+  footer {
+    padding: 24px 40px; border-top: 1px solid var(--border);
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-label);
+  }
+
+  @media (max-width: 768px) {
+    header, .learnings, .section-head, .controls, .verdict, footer { padding-left: 20px; padding-right: 20px; }
+    .panel-row { grid-template-columns: 1fr; padding: 0 20px; }
+    .panel-row.triple { grid-template-columns: 1fr; }
+    .panel-full { padding: 0 20px; }
+    .learning-grid { grid-template-columns: 1fr; }
+    .panel-content.left { max-width: 70%; }
+    .divider { margin: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     TAB NAVIGATION
+     ══════════════════════════════════════ -->
+<nav class="brand-tabs">
+  <button class="brand-tab active" data-brand="momance">Momance</button>
+  <button class="brand-tab" data-brand="antipol">ANTIPOL</button>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     MOMANCE TAB
+     ══════════════════════════════════════════════════════════════════ -->
+<div class="brand-section brand-momance active" id="sec-momance">
+
+<header>
+  <div class="page-label">Momance · Texture Discovery V3 → V4</div>
+  <h1>Bestaetigt. Implementiert.</h1>
+  <p class="subtitle">Die Momance-Texturen sind entschieden und auf der Landingpage implementiert: Schiefer als Flaechenkorn, Wurzeln und Baum kompositorisch. Dieser Tab zeigt die bestaetigen Ergebnisse als Referenz.</p>
+</header>
+
+<div class="learnings">
+  <h3>Implementierte Entscheidungen (E·53)</h3>
+  <div class="learning-grid">
+    <div class="learn-item good"><strong>Schiefer auf Dark</strong> — Hard-Light, 9–16% Opazitaet. Dual-Layer gegen Kachelwiederholung.</div>
+    <div class="learn-item good"><strong>Wurzel auf Cream</strong> — Kompositorisch, multiply, rechte Haelfte. Immer allein, ohne Flaechentextur.</div>
+    <div class="learn-item good"><strong>Baum auf Dark</strong> — Kompositorisch, rechte Haelfte mit Mask-Fade. Im Ripple-Panel.</div>
+    <div class="learn-item good"><strong>Invertierte Texturen auf Cream</strong> — Dunkle Strukturen + Multiply fuer Sichtbarkeit auf hellem Grund.</div>
+  </div>
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <label>Opazitaet:</label>
+  <input type="range" id="opSliderM" min="0" max="60" value="18" step="1">
+  <span class="val" id="opValM">18%</span>
+
+  <label>Blend Dark:</label>
+  <select class="sel" id="blendDarkM">
+    <option value="hard-light" selected>Hard Light</option>
+    <option value="screen">Screen</option>
+    <option value="overlay">Overlay</option>
+  </select>
+
+  <label>Tile:</label>
+  <select class="sel" id="tileSizeM">
+    <option value="256">256</option>
+    <option value="512" selected>512</option>
+    <option value="768">768</option>
+    <option value="1024">1024</option>
+  </select>
+</div>
+
+<!-- Bestaetigte Panels -->
+<div class="section-head">
+  <span class="tag">Referenz — Implementiert auf Landingpage</span>
+  <h2>So sieht es live aus.</h2>
+</div>
+
+<!-- Haltung: Schiefer Dual-Layer -->
+<div class="panel-full">
+  <div class="panel dark textured tex-slate dual-layer" style="min-height:500px;">
+    <span class="badge pick-gold">Live</span>
+    <span class="panel-label">Haltung · Schiefer Dual-Layer · 14%</span>
+    <div class="panel-content left">
+      <h3>Kein Tracking. Kein Feed. Kein Algorithmus.</h3>
+      <p>Die meisten Apps wollen, dass du bleibst. Momance will, dass du gehst — weil du gelernt hast, selbst zu sehen.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Reflexion: Cream + Wurzeln -->
+<div class="panel-full">
+  <div class="panel cream comp-roots" style="min-height:500px;">
+    <span class="badge pick-gold">Live</span>
+    <span class="panel-label">Reflexion · Wurzel Kompositorisch · Cream</span>
+    <div class="panel-content left">
+      <h3>Was war heute nicht schlimm?</h3>
+      <p>Eine Frage, die den Blick veraendert. Nicht was fehlt — sondern was schon da ist.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Ripple: Schiefer + Baum -->
+<div class="panel-full">
+  <div class="panel dark textured tex-slate dual-layer comp-tree" style="min-height:500px;">
+    <span class="badge pick-gold">Live</span>
+    <span class="panel-label">Ripple · Schiefer + Baum-Maserung · Dark</span>
+    <div class="panel-content left">
+      <h3>Wer anders hinschaut, lebt anders.</h3>
+      <p>Bewusstere Wahrnehmung bleibt nicht bei dir. Sie wirkt — auf Beziehungen, auf die Welt.</p>
+    </div>
+  </div>
+</div>
+
+<div class="verdict">
+  <h2>Momance — abgeschlossen</h2>
+  <p><strong>Zwei Ebenen:</strong> Flaechentextur (Schiefer, 9–16%, dual-layer) und Kompositorische Elemente (Wurzel, Baum — einmalige Platzierung, 18–25%).</p>
+  <p><strong>Dokumentiert als E·53</strong> im Design-Entscheidungen-Dokument.</p>
+</div>
+
+</div><!-- /brand-momance -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     ANTIPOL TAB
+     ══════════════════════════════════════════════════════════════════ -->
+<div class="brand-section brand-antipol" id="sec-antipol">
+
+<header>
+  <div class="page-label">ANTIPOL · Texture Discovery</div>
+  <h1>Materialitaet fuer <em>ANTIPOL.</em></h1>
+  <p class="subtitle">ANTIPOL hat drei Hintergruende: Deep Black (#0D0D0D), Root Red (#8B2500) und Off-White (#F5F2ED). Die Textur bei ANTIPOL ist konzeptionell: Sie markiert Problemraeume, Krisen, das Unbequeme — dort, wo Disruption spuerbar wird. Methodische Klarheit bleibt clean. Die Koernung muss fein und sauber sein, kaum wahrnehmbar — ein Hauch von Distortion, kein Sternenhimmel.</p>
+</header>
+
+<div class="learnings">
+  <h3>Erkenntnisse</h3>
+  <div class="learning-grid">
+    <div class="learn-item good"><strong>Wurzel auf Root Red</strong> — Treffer. Kompositorisch, screen blend. radix-Narrativ visuell verankert.</div>
+    <div class="learn-item good"><strong>Gehirn-Zeichnung</strong> — Treffer auf allen Hintergruenden. Empathie/Denken visuell. Achtung: Quelldatei hat Wasserzeichen — saubere Version noetig.</div>
+    <div class="learn-item good"><strong>Konzeptionelles Prinzip</strong> — Textur = Problemraum, Disruption. Clean = Methodik, Klarheit. Textur wird bedeutungstragend.</div>
+    <div class="learn-item good"><strong>Diamond Weave</strong> — Favorit fuer Flaechentextur. Feine Rautenstruktur, subtil, gleichmaessig. Crosshatch (Leinen) funktioniert auch.</div>
+    <div class="learn-item"><strong>Diagonal Weave</strong> — Rausgeflogen. TV-Rauschen, viel zu aggressiv.</div>
+    <div class="learn-item"><strong>Foto-basiert gescheitert</strong> — Schleifpapier-Fotos sind nicht kontrollierbar genug. Pixel-basierte Generierung ist der Weg.</div>
+  </div>
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <label>Opazitaet:</label>
+  <input type="range" id="opSliderA" min="0" max="60" value="15" step="1">
+  <span class="val" id="opValA">15%</span>
+
+  <label>Blend Dark:</label>
+  <select class="sel" id="blendDarkA">
+    <option value="hard-light" selected>Hard Light</option>
+    <option value="soft-light">Soft Light</option>
+    <option value="screen">Screen</option>
+    <option value="overlay">Overlay</option>
+  </select>
+
+  <label>Blend Red:</label>
+  <select class="sel" id="blendRedA">
+    <option value="hard-light" selected>Hard Light</option>
+    <option value="soft-light">Soft Light</option>
+    <option value="overlay">Overlay</option>
+  </select>
+
+  <label>Blend Light:</label>
+  <select class="sel" id="blendLightA">
+    <option value="multiply" selected>Multiply</option>
+    <option value="soft-light">Soft Light</option>
+    <option value="overlay">Overlay</option>
+  </select>
+
+  <label>Tile:</label>
+  <select class="sel" id="tileSizeA">
+    <option value="256">256</option>
+    <option value="512" selected>512</option>
+    <option value="768">768</option>
+    <option value="1024">1024</option>
+  </select>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TREFFER: Wurzel auf Root Red
+     ═══════════════════════════════════════ -->
+
+<div class="section-head">
+  <span class="tag">Bestaetigt</span>
+  <h2>Wurzel auf Root Red.</h2>
+  <p>Funktioniert sofort. Die Wurzel als kompositorisches Element auf dem roten Hintergrund — das radix-Narrativ visuell verankert.</p>
+</div>
+
+<div class="panel-full">
+  <div class="panel ap-red comp-roots" style="min-height:500px;">
+    <span class="badge pick-red">Treffer</span>
+    <span class="panel-label">Wurzel · Kompositorisch · Red</span>
+    <div class="panel-content left">
+      <h3>Wir gehen an die Wurzel.</h3>
+      <p>Radikal kommt von radix. Wir hinterfragen Strukturen, Annahmen und Gewohnheiten.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     1. PIXEL-BASIERTE FLAECHENTEXTUREN
+     ═══════════════════════════════════════ -->
+
+<div class="section-head">
+  <span class="tag">Flaechentextur — Zwei Finalisten</span>
+  <h2>Crosshatch vs. Diamond.</h2>
+  <p>Zwei pixel-basierte Texturen im direkten Vergleich — mit eigenen Opazitaetsreglern, weil die Sichtbarkeitsschwellen unterschiedlich sind. Crosshatch wird bei ~35% sichtbar, Diamond braucht ~45%.</p>
+</div>
+
+<!-- Per-texture opacity controls -->
+<div style="padding: 16px 40px; display: flex; gap: 40px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid var(--border); margin-bottom: 24px;">
+  <div style="display:flex; align-items:center; gap:10px;">
+    <label style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#6B6158;">Crosshatch:</label>
+    <input type="range" id="opCross" min="0" max="80" value="35" step="1" style="width:160px; accent-color:#C4421A;">
+    <span class="val" id="opCrossVal" style="color:#C4421A;">35%</span>
+  </div>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <label style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#6B6158;">Diamond:</label>
+    <input type="range" id="opDiamond" min="0" max="80" value="45" step="1" style="width:160px; accent-color:#C4421A;">
+    <span class="val" id="opDiamondVal" style="color:#C4421A;">45%</span>
+  </div>
+</div>
+
+<!-- === CROSSHATCH: alle drei Hintergruende === -->
+<div class="section-head" style="padding-top: 16px;">
+  <span class="tag" style="font-size:9px;">Crosshatch / Leinen</span>
+</div>
+
+<div class="panel-row" style="grid-template-columns: 1fr 1fr 1fr; margin-bottom: 16px;">
+  <div class="panel ap-dark textured tex-px-cross cross-panel">
+    <span class="panel-label">Crosshatch · Dark</span>
+    <div class="panel-content centered">
+      <h3>Die meisten Probleme sind keine Technikprobleme.</h3>
+      <p>In den weichen Faktoren.</p>
+    </div>
+  </div>
+  <div class="panel ap-red textured tex-px-cross cross-panel">
+    <span class="panel-label">Crosshatch · Red</span>
+    <div class="panel-content centered">
+      <h3>Kultur frisst Strategie zum Fruehstueck.</h3>
+      <p>Keine Fehler erlaubt.</p>
+    </div>
+  </div>
+  <div class="panel ap-light textured tex-px-cross cross-panel">
+    <span class="panel-label">Crosshatch · Light</span>
+    <div class="panel-content centered">
+      <h3>AI demokratisiert den Zugang.</h3>
+      <p>Auf Augenhoehe.</p>
+    </div>
+  </div>
+</div>
+
+<!-- === DIAMOND: alle drei Hintergruende === -->
+<div class="section-head" style="padding-top: 16px;">
+  <span class="tag" style="font-size:9px;">Diamond Weave</span>
+</div>
+
+<div class="panel-row" style="grid-template-columns: 1fr 1fr 1fr; margin-bottom: 16px;">
+  <div class="panel ap-dark textured tex-px-diamond diamond-panel">
+    <span class="panel-label">Diamond · Dark</span>
+    <div class="panel-content centered">
+      <h3>Die meisten Probleme sind keine Technikprobleme.</h3>
+      <p>In den weichen Faktoren.</p>
+    </div>
+  </div>
+  <div class="panel ap-red textured tex-px-diamond diamond-panel">
+    <span class="panel-label">Diamond · Red</span>
+    <div class="panel-content centered">
+      <h3>Kultur frisst Strategie zum Fruehstueck.</h3>
+      <p>Keine Fehler erlaubt.</p>
+    </div>
+  </div>
+  <div class="panel ap-light textured tex-px-diamond diamond-panel">
+    <span class="panel-label">Diamond · Light</span>
+    <div class="panel-content centered">
+      <h3>AI demokratisiert den Zugang.</h3>
+      <p>Auf Augenhoehe.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     2. KOMPOSITORISCHE ELEMENTE
+     ═══════════════════════════════════════ -->
+
+<div class="section-head">
+  <span class="tag">Kompositorisch — Gehirn + Wurzel</span>
+  <h2>Gehirn-Zeichnung. Wurzel als radix.</h2>
+  <p>Freigestellte Gehirn-Illustration als Analogie zu Denken und Empathie. Die Wurzel als visuelles radix. Jeweils rechte Haelfte, mit Mask-Fade. Wurzel auf Red ist bestaetigt — hier: Gehirn auf den verschiedenen Hintergruenden testen.</p>
+</div>
+
+<!-- Walnut on Dark -->
+<div class="panel-full">
+  <div class="panel ap-dark comp-brain" style="min-height:500px;">
+    <span class="badge new">Neu</span>
+    <span class="panel-label">Gehirn · Kompositorisch · Dark</span>
+    <div class="panel-content left">
+      <h3>Empathie = Skill.</h3>
+      <p>Den Menschen gegenueber wirklich verstehen — das macht den Unterschied.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Walnut on Red -->
+<div class="panel-full">
+  <div class="panel ap-red comp-brain" style="min-height:500px;">
+    <span class="badge new">Neu</span>
+    <span class="panel-label">Gehirn · Kompositorisch · Red</span>
+    <div class="panel-content left">
+      <h3>Empathie = Skill.</h3>
+      <p>Den Menschen gegenueber wirklich verstehen — das macht den Unterschied.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Walnut on Light -->
+<div class="panel-full">
+  <div class="panel ap-light comp-brain" style="min-height:500px;">
+    <span class="badge new">Neu</span>
+    <span class="panel-label">Gehirn · Kompositorisch · Light</span>
+    <div class="panel-content left">
+      <h3>Empathie = Skill.</h3>
+      <p>Den Menschen gegenueber wirklich verstehen — das macht den Unterschied.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Roots on Dark (for comparison) -->
+<div class="panel-full">
+  <div class="panel ap-dark comp-roots" style="min-height:500px;">
+    <span class="panel-label">Wurzel · Kompositorisch · Dark</span>
+    <div class="panel-content left">
+      <h3>Wir gehen an die Wurzel.</h3>
+      <p>Radikal kommt von radix. Wir hinterfragen Strukturen, Annahmen und Gewohnheiten.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     3. KONZEPTIONELLE SIMULATION
+     ═══════════════════════════════════════ -->
+
+<div class="section-head">
+  <span class="tag">Konzeptionelle Simulation — Textur = Problemraum</span>
+  <h2>Wo Distortion, wo Klarheit?</h2>
+  <p>Das Prinzip: Textur markiert Problemraeume — dort, wo es um Krisen, Disruption, das Unbequeme geht. Methodische Klarheit bleibt clean. In dieser Simulation bekommen nur die Panels Textur, die inhaltlich von Problemen, Reibung oder Wurzelarbeit sprechen. Die Loesung (Empathie-Gleichung, Schichtmodell, Kontakt) bleibt sauber.</p>
+</div>
+
+<!-- 1. Hero — CLEAN (kein Problem, Identitaet) -->
+<div class="panel-full">
+  <div class="panel ap-dark" style="min-height:85vh; justify-content: flex-start; padding-top: 40%;">
+    <span class="panel-label">1 · Hero — Clean · Identitaet</span>
+    <div class="panel-content centered">
+      <h3 style="font-size: clamp(3rem, 10vw, 7rem); letter-spacing: -0.04em;">ANTI<span style="color: #C4421A;">POL</span></h3>
+    </div>
+    <div style="position:absolute; top:-30%; right:-15%; width:70vw; height:70vw; background:radial-gradient(circle, rgba(139,37,0,0.1) 0%, transparent 65%); pointer-events:none;"></div>
+  </div>
+</div>
+
+<!-- 2. These 01 — TEXTUR (Problemraum: „keine Technikprobleme") -->
+<div class="panel-full">
+  <div class="panel ap-dark textured tex-px-diamond dual-layer" style="min-height:85vh;">
+    <span class="badge" style="color:#C4421A; background:rgba(196,66,26,0.08); border:1px solid rgba(196,66,26,0.2); font-size:7px;">Problemraum</span>
+    <span class="panel-label">2 · These 01 — Diamond Weave · Probleme benennen</span>
+    <div class="panel-content left" style="max-width: 60%;">
+      <p style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:#E07A42; margin-bottom:16px;">These 01</p>
+      <h3>Die meisten Probleme sind keine Technikprobleme.</h3>
+      <p>Sie sitzen im Miteinander, in Strukturen, in den weichen Faktoren.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 3. These 02 — TEXTUR (Problemraum auf Red: Kultur als Blocker) -->
+<div class="panel-full">
+  <div class="panel ap-red textured tex-px-diamond dual-layer" style="min-height:85vh;">
+    <span class="badge" style="color:rgba(245,242,237,0.7); background:rgba(245,242,237,0.08); border:1px solid rgba(245,242,237,0.15); font-size:7px;">Problemraum</span>
+    <span class="panel-label">3 · These 02 — Diamond Weave · Kultur als Blocker</span>
+    <div class="panel-content left" style="max-width: 60%;">
+      <p style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(245,242,237,0.7); margin-bottom:16px;">These 02</p>
+      <h3>Kultur frisst Strategie und Technologie zum Fruehstueck.</h3>
+      <p>Wer Transformation will, muss bei der Kultur anfangen.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 4. These 03 — TEXTUR + WURZEL (Problemraum: Falsches Problem loesen) -->
+<div class="panel-full">
+  <div class="panel ap-dark textured tex-px-diamond dual-layer comp-roots" style="min-height:85vh;">
+    <span class="badge" style="color:#C4421A; background:rgba(196,66,26,0.08); border:1px solid rgba(196,66,26,0.2); font-size:7px;">Problemraum + radix</span>
+    <span class="panel-label">4 · These 03 — Diamond Weave + Wurzel · Tieferes Fragen</span>
+    <div class="panel-content left" style="max-width: 50%;">
+      <p style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:#E07A42; margin-bottom:16px;">These 03</p>
+      <h3>Wer nur die erste Antwort akzeptiert, loest das falsche Problem.</h3>
+      <p>Die Wurzel liegt selten an der Oberflaeche.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 5. Haltung 01 / Gleichung — CLEAN (Loesung: Empathie als Skill) -->
+<div class="panel-full">
+  <div class="panel ap-dark" style="min-height:85vh;">
+    <span class="badge" style="color:#9C9489; background:rgba(156,148,137,0.06); border:1px solid rgba(156,148,137,0.15); font-size:7px;">Clean · Klarheit</span>
+    <span class="panel-label">5 · Haltung 01 — Clean · Die Antwort</span>
+    <div class="panel-content left" style="max-width: 60%;">
+      <p style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:#E07A42; margin-bottom:16px;">Haltung 01</p>
+      <h3 style="font-size: clamp(2rem, 6vw, 4.5rem);">Empathie <span style="color:#C4421A;">=</span><br><span style="text-decoration:line-through; text-decoration-color:#C4421A; color:#6B6158;">Soft</span> <span style="color:#C4421A;">Skill</span></h3>
+      <p>Den Menschen gegenueber wirklich verstehen — das macht den Unterschied.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 6. Haltung 02 — CLEAN (Loesung: Demokratisierung) -->
+<div class="panel-full">
+  <div class="panel ap-light" style="min-height:85vh;">
+    <span class="badge" style="color:#6B6158; background:rgba(107,97,88,0.06); border:1px solid rgba(107,97,88,0.15); font-size:7px;">Clean · Klarheit</span>
+    <span class="panel-label">6 · Haltung 02 — Clean · Off-White</span>
+    <div class="panel-content left" style="max-width: 60%;">
+      <p style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:#C4421A; margin-bottom:16px;">Haltung 02</p>
+      <h3>AI demokratisiert den Zugang. Aber nicht automatisch.</h3>
+      <p>Jemand muss den Weg zeigen — ohne Gatekeeping, auf Augenhoehe.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 7. Haltung 03 — TEXTUR + WURZEL (Problemraum auf Red: An die Wurzel) -->
+<div class="panel-full">
+  <div class="panel ap-red comp-roots" style="min-height:85vh;">
+    <span class="badge pick-red">Treffer · radix</span>
+    <span class="panel-label">7 · Haltung 03 — Wurzel auf Red · Das Unbequeme</span>
+    <div class="panel-content left" style="max-width: 50%;">
+      <p style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(245,242,237,0.7); margin-bottom:16px;">Haltung 03</p>
+      <h3>Wir gehen an die Wurzel. Nicht an die Oberflaeche.</h3>
+      <p>Radikal kommt von radix. Das ist unbequem. Aber der einzige Weg.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 8. Schichtmodell — CLEAN (Methodik: So arbeiten wir) -->
+<div class="panel-full">
+  <div class="panel ap-dark" style="min-height:85vh; background: #1A1A1A;">
+    <span class="badge" style="color:#9C9489; background:rgba(156,148,137,0.06); border:1px solid rgba(156,148,137,0.15); font-size:7px;">Clean · Methodik</span>
+    <span class="panel-label">8 · Schichtmodell — Clean · Methodische Klarheit</span>
+    <div class="panel-content centered">
+      <p style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:#E07A42; margin-bottom:16px;">Wie wir arbeiten</p>
+      <h3>Kein Katalog. Ein Kern.</h3>
+      <p>Anfragen kommen von aussen. Wir finden die richtige Tiefe.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 9. Team — CLEAN + evtl. Gehirn (Menschen, nicht Probleme) -->
+<div class="panel-full">
+  <div class="panel ap-dark comp-brain" style="min-height:85vh;">
+    <span class="badge new">Gehirn</span>
+    <span class="panel-label">9 · Team — Gehirn · Empathie als Kern</span>
+    <div class="panel-content left" style="max-width: 50%;">
+      <p style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:#E07A42; margin-bottom:16px;">Wer wir sind</p>
+      <h3>Empathie verbindet.</h3>
+      <p>Stefan und Catrin lesen Menschen, verstehen Systeme und begleiten Veraenderung — an der Wurzel.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 10. Kontakt — CLEAN (CTA, kein Problemraum) -->
+<div class="panel-full">
+  <div class="panel ap-dark" style="min-height:85vh;">
+    <span class="badge" style="color:#9C9489; background:rgba(156,148,137,0.06); border:1px solid rgba(156,148,137,0.15); font-size:7px;">Clean · CTA</span>
+    <span class="panel-label">10 · Kontakt — Clean</span>
+    <div class="panel-content centered">
+      <p style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:#E07A42; margin-bottom:16px;">Erkannt?</p>
+      <h3>Starte mit uns ein Experiment.</h3>
+      <p>Kein Kontaktformular. Ein Gespraech. Eine Hypothese. Ein erster Schritt.</p>
+    </div>
+  </div>
+</div>
+
+<div class="verdict">
+  <h2>Stand nach Iteration 2</h2>
+  <p><strong>Bestaetigt:</strong> Wurzel auf Root Red funktioniert. Konzeptionelles Prinzip: Textur = Problemraum, Clean = Klarheit.</p>
+  <p><strong>Drei Treffer:</strong> (1) Wurzel auf Root Red, (2) Gehirn-Zeichnung auf allen Hintergruenden, (3) Diamond Weave als Flaechentextur.</p>
+  <p><strong>Crosshatch (Leinen)</strong> funktioniert auch — als Alternative oder Zweitoption. Diagonal Weave rausgeflogen (TV-Rauschen).</p>
+  <p><strong>Konzept:</strong> Textur nur auf Problemraum-Panels. Klarheits-Panels bleiben clean. Weniger ist mehr.</p>
+  <p><strong>Offen:</strong> Gehirn-Quelldatei hat PNGTREE-Wasserzeichen — saubere, lizenzierte Version noetig. Stipple und Micrograin noch zu bewerten.</p>
+</div>
+
+</div><!-- /brand-antipol -->
+
+
+<footer>
+  Texture Discovery V4 · Momance (Referenz) + ANTIPOL (Exploration) · Shared Design System
+</footer>
+
+
+<!-- ══════════════════════════════════════
+     SCRIPT
+     ══════════════════════════════════════ -->
+<script>
+  // ── Tab switching ──
+  const tabs = document.querySelectorAll('.brand-tab');
+  const sections = document.querySelectorAll('.brand-section');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const brand = tab.dataset.brand;
+      tabs.forEach(t => t.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('sec-' + brand).classList.add('active');
+
+      // Update tab bar accent color
+      const tabBar = document.querySelector('.brand-tabs');
+      if (brand === 'antipol') {
+        document.documentElement.style.setProperty('--primary', '#C4421A');
+        document.documentElement.style.setProperty('--bg', '#0D0D0D');
+        document.documentElement.style.setProperty('--text', '#F5F2ED');
+        document.documentElement.style.setProperty('--text-muted', '#9C9489');
+        document.documentElement.style.setProperty('--text-label', '#6B6158');
+        document.documentElement.style.setProperty('--border', 'rgba(58,58,58,0.5)');
+        tabBar.style.background = 'rgba(13,13,13,0.98)';
+      } else {
+        document.documentElement.style.setProperty('--primary', '#C9A84C');
+        document.documentElement.style.setProperty('--bg', '#0A0A0E');
+        document.documentElement.style.setProperty('--text', '#F0EAE0');
+        document.documentElement.style.setProperty('--text-muted', '#B2AEBC');
+        document.documentElement.style.setProperty('--text-label', '#8E8A96');
+        document.documentElement.style.setProperty('--border', 'rgba(255,255,255,0.07)');
+        tabBar.style.background = 'rgba(10,10,14,0.98)';
+      }
+    });
+  });
+
+  // ── Helpers ──
+  function dynStyle(id) {
+    let el = document.getElementById(id);
+    if (!el) { el = document.createElement('style'); el.id = id; document.head.appendChild(el); }
+    return el;
+  }
+
+  // ── Momance controls ──
+  const opSliderM = document.getElementById('opSliderM');
+  const opValM = document.getElementById('opValM');
+  const blendDarkM = document.getElementById('blendDarkM');
+  const tileSizeM = document.getElementById('tileSizeM');
+
+  opSliderM.addEventListener('input', () => {
+    const v = opSliderM.value;
+    opValM.textContent = v + '%';
+    dynStyle('s-op-m').textContent = `#sec-momance .panel.textured::after { opacity: ${v/100} !important; }
+      #sec-momance .panel.comp-roots::before { opacity: ${v/100} !important; }
+      #sec-momance .panel.comp-tree::before { opacity: ${v/200} !important; }`;
+  });
+
+  blendDarkM.addEventListener('change', () => {
+    const m = blendDarkM.value;
+    dynStyle('s-bd-m').textContent = `#sec-momance .panel.dark.textured::after { mix-blend-mode: ${m} !important; }`;
+  });
+
+  tileSizeM.addEventListener('change', () => {
+    const s = tileSizeM.value + 'px';
+    dynStyle('s-ts-m').textContent = `#sec-momance .panel.textured:not(.dual-layer)::after { background-size: ${s} ${s} !important; }`;
+  });
+
+  // ── ANTIPOL controls ──
+  const opSliderA = document.getElementById('opSliderA');
+  const opValA = document.getElementById('opValA');
+  const blendDarkA = document.getElementById('blendDarkA');
+  const blendRedA = document.getElementById('blendRedA');
+  const blendLightA = document.getElementById('blendLightA');
+  const tileSizeA = document.getElementById('tileSizeA');
+
+  opSliderA.addEventListener('input', () => {
+    const v = opSliderA.value;
+    opValA.textContent = v + '%';
+    dynStyle('s-op-a').textContent = `#sec-antipol .panel.textured::after { opacity: ${v/100} !important; }
+      #sec-antipol .panel.comp-roots::before { opacity: ${v/100} !important; }
+      #sec-antipol .panel.comp-brain::before { opacity: ${v/100} !important; }`;
+  });
+
+  blendDarkA.addEventListener('change', () => {
+    const m = blendDarkA.value;
+    dynStyle('s-bd-a').textContent = `
+      #sec-antipol .panel.ap-dark.textured::after { mix-blend-mode: ${m} !important; }
+      #sec-antipol .panel.ap-dark.comp-roots::before { mix-blend-mode: ${m === 'hard-light' ? 'screen' : m} !important; }
+      #sec-antipol .panel.ap-dark.comp-brain::before { mix-blend-mode: ${m === 'hard-light' ? 'screen' : m} !important; }
+    `;
+  });
+
+  blendRedA.addEventListener('change', () => {
+    const m = blendRedA.value;
+    dynStyle('s-br-a').textContent = `
+      #sec-antipol .panel.ap-red.textured::after { mix-blend-mode: ${m} !important; }
+      #sec-antipol .panel.ap-red.comp-roots::before { mix-blend-mode: ${m === 'hard-light' ? 'screen' : m} !important; }
+    `;
+  });
+
+  blendLightA.addEventListener('change', () => {
+    const m = blendLightA.value;
+    dynStyle('s-bl-a').textContent = `
+      #sec-antipol .panel.ap-light.textured::after { mix-blend-mode: ${m} !important; }
+      #sec-antipol .panel.ap-light.comp-brain::before { mix-blend-mode: ${m} !important; }
+    `;
+  });
+
+  tileSizeA.addEventListener('change', () => {
+    const s = tileSizeA.value + 'px';
+    dynStyle('s-ts-a').textContent = `#sec-antipol .panel.textured:not(.dual-layer)::after { background-size: ${s} ${s} !important; }`;
+  });
+
+  // ── Per-texture opacity controls ──
+  const opCross = document.getElementById('opCross');
+  const opCrossVal = document.getElementById('opCrossVal');
+  const opDiamond = document.getElementById('opDiamond');
+  const opDiamondVal = document.getElementById('opDiamondVal');
+
+  if (opCross) {
+    opCross.addEventListener('input', () => {
+      const v = opCross.value;
+      opCrossVal.textContent = v + '%';
+      dynStyle('s-op-cross').textContent = `.cross-panel.textured::after { opacity: ${v/100} !important; }`;
+    });
+    // Set initial
+    dynStyle('s-op-cross').textContent = `.cross-panel.textured::after { opacity: 0.35 !important; }`;
+  }
+
+  if (opDiamond) {
+    opDiamond.addEventListener('input', () => {
+      const v = opDiamond.value;
+      opDiamondVal.textContent = v + '%';
+      dynStyle('s-op-diamond').textContent = `.diamond-panel.textured::after { opacity: ${v/100} !important; }`;
+    });
+    // Set initial
+    dynStyle('s-op-diamond').textContent = `.diamond-panel.textured::after { opacity: 0.45 !important; }`;
+  }
+</script>
+
+</body>
+</html>
