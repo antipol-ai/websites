@@ -1,0 +1,61 @@
+---
+/**
+ * AntipolLayout — ANTIPOL-spezifisches Layout.
+ *
+ * Importiert das BaseLayout, lädt ANTIPOL-Theme, Fonts und Navigation.
+ */
+import BaseLayout from '@antipol/shared/layouts/BaseLayout.astro';
+import Nav from '@antipol/shared/components/Nav.astro';
+import Footer from '@antipol/shared/components/Footer.astro';
+import '@antipol/shared/styles/base.css';
+import '@antipol/shared/styles/animations.css';
+import '../styles/theme.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  activePage?: string;
+}
+
+const { title, description, activePage } = Astro.props;
+
+const navLinks = [
+  { label: 'Fokus', href: '/fokus', active: activePage === 'fokus' },
+  { label: 'Experimente', href: '/experimente', active: activePage === 'experimente' },
+  { label: 'Kontakt', href: '/#kontakt', active: activePage === 'kontakt' },
+];
+
+const footerLinks = [
+  { label: 'Impressum', href: '/impressum' },
+  { label: 'Datenschutz', href: '/datenschutz' },
+];
+---
+
+<BaseLayout title={`ANTIPOL — ${title}`} description={description}>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </Fragment>
+
+  <Nav
+    slot="nav"
+    brand="ANTI"
+    brandHighlight="POL"
+    brandHref="/"
+    links={navLinks}
+  />
+
+  <slot />
+
+  <Footer
+    slot="footer"
+    company="ANTI"
+    companyHighlight="POL GbR"
+    people="Stefan Bodeit & Catrin Schröder-Jaross · Hamburg"
+    links={footerLinks}
+  />
+</BaseLayout>

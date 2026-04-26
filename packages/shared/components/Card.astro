@@ -1,0 +1,55 @@
+---
+/**
+ * Card — Universelle Card-Komponente.
+ *
+ * Verwendet Theme-Variablen für Radius, Farben, Hover.
+ * Variante 'highlight' färbt den Titel in der Primary-Farbe.
+ */
+interface Props {
+  variant?: 'default' | 'highlight';
+  class?: string;
+}
+
+const { variant = 'default', class: className } = Astro.props;
+---
+
+<div class:list={['card', variant, className]}>
+  <slot />
+</div>
+
+<style>
+  .card {
+    padding: 1.75rem;
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    background: var(--card-bg);
+    transition: border-color var(--transition-base);
+  }
+
+  .card:hover {
+    border-color: var(--card-hover-border);
+  }
+
+  .card :global(h3),
+  .card :global(h4) {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+  }
+
+  .card :global(h3) { font-size: 1.05rem; }
+  .card :global(h4) { font-size: 0.9rem; }
+
+  .highlight :global(h3),
+  .highlight :global(h4) {
+    color: var(--color-primary);
+  }
+
+  .card :global(p) {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+  }
+</style>

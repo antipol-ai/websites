@@ -1,0 +1,65 @@
+---
+/**
+ * Hero — Full-screen Hero-Section.
+ *
+ * Nutzt Slots für flexible Inhalte.
+ * ANTIPOL: 2-col mit Bubbles rechts.
+ * Momance: Zentriert mit CTA.
+ */
+interface Props {
+  layout?: 'centered' | 'two-column';
+  class?: string;
+}
+
+const { layout = 'centered', class: className } = Astro.props;
+---
+
+<section class:list={['hero', layout, className]}>
+  {layout === 'two-column' ? (
+    <div class="hero-grid">
+      <div class="hero-left">
+        <slot />
+      </div>
+      <div class="hero-right">
+        <slot name="right" />
+      </div>
+    </div>
+  ) : (
+    <slot />
+  )}
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--space-2xl) var(--content-padding) var(--space-xl);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero.centered {
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .hero {
+      padding: 5rem var(--content-padding-mobile) 2.5rem;
+    }
+  }
+</style>

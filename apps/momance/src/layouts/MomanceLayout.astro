@@ -1,0 +1,57 @@
+---
+/**
+ * MomanceLayout — Momance-spezifisches Layout.
+ */
+import BaseLayout from '@antipol/shared/layouts/BaseLayout.astro';
+import Nav from '@antipol/shared/components/Nav.astro';
+import Footer from '@antipol/shared/components/Footer.astro';
+import '@antipol/shared/styles/base.css';
+import '@antipol/shared/styles/animations.css';
+import '../styles/theme.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  activePage?: string;
+}
+
+const { title, description, activePage } = Astro.props;
+
+const navLinks = [
+  { label: 'So funktioniert es', href: '/#wie-es-funktioniert', active: false },
+  { label: 'Impressum', href: '/impressum', active: activePage === 'impressum' },
+  { label: 'Datenschutz', href: '/datenschutz', active: activePage === 'datenschutz' },
+];
+
+const footerLinks = [
+  { label: 'Impressum', href: '/impressum' },
+  { label: 'Datenschutz', href: '/datenschutz' },
+];
+---
+
+<BaseLayout title={`Momance — ${title}`} description={description}>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Source+Sans+3:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+  </Fragment>
+
+  <Nav
+    slot="nav"
+    brand="Momance"
+    brandHref="/"
+    links={navLinks}
+  />
+
+  <slot />
+
+  <Footer
+    slot="footer"
+    company="Momance"
+    people="Ein Produkt von ANTIPOL GbR"
+    links={footerLinks}
+  />
+</BaseLayout>

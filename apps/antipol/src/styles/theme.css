@@ -1,0 +1,44 @@
+/*
+ * ANTIPOL Theme
+ *
+ * Extrahiert aus antipol/website/fokus.html
+ * Design-Entscheidungen: E·9 (Farbsystem), E·10 (Typografie), E·11 (Wortmarke)
+ */
+
+:root {
+  /* ── Farben ── */
+  --color-primary: #C4421A;        /* Ember */
+  --color-primary-deep: #8B2500;   /* Root Red */
+  --color-primary-light: #D4652E;  /* Warm Signal */
+  --color-primary-accessible: #E07A42; /* Signal Accessible (kleine Texte) */
+
+  --color-bg: #0D0D0D;             /* Deep Black */
+  --color-surface: #1A1A1A;        /* Almost Black */
+  --color-surface-elevated: #222222; /* Dark Surface */
+  --color-border: #3A3A3A;         /* Raw Gray */
+
+  --color-text: #F5F2ED;           /* Off-White */
+  --color-text-muted: #9C9489;     /* Stone */
+  --color-text-label: #6B6158;     /* Warm Gray */
+  --color-text-light: #E8E2D9;     /* Light Warm */
+  --color-text-pure: #FFFFFF;      /* Pure White */
+
+  --color-footer-text: #A89E94;
+  --color-footer-meta: #7A7068;
+
+  /* ── Typografie ── */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* ── Komponenten-Varianten ── */
+  --card-radius: var(--radius-md);
+  --card-bg: var(--color-surface);
+  --card-border: var(--color-border);
+  --card-hover-border: rgba(196, 66, 26, 0.5);
+
+  --nav-bg: rgba(13, 13, 13, 0.95);
+  --nav-border: rgba(58, 58, 58, 0.5);
+
+  --panel-border: rgba(58, 58, 58, 0.5);
+}

@@ -1,0 +1,48 @@
+---
+import AntipolLayout from '../layouts/AntipolLayout.astro';
+import Hero from '@antipol/shared/components/Hero.astro';
+import SectionLabel from '@antipol/shared/components/SectionLabel.astro';
+import CTA from '@antipol/shared/components/CTA.astro';
+---
+
+<AntipolLayout title="Radikal an die Wurzel" activePage="home">
+  <Hero layout="centered">
+    <SectionLabel class="fade-in">Kulturtransformation</SectionLabel>
+    <h1 class="panel-headline fade-in">
+      Radikal an die Wurzel.
+    </h1>
+    <p class="panel-sub fade-in">
+      ANTIPOL begleitet Organisationen durch Transformation —
+      mit radikaler Empathie und dem Mut zum Experiment.
+    </p>
+  </Hero>
+
+  <CTA
+    overline="Bereit für den ersten Schritt?"
+    headline="Starte mit uns ein Experiment."
+    href="mailto:wir@antipol.ai"
+    linkText="wir@antipol.ai"
+  />
+</AntipolLayout>
+
+<style>
+  .panel-headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--color-text-pure);
+    max-width: 900px;
+  }
+
+  .panel-sub {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.8vw, 1.1rem);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin-top: var(--space-md);
+  }
+</style>

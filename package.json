@@ -1,0 +1,13 @@
+{
+  "name": "antipol-websites",
+  "private": true,
+  "scripts": {
+    "dev:antipol": "pnpm --filter @antipol/website dev",
+    "dev:momance": "pnpm --filter @momance/website dev",
+    "build:antipol": "pnpm --filter @antipol/website build",
+    "build:momance": "pnpm --filter @momance/website build",
+    "build": "pnpm -r build",
+    "preview:antipol": "pnpm --filter @antipol/website preview",
+    "preview:momance": "pnpm --filter @momance/website preview"
+  }
+}

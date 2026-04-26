@@ -1,0 +1,26 @@
+---
+/**
+ * SectionLabel — Eyebrow-Label über Sektionen.
+ * Mono-Font, uppercase, Signal-Farbe.
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<p class:list={['section-label', className]}>
+  <slot />
+</p>
+
+<style>
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary-accessible);
+    margin-bottom: 2rem;
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+/**
+ * CTA — Call-to-Action Section.
+ */
+interface Props {
+  overline?: string;
+  headline: string;
+  href?: string;
+  linkText?: string;
+  class?: string;
+}
+
+const { overline, headline, href, linkText, class: className } = Astro.props;
+---
+
+<section class:list={['cta-section', className]}>
+  {overline && <p class="cta-overline fade-in">{overline}</p>}
+  <h2 class="cta-headline fade-in">{headline}</h2>
+  {href && linkText && (
+    <a href={href} class="cta-link fade-in fade-in-delay">{linkText}</a>
+  )}
+  <slot />
+</section>
+
+<style>
+  .cta-section {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-2xl) var(--content-padding);
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .cta-overline {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .cta-headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    font-weight: 600;
+    color: var(--color-text-pure);
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+
+  .cta-link {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 600;
+    color: var(--color-text-pure);
+    text-decoration: none;
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--color-primary);
+    border-radius: var(--radius-md);
+    transition: background var(--transition-base);
+  }
+
+  .cta-link:hover {
+    background: var(--color-primary-deep);
+    text-decoration: none;
+  }
+</style>

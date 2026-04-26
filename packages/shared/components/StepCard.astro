@@ -1,0 +1,78 @@
+---
+/**
+ * StepCard — Nummerierte Card für Prozessschritte.
+ */
+interface Props {
+  number: string;
+  title: string;
+  body: string;
+  highlight?: boolean;
+  class?: string;
+}
+
+const { number, title, body, highlight = false, class: className } = Astro.props;
+---
+
+<div class:list={['step-card', { wendepunkt: highlight }, className]}>
+  <div class="card-num">
+    <span>{number}</span>
+  </div>
+  <h3>{title}</h3>
+  <p>{body}</p>
+</div>
+
+<style>
+  .step-card {
+    padding: 1.75rem;
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    background: var(--card-bg);
+    transition: border-color var(--transition-base);
+  }
+
+  .step-card:hover {
+    border-color: var(--card-hover-border);
+  }
+
+  .card-num {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-label);
+    margin-bottom: 0.2rem;
+  }
+
+  .card-num span {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-pure);
+    display: block;
+    margin-bottom: 0.1rem;
+    letter-spacing: -0.03em;
+  }
+
+  .wendepunkt .card-num span {
+    color: var(--color-primary);
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-text-pure);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+  }
+
+  .wendepunkt h3 {
+    color: var(--color-primary);
+  }
+
+  p {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+  }
+</style>

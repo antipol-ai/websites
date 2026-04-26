@@ -1,0 +1,60 @@
+---
+/**
+ * ScrollPanel — Full-screen scroll-snap Section.
+ *
+ * Basis für Scrollytelling-Seiten.
+ */
+interface Props {
+  id: string;
+  background?: 'primary' | 'alternate';
+  align?: 'start' | 'center';
+  class?: string;
+}
+
+const { id, background = 'primary', align = 'center', class: className } = Astro.props;
+---
+
+<section
+  class:list={['scroll-panel', `bg-${background}`, `align-${align}`, className]}
+  id={id}
+  aria-label={id}
+>
+  <slot />
+</section>
+
+<style>
+  .scroll-panel {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-2xl) var(--content-padding) var(--space-xl);
+    position: relative;
+    scroll-snap-align: start;
+  }
+
+  .bg-primary {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--panel-border);
+  }
+
+  .bg-alternate {
+    background: var(--color-surface);
+  }
+
+  .align-center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .align-start {
+    justify-content: flex-start;
+    padding-top: 5rem;
+  }
+
+  @media (max-width: 768px) {
+    .scroll-panel {
+      padding: 5rem var(--content-padding-mobile) 2.5rem;
+    }
+  }
+</style>

@@ -1,0 +1,10 @@
+{
+  "name": "@antipol/shared",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./components/*": "./components/*",
+    "./layouts/*": "./layouts/*",
+    "./styles/*": "./styles/*"
+  }
+}

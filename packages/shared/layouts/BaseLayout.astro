@@ -1,0 +1,51 @@
+---
+/**
+ * BaseLayout — Shared HTML-Grundgerüst für beide Sites.
+ *
+ * Lädt: Reset, Tailwind, Tokens, Animations.
+ * Die App-spezifische theme.css wird per Slot oder Import im jeweiligen
+ * App-Layout (AntipolLayout / MomanceLayout) geladen.
+ */
+interface Props {
+  title: string;
+  description?: string;
+  lang?: string;
+}
+
+const { title, description = '', lang = 'de' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  {description && <meta name="description" content={description} />}
+  <slot name="head" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Zum Inhalt springen</a>
+  <slot name="nav" />
+  <main id="main">
+    <slot />
+  </main>
+  <slot name="footer" />
+  <script>
+    // Shared IntersectionObserver for fade-in animations
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+  </script>
+  <slot name="scripts" />
+</body>
+</html>

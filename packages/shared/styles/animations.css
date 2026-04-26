@@ -1,0 +1,36 @@
+/*
+ * Shared Animations
+ *
+ * IntersectionObserver-gesteuerte Fade-Ins und Scroll-Animationen.
+ * Das zugehörige JS wird im BaseLayout geladen.
+ */
+
+/* Fade In (triggered by IntersectionObserver → .visible) */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-delay {
+  transition-delay: 0.2s;
+}
+
+.fade-in-delay-2 {
+  transition-delay: 0.4s;
+}
+
+/* Pulse (z.B. Scroll Hint) */
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}

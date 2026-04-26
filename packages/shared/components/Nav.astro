@@ -1,0 +1,92 @@
+---
+/**
+ * Nav — Shared Navigation Bar.
+ *
+ * Verwendet CSS-Variablen aus dem jeweiligen Theme (--nav-bg, --nav-border,
+ * --color-primary, --font-display, etc.)
+ */
+interface NavLink {
+  label: string;
+  href: string;
+  active?: boolean;
+}
+
+interface Props {
+  brand: string;
+  brandHighlight?: string;
+  brandHref?: string;
+  links: NavLink[];
+}
+
+const { brand, brandHighlight, brandHref = '/', links } = Astro.props;
+---
+
+<nav class="site-nav" role="navigation" aria-label="Hauptnavigation">
+  <a href={brandHref} class="nav-item brand" aria-label={`${brand}${brandHighlight || ''} — Startseite`}>
+    {brand}{brandHighlight && <span class="pol">{brandHighlight}</span>}
+  </a>
+  {links.map(link => (
+    <a href={link.href} class:list={['nav-item', { active: link.active }]}>
+      {link.label}
+    </a>
+  ))}
+</nav>
+
+<style>
+  .site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-nav);
+    padding: var(--space-sm) 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--space-lg);
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--nav-border);
+  }
+
+  .nav-item {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .nav-item:hover {
+    color: var(--color-text-pure);
+    text-decoration: none;
+  }
+
+  .nav-item.active {
+    color: var(--color-text-pure);
+    font-weight: 600;
+  }
+
+  .nav-item.brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.03em;
+  }
+
+  .nav-item.brand .pol {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 768px) {
+    .site-nav {
+      padding: 0.75rem 1.25rem;
+      gap: var(--space-md);
+    }
+    .nav-item { font-size: 0.75rem; }
+    .nav-item.brand { font-size: 0.95rem; }
+  }
+</style>
