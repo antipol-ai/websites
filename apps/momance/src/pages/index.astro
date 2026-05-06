@@ -557,11 +557,12 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
   }
 </style>
 
-<script>
+<script is:inline>
+(function() {
   // ── Dot navigation ──
   document.querySelectorAll('.scroll-dot').forEach(dot => {
     dot.addEventListener('click', () => {
-      const target = document.getElementById((dot as HTMLElement).dataset.target!);
+      const target = document.getElementById(dot.dataset.target);
       if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
   });
@@ -594,11 +595,11 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     [191, 101, 143], // senses
   ];
 
-  function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
-  function hermite(t: number) { return t * t * (3 - 2 * t); }
-  function rgba(rgb: number[], a: number) { return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`; }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function hermite(t) { return t * t * (3 - 2 * t); }
+  function rgba(rgb, a) { return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`; }
 
-  function getCycleColor(sec: number) {
+  function getCycleColor(sec) {
     const t = (sec % COLOR_PERIOD) / COLOR_PERIOD * CATEGORIES.length;
     const i = Math.floor(t) % CATEGORIES.length;
     const j = (i + 1) % CATEGORIES.length;
@@ -606,7 +607,7 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     return CATEGORIES[i].map((c, k) => Math.round(lerp(c, CATEGORIES[j][k], f)));
   }
 
-  function drawMoment(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number, rgb: number[], seed: number) {
+  function drawMoment(ctx, cx, cy, r, rgb, seed) {
     // Wide glow
     let g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 2.8);
     g.addColorStop(0, rgba(rgb, 0.45));
@@ -645,7 +646,7 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     ctx.fill();
   }
 
-  function drawHeroPuls(ctx: CanvasRenderingContext2D, cx: number, cy: number, S: number, breathScale: number, color: number[], seed: number) {
+  function drawHeroPuls(ctx, cx, cy, S, breathScale, color, seed) {
     const r1 = S * 0.33 * breathScale;
     const r2 = S * 0.39 * breathScale;
     const r3 = S * 0.45 * breathScale;
@@ -699,23 +700,35 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     drawMoment(ctx, cx, cy, mr, color, seed);
   }
 
-  // Hero canvas animation loop
-  const heroCanvas = document.getElementById('heroPuls') as HTMLCanvasElement;
-  if (heroCanvas) {
-    const ctx = heroCanvas.getContext('2d')!;
+  // Hero canvas animation loop — robust gegen Layout-Races
+  function startHeroPuls() {
+    const heroCanvas = document.getElementById('heroPuls');
+    if (!heroCanvas) return;
+    const ctx = heroCanvas.getContext('2d');
+    if (!ctx) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     function resizeHeroCanvas() {
       const rect = heroCanvas.getBoundingClientRect();
-      heroCanvas.width = rect.width * dpr;
-      heroCanvas.height = rect.height * dpr;
+      // Fallback auf das HTML-Attribut, wenn Layout noch nicht stabil ist
+      const w = rect.width > 0 ? rect.width : 560;
+      const h = rect.height > 0 ? rect.height : 560;
+      heroCanvas.width = w * dpr;
+      heroCanvas.height = h * dpr;
     }
     resizeHeroCanvas();
     window.addEventListener('resize', resizeHeroCanvas);
 
     const start = performance.now();
 
-    function heroFrame(timestamp: number) {
+    function heroFrame(timestamp) {
+      // Resize-Check bei jedem Frame: falls Initial-Layout zu früh war, jetzt korrigieren
+      const rect = heroCanvas.getBoundingClientRect();
+      if (rect.width > 0 && Math.abs(heroCanvas.width - rect.width * dpr) > 1) {
+        heroCanvas.width = rect.width * dpr;
+        heroCanvas.height = rect.height * dpr;
+      }
+
       const sec = (timestamp - start) / 1000;
       const w = heroCanvas.width;
       const h = heroCanvas.height;
@@ -740,4 +753,11 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     }
     requestAnimationFrame(heroFrame);
   }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startHeroPuls);
+  } else {
+    startHeroPuls();
+  }
+})();
 </script>

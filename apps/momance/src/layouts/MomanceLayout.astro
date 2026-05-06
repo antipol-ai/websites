@@ -179,7 +179,8 @@ const currentYear = new Date().getFullYear();
   }
 </style>
 
-<script>
+<script is:inline>
+(function() {
   // ── Puls Canvas Animation (basierend auf 19-logo-und-assets.md Spezifikation) ──
   const BREATH_PERIOD = 6;
   const COLOR_PERIOD = 9;
@@ -289,13 +290,15 @@ const currentYear = new Date().getFullYear();
     ctx.fill();
   }
 
-  // Animation loop
-  const canvas = document.getElementById('headerPuls') as HTMLCanvasElement;
-  if (canvas) {
-    const ctx = canvas.getContext('2d')!;
+  // Animation loop — startet erst nach DOM-Ready, robust gegen Layout-Races
+  function startHeaderPuls() {
+    const canvas = document.getElementById('headerPuls');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     const start = performance.now();
 
-    function frame(timestamp: number) {
+    function frame(timestamp) {
       const sec = (timestamp - start) / 1000;
       const w = canvas.width;
       ctx.clearRect(0, 0, w, w);
@@ -315,4 +318,11 @@ const currentYear = new Date().getFullYear();
     }
     requestAnimationFrame(frame);
   }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startHeaderPuls);
+  } else {
+    startHeaderPuls();
+  }
+})();
 </script>
