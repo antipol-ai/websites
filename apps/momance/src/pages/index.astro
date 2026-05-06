@@ -729,7 +729,7 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
         heroCanvas.height = rect.height * dpr;
       }
 
-      const sec = (timestamp - start) / 1000;
+      const sec = Math.max(0, (timestamp - start) / 1000);
       const w = heroCanvas.width;
       const h = heroCanvas.height;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);

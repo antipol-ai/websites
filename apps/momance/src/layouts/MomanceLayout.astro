@@ -299,7 +299,7 @@ const currentYear = new Date().getFullYear();
     const start = performance.now();
 
     function frame(timestamp) {
-      const sec = (timestamp - start) / 1000;
+      const sec = Math.max(0, (timestamp - start) / 1000);
       const w = canvas.width;
       ctx.clearRect(0, 0, w, w);
 
