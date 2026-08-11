@@ -6,6 +6,7 @@
 import BaseLayout from '@antipol/shared/layouts/BaseLayout.astro';
 import '@antipol/shared/styles/base.css';
 import '@antipol/shared/styles/animations.css';
+import '../styles/fonts.css';
 import '../styles/theme.css';
 
 interface Props {
@@ -20,12 +21,10 @@ const currentYear = new Date().getFullYear();
 
 <BaseLayout title={`Momance — ${title}`} description={description}>
   <Fragment slot="head">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Source+Sans+3:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&family=Space+Grotesk:wght@700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Schriften liegen lokal unter /fonts (siehe src/styles/fonts.css).
+         Keine Verbindung zu Google, keine Übertragung von IP-Adressen. -->
+    <link rel="preload" href="/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/source-sans-3-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   </Fragment>
 
   <!-- Minimaler Header mit Puls-Canvas + Wortmarke -->
