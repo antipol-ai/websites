@@ -29,6 +29,7 @@
   --size-copy: 1rem;
   --size-label: 0.75rem;
   --line-height-copy: 1.7;
+  --size-ui: 0.875rem;
 
   /* -- Komponenten-Varianten -- */
   --card-radius: var(--radius-md);

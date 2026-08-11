@@ -36,7 +36,7 @@ const { number, title, body, highlight = false, class: className } = Astro.props
 
   .card-num {
     font-family: var(--font-mono);
-    font-size: 0.55rem;
+    font-size: var(--size-label);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-text-label);
@@ -71,7 +71,7 @@ const { number, title, body, highlight = false, class: className } = Astro.props
   }
 
   p {
-    font-size: 0.85rem;
+    font-size: var(--size-copy);
     color: var(--color-text-muted);
     line-height: 1.65;
   }

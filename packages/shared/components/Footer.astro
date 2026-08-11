@@ -55,7 +55,7 @@ const { company, companyHighlight, companySuffix = '', people, links } = Astro.p
 
   .footer-company {
     font-family: var(--font-display);
-    font-size: 0.85rem;
+    font-size: var(--size-ui);
     font-weight: 500;
     color: var(--color-text-muted);
   }
@@ -70,7 +70,7 @@ const { company, companyHighlight, companySuffix = '', people, links } = Astro.p
 
   .footer-people {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: var(--size-label);
     color: var(--color-footer-meta);
     letter-spacing: 0.03em;
   }
@@ -83,7 +83,7 @@ const { company, companyHighlight, companySuffix = '', people, links } = Astro.p
 
   .footer-right a {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: var(--size-label);
     color: var(--color-footer-text);
     text-decoration: none;
     letter-spacing: 0.03em;
@@ -97,7 +97,7 @@ const { company, companyHighlight, companySuffix = '', people, links } = Astro.p
 
   .footer-divider {
     color: var(--color-border);
-    font-size: 0.7rem;
+    font-size: var(--size-label);
     user-select: none;
   }
 

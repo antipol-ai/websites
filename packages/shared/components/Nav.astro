@@ -52,7 +52,7 @@ const { brand, brandHighlight, brandHref = '/', links } = Astro.props;
 
   .nav-item {
     font-family: var(--font-display);
-    font-size: 0.85rem;
+    font-size: var(--size-ui);
     font-weight: 400;
     color: var(--color-text-muted);
     text-decoration: none;
@@ -102,7 +102,7 @@ const { brand, brandHighlight, brandHref = '/', links } = Astro.props;
       padding: 0.75rem 1.25rem;
       gap: var(--space-md);
     }
-    .nav-item { font-size: 0.75rem; }
+    .nav-item { font-size: var(--size-ui); }
     .nav-item.brand { font-size: 0.95rem; }
   }
 </style>

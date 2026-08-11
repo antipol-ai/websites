@@ -84,15 +84,24 @@
     }
   },
   "typografie": {
-    "$description": "Ergaenzt am 11.08.2026. Vorher gab es keine Regel dazu, und entsprechend hatte jede Seite ihre eigenen Groessen.",
-    "copy-eine-groesse": {
-      "regel": "Alle Fliesstexte verwenden --size-copy und --color-text-muted. Kein Wechsel zwischen Grau und Weiss, keine Zwischengroessen.",
-      "begruendung": "Unterschiedliche Copy-Groessen und -Helligkeiten lesen sich als Hierarchie, wo keine gemeint ist. Hierarchie entsteht ueber Ueberschrift, Akzentfarbe und Abstand, nicht ueber halbe Pixelstufen.",
-      "ausnahme": "Akzentzeilen (Einzeiler, Claims) behalten die Copy-Groesse und heben sich nur ueber --color-primary-accessible ab."
+    "$description": "Ergaenzt am 11.08.2026. Vorher gab es keine Regel dazu, und entsprechend hatte jede Seite ihre eigenen Groessen: elf Copy-Groessen und sieben Label-Groessen ueber neun Dateien.",
+    "drei-textrollen": {
+      "regel": "Es gibt genau drei Textgroessen ausserhalb der Ueberschriften: --size-copy fuer jeden Fliesstext, --size-ui fuer Navigation, Fusszeile, Meta-Werte und Knopfbeschriftungen, --size-label fuer Mono-Bezeichner in Grossbuchstaben. Keine Zwischenstufen, keine seiteneigenen Werte.",
+      "begruendung": "Selbstaehnlichkeit heisst dieselbe Skala ueberall, nicht dieselbe Groesse fuer alles. Drei Rollen sind unterscheidbar; elf Groessen sind es nicht, sie lesen sich als Hierarchie, wo keine gemeint ist.",
+      "gilt-fuer": [
+        "antipol",
+        "momance",
+        "alle-zukuenftigen-produkte"
+      ]
+    },
+    "copy-eine-farbe": {
+      "regel": "Fliesstext steht immer in --color-text-muted. Kein Wechsel zwischen Grau und Warmweiss von Absatz zu Absatz.",
+      "ausnahme": "Inline-Auszeichnung innerhalb eines Absatzes (.highlight) und Akzentzeilen in --color-primary-accessible. Beides ist Betonung im Satz, kein zweiter Copy-Ton."
     },
     "label-untergrenze": {
-      "regel": "Mono-Labels und Meta-Bezeichner nie kleiner als --size-label (12px).",
-      "begruendung": "Darunter faellt der Text sowohl durch die Lesbarkeits- als auch durch die Kontrastanforderung."
-    }
+      "regel": "Mono-Labels nie kleiner als --size-label (12px).",
+      "begruendung": "Darunter faellt der Text sowohl durch die Lesbarkeits- als auch durch die Kontrastanforderung. Vorgefunden wurden Werte bis 8,8px."
+    },
+    "ueberschriften-offen": "Die Ueberschriften folgen noch keiner gemeinsamen Skala (Stand 11.08.2026: vierzehn verschiedene clamp-Werte). Bewusst offen, weil Groessenspruenge im Scrollytelling gestalterisch gewollt sein koennen. Zu entscheiden, nicht zu bereinigen."
   }
 }

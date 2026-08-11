@@ -159,7 +159,7 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
   /* ── Shared Typography ── */
   .section-label {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: var(--size-label);
     font-weight: 300;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -181,7 +181,7 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
 
   .body-text {
     font-family: var(--font-body);
-    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    font-size: var(--size-copy);
     font-weight: 300;
     color: var(--color-text-muted);
     line-height: 1.7;
@@ -229,7 +229,7 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
 
   .hero-sub {
     font-family: var(--font-body);
-    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    font-size: var(--size-copy);
     font-weight: 300;
     color: var(--color-text-muted);
     line-height: 1.7;
@@ -256,7 +256,7 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: var(--size-label);
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--color-text-muted);
@@ -370,7 +370,7 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
 
   .reflexion-kontext {
     font-family: var(--font-body);
-    font-size: 1rem;
+    font-size: var(--size-copy);
     font-weight: 300;
     color: var(--color-text-muted);
     line-height: 1.7;
@@ -476,14 +476,14 @@ import MomanceLayout from '../layouts/MomanceLayout.astro';
 
   .social-name {
     font-family: var(--font-body);
-    font-size: 15px;
+    font-size: var(--size-ui);
     font-weight: 500;
     color: var(--color-text);
   }
 
   .social-desc {
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: var(--size-ui);
     font-weight: 300;
     color: var(--color-text-muted);
     line-height: 1.5;

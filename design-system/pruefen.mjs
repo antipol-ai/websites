@@ -157,6 +157,57 @@ for (const datei of dateien(join(root, 'apps'), ['.astro', '.md', '.ts', '.tsx']
 if (striche === 0) console.log('    keine Gedankenstriche gefunden');
 verstoesse += striche;
 
+// ── Schriftgroessen ─────────────────────────────────────────────────────────
+//
+// Geprueft wird nur der Bereich, in dem Copy, UI und Labels liegen. Alles
+// darueber sind Ueberschriften; die folgen (Stand 11.08.2026) bewusst noch
+// keiner gemeinsamen Skala, siehe rules.json → typografie.ueberschriften-offen.
+
+console.log('\n\x1b[1mSchriftgroessen (Copy, UI, Labels aus den Tokens)\x1b[0m');
+
+const GROESSE = /font-size:\s*([^;]+);/g;
+let groessen = 0;
+
+function istImCopyBereich(wert) {
+  const rem = wert.match(/^([0-9.]+)rem$/);
+  if (rem) return parseFloat(rem[1]) <= 1.3;
+  const px = wert.match(/^([0-9.]+)px$/);
+  if (px) return parseFloat(px[1]) <= 21;
+  // clamp(): der obere Anschlag entscheidet
+  const clamp = wert.match(/clamp\([^,]+,[^,]+,\s*([0-9.]+)rem\s*\)/);
+  if (clamp) return parseFloat(clamp[1]) <= 1.3;
+  return false;
+}
+
+// Nicht geprueft: Ueberschriften (eigene Skala, siehe oben), die Wortmarke
+// (ein Logo, kein Text; Groesse steht in docs/logo-guideline.md) und Symbole.
+const AUSNAHME = /(^|[\s,>(])h[1-6]\b|\.brand|\.header-name|arrow|-num span|ring-\d|ring-label/i;
+
+for (const datei of dateien(join(root, 'apps'), ['.astro']).concat(
+  dateien(join(root, 'packages'), ['.astro'])
+)) {
+  const zeilen = readFileSync(datei, 'utf-8').split('\n');
+  let selektor = '';
+  zeilen.forEach((zeile, i) => {
+    const s = zeile.match(/^[ \t]*([.#a-zA-Z:][^{}\n]*?)\s*\{/);
+    if (s) selektor = s[1].trim();
+    GROESSE.lastIndex = 0;
+    let m;
+    while ((m = GROESSE.exec(zeile)) !== null) {
+      const wert = m[1].trim();
+      if (wert.startsWith('var(--size')) continue;
+      if (wert.endsWith('em') && !wert.endsWith('rem')) continue; // relativ zum Elternteil, gewollt
+      if (!istImCopyBereich(wert)) continue;
+      if (AUSNAHME.test(selektor)) continue;
+      groessen++;
+      console.log(`    \x1b[33mWARN\x1b[0m  ${relative(root, datei)}:${i + 1}  ${selektor}  ${wert}`);
+    }
+  });
+}
+
+if (groessen === 0) console.log('    keine seiteneigenen Copy- oder Label-Groessen');
+else console.log(`    ${groessen} Stelle(n) setzen eigene Groessen statt --size-copy / --size-ui / --size-label.`);
+
 // ── Ergebnis ────────────────────────────────────────────────────────────────
 
 console.log('');

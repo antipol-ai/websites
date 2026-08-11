@@ -278,7 +278,7 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
 
   .section-label {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: var(--size-label);
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-primary-accessible);
@@ -304,7 +304,7 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
 
   .panel-sub {
     font-family: var(--font-body);
-    font-size: clamp(1rem, 1.8vw, 1.1rem);
+    font-size: var(--size-copy);
     font-weight: 300;
     line-height: 1.6;
     color: var(--color-text-muted);
@@ -339,7 +339,7 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
   .bubble {
     position: relative;
     font-family: var(--font-body);
-    font-size: 1.15rem;
+    font-size: var(--size-copy);
     font-weight: 300;
     font-style: italic;
     color: var(--color-text-light);
@@ -445,7 +445,7 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
     padding: 0.6rem 0;
     text-align: center;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: var(--size-label);
     letter-spacing: 0.05em;
     color: var(--color-text-muted);
     font-weight: 500;
@@ -488,9 +488,9 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
   }
 
   .phase-intro {
-    font-size: 1rem;
+    font-size: var(--size-copy);
     color: var(--color-text-muted);
-    line-height: 1.65;
+    line-height: var(--line-height-copy);
     max-width: 600px;
     margin-bottom: 2rem;
   }
@@ -519,7 +519,7 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
 
   .step-card .card-num {
     font-family: var(--font-mono);
-    font-size: 0.55rem;
+    font-size: var(--size-label);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-text-label);
@@ -550,9 +550,9 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
   .step-card.wendepunkt h3 { color: var(--color-primary); }
 
   .step-card p {
-    font-size: 0.85rem;
+    font-size: var(--size-copy);
     color: var(--color-text-muted);
-    line-height: 1.65;
+    line-height: var(--line-height-copy);
   }
 
   @media (max-width: 768px) {
@@ -615,16 +615,16 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
 
   .outcome-card h4 {
     font-family: var(--font-display);
-    font-size: 0.9rem;
+    font-size: var(--size-copy);
     font-weight: 600;
     color: var(--color-text-pure);
     margin-bottom: 0.4rem;
   }
 
   .outcome-card p {
-    font-size: 0.8rem;
+    font-size: var(--size-copy);
     color: var(--color-text-muted);
-    line-height: 1.55;
+    line-height: var(--line-height-copy);
   }
 
   @media (max-width: 768px) {
@@ -642,7 +642,7 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
 
   .cta-overline {
     font-family: var(--font-body);
-    font-size: 1.1rem;
+    font-size: var(--size-copy);
     font-weight: 300;
     font-style: italic;
     color: var(--color-text-muted);

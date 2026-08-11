@@ -40,7 +40,7 @@ const { variant = 'default', class: className } = Astro.props;
   }
 
   .card :global(h3) { font-size: 1.05rem; }
-  .card :global(h4) { font-size: 0.9rem; }
+  .card :global(h4) { font-size: var(--size-copy); }
 
   .highlight :global(h3),
   .highlight :global(h4) {
@@ -48,7 +48,7 @@ const { variant = 'default', class: className } = Astro.props;
   }
 
   .card :global(p) {
-    font-size: 0.85rem;
+    font-size: var(--size-copy);
     color: var(--color-text-muted);
     line-height: 1.65;
   }

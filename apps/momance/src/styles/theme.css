@@ -27,6 +27,10 @@
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Source Sans 3', -apple-system, sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
+  --size-copy: 1rem;
+  --size-ui: 0.875rem;
+  --size-label: 0.75rem;
+  --line-height-copy: 1.7;
 
   /* -- Komponenten-Varianten -- */
   --card-radius: var(--radius-lg);
@@ -38,15 +42,14 @@
   --panel-border: rgba(255, 255, 255, 0.05);
 }
 
-/* Heller Kontext: .theme-light auf Container-Element
-   Inverses System: Kein Gold auf Creme — nur dunkler Text auf hellem Grund. */
+/* Heller Kontext: .theme-light auf Container-Element */
 .theme-light {
   --color-bg: #F2EDE4;  /* Cream */
   --color-bg-secondary: #E8E0D4;  /* Cream-2 */
   --color-text: #1E1C24;
   --color-text-muted: #4C4A56;
   --color-text-label: #6A6775;
-  --color-primary: #1E1C24;  /* Kein Gold — Primärfarbe wird zu Textfarbe */
+  --color-primary: #1E1C24;
   --color-primary-accessible: #1E1C24;
   --color-primary-muted: rgba(30, 28, 36, 0.35);
 }

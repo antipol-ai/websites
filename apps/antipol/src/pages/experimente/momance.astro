@@ -308,7 +308,7 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
 
   .section-label {
     font-family: var(--font-mono);
-    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    font-size: var(--size-label); letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--color-primary-accessible); margin-bottom: 1.5rem;
   }
 
@@ -324,21 +324,21 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
   /* === HERO === */
   .hero-content { max-width: 760px; }
   .hero-content h1 { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; color: var(--color-text-pure); margin-bottom: 1.5rem; }
-  .hero-content .intro { font-size: 1.1rem; color: var(--color-text-muted); line-height: 1.8; max-width: 560px; margin-bottom: 1.5rem; }
-  .hero-content .why-line { font-size: 0.95rem; color: var(--color-text-light); line-height: 1.7; max-width: 560px; }
+  .hero-content .intro { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); max-width: 560px; margin-bottom: 1.5rem; }
+  .hero-content .why-line { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); max-width: 560px; }
   .hero-content .why-line a { color: var(--color-primary-accessible); text-decoration: none; border-bottom: 1px solid rgba(224,122,66,0.3); transition: border-color 0.2s; }
   .hero-content .why-line a:hover { border-bottom-color: rgba(224,122,66,0.7); text-decoration: none; }
 
   /* === INTRO PANEL === */
   .intro-panel { align-items: center; text-align: center; }
   .intro-panel .exp-number-bg { font-family: var(--font-display); font-size: clamp(6rem, 15vw, 12rem); font-weight: 700; letter-spacing: -0.05em; color: rgba(58,58,58,0.25); line-height: 1; margin-bottom: -0.3em; user-select: none; }
-  .intro-panel .exp-label { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-text-label); margin-bottom: 0.5rem; }
+  .intro-panel .exp-label { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-text-label); margin-bottom: 0.5rem; }
   .intro-panel h2 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 600; letter-spacing: -0.03em; color: var(--color-text-pure); margin-bottom: 1rem; }
-  .intro-panel .oneliner { font-size: 1.05rem; color: var(--color-text-light); line-height: 1.7; font-style: italic; max-width: 540px; margin: 0 auto 2rem; }
+  .intro-panel .oneliner { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); font-style: italic; max-width: 540px; margin: 0 auto 2rem; }
   .meta-row { display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem; }
   .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
-  .meta-label { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-label); }
-  .meta-value { font-family: var(--font-display); font-size: 0.85rem; font-weight: 500; color: var(--color-text); }
+  .meta-label { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-label); }
+  .meta-value { font-family: var(--font-display); font-size: var(--size-ui); font-weight: 500; color: var(--color-text); }
   .meta-value a { color: var(--color-primary-accessible); text-decoration: none; transition: color 0.2s; }
   .meta-value a:hover { color: var(--color-text); text-decoration: none; }
 
@@ -348,15 +348,15 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
   .chapter-layout.alt .chapter-visual { order: 1; }
   @media (max-width: 900px) { .chapter-layout { grid-template-columns: 1fr; gap: 2.5rem; } .chapter-layout.alt .chapter-text { order: 1; } .chapter-layout.alt .chapter-visual { order: 2; } }
 
-  .chapter-step { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; color: var(--color-primary); margin-bottom: 0.5rem; }
+  .chapter-step { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.15em; color: var(--color-primary); margin-bottom: 0.5rem; }
   .chapter-text h3 { font-family: var(--font-display); font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 600; letter-spacing: -0.02em; color: var(--color-text-pure); margin-bottom: 1rem; }
-  .chapter-text p { font-size: 1rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0.8rem; }
+  .chapter-text p { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); margin-bottom: 0.8rem; }
   .chapter-text p:last-of-type { margin-bottom: 0; }
   .chapter-text .highlight { color: var(--color-text-light); }
 
   .process-callout { margin-top: 1.5rem; padding: 1.1rem 1.4rem; border-left: 2px solid var(--color-primary); background: rgba(26, 26, 26, 0.6); }
-  .process-label { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-primary); margin-bottom: 0.4rem; }
-  .process-callout p { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: 0 !important; }
+  .process-label { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-primary); margin-bottom: 0.4rem; }
+  .process-callout p { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); margin-bottom: 0 !important; }
 
   .chapter-visual { display: flex; justify-content: center; align-items: center; }
   .chapter-visual svg { max-width: 100%; height: auto; }
@@ -366,13 +366,13 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
   .leben-layout { width: 100%; max-width: 1000px; }
   .leben-text { margin-bottom: 3rem; max-width: 560px; }
   .leben-text h3 { font-family: var(--font-display); font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 600; letter-spacing: -0.02em; color: var(--color-text-pure); margin-bottom: 1rem; }
-  .leben-text p { font-size: 1rem; color: var(--color-text-muted); line-height: 1.8; margin-bottom: 0.8rem; }
+  .leben-text p { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); margin-bottom: 0.8rem; }
   .leben-text .highlight { color: var(--color-text-light); }
 
   .screens-row { display: flex; gap: 2rem; align-items: flex-end; }
   .screen-frame { flex: 1; max-width: 180px; }
   .screen-frame svg { width: 100%; height: auto; }
-  .screen-label { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-label); text-align: center; margin-top: 0.75rem; }
+  .screen-label { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-label); text-align: center; margin-top: 0.75rem; }
   @media (max-width: 600px) { .screens-row { gap: 1rem; } .screen-frame { max-width: 120px; } }
 
   .zurueck { color: inherit; text-decoration: none; border-bottom: 1px solid var(--color-text-label); }
