@@ -4,10 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ANTIPOL Design System - Pattern Library</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Source+Sans+3:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<!-- Schriften lokal, keine Verbindung zu Google. Die Pfade zeigen in die
+     public-Ordner der beiden Apps; die Datei laesst sich weiterhin per
+     Doppelklick oeffnen. Siehe README.md, Abschnitt Schriften. -->
+<script src="tokens.js"></script>
 <style>
+@font-face { font-family:'Space Grotesk'; font-weight:400; font-display:swap; src:url('../../apps/antipol/public/fonts/space-grotesk-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family:'Space Grotesk'; font-weight:500; font-display:swap; src:url('../../apps/antipol/public/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family:'Space Grotesk'; font-weight:600; font-display:swap; src:url('../../apps/antipol/public/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family:'Space Grotesk'; font-weight:700; font-display:swap; src:url('../../apps/antipol/public/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family:'Source Serif 4'; font-weight:300; font-display:swap; src:url('../../apps/antipol/public/fonts/source-serif-4-latin-300-normal.woff2') format('woff2'); }
+@font-face { font-family:'Source Serif 4'; font-weight:400; font-display:swap; src:url('../../apps/antipol/public/fonts/source-serif-4-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family:'Source Serif 4'; font-weight:600; font-display:swap; src:url('../../apps/antipol/public/fonts/source-serif-4-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family:'JetBrains Mono'; font-weight:400; font-display:swap; src:url('../../apps/antipol/public/fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family:'JetBrains Mono'; font-weight:500; font-display:swap; src:url('../../apps/antipol/public/fonts/jetbrains-mono-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family:'Cormorant Garamond'; font-weight:400; font-display:swap; src:url('../../apps/momance/public/fonts/cormorant-garamond-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family:'Cormorant Garamond'; font-weight:400; font-style:italic; font-display:swap; src:url('../../apps/momance/public/fonts/cormorant-garamond-latin-400-italic.woff2') format('woff2'); }
+@font-face { font-family:'Source Sans 3'; font-weight:300; font-display:swap; src:url('../../apps/momance/public/fonts/source-sans-3-latin-300-normal.woff2') format('woff2'); }
+@font-face { font-family:'Source Sans 3'; font-weight:400; font-display:swap; src:url('../../apps/momance/public/fonts/source-sans-3-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family:'Source Sans 3'; font-weight:500; font-display:swap; src:url('../../apps/momance/public/fonts/source-sans-3-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family:'IBM Plex Mono'; font-weight:400; font-display:swap; src:url('../../apps/momance/public/fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2'); }
 /* ── Reset & Base ── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Source Sans 3', sans-serif; background: #f8f6f2; color: #1a1a1a; line-height: 1.6; }
@@ -43,6 +59,16 @@ body { font-family: 'Source Sans 3', sans-serif; background: #f8f6f2; color: #1a
 .token-card .label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #9c9489; }
 .token-card .value { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; margin-top: 4px; }
 .token-card .visual { margin-top: 8px; }
+
+/* ── Ergaenzt 11.08.2026 ── */
+.pl-hinweis { font-size: 0.85rem; color: #6b6158; line-height: 1.6; margin-bottom: 1rem; max-width: 78ch; }
+.pl-hinweis code { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; background: #f0ece6; padding: 1px 5px; border-radius: 3px; }
+.groessen-tabelle { width: 100%; border-collapse: collapse; background: white; border: 1px solid #e8e2d9; border-radius: 8px; overflow: hidden; }
+.groessen-tabelle th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: #6b6158; padding: 0.7rem 1rem; border-bottom: 1px solid #e8e2d9; }
+.groessen-tabelle td { padding: 0.7rem 1rem; border-bottom: 1px solid #f0ece6; vertical-align: middle; }
+.groessen-tabelle tr:last-child td { border-bottom: none; }
+.groessen-tabelle .tok { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+.groessen-tabelle .beispiel { color: #1a1a1a; }
 
 /* ── Color Swatches ─��� */
 .brand-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 2rem; }
@@ -193,30 +219,17 @@ body { font-family: 'Source Sans 3', sans-serif; background: #f8f6f2; color: #1a
 <!-- Brand Colors -->
 <div class="section">
   <div class="section-title">Schicht 2: Brand Tokens - Farben</div>
+  <p class="pl-hinweis">Diese Werte kommen aus <code>design-system/brands/*/tokens.json</code> und
+  werden von <code>build-tokens.mjs</code> hierher geschrieben. Sie sind keine Abschrift und
+  koennen daher nicht mehr veralten.</p>
   <div class="brand-row">
     <div class="brand-col">
       <h3>ANTIPOL <span class="brand-tag" style="background:#C4421A;color:white;">web</span></h3>
-      <div class="swatch-row"><div class="swatch" style="background:#C4421A;"></div><div class="swatch-info"><div class="swatch-name">Ember (primary)</div><div class="swatch-hex">#C4421A</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#8B2500;"></div><div class="swatch-info"><div class="swatch-name">Root Red</div><div class="swatch-hex">#8B2500</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#D4652E;"></div><div class="swatch-info"><div class="swatch-name">Warm Signal</div><div class="swatch-hex">#D4652E</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#E07A42;"></div><div class="swatch-info"><div class="swatch-name">Signal Accessible</div><div class="swatch-hex">#E07A42</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#0D0D0D;"></div><div class="swatch-info"><div class="swatch-name">Deep Black (bg)</div><div class="swatch-hex">#0D0D0D</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#1A1A1A;"></div><div class="swatch-info"><div class="swatch-name">Almost Black (surface)</div><div class="swatch-hex">#1A1A1A</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#222222;"></div><div class="swatch-info"><div class="swatch-name">Dark Surface (elevated)</div><div class="swatch-hex">#222222</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#3A3A3A;"></div><div class="swatch-info"><div class="swatch-name">Raw Gray (border)</div><div class="swatch-hex">#3A3A3A</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#F5F2ED;border-color:#ccc;"></div><div class="swatch-info"><div class="swatch-name">Off-White (text)</div><div class="swatch-hex">#F5F2ED</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#9C9489;"></div><div class="swatch-info"><div class="swatch-name">Stone (text-muted)</div><div class="swatch-hex">#9C9489</div></div></div>
+      <div id="farben-antipol"></div>
     </div>
     <div class="brand-col">
-      <h3>Momance <span class="brand-tag" style="background:#C9A84C;color:#0A0A0E;">web dark</span> <span class="brand-tag" style="background:#F2EDE4;color:#1E1C24;">web light</span> <span class="brand-tag" style="background:#0A0A0E;color:#C9A84C;border:1px solid #333;">app</span></h3>
-      <div class="swatch-row"><div class="swatch" style="background:#C9A84C;"></div><div class="swatch-info"><div class="swatch-name">Gold (primary)</div><div class="swatch-hex">#C9A84C</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#0A0A0E;"></div><div class="swatch-info"><div class="swatch-name">Canvas (bg)</div><div class="swatch-hex">#0A0A0E</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#111116;"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#111116</div><div class="swatch-desc">Korrigiert (war #16161A)</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#1C1C22;"></div><div class="swatch-info"><div class="swatch-name">Surface Elevated</div><div class="swatch-hex">#1C1C22</div><div class="swatch-desc">Korrigiert (war #1E1E24)</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#F0EAE0;border-color:#ccc;"></div><div class="swatch-info"><div class="swatch-name">Cream (text / light bg)</div><div class="swatch-hex">#F0EAE0</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#B2AEBC;"></div><div class="swatch-info"><div class="swatch-name">Text Secondary</div><div class="swatch-hex">#B2AEBC</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#F2EDE4;border-color:#ccc;"></div><div class="swatch-info"><div class="swatch-name">Cream BG (light mode)</div><div class="swatch-hex">#F2EDE4</div></div></div>
-      <div class="swatch-row"><div class="swatch" style="background:#1E1C24;"></div><div class="swatch-info"><div class="swatch-name">Text on Light</div><div class="swatch-hex">#1E1C24</div></div></div>
+      <h3>Momance <span class="brand-tag" style="background:#C9A84C;color:#0A0A0E;">web dark</span> <span class="brand-tag" style="background:#F2EDE4;color:#1E1C24;">web light</span></h3>
+      <div id="farben-momance"></div>
       <div style="margin-top:12px;display:flex;gap:6px;">
         <div style="width:28px;height:28px;border-radius:50%;background:hsl(45,55%,62%);" title="still"></div>
         <div style="width:28px;height:28px;border-radius:50%;background:hsl(210,58%,66%);" title="connect"></div>
@@ -225,9 +238,18 @@ body { font-family: 'Source Sans 3', sans-serif; background: #f8f6f2; color: #1a
         <div style="width:28px;height:28px;border-radius:50%;background:hsl(280,42%,65%);" title="create"></div>
         <div style="width:28px;height:28px;border-radius:50%;background:hsl(340,50%,64%);" title="senses"></div>
       </div>
-      <div style="font-size:0.65rem;color:#9c9489;margin-top:4px;">Kategorie-Farben: still, connect, body, nature, create, senses</div>
+      <div style="font-size:0.65rem;color:#6b6158;margin-top:4px;">Kategorie-Farben: still, connect, body, nature, create, senses</div>
     </div>
   </div>
+</div>
+
+<!-- Textgroessen -->
+<div class="section">
+  <div class="section-title">Schicht 2: Brand Tokens - Textgroessen</div>
+  <p class="pl-hinweis">Festgelegt am 11.08.2026 (E·68). Drei Groessen ausserhalb der Ueberschriften,
+  fuer beide Marken dieselbe Skala. Seiteneigene Werte meldet <code>pruefen.mjs</code> als Verstoss.
+  Die Ueberschriften folgen bewusst noch keiner gemeinsamen Skala.</p>
+  <div id="groessen"></div>
 </div>
 
 <!-- Typography -->
@@ -238,7 +260,7 @@ body { font-family: 'Source Sans 3', sans-serif; background: #f8f6f2; color: #1a
       <h3>ANTIPOL</h3>
       <div class="type-sample"><div style="font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:600;letter-spacing:-0.03em;">Radikal an die Wurzel</div><div class="type-meta">Space Grotesk 600, Headlines</div></div>
       <div class="type-sample"><div style="font-family:'Source Serif 4',Georgia,serif;font-size:1rem;font-weight:300;line-height:1.8;">ANTIPOL befaehigt Menschen und Organisationen, die digitale Transformation radikal von der Wurzel her zu denken - holistisch, empathisch und mit dem Mut, alles in Frage zu stellen.</div><div class="type-meta">Source Serif 4, 300, Body</div></div>
-      <div class="type-sample"><div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:#6b6158;">Schritt 01 - Verstehen</div><div class="type-meta">JetBrains Mono 400, Labels</div></div>
+      <div class="type-sample"><div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:#6b6158;">Schritt 01 - Verstehen</div><div class="type-meta">JetBrains Mono 400, Labels, --size-label (0,75rem). Kleiner nicht.</div></div>
     </div>
     <div class="brand-col">
       <h3>Momance</h3>
@@ -641,5 +663,61 @@ document.querySelectorAll('.sub-nav a').forEach(a => {
 });
 </script>
 
+
+<script>
+/* Farben und Textgroessen aus den Tokens rendern. Quelle: tokens.js,
+   erzeugt von build-tokens.mjs. Faellt die Datei aus, bleibt der Bereich leer
+   und der Hinweis darueber erklaert warum; das ist ehrlicher als eine Abschrift,
+   die stillschweigend falsch wird. */
+(function () {
+  var T = window.DS_TOKENS;
+  if (!T) return;
+
+  function swatches(marke, ziel) {
+    var el = document.getElementById(ziel);
+    if (!el || !T[marke]) return;
+    var html = '';
+    Object.keys(T[marke].farben).forEach(function (name) {
+      var f = T[marke].farben[name];
+      var hell = parseInt(f.wert.slice(1, 3), 16) + parseInt(f.wert.slice(3, 5), 16) + parseInt(f.wert.slice(5, 7), 16) > 600;
+      html += '<div class="swatch-row">' +
+        '<div class="swatch" style="background:' + f.wert + (hell ? ';border-color:#ccc' : '') + ';"></div>' +
+        '<div class="swatch-info">' +
+        '<div class="swatch-name">' + (f.name || name) + ' <span style="color:#9c9489;font-size:0.72rem;">(' + name + ')</span></div>' +
+        '<div class="swatch-hex">' + f.wert + '</div>' +
+        (f.beschreibung ? '<div class="swatch-desc">' + f.beschreibung + '</div>' : '') +
+        '</div></div>';
+    });
+    el.innerHTML = html;
+  }
+
+  swatches('antipol', 'farben-antipol');
+  swatches('momance', 'farben-momance');
+
+  var g = document.getElementById('groessen');
+  if (g && T.antipol) {
+    var rollen = [
+      ['size-copy', 'Fliesstext', 'Jeder Absatz auf jeder Seite. Immer in --color-text-muted.'],
+      ['size-ui', 'Bedienung', 'Navigation, Fusszeile, Meta-Werte, Knopfbeschriftungen.'],
+      ['size-label', 'Bezeichner', 'Mono in Grossbuchstaben. Untergrenze, nie kleiner.']
+    ];
+    var html = '<table class="groessen-tabelle"><thead><tr><th>Token</th><th>Wert</th><th>Rolle</th><th>Wofuer</th><th>Beispiel</th></tr></thead><tbody>';
+    rollen.forEach(function (r) {
+      var t = T.antipol.typografie[r[0]];
+      if (!t) return;
+      var px = Math.round(parseFloat(t.wert) * 16);
+      html += '<tr>' +
+        '<td class="tok">--' + r[0] + '</td>' +
+        '<td class="tok">' + t.wert + ' <span style="color:#9c9489;">(' + px + 'px)</span></td>' +
+        '<td>' + r[1] + '</td>' +
+        '<td style="font-size:0.85rem;color:#6b6158;">' + r[2] + '</td>' +
+        '<td class="beispiel" style="font-size:' + t.wert + ';' + (r[0] === 'size-label' ? "font-family:'JetBrains Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;" : '') + '">Radikal an die Wurzel</td>' +
+        '</tr>';
+    });
+    html += '</tbody></table>';
+    g.innerHTML = html;
+  }
+})();
+</script>
 </body>
 </html>

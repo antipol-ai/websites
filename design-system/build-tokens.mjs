@@ -179,4 +179,52 @@ ensureDir(momancePath);
 writeFileSync(momancePath, momanceCSS, 'utf-8');
 console.log('  momance/theme.css ← brands/momance/tokens.json');
 
-console.log('\nDone. 3 CSS-Dateien generiert aus JSON-Tokens.');
+// ── Pattern Library: Daten statt Abschrift ──
+//
+// Die Pattern Library hatte alle Werte als Text im HTML stehen. Damit war sie
+// eine Kopie der Tokens und konnte veralten, ohne dass es jemandem auffiel;
+// am 11.08.2026 zeigte sie noch #6B6158 als Label-Farbe, obwohl der Wert durch
+// die Kontrastpruefung gefallen war. Jetzt bekommt sie ihre Werte von hier.
+// Als JS-Datei und nicht per fetch, damit die Datei weiterhin per Doppelklick
+// funktioniert (fetch scheitert unter file://).
+
+function tokenGruppe(obj = {}) {
+  const raus = {};
+  for (const [name, token] of Object.entries(obj)) {
+    if (name.startsWith('$')) continue;
+    raus[name] = {
+      wert: resolveValue(token),
+      name: token && token.name ? token.name : null,
+      beschreibung: token && token.$description ? token.$description : null,
+    };
+  }
+  return raus;
+}
+
+const patternDaten = {};
+for (const [marke, pfad] of [
+  ['antipol', 'brands/antipol/tokens.json'],
+  ['momance', 'brands/momance/tokens.json'],
+]) {
+  const b = loadJSON(pfad);
+  patternDaten[marke] = {
+    farben: tokenGruppe(b.color),
+    farbenHell: tokenGruppe(b['color-light']),
+    typografie: tokenGruppe(b.typography),
+  };
+}
+patternDaten.foundation = tokenGruppe(loadJSON('foundation/tokens.json').spacing);
+
+const patternPath = join(__dirname, 'pattern-library/tokens.js');
+ensureDir(patternPath);
+writeFileSync(
+  patternPath,
+  '/* AUTO-GENERIERT von design-system/build-tokens.mjs. Nicht bearbeiten. */\n' +
+    'window.DS_TOKENS = ' +
+    JSON.stringify(patternDaten, null, 2) +
+    ';\n',
+  'utf-8'
+);
+console.log('  pattern-library/tokens.js ← alle Token-Quellen');
+
+console.log('\nDone. 4 Dateien generiert aus JSON-Tokens.');
