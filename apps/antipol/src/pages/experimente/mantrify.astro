@@ -1,0 +1,165 @@
+---
+/**
+ * Detailseite Experiment 02: Mantrify.
+ *
+ * Erste Fassung vom 11.08.2026. Bewusst kürzer als die Momance-Seite: Das
+ * Experiment läuft erst seit vier Tagen, und eine Fallstudie über einen Weg,
+ * der noch nicht gegangen ist, wäre erfunden.
+ *
+ * Offen und absichtlich noch nicht hier: Hypothese, Laufzeit und Kennzahl in
+ * sauberer Form. Solange die fehlen, ist es methodisch ein Prototyp und kein
+ * Experiment. Siehe To-do in docs/STATUS.md.
+ */
+import AntipolLayout from '../../layouts/AntipolLayout.astro';
+---
+
+<AntipolLayout title="Mantrify - Experiment 02" description="Ein Würfel trägt einen Gedanken in fünf Stimmen. Hilft jetzt. Ändert nix." activePage="experimente">
+
+  <section class="panel panel-dark" id="hero" aria-label="Mantrify - Intro">
+    <div class="hero-content">
+      <div class="section-label fade-in"><a href="/experimente" class="zurueck">Experimente</a> · 02</div>
+      <h1 class="fade-in">Hilft jetzt.<br>Ändert nix.</h1>
+      <p class="intro fade-in">Ein Würfel trägt einen Gedanken in fünf Stimmen. Man dreht, bis eine davon trifft.</p>
+      <p class="why-line fade-in fade-in-delay">Das Experiment läuft seit dem 8. August 2026. Was hier steht, ist der Stand von heute und wird sich ändern.</p>
+    </div>
+  </section>
+
+  <section class="panel panel-mid intro-panel" id="mantrify" aria-label="Experiment 02: Mantrify">
+    <div class="exp-number-bg fade-in" aria-hidden="true">02</div>
+    <div class="exp-label fade-in">Experiment 02</div>
+    <h2 class="fade-in">Mantrify</h2>
+    <p class="oneliner fade-in">Ein Gadget gegen den Moment, nicht gegen das Problem.<br>Arbeitstitel, und der Name ist noch nicht entschieden.</p>
+    <div class="meta-row fade-in fade-in-delay">
+      <div class="meta-item">
+        <span class="meta-label">Typ</span>
+        <span class="meta-value">Produktexperiment, digital und physisch</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Zeitraum</span>
+        <span class="meta-value">Seit August 2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Status</span>
+        <span class="meta-value">Prototyp, nicht veröffentlicht</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Kennzahl</span>
+        <span class="meta-value">Teilen</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel panel-dark" aria-label="Was es ist">
+    <div class="text-panel">
+      <div class="section-label fade-in">Worum es geht</div>
+      <h3 class="fade-in">Löst nichts. Trägt trotzdem.</h3>
+      <p class="fade-in">Der Auslöser ist selten das eigentliche Problem, meistens ist es die Summe. Daran ändert dieser Würfel nichts. Er gibt einen Satz für die nächste halbe Stunde, und manchmal reicht das schon, um nicht das Falsche zu tun.</p>
+      <p class="fade-in">Sechs Würfel, sechs Haltungen. Jeder trägt denselben Gedanken in fünf Tonlagen, gesprochen von fünf Figuren aus dem Arbeitsleben: einem Therapeuten, einer Kollegin kurz vor der Kündigung, einem Entwickler, einem Marketing-Guru und einer Feelgood-Managerin. Man dreht, bis eine davon trifft. An manchen Tagen ist es eine andere als gestern.</p>
+    </div>
+  </section>
+
+  <section class="panel panel-mid" aria-label="Die Kennzahl">
+    <div class="text-panel">
+      <div class="section-label fade-in">Die einzige Kennzahl</div>
+      <h3 class="fade-in">Teilen, nicht Verkaufen</h3>
+      <p class="fade-in">Von Anfang an gilt eine einzige Messgrösse: Wird es weitergegeben. Nicht Umsatz, nicht Verweildauer, nicht Wiederkehr. Jede Gestaltungsfrage wird daran gemessen, und mehr als eine Frage ist daran schon gescheitert.</p>
+      <p class="fade-in">Das hat Folgen, die man erst merkt, wenn man sie ernst nimmt: Der Empfänger ist wichtiger als der Absender, das Ding muss ohne Kontext funktionieren, und der geteilte Zustand gehört in die Adresse. Der wichtigste Satz der ganzen Seite steht deshalb nicht auf dem Würfel, sondern über dem Knopf: <em>Wem geht es gerade genauso?</em></p>
+    </div>
+  </section>
+
+  <section class="panel panel-dark" aria-label="Wie gearbeitet wird">
+    <div class="text-panel">
+      <div class="section-label fade-in">Wie gearbeitet wird</div>
+      <h3 class="fade-in">Jede Entscheidung wird mitgeschrieben</h3>
+      <p class="fade-in">Parallel zum Bauen läuft ein Entscheidungs-Log. Darin steht nicht nur, was entschieden wurde, sondern auch, was verworfen wurde und warum, und an welchen Stellen wir uns geirrt haben. Nach vier Tagen sind es über zweihundertfünfzig Einträge.</p>
+      <p class="fade-in">Beispiele daraus: dass ein leeres iPhone kein Programmierfehler war, sondern eine Dateivorschau ohne Skriptausführung. Dass fünf von elf Farbwerten die Kontrastprüfung nicht bestanden, weil Dekorfarben für Text verwendet wurden. Dass der Würfel in vier von zehn Zügen auf der falschen Seite einrastete, weil zwei Verfahren nebeneinanderliefen. Solche Sätze stehen normalerweise in keiner Fallstudie.</p>
+    </div>
+  </section>
+
+  <section class="panel panel-mid" aria-label="Was offen ist">
+    <div class="text-panel">
+      <div class="section-label fade-in">Was offen ist</div>
+      <h3 class="fade-in">Ehrlich unfertig</h3>
+      <p class="fade-in">Der Produktname ist ein Arbeitstitel und noch nicht entschieden. Vier der fünf Figuren sind gezeichnet, eine fehlt. Der Zähler auf der Seite ist eine Attrappe und sagt das auch selbst. Und ob überhaupt jemand einen Satz aus Holz auf dem Schreibtisch haben will, weiss niemand.</p>
+      <p class="fade-in">Genau deshalb ist es ein Experiment und keine Ankündigung.</p>
+    </div>
+  </section>
+
+</AntipolLayout>
+
+<style>
+  .panel {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: clamp(4rem, 10vh, 8rem) 2rem;
+  }
+  .panel-dark { background: var(--color-bg); }
+  .panel-mid { background: var(--color-bg-mid, #131313); }
+
+  .hero-content, .text-panel { max-width: 46rem; margin: 0 auto; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-label);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 0 0 1.5rem;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin: 0.5rem 0 1rem;
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.2rem;
+  }
+
+  .intro { font-size: 1.15rem; line-height: 1.6; color: var(--color-text-light); max-width: 34rem; }
+  .why-line { font-size: 0.95rem; line-height: 1.7; color: var(--color-text-muted); max-width: 36rem; margin-top: 1.5rem; }
+  .oneliner { font-size: 1.1rem; line-height: 1.6; color: var(--color-text-light); max-width: 34rem; }
+  .text-panel p { font-family: var(--font-body); font-size: 1.02rem; line-height: 1.75; color: var(--color-text-muted); margin: 0 0 1.1rem; }
+  .text-panel em { color: var(--color-text-light); font-style: italic; }
+
+  .intro-panel { position: relative; flex-direction: column; align-items: flex-start; max-width: 100%; }
+  .intro-panel > * { max-width: 46rem; margin-left: auto; margin-right: auto; width: 100%; }
+
+  .exp-number-bg {
+    position: absolute;
+    top: 12vh; right: 4vw;
+    font-family: var(--font-display);
+    font-size: clamp(6rem, 15vw, 12rem);
+    font-weight: 700;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .exp-label { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-text-label); }
+
+  .meta-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border, #2A2A2A); }
+  .meta-item { display: flex; flex-direction: column; gap: 0.35rem; }
+  .meta-label { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-text-label); }
+  .meta-value { font-family: var(--font-body); font-size: 0.92rem; color: var(--color-text-muted); }
+
+  .zurueck { color: inherit; text-decoration: none; border-bottom: 1px solid var(--color-text-label); }
+  .zurueck:hover { color: var(--color-primary-light); border-bottom-color: var(--color-primary-light); }
+</style>

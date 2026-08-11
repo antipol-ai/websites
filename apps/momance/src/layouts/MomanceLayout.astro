@@ -19,7 +19,7 @@ const { title, description, activePage } = Astro.props;
 const currentYear = new Date().getFullYear();
 ---
 
-<BaseLayout title={`Momance — ${title}`} description={description}>
+<BaseLayout title={`Momance - ${title}`} description={description}>
   <Fragment slot="head">
     <!-- Schriften liegen lokal unter /fonts (siehe src/styles/fonts.css).
          Keine Verbindung zu Google, keine Übertragung von IP-Adressen. -->
@@ -29,7 +29,7 @@ const currentYear = new Date().getFullYear();
 
   <!-- Minimaler Header mit Puls-Canvas + Wortmarke -->
   <header class="site-header" slot="nav">
-    <a href="/" class="header-brand" aria-label="Momance — Startseite">
+    <a href="/" class="header-brand" aria-label="Momance - Startseite">
       <canvas class="header-puls" id="headerPuls" width="120" height="120"></canvas>
       <span class="header-name">Momance</span>
     </a>
@@ -291,7 +291,7 @@ const currentYear = new Date().getFullYear();
     ctx.fill();
   }
 
-  // Animation loop — startet erst nach DOM-Ready, robust gegen Layout-Races
+  // Animation loop, startet erst nach DOM-Ready, robust gegen Layout-Races
   function startHeaderPuls() {
     const canvas = document.getElementById('headerPuls');
     if (!canvas) return;

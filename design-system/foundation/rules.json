@@ -1,16 +1,19 @@
 {
   "$description": "ANTIPOL Foundation - Regeln die fur alle Brands und Plattformen gelten",
-
   "sprache": {
     "ansprache": {
       "regel": "Konsequent Du - ueberall, auch in rechtlichen Texten",
-      "gilt-fuer": ["antipol", "momance", "alle-zukuenftigen-produkte"]
+      "gilt-fuer": [
+        "antipol",
+        "momance",
+        "alle-zukuenftigen-produkte"
+      ]
     },
     "zeichenregeln": {
       "keine-gedankenstriche": {
         "regel": "Keine Gedankenstriche (em-dash). Ausschliesslich normale Bindestriche (-)",
         "betrifft": "Alle Texte: App, Website, Docs, Marketing",
-        "beispiel-falsch": "Nicht um festzuhalten \u2014 sondern um wahrzunehmen",
+        "beispiel-falsch": "Nicht um festzuhalten — sondern um wahrzunehmen",
         "beispiel-richtig": "Nicht um festzuhalten - sondern um wahrzunehmen"
       }
     },
@@ -22,7 +25,6 @@
       "Esoterik-Sprache"
     ]
   },
-
   "barrierefreiheit": {
     "standard": "WCAG 2.1 Level AA",
     "prinzip": "Barrierefreiheit ist Designprinzip, kein Nachgedanke",
@@ -35,7 +37,6 @@
       "Kontrastverhaltnis mindestens 4.5:1 (normaler Text), 3:1 (grosser Text)"
     ]
   },
-
   "prinzipien": {
     "build-to-delete": "Jedes Produkt arbeitet auf seine eigene Ueberfluessigkeit hin",
     "kein-data-business": "Nutzerdaten werden nie monetarisiert",
@@ -43,18 +44,20 @@
     "transparenz": "Kein Kleingedrucktes, kein stiller Tausch",
     "zeitlosigkeit": "Trends folgen wir nicht - eigener Weg aus Ueberzeugung"
   },
-
   "animation": {
     "prinzip": "Organisch, nicht mechanisch. Atmen statt Blinken.",
     "reduced-motion": "Alle Animationen muessen bei prefers-reduced-motion: reduce deaktivierbar sein",
     "keine-blinks": "Kein Blinken, kein Grelles, kein Neon"
   },
-
   "texturen": {
     "trennungsregel": {
       "regel": "Flaechentexturen (Diamond, Baumstruktur, Crosshatch) und kompositorische Elemente (Wurzel, Gehirn, Baumkrone) duerfen NIE auf demselben Panel kombiniert werden. Entweder Flaeche ODER Element - nie beides.",
       "begruendung": "Kompositorische Elemente brauchen eine ruhige Flaeche, um zu wirken. Flaechentexturen erzeugen Rauschen, das das Element visuell ueberlagert und die Lesbarkeit zerstoert.",
-      "gilt-fuer": ["antipol", "momance", "alle-zukuenftigen-produkte"]
+      "gilt-fuer": [
+        "antipol",
+        "momance",
+        "alle-zukuenftigen-produkte"
+      ]
     },
     "konzept": {
       "flaechentextur-bedeutung": "Textur = Problemraum (Disruption, das Unbequeme). Clean = methodische Klarheit (Loesungen, Logik).",
@@ -78,6 +81,18 @@
       "haltung-02-hell": "Clean (methodische Klarheit)",
       "haltung-03-rot": "Wurzel (Kompositorisch, 20%) - unter der Erde",
       "alle-anderen": "Clean (methodische Klarheit)"
+    }
+  },
+  "typografie": {
+    "$description": "Ergaenzt am 11.08.2026. Vorher gab es keine Regel dazu, und entsprechend hatte jede Seite ihre eigenen Groessen.",
+    "copy-eine-groesse": {
+      "regel": "Alle Fliesstexte verwenden --size-copy und --color-text-muted. Kein Wechsel zwischen Grau und Weiss, keine Zwischengroessen.",
+      "begruendung": "Unterschiedliche Copy-Groessen und -Helligkeiten lesen sich als Hierarchie, wo keine gemeint ist. Hierarchie entsteht ueber Ueberschrift, Akzentfarbe und Abstand, nicht ueber halbe Pixelstufen.",
+      "ausnahme": "Akzentzeilen (Einzeiler, Claims) behalten die Copy-Groesse und heben sich nur ueber --color-primary-accessible ab."
+    },
+    "label-untergrenze": {
+      "regel": "Mono-Labels und Meta-Bezeichner nie kleiner als --size-label (12px).",
+      "begruendung": "Darunter faellt der Text sowohl durch die Lesbarkeits- als auch durch die Kontrastanforderung."
     }
   }
 }

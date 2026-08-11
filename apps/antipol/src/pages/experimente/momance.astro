@@ -1,14 +1,15 @@
 ---
 /**
- * Experimente-Seite - Momance Case Study
+ * Detailseite Experiment 01: Momance.
  *
- * Migriert aus: antipol/website/experimente.html
- * Scrollytelling mit 8 Panels, SVG-Visualisierungen, Prozess-Callouts.
+ * Bis zum 11.08.2026 war dies die gesamte Seite /experimente. Seit es ein
+ * zweites Experiment gibt, liegt dort ein Verteiler, und dieser Text lebt
+ * unter einer eigenen Adresse.
  */
-import AntipolLayout from '../layouts/AntipolLayout.astro';
+import AntipolLayout from '../../layouts/AntipolLayout.astro';
 ---
 
-<AntipolLayout title="Experimente" description="Wir reden nicht nur. Wir bauen. Experiment 01: Momance - ein Wahrnehmungstraining." activePage="experimente">
+<AntipolLayout title="Momance - Experiment 01" description="Ein Wahrnehmungstraining, das sich selbst überflüssig macht. Der Weg dahin, unaufgeräumt." activePage="experimente">
 
   <!-- Scroll Dots -->
   <nav class="scroll-dots" role="navigation" aria-label="Seitenabschnitte">
@@ -23,12 +24,12 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
   </nav>
 
   <!-- PANEL 1: HERO -->
-  <section class="panel panel-dark" id="hero" aria-label="Experimente - Intro">
+  <section class="panel panel-dark" id="hero" aria-label="Momance - Intro">
     <div class="hero-content">
-      <div class="section-label fade-in">Experimente</div>
+      <div class="section-label fade-in"><a href="/experimente" class="zurueck">Experimente</a> · 01</div>
       <h1 class="fade-in">Wir reden nicht nur.<br>Wir bauen.</h1>
-      <p class="intro fade-in">Wer anderen empfiehlt zu experimentieren, muss das selbst können. Hier ist der Beweis - unaufgeräumt.</p>
-      <p class="why-line fade-in fade-in-delay">Jedes Experiment folgt <a href="/fokus">The Radical Empathy &amp; Experimentation Process<span class="tm">™</span></a>. Kein aufgeräumter Erfolgsnachweis - ein ehrlicher Bericht davon, welcher Schritt welche Entscheidung erzeugt hat.</p>
+      <p class="intro fade-in">Momance ist ein Wahrnehmungstraining, das sich selbst überflüssig machen will. Was hier steht, ist nicht das Produkt, sondern der Weg dahin.</p>
+      <p class="why-line fade-in fade-in-delay">Das Experiment folgt <a href="/fokus">The Radical Empathy &amp; Experimentation Process<span class="tm">™</span></a>. Kein aufgeräumter Erfolgsnachweis - ein ehrlicher Bericht davon, welcher Schritt welche Entscheidung erzeugt hat.</p>
     </div>
   </section>
 
@@ -90,7 +91,7 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
           <text x="0" y="118" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Design Thinking</text>
           <text x="0" y="133" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Hypothesis Testing</text>
           <text x="0" y="148" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Persona-Entwicklung</text>
-          <text x="0" y="163" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">User Testing T1–T3</text>
+          <text x="0" y="163" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">User Testing T1 bis T3</text>
           <text x="185" y="118" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Business Canvas</text>
           <text x="185" y="133" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Savoring / SDT / TTM</text>
           <text x="185" y="148" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Product Field Map</text>
@@ -373,6 +374,9 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
   .screen-frame svg { width: 100%; height: auto; }
   .screen-label { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-label); text-align: center; margin-top: 0.75rem; }
   @media (max-width: 600px) { .screens-row { gap: 1rem; } .screen-frame { max-width: 120px; } }
+
+  .zurueck { color: inherit; text-decoration: none; border-bottom: 1px solid var(--color-text-label); }
+  .zurueck:hover { color: var(--color-primary-light); border-bottom-color: var(--color-primary-light); }
 </style>
 
 <script>

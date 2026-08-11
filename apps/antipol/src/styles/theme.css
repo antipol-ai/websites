@@ -16,7 +16,7 @@
   --color-border: #3A3A3A;  /* Raw Gray */
   --color-text: #F5F2ED;  /* Off-White */
   --color-text-muted: #9C9489;  /* Stone */
-  --color-text-label: #6B6158;  /* Warm Gray */
+  --color-text-label: #948A80;  /* Warm Gray */
   --color-text-light: #E8E2D9;  /* Light Warm */
   --color-text-pure: #FFFFFF;  /* Pure White */
   --color-footer-text: #A89E94;
@@ -26,6 +26,9 @@
   --font-display: 'Space Grotesk', sans-serif;
   --font-body: 'Source Serif 4', Georgia, serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --size-copy: 1rem;
+  --size-label: 0.75rem;
+  --line-height-copy: 1.7;
 
   /* -- Komponenten-Varianten -- */
   --card-radius: var(--radius-md);
