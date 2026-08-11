@@ -71,14 +71,30 @@ const { brand, brandHighlight, brandHref = '/', links } = Astro.props;
     font-weight: 600;
   }
 
+  /* Die Wortmarke ist kein gewöhnlicher Navigationspunkt: Sie steht in der
+     vollen Textfarbe, nicht im gedämpften Grau der übrigen Links. Weiss darf
+     kein Hover-Effekt sein, den man erst herbeiführen muss (E·11, siehe
+     docs/logo-guideline.md). */
   .nav-item.brand {
     font-weight: 700;
     font-size: 1.1rem;
     letter-spacing: -0.03em;
+    color: var(--color-text);
   }
 
+  .nav-item.brand:hover {
+    color: var(--color-text-pure);
+  }
+
+  /* Nicht --color-primary, sondern der hellere Ton: Die Marke ist hier rund
+     17,6 Pixel gross und gilt damit als kleiner Text, für den 4,5 zu 1
+     gefordert sind. Das Ziegelrot erreicht auf dunklem Grund nur 3,83. */
   .nav-item.brand .pol {
-    color: var(--color-primary);
+    color: var(--color-primary-light);
+  }
+
+  .nav-item.brand:hover .pol {
+    color: var(--color-primary-accessible);
   }
 
   @media (max-width: 768px) {

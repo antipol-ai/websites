@@ -10,17 +10,18 @@ interface FooterLink {
 interface Props {
   company: string;
   companyHighlight?: string;
+  companySuffix?: string;
   people?: string;
   links: FooterLink[];
 }
 
-const { company, companyHighlight, people, links } = Astro.props;
+const { company, companyHighlight, companySuffix = '', people, links } = Astro.props;
 ---
 
 <footer role="contentinfo">
   <div class="footer-left">
     <div class="footer-company">
-      {company}{companyHighlight && <span class="pol">{companyHighlight}</span>}
+      {company}{companyHighlight && <span class="pol">{companyHighlight}</span>}{companySuffix}
     </div>
     {people && <div class="footer-people">{people}</div>}
   </div>
@@ -59,8 +60,12 @@ const { company, companyHighlight, people, links } = Astro.props;
     color: var(--color-text-muted);
   }
 
+  /* Der hellere Ton, nicht das Ziegelrot: Die Zeile ist 13,6 Pixel gross und
+     gilt damit als kleiner Text, für den 4,5 zu 1 gefordert sind (E·11, siehe
+     docs/logo-guideline.md). Der Rechtsformzusatz gehört ausdrücklich nicht in
+     die Auszeichnung, dafür gibt es companySuffix. */
   .footer-company .pol {
-    color: var(--color-primary);
+    color: var(--color-primary-light);
   }
 
   .footer-people {
