@@ -1,0 +1,10 @@
+{
+  "name": "@mantrify/website",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Mantrify V01. Eine einzelne, in sich geschlossene HTML-Datei; der Build kopiert sie nur nach dist.",
+  "scripts": {
+    "build": "mkdir -p dist && cp index.html robots.txt dist/",
+    "dev": "python3 -m http.server 4323"
+  }
+}

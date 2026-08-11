@@ -1,0 +1,4 @@
+# Testfassung. Nicht indexieren, solange Impressum und Datenschutz
+# nicht juristisch geprueft sind (MC·45).
+User-agent: *
+Disallow: /
