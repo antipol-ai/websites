@@ -1,5 +1,13 @@
-# Mantrify. Nicht indexieren, solange Impressum und Datenschutz nicht
-# juristisch geprueft sind (MC·45).
+# Mantrify. Nicht indexieren.
+#
+# Der urspruengliche Grund (Impressum und Datenschutz ungeprueft, MC·45) ist
+# seit dem 12.08.2026 erledigt. Die Sperre bleibt trotzdem, aus einem anderen:
+# Suchverkehr wuerde die Messung verwaessern. Unsere Schwelle lautet "jeder
+# Zehnte gibt weiter". Kaemen Leute ueber die Suche statt ueber eine
+# Weitergabe, mischten sich zwei Herkuenfte in denselben Nenner. Ausserdem
+# endet das Experiment am 31.10.2026, eine indexierte Seite ueberlebt es.
+# Wer die Sperre aufheben will, muss also diesen Grund entkraeften, nicht den
+# alten (MC·298).
 User-agent: *
 Disallow: /
 
