@@ -86,7 +86,10 @@ export default async function handler(req, res) {
     const zufall = Math.random().toString(36).slice(2, 10);
     const pfad = `e/${heute}/${name}/${detail(name, körper)}/${zufall}.txt`;
 
-    await put(pfad, '', {
+    // Der Inhalt ist ein Puffer mit null Bytes und nicht der leere String:
+    // das SDK weist '' mit "body is required" ab, ein leerer Puffer geht durch.
+    // Die Datei bleibt dabei tatsaechlich leer, die Information steckt im Pfad.
+    await put(pfad, Buffer.alloc(0), {
       access: 'private',         // der Store ist privat; lesen darf nur, wer das Token hat
                                  // (der Inhalt ist ohnehin leer, die Information steckt im Pfad)
       addRandomSuffix: false,

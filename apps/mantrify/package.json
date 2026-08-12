@@ -1,5 +1,6 @@
 {
   "name": "@mantrify/website",
+  "type": "module",
   "private": true,
   "version": "0.1.0",
   "description": "Mantrify V01. Eine einzelne HTML-Datei; der Build kopiert sie nach dist, dazu robots.txt und das Vorschaubild. Unter api/ liegen zwei Funktionen fuer die Messung.",

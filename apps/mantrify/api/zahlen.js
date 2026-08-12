@@ -35,6 +35,7 @@
  *   VERCEL_PROJECT_ID      Setzt Vercel selbst, wenn Systemvariablen an sind.
  */
 import { list } from '@vercel/blob';
+import { timingSafeEqual } from 'node:crypto';
 
 const ZIEL_DREHER = 200;      // Mindestmenge, bevor ausgewertet wird
 const ZIEL_TEILRATE = 0.10;   // jeder Zehnte gibt weiter
@@ -45,13 +46,32 @@ const ZIEL_MEDIAN = 25;       // Euro
 // Dashboards je angefangene 1000 Ereignisse eine weitere.
 const FREI_OPERATIONEN = 10000;
 
+/**
+ * Zeitkonstanter Vergleich. Ein normaler Vergleich mit === bricht beim ersten
+ * abweichenden Zeichen ab; theoretisch verraet die Laufzeit dadurch, wie viele
+ * Zeichen stimmten. Ueber das Netz ist das kaum messbar, aber der richtige
+ * Vergleich kostet nichts. Die Laenge wird bewusst mit weggehasht, sonst
+ * verriete schon die Fehlermeldung, wie lang das Passwort ist.
+ */
+function gleich(a, b) {
+  const x = Buffer.from(String(a)), y = Buffer.from(String(b));
+  if (x.length !== y.length) {
+    timingSafeEqual(x, x);   // gleiche Arbeit leisten, dann trotzdem ablehnen
+    return false;
+  }
+  return timingSafeEqual(x, y);
+}
+
 function pruefeAnmeldung(req) {
   const u = process.env.DASH_USER, p = process.env.DASH_PASS;
   if (!u || !p) return 'nicht eingerichtet';
   const kopf = req.headers.authorization || '';
   if (!kopf.startsWith('Basic ')) return 'fehlt';
-  const [nutzer, wort] = Buffer.from(kopf.slice(6), 'base64').toString('utf8').split(':');
-  return (nutzer === u && wort === p) ? null : 'falsch';
+  const roh = Buffer.from(kopf.slice(6), 'base64').toString('utf8');
+  const i = roh.indexOf(':');
+  const nutzer = i < 0 ? roh : roh.slice(0, i);
+  const wort = i < 0 ? '' : roh.slice(i + 1);
+  return (gleich(nutzer, u) && gleich(wort, p)) ? null : 'falsch';
 }
 
 async function allePfade() {
