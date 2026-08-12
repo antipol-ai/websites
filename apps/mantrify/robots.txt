@@ -1,4 +1,32 @@
-# Testfassung. Nicht indexieren, solange Impressum und Datenschutz
-# nicht juristisch geprueft sind (MC·45).
+# Mantrify. Nicht indexieren, solange Impressum und Datenschutz nicht
+# juristisch geprueft sind (MC·45).
 User-agent: *
 Disallow: /
+
+# Die Vorschau beim Teilen soll trotzdem funktionieren. Das ist kein
+# Widerspruch: Diese Dienste indexieren nicht, sie holen nur Titel, Text und
+# Bild fuer die Karte, die im Chat erscheint. Teilen ist unsere einzige
+# Kennzahl, und eine Nachricht ohne Vorschau wird seltener geoeffnet.
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slackbot-LinkExpanding
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: SignalBot
+Allow: /

@@ -10,9 +10,22 @@ interface Props {
   title: string;
   description?: string;
   lang?: string;
+  /** Pfad zum Teilen-Bild, relativ zur Site. Ohne Angabe wird keins gesetzt. */
+  image?: string;
 }
 
-const { title, description = '', lang = 'de' } = Astro.props;
+const { title, description = '', lang = 'de', image } = Astro.props;
+
+/**
+ * Kanonische Adresse.
+ *
+ * Der Grund steht im Vercel-Dashboard: Jedes Projekt ist zusaetzlich unter
+ * seiner vercel.app-Adresse erreichbar, und ohne Canonical sind das zwei
+ * vollstaendige Kopien derselben Site. Astro.site kommt aus astro.config.mjs,
+ * ist also je App die richtige Domain.
+ */
+const kanonisch = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const bildAbsolut = image && Astro.site ? new URL(image, Astro.site).href : undefined;
 ---
 
 <!DOCTYPE html>
@@ -22,6 +35,23 @@ const { title, description = '', lang = 'de' } = Astro.props;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   {description && <meta name="description" content={description} />}
+  {kanonisch && <link rel="canonical" href={kanonisch} />}
+
+  {/* Vorschau beim Teilen. Eine Seite, die weitergegeben werden soll, wird
+      ueber diese Karte weitergegeben und nicht ueber ihre URL. */}
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content={lang === 'de' ? 'de_DE' : lang} />
+  <meta property="og:title" content={title} />
+  {description && <meta property="og:description" content={description} />}
+  {kanonisch && <meta property="og:url" content={kanonisch} />}
+  {bildAbsolut && <meta property="og:image" content={bildAbsolut} />}
+  {bildAbsolut && <meta property="og:image:width" content="1200" />}
+  {bildAbsolut && <meta property="og:image:height" content="630" />}
+  <meta name="twitter:card" content={bildAbsolut ? 'summary_large_image' : 'summary'} />
+  <meta name="twitter:title" content={title} />
+  {description && <meta name="twitter:description" content={description} />}
+  {bildAbsolut && <meta name="twitter:image" content={bildAbsolut} />}
+
   <slot name="head" />
 </head>
 <body>

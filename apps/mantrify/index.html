@@ -9,6 +9,25 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://mantrify.antipol.ai/">
+<!-- Vorschau beim Teilen. Fuer eine Seite, deren einzige Kennzahl das Teilen
+     ist, entscheidet diese Karte mit darueber, ob der Empfaenger klickt. Das
+     Bild liegt als Datei daneben und nicht als base64: Open Graph braucht eine
+     absolute URL. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mantrify">
+<meta property="og:locale" content="de_DE">
+<meta property="og:url" content="https://mantrify.antipol.ai/">
+<meta property="og:title" content="Hilft jetzt. Ändert nix.">
+<meta property="og:description" content="Ein Würfel trägt einen Gedanken in fünf Stimmen. Man dreht, bis eine davon trifft.">
+<meta property="og:image" content="https://mantrify.antipol.ai/vorschau.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ein blauer Würfel auf einem Schreibtisch, auf der Vorderseite steht Ich bleib freiwillig, dahinter die geöffnete Schachtel.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hilft jetzt. Ändert nix.">
+<meta name="twitter:description" content="Ein Würfel trägt einen Gedanken in fünf Stimmen. Man dreht, bis eine davon trifft.">
+<meta name="twitter:image" content="https://mantrify.antipol.ai/vorschau.jpg">
 <meta name="description" content="Ein Würfel trägt einen Gedanken in fünf Stimmen. Ein Experiment von ANTIPOL.">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230D0D0D'/%3E%3Crect x='38' y='38' width='104' height='104' rx='12' fill='%23614D18'/%3E%3C/svg%3E">
 <title>Mantrify · ein Experiment von ANTIPOL</title>
@@ -471,14 +490,46 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
 .regler input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;
   background:var(--warm-signal);border:3px solid var(--bg);box-shadow:0 0 0 1px var(--warm-signal)}
 .regler input[type=range]:disabled{cursor:default;opacity:.85}
-.r-pole{display:flex;justify-content:space-between;gap:1.2rem;margin-top:.1rem;
+/* Unsichtbar heisst hier wirklich unsichtbar und nicht kleiner: Ein angedeuteter
+   Griff waere wieder ein Vorschlag. Die Bahn bleibt sichtbar und breit genug,
+   damit erkennbar ist, dass hier etwas zu tun ist. */
+.regler input[type=range]:not(.gesetzt)::-webkit-slider-thumb{opacity:0}
+.regler input[type=range]:not(.gesetzt)::-moz-range-thumb{opacity:0}
+.regler input[type=range]:not(.gesetzt)::-webkit-slider-runnable-track{
+  background:var(--surface);border-color:var(--warm-signal)}
+.regler input[type=range]:not(.gesetzt)::-moz-range-track{
+  background:var(--surface);border-color:var(--warm-signal)}
+/* Solange nichts gesetzt ist, muss der Fokus trotzdem sichtbar sein, sonst
+   verliert die Tastatur die Stelle. */
+.regler input[type=range]:focus-visible{outline:2px solid var(--warm-signal);outline-offset:6px}
+/* Die Skalenmarken sitzen nicht mit space-between, sondern gerechnet: Der Griff
+   ist 34 Pixel breit, also faehrt sein Mittelpunkt nur zwischen 17 Pixel und
+   Breite minus 17. Mit space-between staenden die Zahlen bis zu 17 Pixel neben
+   ihrer Position, und genau das faellt an den Enden auf. */
+.r-bahn{position:relative}
+.r-skala{position:relative;height:1.5em;margin-top:-.2rem}
+.r-skala span{position:absolute;left:calc(17px + (100% - 34px) * var(--p));
+  transform:translateX(-50%);white-space:nowrap;
+  font-family:var(--fm);font-size:.7rem;letter-spacing:.04em;color:var(--label)}
+.r-skala span::before{content:"";position:absolute;left:50%;top:-.45rem;
+  width:1px;height:.3rem;background:var(--border)}
+/* Aussen wuerde die Beschriftung sonst ueber die Bahn hinausragen. Der Strich
+   bleibt an seiner Stelle, nur der Text rueckt nach innen. */
+.r-skala span:first-child{transform:translateX(-18%)}
+.r-skala span:first-child::before{left:18%}
+.r-skala span:last-child{transform:translateX(-78%)}
+.r-skala span:last-child::before{left:78%}
+.r-pole{display:flex;justify-content:space-between;gap:1.2rem;margin-top:.6rem;
   font-size:.8rem;line-height:1.35;color:var(--label)}
 .r-pole span{max-width:9.5rem}
 .r-pole{min-height:2.6em}
+@media(max-width:380px){ .r-skala span{font-size:.65rem} .r-pole{font-size:.75rem} }
 .r-pole span:last-child{text-align:right}
-.r-wert{font-family:var(--fm);font-size:.8rem;letter-spacing:.06em;color:var(--label);
-  text-align:center;margin:1.3rem 0 0;min-height:1.2em}
-.r-wert.aktiv{color:var(--text)}
+/* Der Wert ist die Antwort und darf ruhig gross sein. Vorher stand er so klein
+   unter den Polen, dass man ihn fuer eine Fussnote halten konnte. */
+.r-wert{font-family:var(--fm);font-size:.85rem;letter-spacing:.06em;color:var(--label);
+  text-align:center;margin:1.2rem 0 0;min-height:1.6em}
+.r-wert.aktiv{color:var(--text);font-size:1.25rem;letter-spacing:.02em}
 .w-weiter{margin-top:.4rem}
 @media(max-width:440px){
   .wkarte{flex-wrap:wrap;gap:.35rem}
@@ -729,22 +780,22 @@ der Würfel und das Teilen brauchen Skripte.</div></noscript>
          3. Es gibt einen Ausstieg. Ohne ihn antworten auch die, die gar nicht kaufen
             wuerden, und die Verteilung sieht besser aus, als sie ist. -->
     <div class="wunsch" id="wunsch" hidden>
-      <p class="w-frage" id="wunschTitel" tabindex="-1">Zwei Regler, keine Schubladen.</p>
+      <p class="w-frage" id="wunschTitel" tabindex="-1">Eine Frage, keine Schubladen.</p>
 
+      <!-- Ein Regler, nicht zwei (12.08.2026, zweite Runde). Gefragt ist nur der
+           Preis. Die beiden Beschriftungen darunter sagen, was es an dem Ende
+           ungefaehr dafuer gibt; eine Materialwahl trifft hier niemand, sonst
+           misst man zwei Dinge und bekommt keines davon sauber. -->
       <div class="regler">
-        <label class="r-frage" for="rAusfuehrung">Wie soll er gemacht sein?</label>
-        <input type="range" id="rAusfuehrung" min="0" max="100" step="1"
-               aria-describedby="rAusfuehrungWert">
-        <div class="r-pole"><span>einfacher Würfel aus Kunststoff</span><span>Massivholz, geölt und graviert</span></div>
-        <p class="r-wert" id="rAusfuehrungWert">noch nicht bewegt</p>
-      </div>
-
-      <div class="regler">
-        <label class="r-frage" for="rPreis">Und was wäre er dir wert?</label>
-        <input type="range" id="rPreis" min="0" max="120" step="1"
-               aria-describedby="rPreisWert">
-        <div class="r-pole"><span>gar nichts</span><span>viel</span></div>
-        <p class="r-wert" id="rPreisWert">noch nicht bewegt</p>
+        <label class="r-frage" for="rPreis">Was wäre er dir wert?</label>
+        <div class="r-bahn">
+          <input type="range" id="rPreis" min="10" max="130" step="1" aria-describedby="rPreisWert">
+          <div class="r-skala" aria-hidden="true">
+            <span style="--p:0">10</span><span style="--p:.25">40</span><span style="--p:.5">70</span><span style="--p:.75">100</span><span style="--p:1">130 €</span>
+          </div>
+        </div>
+        <div class="r-pole"><span>einfache Würfel aus Kunststoff</span><span>massives Holz, geölt und graviert</span></div>
+        <p class="r-wert" id="rPreisWert">tippen oder ziehen</p>
       </div>
 
       <button type="button" class="cta w-weiter" id="wWeiter">Passt so</button>
@@ -1399,27 +1450,34 @@ window.addEventListener("error", function(e){
       wunschZwei=document.getElementById("wunschZwei"),
       wunschDanke=document.getElementById("wunschDanke"),
       wunschTitel=document.getElementById("wunschTitel"),
-      rA=document.getElementById("rAusfuehrung"), rP=document.getElementById("rPreis"),
-      wA=document.getElementById("rAusfuehrungWert"), wP=document.getElementById("rPreisWert"),
+      rP=document.getElementById("rPreis"), wP=document.getElementById("rPreisWert"),
       wWeiter=document.getElementById("wWeiter"),
       wahl={}, bewegt={};
 
-  rA.value = 25 + Math.floor(Math.random()*51);
-  rP.value = 20 + Math.floor(Math.random()*61);
+  /* Der Griff ist unsichtbar, bis jemand die Bahn anfasst, und erscheint dann
+     genau dort. Kein Startwert heisst: kein Anker.
+     Der Weg dahin war laenger. Ein fester Startpunkt in der Mitte macht die
+     Mitte zur Normalantwort. Ein Startpunkt bei null zieht die Antworten nach
+     unten, weil man vom Anschlag aus nur so weit schiebt, bis es "genug"
+     aussieht, und das ist bei einer Preisfrage die Verzerrung in genau die
+     Richtung, die uns interessiert. Ein zufaelliger Startpunkt mittelt sich
+     zwar ueber viele Nutzer heraus, sieht aber fuer den Einzelnen so aus, als
+     haetten wir ihm einen Betrag vorgeschlagen.
+     Bleibt: gar keinen zeigen. Der erste Tipp auf die Bahn ist die Antwort.
+     Fuer die Tastatur steht der Wert intern auf der Mitte, wird aber erst mit
+     dem ersten Tastendruck sichtbar und gilt bis dahin als nicht gesetzt. */
+  rP.value = 70;
+  rP.setAttribute("aria-valuetext", "noch keine Angabe");
 
-  /* Die Worte unter dem Regler sind Rueckmeldung, keine Auswahl: Gemessen wird
-     die stufenlose Position, angezeigt wird, was dort ungefaehr steht. Ohne das
-     raet man, was siebzig Prozent bedeuten sollen. */
-  var STUFEN=[[0,"Kunststoff oder fester Karton, bedruckt"],
-              [28,"Holz, gefräst und graviert"],
-              [55,"Beton oder Stein, schwer"],
-              [80,"Massivholz, geölt und graviert"]];
-  function ausfText(v){ var t=STUFEN[0][1];
-    for(var i=0;i<STUFEN.length;i++){ if(v>=STUFEN[i][0]) t=STUFEN[i][1]; }
-    return t; }
+  /* Die Skala beginnt bei zehn und nicht bei null. Ein Wuerfel aus Kunststoff
+     kostet auch etwas, und eine Null waere ausserdem doppelt belegt: Wer gar
+     nichts zahlen wuerde, sagt das eine Zeile weiter unten deutlicher.
+     An beiden Enden steht "oder weniger" beziehungsweise "oder mehr", damit wir
+     sehen, wenn jemand gegen den Rand laeuft, statt den Rand fuer die Antwort
+     zu halten. */
   function preisText(v){ v=+v;
-    if(v===0) return "gar nichts";
-    if(v>=120) return "120 € oder mehr";
+    if(v<=10) return "10 € oder weniger";
+    if(v>=130) return "130 € oder mehr";
     return v + " €"; }
 
   function zeige(el, text, an){
@@ -1428,13 +1486,13 @@ window.addEventListener("error", function(e){
   function anRegler(el, anzeige, wie, name){
     function auf(){
       bewegt[name]=true;
+      el.classList.add("gesetzt");
       zeige(anzeige, wie(el.value), true);
       el.setAttribute("aria-valuetext", wie(el.value));
     }
     el.addEventListener("input", auf);
     el.addEventListener("change", auf);
   }
-  anRegler(rA, wA, ausfText, "a");
   anRegler(rP, wP, preisText, "p");
 
   btnWant.addEventListener("click", function(){
@@ -1461,21 +1519,15 @@ window.addEventListener("error", function(e){
   }
 
   wWeiter.addEventListener("click", function(){
-    if(!bewegt.a && !bewegt.p){
-      zeige(wP, "beweg erst einen der beiden Regler", false);
-      try{ rA.focus(); }catch(e){}
+    if(!bewegt.p){
+      zeige(wP, "tipp erst einmal auf die Bahn", false);
+      try{ rP.focus(); }catch(e){}
       return;
     }
-    wahl.ausfuehrung = bewegt.a ? +rA.value : null;
-    wahl.preis       = bewegt.p ? +rP.value : null;
-    /* Die Regler bleiben stehen, wo sie stehen, nur nicht mehr bedienbar. Wer
-       geklickt hat, soll sehen, was er geklickt hat. */
-    rA.disabled=true; rP.disabled=true; wWeiter.hidden=true;
-    /* Ein Regler, den niemand angefasst hat, bleibt stehen und sagt das auch.
-       "noch nicht bewegt" liest sich im Rueckblick wie ein Fehler, "ohne
-       Angabe" wie das, was es ist. */
-    if(!bewegt.a) wA.textContent="ohne Angabe";
-    if(!bewegt.p) wP.textContent="ohne Angabe";
+    wahl.preis = +rP.value;
+    /* Der Regler bleibt stehen, wo er steht, nur nicht mehr bedienbar. Wer
+       geantwortet hat, soll seine Antwort noch sehen. */
+    rP.disabled=true; wWeiter.hidden=true;
     wunsch.querySelector(".w-raus").hidden=true;
     wunschTitel.textContent="Deine Einschätzung:";
     wunschZwei.hidden=false;
@@ -1554,7 +1606,7 @@ window.addEventListener("error", function(e){
     light(); setView("innen"); sync(); setTimeout(nudge, 400);
   })();
   booted=true;
-  (function(){ var v=document.getElementById("ver"); if(v) v.textContent="Aufbau 55"; })();
+  (function(){ var v=document.getElementById("ver"); if(v) v.textContent="Aufbau 58"; })();
 })();
 </script>
 </body>
