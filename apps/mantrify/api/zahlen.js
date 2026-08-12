@@ -52,6 +52,11 @@ const FREI_OPERATIONEN = 10000;
 // Ein Aufruf mit ?ab=2026-08-13 setzt es einmalig ausser Kraft.
 const AB_TAG = null;
 
+// Muss zu REIHE in ereignis.js passen. Der Praefix trennt Messreihen mit
+// unterschiedlicher Zaehlweise voneinander; die alte Reihe e/ liegt weiter im
+// Speicher, wird aber nicht mehr gelesen. Ein Aufruf mit ?reihe=e zeigt sie.
+const REIHE = 'e2';
+
 /**
  * Zeitkonstanter Vergleich. Ein normaler Vergleich mit === bricht beim ersten
  * abweichenden Zeichen ab; theoretisch verraet die Laufzeit dadurch, wie viele
@@ -80,11 +85,11 @@ function pruefeAnmeldung(req) {
   return (gleich(nutzer, u) && gleich(wort, p)) ? null : 'falsch';
 }
 
-async function allePfade() {
+async function allePfade(reihe) {
   const pfade = [];
   let cursor, runden = 0;
   do {
-    const antwort = await list({ prefix: 'e/', cursor, limit: 1000 });
+    const antwort = await list({ prefix: reihe + '/', cursor, limit: 1000 });
     for (const b of antwort.blobs) pfade.push(b.pathname);
     cursor = antwort.hasMore ? antwort.cursor : undefined;
   } while (cursor && ++runden < 50);
@@ -201,9 +206,10 @@ export default async function handler(req, res) {
     return;
   }
 
+  const reihe = ((req.query && req.query.reihe) || REIHE).replace(/[^a-z0-9]/gi, '');
   let pfade = [], blobFehler = null;
   try {
-    pfade = await allePfade();
+    pfade = await allePfade(reihe);
   } catch (e) {
     blobFehler = String(e && e.message || e);
   }
@@ -268,7 +274,7 @@ td.n{text-align:right;font-weight:600}
 .balken i{display:block;height:100%;background:var(--ak)}
 </style></head><body><main>
 <h1>Mantrify · Zahlen</h1>
-<p class="stand">Stand ${new Date().toLocaleString('de-DE')}${abTag ? ` · gezählt ab ${abTag}` : ''}${blobFehler ? ` · <span class="warn">Speicher nicht lesbar: ${schuetz(blobFehler)}</span>` : ''}</p>
+<p class="stand">Stand ${new Date().toLocaleString('de-DE')}${abTag ? ` · gezählt ab ${abTag}` : ''}${reihe !== REIHE ? ` · Messreihe ${schuetz(reihe)}` : ''}${blobFehler ? ` · <span class="warn">Speicher nicht lesbar: ${schuetz(blobFehler)}</span>` : ''}</p>
 
 <div class="gross">
   <div class="kachel"><div class="w">${besucher ?? z.aufruf}</div>

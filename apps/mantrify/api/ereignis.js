@@ -45,6 +45,8 @@ const ERLAUBT = {
 
 const SAUBER = /^[a-z0-9_-]{1,24}$/i;
 
+const REIHE = 'e2';
+
 function detail(name, daten) {
   const felder = ERLAUBT[name];
   const teile = [];
@@ -84,7 +86,11 @@ export default async function handler(req, res) {
 
     const heute = new Date().toISOString().slice(0, 10);
     const zufall = Math.random().toString(36).slice(2, 10);
-    const pfad = `e/${heute}/${name}/${detail(name, körper)}/${zufall}.txt`;
+    // REIHE traegt die Zaehlweise. Aendert sie sich, aendert sich der Praefix,
+    // und die alte Reihe bleibt unangetastet liegen statt geloescht zu werden.
+    //   e/  bis 12.08.2026: Trichterstufen zaehlten jedes Mal (unbrauchbar)
+    //   e2/ ab  12.08.2026: jede Stufe zaehlt einmal je Sitzung
+    const pfad = `${REIHE}/${heute}/${name}/${detail(name, körper)}/${zufall}.txt`;
 
     // Der Inhalt ist ein Puffer mit null Bytes und nicht der leere String:
     // das SDK weist '' mit "body is required" ab, ein leerer Puffer geht durch.
