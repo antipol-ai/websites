@@ -1104,6 +1104,12 @@ window.addEventListener("error", function(e){
       if(window.va) window.va("event", {name:name, data:daten||{}});
     }catch(e){}
   }
+  /* Einmal je Sitzung. Jede Stufe des Trichters beantwortet damit dieselbe
+     Frage: "In wie vielen Sitzungen ist das passiert?" Wer dreimal teilt,
+     zaehlt einmal. Sonst kann der Zaehler groesser werden als sein Nenner,
+     und genau das ist am 12.08.2026 passiert: 133 % der Dreher teilten.
+     Der Preis dafuer: Teilt jemand zwei verschiedene Wuerfel, sehen wir nur
+     den ersten. Fuer die Frage, ob sich das Ding weitertraegt, ist das egal. */
   function spurEinmal(name, daten){
     if(MESSUNG.gesendet[name]) return;
     MESSUNG.gesendet[name]=true;
@@ -1477,31 +1483,31 @@ window.addEventListener("error", function(e){
   function closeSheet(){ sheet.hidden=true; document.body.style.overflow=""; }
   sheet.querySelectorAll("[data-zu]").forEach(function(el){ el.addEventListener("click", closeSheet); });
   document.getElementById("btnShare").addEventListener("click", function(){
-    spur("teilen_auf"); openSheet();
+    spurEinmal("teilen_auf"); openSheet();
   });
 
   if(navigator.share){
     var sn=document.getElementById("shNative"); sn.hidden=false;
     sn.addEventListener("click", function(){
       navigator.share({title:"Mantrify", text:shareText()+"\n", url:location.href})
-        .then(function(){ spur("teilen", {weg:"system", mantra:state.mantra}); closeSheet(); })
+        .then(function(){ spurEinmal("teilen", {weg:"system", mantra:state.mantra}); closeSheet(); })
         .catch(function(){});
     });
   }
   document.getElementById("shWa").addEventListener("click", function(){
-    spur("teilen", {weg:"whatsapp", mantra:state.mantra});
+    spurEinmal("teilen", {weg:"whatsapp", mantra:state.mantra});
     window.open("https://wa.me/?text="+encodeURIComponent(shareText()+"\n"+location.href),"_blank","noopener");
     closeSheet();
   });
   document.getElementById("shMail").addEventListener("click", function(){
-    spur("teilen", {weg:"mail", mantra:state.mantra});
+    spurEinmal("teilen", {weg:"mail", mantra:state.mantra});
     location.href="mailto:?subject="+encodeURIComponent("Ein Satz für dich")+
       "&body="+encodeURIComponent(shareText()+"\n\n"+location.href);
     closeSheet();
   });
   document.getElementById("shCopy").addEventListener("click", function(){
     var b=this, alt=b.textContent;
-    spur("teilen", {weg:"kopiert", mantra:state.mantra});
+    spurEinmal("teilen", {weg:"kopiert", mantra:state.mantra});
     (navigator.clipboard ? navigator.clipboard.writeText(shareText()+"\n"+location.href) : Promise.reject())
       .then(function(){ b.textContent="Kopiert"; }).catch(function(){ b.textContent="Strg C"; })
       .then(function(){ setTimeout(function(){ b.textContent=alt; closeSheet(); }, 900); });
@@ -1569,7 +1575,7 @@ window.addEventListener("error", function(e){
   anRegler(rP, wP, preisText, "p");
 
   btnWant.addEventListener("click", function(){
-    spur("kauf_auf");
+    spurEinmal("kauf_auf");
     wunsch.hidden=false;
     btnWant.setAttribute("aria-expanded","true");
     btnWant.hidden=true;
@@ -1601,7 +1607,7 @@ window.addEventListener("error", function(e){
     wahl.preis = +rP.value;
     /* Der Betrag geht als Zahl raus, nicht als Klasse. Sonst haetten wir uns
        den Regler sparen koennen. */
-    spur("preis", {betrag: wahl.preis});
+    spurEinmal("preis", {betrag: wahl.preis});
     /* Der Regler bleibt stehen, wo er steht, nur nicht mehr bedienbar. Wer
        geantwortet hat, soll seine Antwort noch sehen. */
     rP.disabled=true; wWeiter.hidden=true;
@@ -1612,7 +1618,7 @@ window.addEventListener("error", function(e){
   });
 
   wunsch.querySelector(".w-raus").addEventListener("click", function(){
-    spur("kein_kauf");
+    spurEinmal("kein_kauf");
     Array.prototype.forEach.call(wunsch.querySelectorAll(".regler"), function(r){ r.hidden=true; });
     wWeiter.hidden=true; this.hidden=true;
     wunschTitel.textContent="Auch das ist eine Antwort.";
@@ -1623,7 +1629,7 @@ window.addEventListener("error", function(e){
   Array.prototype.forEach.call(wunschZwei.querySelectorAll(".wkarte"), function(b){
     b.addEventListener("click", function(){
       wahl.fuer=b.getAttribute("data-fuer");
-      spur("fuer", {wen: wahl.fuer});
+      spurEinmal("fuer", {wen: wahl.fuer});
       nurEine(wunschZwei, b);
       wunschZwei.querySelector(".w-frage").textContent="Notiert.";
       abschluss();

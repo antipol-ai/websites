@@ -46,6 +46,12 @@ const ZIEL_MEDIAN = 25;       // Euro
 // Dashboards je angefangene 1000 Ereignisse eine weitere.
 const FREI_OPERATIONEN = 10000;
 
+// Ab welchem Tag gezaehlt wird. Vor dem Release stehen hier Testereignisse
+// drin, die niemand geloescht haben will, nur nicht mitzaehlen sollen.
+// Am Releasetag hier das Datum eintragen, Format 2026-08-13. null = alles.
+// Ein Aufruf mit ?ab=2026-08-13 setzt es einmalig ausser Kraft.
+const AB_TAG = null;
+
 /**
  * Zeitkonstanter Vergleich. Ein normaler Vergleich mit === bricht beim ersten
  * abweichenden Zeichen ab; theoretisch verraet die Laufzeit dadurch, wie viele
@@ -85,7 +91,7 @@ async function allePfade() {
   return pfade;
 }
 
-function auswerten(pfade) {
+function auswerten(pfade, abTag) {
   const z = { aufruf: 0, dreh: 0, teilen_auf: 0, teilen: 0, kauf_auf: 0,
               preis: 0, fuer: 0, kein_kauf: 0 };
   const wege = {}, wen = {}, mantras = {}, tage = {};
@@ -96,6 +102,7 @@ function auswerten(pfade) {
   for (const p of pfade) {
     const [, tag, name, detail] = p.split('/');
     if (!(name in z)) continue;
+    if (abTag && tag < abTag) continue;   // Zeichenkettenvergleich reicht bei ISO-Daten
     z[name]++;
     tage[tag] = (tage[tag] || 0) + 1;
     if (tag && tag.slice(0, 7) === monat) diesenMonat++;
@@ -200,7 +207,8 @@ export default async function handler(req, res) {
   } catch (e) {
     blobFehler = String(e && e.message || e);
   }
-  const { z, wege, wen, mantras, tage, betraege, median, diesenMonat } = auswerten(pfade);
+  const abTag = (req.query && req.query.ab) || AB_TAG || null;
+  const { z, wege, wen, mantras, tage, betraege, median, diesenMonat } = auswerten(pfade, abTag);
   const rw = await reichweite();
 
   const besucher = rw.gesamt && !rw.gesamt.fehler && rw.gesamt.data
@@ -208,7 +216,18 @@ export default async function handler(req, res) {
   const seitenaufrufe = rw.gesamt && !rw.gesamt.fehler && rw.gesamt.data
     ? rw.gesamt.data.pageviews : null;
 
-  const quote = (a, b) => (b ? (100 * a / b).toFixed(1).replace('.', ',') + ' %' : '–');
+  /* Jede Stufe des Trichters zaehlt einmal je Sitzung, also kann keine Quote
+     ueber hundert liegen. Passiert es doch, stimmt die Zaehlweise nicht mehr
+     ueberein, und dann soll man das sehen und nicht die Zahl glauben.
+     Am 12.08.2026 stand hier 133,3 %, und genau das war der Fehler. */
+  let unstimmig = false;
+  const quote = (a, b) => {
+    if (!b) return '–';
+    const q = 100 * a / b;
+    const s = q.toFixed(1).replace('.', ',') + ' %';
+    if (q > 100) { unstimmig = true; return `<span class="warn">${s} &#9888;</span>`; }
+    return s;
+  };
   const genug = z.dreh >= ZIEL_DREHER;
   const teilrate = z.dreh ? z.teilen / z.dreh : 0;
   const verbrauch = diesenMonat + Math.ceil(pfade.length / 1000);
@@ -249,7 +268,7 @@ td.n{text-align:right;font-weight:600}
 .balken i{display:block;height:100%;background:var(--ak)}
 </style></head><body><main>
 <h1>Mantrify · Zahlen</h1>
-<p class="stand">Stand ${new Date().toLocaleString('de-DE')}${blobFehler ? ` · <span class="warn">Speicher nicht lesbar: ${schuetz(blobFehler)}</span>` : ''}</p>
+<p class="stand">Stand ${new Date().toLocaleString('de-DE')}${abTag ? ` · gezählt ab ${abTag}` : ''}${blobFehler ? ` · <span class="warn">Speicher nicht lesbar: ${schuetz(blobFehler)}</span>` : ''}</p>
 
 <div class="gross">
   <div class="kachel"><div class="w">${besucher ?? z.aufruf}</div>
@@ -279,7 +298,7 @@ td.n{text-align:right;font-weight:600}
 
 <h2>Der Weg durch die Seite</h2>
 <table>
-  <tr><td>Aufruf</td><td class="n">${z.aufruf}</td></tr>
+  <tr><td>Sitzungen</td><td class="n">${z.aufruf}</td></tr>
   <tr><td>gedreht</td><td class="n">${z.dreh} <span class="lb">(${quote(z.dreh, z.aufruf)})</span></td></tr>
   <tr><td>Teilen-Fenster geöffnet</td><td class="n">${z.teilen_auf} <span class="lb">(${quote(z.teilen_auf, z.dreh)})</span></td></tr>
   <tr><td>wirklich geteilt</td><td class="n">${z.teilen} <span class="lb">(${quote(z.teilen, z.teilen_auf)} der Geöffneten)</span></td></tr>
@@ -287,8 +306,11 @@ td.n{text-align:right;font-weight:600}
   <tr><td>Betrag genannt</td><td class="n">${z.preis} <span class="lb">(${quote(z.preis, z.kauf_auf)})</span></td></tr>
   <tr><td>„würde ich nicht kaufen"</td><td class="n">${z.kein_kauf} <span class="lb">(${quote(z.kein_kauf, z.kauf_auf)})</span></td></tr>
 </table>
-<p class="klein">Alles in dieser Tabelle stammt aus unserer eigenen Zählung, also aus derselben
-Quelle. Die Quoten sind deshalb sauber vergleichbar.</p>
+<p class="klein">Jede Stufe zählt <b>einmal je Sitzung</b>. Wer dreimal teilt, steht hier
+einmal. Deshalb beantwortet jede Zeile dieselbe Frage, und die Quoten sind
+vergleichbar. Eine Sitzung ist ein Aufruf der Seite, keine Person: Wer das Telefon
+und den Rechner benutzt, zählt zweimal.
+${unstimmig ? '<br><span class="warn">Achtung: Oben steht eine Quote über hundert Prozent. Das kann in einem Trichter nicht sein und heisst, dass zwei Stufen unterschiedlich zählen.</span>' : ''}</p>
 
 <h2>Preis, im Einzelnen</h2>
 <table>
