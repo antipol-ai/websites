@@ -2,15 +2,33 @@
 /**
  * Detailseite Experiment 02: Mantrify.
  *
- * Erste Fassung vom 11.08.2026. Bewusst kürzer als die Momance-Seite: Das
- * Experiment läuft erst seit vier Tagen, und eine Fallstudie über einen Weg,
- * der noch nicht gegangen ist, wäre erfunden.
+ * Erste Fassung vom 11.08.2026, zweite vom 12.08.2026. Die zweite schliesst
+ * die Luecke, die im Kopf der ersten als To-do stand: Genese, Hypothesen,
+ * Laufzeit und Schwelle. Damit ist es methodisch ein Experiment und nicht mehr
+ * nur ein Prototyp mit Fallbeschreibung.
  *
- * Offen und absichtlich noch nicht hier: Hypothese, Laufzeit und Kennzahl in
- * sauberer Form. Solange die fehlen, ist es methodisch ein Prototyp und kein
- * Experiment. Siehe To-do in docs/STATUS.md.
+ * Zur Genese gibt es Regeln, die nicht verhandelbar sind und in
+ * antipol/docs/experimente/mantrify-backstory.md ausformuliert stehen:
+ * kein Arbeitgeber, keine Branche, keine Rolle, keine Zeitangabe, die auf eine
+ * Anstellung zeigt, keine private Ebene, kein Verursacher. Der Text spricht
+ * deshalb vom Muster und nicht vom Fall. Pruefsatz vor jeder Zeile: Koennte
+ * jemand beim Lesen erkennen, worum es konkret geht? Dann ist der Satz zu
+ * konkret, egal wie gut er klingt.
+ *
+ * Durchgaengig "wir". Die Beobachtung ist zu zweit gemacht, nicht von einer
+ * Person, und das ist fuer die Hypothese der Unterschied zwischen n=1 und n=2.
+ * Beides ist wenig; die Seite sagt das auch.
+ *
+ * Das Triggerboard kommt vor, wird aber ausdruecklich nicht als Produkt
+ * gerahmt. Es steht hier, weil ohne es der Wuerfel nicht entstanden waere.
  */
 import AntipolLayout from '../../layouts/AntipolLayout.astro';
+
+/**
+ * Adresse der Microsite. Als Konstante, weil sie an zwei Stellen vorkommt und
+ * sich noch aendern kann. VOR DEM PUSH PRUEFEN.
+ */
+const MANTRIFY = 'https://mantrify.antipol.ai';
 ---
 
 <AntipolLayout title="Mantrify - Experiment 02" description="Ein Würfel trägt einen Gedanken in fünf Stimmen. Hilft jetzt. Ändert nix." activePage="experimente">
@@ -39,8 +57,8 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
         <span class="meta-value">Seit August 2026</span>
       </div>
       <div class="meta-item">
-        <span class="meta-label">Status</span>
-        <span class="meta-value">Prototyp, nicht veröffentlicht</span>
+        <span class="meta-label">Laufzeit</span>
+        <span class="meta-value">Bis 31. Oktober 2026</span>
       </div>
       <div class="meta-item">
         <span class="meta-label">Kennzahl</span>
@@ -49,12 +67,32 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
     </div>
   </section>
 
+  <section class="panel panel-dark" aria-label="Woher es kommt">
+    <div class="text-panel">
+      <div class="section-label fade-in">Woher es kommt</div>
+      <h3 class="fade-in">Es fängt nicht mit einer Idee an</h3>
+      <p class="fade-in">Es gibt Sätze, nach denen man eine halbe Stunde nicht arbeiten kann. Der Nebensatz in der Runde. Die Entscheidung, die über den eigenen Kopf hinweg gefallen ist. Der Termin, der etwas anderes war als angekündigt. Selten ist der Anlass gross genug, um ihn ernsthaft zu verhandeln, und genau deshalb bleibt er liegen.</p>
+      <p class="fade-in">Das Problem ist dabei nicht die Reaktion. Reaktionen sind normal. Das Problem ist die Zeit danach, in der man mit dem Kopf woanders ist und trotzdem weiterarbeiten muss. Über Jahre kommt einiges davon zusammen, und wer in Strukturen arbeitet, die selten so geordnet sind wie ihre Organigramme, kennt das Muster.</p>
+      <p class="fade-in">Der Anspruch dagegen lässt sich in drei Worte fassen: Resilienz, Versachlichung, Professionalität. Nicht als Ideal, das man vor sich herträgt, sondern als Arbeitsweise unter Bedingungen, die man sich nicht ausgesucht hat.</p>
+    </div>
+  </section>
+
+  <section class="panel panel-mid" aria-label="Was daraus wurde">
+    <div class="text-panel">
+      <div class="section-label fade-in">Was daraus wurde</div>
+      <h3 class="fade-in">Zuerst ein Brett, dann ein Würfel</h3>
+      <p class="fade-in">Am Anfang stand kein Produkt, sondern ein Werkzeug für den eigenen Gebrauch: ein Board, auf dem ein Trigger benannt, eingeordnet und abgelegt wird. Es funktioniert, weil Benennen die halbe Arbeit ist. Es funktioniert nur nicht immer, weil es Aufwand kostet, und im Moment des Triggers hat man diesen Aufwand nicht übrig.</p>
+      <p class="fade-in">Der Würfel ist die Abkürzung. Nichts sortieren, nichts eintragen, nur drehen, bis ein Satz passt. Das Board bleibt unser privates Werkzeug und ist nicht als Produkt gedacht; es steht hier, weil ohne es der Würfel nicht entstanden wäre.</p>
+      <p class="fade-in">Wir haben beides für uns gebaut und nicht für einen Markt. Das ist keine Bescheidenheitsformel, sondern der Grund, warum wir überhaupt weitermachen: Werkzeuge aus echtem Bedarf tragen weiter als Werkzeuge aus einer Lücke im Angebot.</p>
+    </div>
+  </section>
+
   <section class="panel panel-dark" aria-label="Was es ist">
     <div class="text-panel">
       <div class="section-label fade-in">Worum es geht</div>
       <h3 class="fade-in">Löst nichts. Trägt trotzdem.</h3>
       <p class="fade-in">Der Auslöser ist selten das eigentliche Problem, meistens ist es die Summe. Daran ändert dieser Würfel nichts. Er gibt einen Satz für die nächste halbe Stunde, und manchmal reicht das schon, um nicht das Falsche zu tun.</p>
-      <p class="fade-in">Sechs Würfel, sechs Haltungen. Jeder trägt denselben Gedanken in fünf Tonlagen, gesprochen von fünf Figuren aus dem Arbeitsleben: einem Therapeuten, einer Kollegin kurz vor der Kündigung, einem Entwickler, einem Marketing-Guru und einer Feelgood-Managerin. Man dreht, bis eine davon trifft. An manchen Tagen ist es eine andere als gestern.</p>
+      <p class="fade-in">Sechs Würfel, sechs Haltungen. Jeder trägt denselben Gedanken in fünf Tonlagen, gesprochen von fünf Figuren aus dem Arbeitsleben: einer Therapeutin, einer Kollegin kurz vor der Kündigung, einem Entwickler, einem Marketing-Guru und einer Feelgood-Managerin. Man dreht, bis eine davon trifft. An manchen Tagen ist es eine andere als gestern.</p>
     </div>
   </section>
 
@@ -67,12 +105,34 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
     </div>
   </section>
 
+  <section class="panel panel-dark" aria-label="Was geprüft wird">
+    <div class="text-panel">
+      <div class="section-label fade-in">Was geprüft wird</div>
+      <h3 class="fade-in">Zwei Hypothesen, eine davon unbequem</h3>
+      <p class="fade-in"><strong>Erstens:</strong> Ein Werkzeug, das den Trigger benennt, verkürzt den Weg zurück auf die Sachebene. Das haben wir über Wochen an uns selbst geprüft, erst mit dem Board, dann mit dem Würfel, und für uns funktioniert es deutlich.</p>
+      <p class="fade-in">Genau hier liegt aber auch die Grenze, und sie gehört auf diese Seite und nicht ins Kleingedruckte: Wir sind zwei Menschen, und einer davon hat das Ding gebaut. Das ist ein guter Grund weiterzumachen und kein Beleg. Wer aus so etwas eine Wirkungsaussage macht, betreibt Werbung.</p>
+      <p class="fade-in"><strong>Zweitens:</strong> Was für uns funktioniert, funktioniert auch für andere. Das ist die eigentliche Frage und der Grund, warum es die Microsite überhaupt gibt. Sie zerfällt in zwei Teile, die man nicht verwechseln sollte: ob der Würfel fremden Menschen im Moment hilft, und ob jemand ihn real besitzen will.</p>
+      <p class="fade-in">Gemessen wird das Erste am Teilen, weil man dafür jemandem etwas zumuten muss, und das Zweite an zwei Reglern am Ende der Microsite: einer für die Ausführung, einer für den Betrag. Stufenlos und ohne vorgegebene Klassen, weil vorgegebene Klassen am Ende messen, wie wir eingeteilt haben, und nicht, was jemand denkt. Verkauft wird dort ausdrücklich nichts.</p>
+    </div>
+  </section>
+
+  <section class="panel panel-mid" aria-label="Laufzeit und Schwelle">
+    <div class="text-panel">
+      <div class="section-label fade-in">Laufzeit und Schwelle</div>
+      <h3 class="fade-in">Vorher festgelegt, damit es hinterher zählt</h3>
+      <p class="fade-in">Ein Experiment ohne Enddatum läuft ewig, und ohne vorher festgelegte Schwelle liest man hinterher jedes Ergebnis als Bestätigung. Deshalb steht beides hier, bevor die Zahlen da sind.</p>
+      <p class="fade-in"><strong>Laufzeit:</strong> bis zum 31. Oktober 2026. <strong>Mindestmenge:</strong> zweihundert Menschen, die den Würfel wenigstens einmal drehen. Darunter wird nicht ausgewertet, weil jede Quote auf kleiner Basis Zufall ist.</p>
+      <p class="fade-in"><strong>Schwelle:</strong> Die erste Teilfrage gilt als gestützt, wenn jeder Zehnte davon ein Mantra weitergibt. Die zweite, wenn der Median der genannten Beträge bei mindestens 25 Euro liegt. Der Median und nicht der Durchschnitt, weil ein einzelner Übermütiger den Durchschnitt hebt und die Antwort verfälscht.</p>
+      <p class="fade-in">Kommen bis dahin keine zweihundert zusammen, ist nicht die Idee widerlegt, sondern die Reichweite fehlt. Das ist ein Unterschied, und wir werden ihn benennen statt ihn zu verwechseln. In dem Fall verlängern wir einmal und schreiben auf, woran es lag.</p>
+    </div>
+  </section>
+
   <section class="panel panel-dark" aria-label="Wie gearbeitet wird">
     <div class="text-panel">
       <div class="section-label fade-in">Wie gearbeitet wird</div>
       <h3 class="fade-in">Jede Entscheidung wird mitgeschrieben</h3>
-      <p class="fade-in">Parallel zum Bauen läuft ein Entscheidungs-Log. Darin steht nicht nur, was entschieden wurde, sondern auch, was verworfen wurde und warum, und an welchen Stellen wir uns geirrt haben. Nach vier Tagen sind es über zweihundertfünfzig Einträge.</p>
-      <p class="fade-in">Beispiele daraus: dass ein leeres iPhone kein Programmierfehler war, sondern eine Dateivorschau ohne Skriptausführung. Dass fünf von elf Farbwerten die Kontrastprüfung nicht bestanden, weil Dekorfarben für Text verwendet wurden. Dass der Würfel in vier von zehn Zügen auf der falschen Seite einrastete, weil zwei Verfahren nebeneinanderliefen. Solche Sätze stehen normalerweise in keiner Fallstudie.</p>
+      <p class="fade-in">Parallel zum Bauen läuft ein Entscheidungs-Log. Darin steht nicht nur, was entschieden wurde, sondern auch, was verworfen wurde und warum, und an welchen Stellen wir uns geirrt haben. Nach vier Tagen waren es zweihundertfünfzig Einträge, inzwischen fast dreihundert.</p>
+      <p class="fade-in">Beispiele daraus: dass ein leeres iPhone kein Programmierfehler war, sondern eine Dateivorschau ohne Skriptausführung. Dass fünf von elf Farbwerten die Kontrastprüfung nicht bestanden, weil Dekorfarben für Text verwendet wurden. Dass der Würfel in vier von zehn Zügen auf der falschen Seite einrastete, weil zwei Verfahren nebeneinanderliefen. Dass die Wortmarke auf dem Würfel am Ende einfarbig weiss wurde, weil zweifarbiger Druck auf vier Zentimetern zwei Durchgänge und eine Passermarke bedeutet. Solche Sätze stehen normalerweise in keiner Fallstudie.</p>
     </div>
   </section>
 
@@ -80,8 +140,17 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
     <div class="text-panel">
       <div class="section-label fade-in">Was offen ist</div>
       <h3 class="fade-in">Ehrlich unfertig</h3>
-      <p class="fade-in">Der Produktname ist ein Arbeitstitel und noch nicht entschieden. Vier der fünf Figuren sind gezeichnet, eine fehlt. Der Zähler auf der Seite ist eine Attrappe und sagt das auch selbst. Und ob überhaupt jemand einen Satz aus Holz auf dem Schreibtisch haben will, weiss niemand.</p>
+      <p class="fade-in">Der Produktname ist ein Arbeitstitel und noch nicht entschieden. Die Produktbilder sind Entwürfe und keine Fotos; woraus die Würfel am Ende sind, ist offen und wird auf der Microsite gerade abgefragt. Der Zähler ist noch keiner: Bis der Rücklauf wirklich bei uns ankommt, bleibt die Angabe im Browserfenster und wird nirgendwohin übertragen. Das sagt die Seite auch selbst.</p>
       <p class="fade-in">Genau deshalb ist es ein Experiment und keine Ankündigung.</p>
+    </div>
+  </section>
+
+  <section class="panel panel-dark" aria-label="Selbst ausprobieren">
+    <div class="text-panel">
+      <div class="section-label fade-in">Selbst ausprobieren</div>
+      <h3 class="fade-in">Der Würfel steht drüben</h3>
+      <p class="fade-in">Am schnellsten versteht man es, indem man dreht. Die Microsite braucht keine Anmeldung, setzt keine Cookies und will nichts verkaufen.</p>
+      <p class="fade-in"><a class="cta" href={MANTRIFY}>Zu Mantrify</a></p>
     </div>
   </section>
 
@@ -138,6 +207,9 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
   .oneliner { font-size: var(--size-copy); line-height: var(--line-height-copy); color: var(--color-text-muted); max-width: 34rem; }
   .text-panel p { font-family: var(--font-body); font-size: var(--size-copy); line-height: var(--line-height-copy); color: var(--color-text-muted); margin: 0 0 1.1rem; }
   .text-panel em { color: var(--color-text-light); font-style: italic; }
+  /* Hervorhebungen tragen die Gliederung der Hypothesen und muessen deshalb
+     heller sein als der Fliesstext, nicht nur fetter. */
+  .text-panel strong { color: var(--color-text-light); font-weight: 600; }
 
   .intro-panel { position: relative; flex-direction: column; align-items: flex-start; max-width: 100%; }
   .intro-panel > * { max-width: 46rem; margin-left: auto; margin-right: auto; width: 100%; }
@@ -162,4 +234,20 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
 
   .zurueck { color: inherit; text-decoration: none; border-bottom: 1px solid var(--color-text-label); }
   .zurueck:hover { color: var(--color-primary-light); border-bottom-color: var(--color-primary-light); }
+
+  /* Der einzige Knopf der Seite. Umriss statt Flaeche, wie auf der Microsite,
+     damit die beiden Seiten als dasselbe Projekt lesbar sind. */
+  .cta {
+    display: inline-block;
+    padding: 0.9rem 1.6rem;
+    min-height: 48px;
+    border: 1px solid var(--color-primary-accessible);
+    border-radius: 11px;
+    color: var(--color-primary-accessible);
+    font-family: var(--font-display);
+    font-size: var(--size-copy);
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .cta:hover { background: rgba(196, 66, 26, 0.14); }
 </style>
