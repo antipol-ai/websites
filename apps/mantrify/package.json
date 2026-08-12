@@ -2,9 +2,12 @@
   "name": "@mantrify/website",
   "private": true,
   "version": "0.1.0",
-  "description": "Mantrify V01. Eine einzelne, in sich geschlossene HTML-Datei; der Build kopiert sie nach dist, dazu robots.txt und das Vorschaubild fuers Teilen.",
+  "description": "Mantrify V01. Eine einzelne HTML-Datei; der Build kopiert sie nach dist, dazu robots.txt und das Vorschaubild. Unter api/ liegen zwei Funktionen fuer die Messung.",
   "scripts": {
     "build": "mkdir -p dist && cp index.html robots.txt vorschau.jpg dist/",
     "dev": "python3 -m http.server 4323"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.8.0"
   }
 }

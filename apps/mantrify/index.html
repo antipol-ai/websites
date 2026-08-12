@@ -1067,6 +1067,50 @@ window.addEventListener("error", function(e){
   var state={mantra:"einfluss", M:TILT, dragging:false};
   var dieEl=document.getElementById("die");
 
+  /* ================= Messung =================
+     Acht Ereignisse, mehr nicht. Jedes beantwortet eine Frage, die auf der
+     Experimentseite steht; was keine Frage beantwortet, wird nicht gezaehlt.
+
+       aufruf     einmal je Seitenaufruf, der Nenner fuer alles andere
+       dreh       einmal je Sitzung, sobald jemand den Wuerfel bewegt
+       teilen_auf das Auswahlfenster wurde geoeffnet
+       teilen     tatsaechlich geteilt, mit Weg und Mantra
+       kauf_auf   die Frage nach dem echten Wuerfel wurde geoeffnet
+       preis      der gewaehlte Betrag, als Zahl
+       fuer       fuer mich, zum Verschenken oder beides
+       kein_kauf  der Ausstieg
+
+     Was ausdruecklich NICHT erhoben wird: keine Kennung, kein Cookie, keine
+     Verweildauer, keine Wiedererkennung ueber Aufrufe hinweg. Wir zaehlen
+     Ereignisse, nicht Menschen. In der Auswertung steht deshalb nie, wie viele
+     Personen etwas getan haben, sondern wie oft es passiert ist.
+
+     Zwei moegliche Ziele, beide optional:
+     1. MESSUNG.ziel gesetzt: per sendBeacon an unsere eigene Funktion.
+        sendBeacon, weil ein normaler fetch beim Schliessen des Reiters
+        abgebrochen wird und genau die letzten Ereignisse verloren gehen.
+     2. window.va vorhanden (Vercel Analytics, erst ab Pro): zusaetzlich dorthin.
+     Ist keins von beidem da, passiert nichts, und niemand bekommt einen Fehler
+     zu sehen. */
+  var MESSUNG = { ziel: "/api/ereignis", gesendet: {} };
+  function spur(name, daten){
+    try{
+      var nutz = {e:name, t:Date.now()};
+      if(daten) for(var k in daten) nutz[k]=daten[k];
+      if(MESSUNG.ziel && navigator.sendBeacon){
+        navigator.sendBeacon(MESSUNG.ziel,
+          new Blob([JSON.stringify(nutz)], {type:"application/json"}));
+      }
+      if(window.va) window.va("event", {name:name, data:daten||{}});
+    }catch(e){}
+  }
+  function spurEinmal(name, daten){
+    if(MESSUNG.gesendet[name]) return;
+    MESSUNG.gesendet[name]=true;
+    spur(name, daten);
+  }
+  spur("aufruf", {ansicht: location.search ? "geteilt" : "direkt"});
+
   /* ---------------- Würfel aufbauen ----------------
      Fünf Stimmenflächen tragen nur Stimme und Satz. Die sechste Fläche
      trägt ANTIPOL und den Namen des Mantras, so wie in MC·2 festgelegt. */
@@ -1111,6 +1155,9 @@ window.addEventListener("error", function(e){
     writeURL();
   }
   function settle(){
+    /* Der erste Dreh einer Sitzung ist die Bezugsgroesse fuer alles Weitere:
+       Wer nicht dreht, hat das Ding nicht benutzt. */
+    spurEinmal("dreh");
     dieEl.classList.add("snap"); apply(); light();
     setTimeout(function(){ light(); sync(); }, 390);
   }
@@ -1385,6 +1432,18 @@ window.addEventListener("error", function(e){
   /* Was rausgeht, muss den Absender tragen. Bisher bekam der Empfänger einen
      Satz in Anführungszeichen und einen Link, ohne zu erfahren, wer da spricht
      und wie das Ding heisst (MC·240). */
+  /* Der geteilte Text beginnt seit dem 12.08.2026 mit einer Einleitung.
+     Vorher stand das Zitat ohne jede Rahmung im Chat des Empfaengers, und ein
+     Satz in Anfuehrungszeichen, der aus dem Nichts kommt, wirkt wie ein
+     Kettenbrief. Die Einleitung sagt, warum er kommt.
+     Gewaehlt ist eine Formulierung, die ueber den Absender nur behauptet, was
+     er mit dem Klick ohnehin ausdrueckt. "Das hat mir geholfen" waere eine
+     Wirkungsaussage, die vielleicht nicht stimmt; wer den Satz nur treffend
+     findet, muesste sie widerrufen. Die Variante unten laesst beides offen.
+     Auf der Titelflaeche und ausserhalb der Wuerfelansicht gibt es keine
+     Einleitung, weil dort kein Satz steht, auf den sie sich beziehen koennte. */
+  var EINLEITUNG = "Das hat mir heute durch den Tag geholfen:";
+
   function shareText(){
     if(!document.getElementById("innen").classList.contains("on"))
       return "Mantrify von ANTIPOL. Hilft jetzt. Ändert nix.";
@@ -1394,8 +1453,10 @@ window.addEventListener("error", function(e){
     for(var i=0;i<VOICES.length;i++){ if(VOICES[i].key===vk) v=VOICES[i]; }
     /* Klammern statt Gedankenstrich (Zeichenregel), und der Absender steht drin:
        Seit die Marke aus dem Kopf raus ist, ist der geteilte Text die einzige
-       Stelle, an der ein Empfaenger sie vor dem Klick sieht. */
-    return "„"+m.f[vk]+"“ ("+(v?v.label:"")+") · Mantrify von ANTIPOL";
+       Stelle, an der ein Empfaenger sie vor dem Klick sieht.
+       Drei Zeilen statt einer: Einleitung, Zitat mit Stimme, Absender. In jedem
+       Messenger steht der Satz dann fuer sich und nicht in einer Textwurst. */
+    return EINLEITUNG+"\n„"+m.f[vk]+"“ ("+(v?v.label:"")+")\nMantrify von ANTIPOL";
   }
   var sheet=document.getElementById("sheet");
   function openSheet(){
@@ -1415,26 +1476,32 @@ window.addEventListener("error", function(e){
   }
   function closeSheet(){ sheet.hidden=true; document.body.style.overflow=""; }
   sheet.querySelectorAll("[data-zu]").forEach(function(el){ el.addEventListener("click", closeSheet); });
-  document.getElementById("btnShare").addEventListener("click", openSheet);
+  document.getElementById("btnShare").addEventListener("click", function(){
+    spur("teilen_auf"); openSheet();
+  });
 
   if(navigator.share){
     var sn=document.getElementById("shNative"); sn.hidden=false;
     sn.addEventListener("click", function(){
       navigator.share({title:"Mantrify", text:shareText()+"\n", url:location.href})
-        .then(closeSheet).catch(function(){});
+        .then(function(){ spur("teilen", {weg:"system", mantra:state.mantra}); closeSheet(); })
+        .catch(function(){});
     });
   }
   document.getElementById("shWa").addEventListener("click", function(){
+    spur("teilen", {weg:"whatsapp", mantra:state.mantra});
     window.open("https://wa.me/?text="+encodeURIComponent(shareText()+"\n"+location.href),"_blank","noopener");
     closeSheet();
   });
   document.getElementById("shMail").addEventListener("click", function(){
+    spur("teilen", {weg:"mail", mantra:state.mantra});
     location.href="mailto:?subject="+encodeURIComponent("Ein Satz für dich")+
       "&body="+encodeURIComponent(shareText()+"\n\n"+location.href);
     closeSheet();
   });
   document.getElementById("shCopy").addEventListener("click", function(){
     var b=this, alt=b.textContent;
+    spur("teilen", {weg:"kopiert", mantra:state.mantra});
     (navigator.clipboard ? navigator.clipboard.writeText(shareText()+"\n"+location.href) : Promise.reject())
       .then(function(){ b.textContent="Kopiert"; }).catch(function(){ b.textContent="Strg C"; })
       .then(function(){ setTimeout(function(){ b.textContent=alt; closeSheet(); }, 900); });
@@ -1502,6 +1569,7 @@ window.addEventListener("error", function(e){
   anRegler(rP, wP, preisText, "p");
 
   btnWant.addEventListener("click", function(){
+    spur("kauf_auf");
     wunsch.hidden=false;
     btnWant.setAttribute("aria-expanded","true");
     btnWant.hidden=true;
@@ -1531,6 +1599,9 @@ window.addEventListener("error", function(e){
       return;
     }
     wahl.preis = +rP.value;
+    /* Der Betrag geht als Zahl raus, nicht als Klasse. Sonst haetten wir uns
+       den Regler sparen koennen. */
+    spur("preis", {betrag: wahl.preis});
     /* Der Regler bleibt stehen, wo er steht, nur nicht mehr bedienbar. Wer
        geantwortet hat, soll seine Antwort noch sehen. */
     rP.disabled=true; wWeiter.hidden=true;
@@ -1541,6 +1612,7 @@ window.addEventListener("error", function(e){
   });
 
   wunsch.querySelector(".w-raus").addEventListener("click", function(){
+    spur("kein_kauf");
     Array.prototype.forEach.call(wunsch.querySelectorAll(".regler"), function(r){ r.hidden=true; });
     wWeiter.hidden=true; this.hidden=true;
     wunschTitel.textContent="Auch das ist eine Antwort.";
@@ -1551,6 +1623,7 @@ window.addEventListener("error", function(e){
   Array.prototype.forEach.call(wunschZwei.querySelectorAll(".wkarte"), function(b){
     b.addEventListener("click", function(){
       wahl.fuer=b.getAttribute("data-fuer");
+      spur("fuer", {wen: wahl.fuer});
       nurEine(wunschZwei, b);
       wunschZwei.querySelector(".w-frage").textContent="Notiert.";
       abschluss();
@@ -1612,8 +1685,12 @@ window.addEventListener("error", function(e){
     light(); setView("innen"); sync(); setTimeout(nudge, 400);
   })();
   booted=true;
-  (function(){ var v=document.getElementById("ver"); if(v) v.textContent="Aufbau 59"; })();
+  (function(){ var v=document.getElementById("ver"); if(v) v.textContent="Aufbau 61"; })();
 })();
 </script>
+<!-- Vercel Web Analytics: zaehlt Seitenaufrufe und Besucher ohne Cookies.
+     Ergaenzt unsere eigene Messung, ersetzt sie nicht: Analytics kennt Besucher,
+     wir kennen das Verhalten. Eigene Ereignisse kann Analytics erst ab Pro. -->
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
