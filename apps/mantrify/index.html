@@ -103,6 +103,18 @@ button{font:inherit;color:inherit}
    braucht keine zweite Fassung. */
 .row{align-items:center}
 .reiter{display:flex;justify-content:flex-end;max-width:none;margin:0;padding:0;flex:none}
+/* Diese beiden Regeln standen bis zum 13.08.2026 hinter den Medienabfragen und
+   haben sie damit ausgehebelt: Gleiche Spezifitaet, spaetere Stelle, also gewann
+   die Grundregel. Die kleinere Schrift und der engere Abstand aus MC·283 sind
+   nie angekommen. Grundregel zuerst, Ausnahmen danach (MC·310). */
+.switch{display:flex;gap:1.6rem}
+.switch button{background:none;border:0;color:var(--label);font-family:var(--fd);font-size:.9rem;
+  padding:.55rem 0;min-height:44px;cursor:pointer;white-space:nowrap;position:relative}
+.switch button::after{content:"";position:absolute;left:0;right:0;bottom:.35rem;height:2px;
+  background:transparent;transition:background .15s ease}
+.switch button[aria-selected="true"]{color:var(--text)}
+.switch button[aria-selected="true"]::after{background:var(--ember)}
+.switch button:hover{color:var(--text)}
 /* Die Reiter heissen auf jeder Breite Trigger und Mantra, ohne Artikel. Die
    Ansprache steht in den Ueberschriften der Ansichten; hier ist es Navigation,
    und Navigation ist kurz. Nebeneffekt: Die Zeile passt auf schmaleren Geraeten. */
@@ -111,7 +123,11 @@ button{font:inherit;color:inherit}
   .produkt{gap:.45rem;white-space:nowrap;flex-wrap:nowrap}
   .produkt b{font-size:1.15rem}
   .produkt span{font-size:.8rem}
-  .switch{gap:1rem}
+  /* Trigger und Mantra sind eine Gruppe und mussten enger zusammen (Stefans
+     Beobachtung am 13.08.2026). Gemessen standen sie mit 26 Pixeln genauso weit
+     auseinander wie die Gruppe vom Claim entfernt war; damit war sie als Gruppe
+     nicht mehr lesbar. Jetzt etwa halb so weit wie der Abstand nach aussen. */
+  .switch{gap:.7rem}
   .switch button{font-size:.85rem;min-height:40px}
 }
 /* Unter 375 Pixeln reicht auch das nicht mehr: Gemessen braucht die Zeile dort
@@ -123,16 +139,6 @@ button{font:inherit;color:inherit}
   .produkt{flex:1 0 100%}
   .reiter{flex:1 0 100%;justify-content:flex-start}
 }
-/* Umschalter und Teilen sitzen in einem gemeinsamen Rahmen. Teilen ist keine
-   Ansicht, sondern eine Aktion, und wird deshalb durch Farbe und Trennlinie abgesetzt. */
-.switch{display:flex;gap:1.6rem}
-.switch button{background:none;border:0;color:var(--label);font-family:var(--fd);font-size:.9rem;
-  padding:.55rem 0;min-height:44px;cursor:pointer;white-space:nowrap;position:relative}
-.switch button::after{content:"";position:absolute;left:0;right:0;bottom:.35rem;height:2px;
-  background:transparent;transition:background .15s ease}
-.switch button[aria-selected="true"]{color:var(--text)}
-.switch button[aria-selected="true"]::after{background:var(--ember)}
-.switch button:hover{color:var(--text)}
 
 /* ---------- Ansichten ---------- */
 .view{display:none;padding:1.3rem var(--pad) 2.4rem;max-width:46rem;margin:0 auto}
@@ -168,6 +174,12 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
    unlesbar (MC·228). */
 .mname{color:var(--accent-text);font-family:var(--fd);font-weight:500;letter-spacing:-.025em;
   font-size:clamp(1.5rem,7vw,2rem);line-height:1.1;margin:.2rem 0 0;
+  /* Nur „Guter Job, kaputter Laden" wird auf dem Telefon zweizeilig, und ohne
+     Zutun stand dort „Laden" allein in der zweiten Zeile. balance gleicht die
+     Zeilenlaengen aus und trifft damit genau die Sinngrenze am Komma
+     (13.08.2026, MC·307). Auf breiten Fenstern ohne Wirkung, weil dort alle
+     sechs Namen einzeilig stehen. */
+  text-wrap:balance;
   transition:opacity .3s ease}
 /* Früher trat die Überschrift auf der Titelfläche zurück, weil der Würfel den
    Namen selbst trägt. Das hinterliess oben ein Loch und nahm den Pfeilen ihren
@@ -1070,7 +1082,7 @@ window.addEventListener("error", function(e){
       omr:"Nicht mein Bug, aber ich own den Fix. Nennt man Accountability.",
       k:"Ich räume fremdes Karma auf. Immerhin sammle ich gute Punkte."}},
     {id:"ernst", name:"Guter Job, kaputter Laden", c:"#005C5A", f:{
-      s:"Die Arbeit ernst, die Reibung im System leicht.",
+      s:"Ich stehe zu meiner Arbeit, nicht zu den Zuständen.",
       i:"Ich liefere Qualität in einem Laden, dem Qualität optional ist.",
       n:"myModule.ok === true; // TODO: check the system",
       omr:"Ich bin all in beim Craft und relaxed beim Noise.",
@@ -1484,6 +1496,16 @@ window.addEventListener("error", function(e){
     document.getElementById("innen").classList.toggle("titel", ziel===5);
     buildDie(); setView("innen"); sync(); zeigeSprecher(); teilenText(ziel);
     if(ziel===5) autoStart(); else autoStop();
+    /* Der fliegende Kachelabdruck ist am 13.08.2026 entfallen (MC·308). Er
+       stammt aus MC·84: Die getippte Kachel sollte zur Buehne des Wuerfels
+       werden. Geliefert hat er das nie, weil die Zielansicht schon vollstaendig
+       stand, bevor er losflog; er verband nichts, sondern huschte als farbiges
+       Rechteck ueber eine fertige Szene. Der Wuerfel meldet sich stattdessen
+       selbst: nudge() dreht ihn kurz an und wieder zurueck, und das sagt etwas
+       Nuetzliches ueber ihn, statt nur einen Uebergang zu fuellen.
+       Wer den Flug zurueckholen will, entfernt die naechste Zeile; der Code
+       darunter ist vollstaendig erhalten. */
+    nudge(); return;
     var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if(!fromEl || reduce){ nudge(); return; }
     var a=fromEl.getBoundingClientRect(), t=document.querySelector("#innen .scene").getBoundingClientRect();
