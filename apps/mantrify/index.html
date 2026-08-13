@@ -1054,6 +1054,7 @@ der Würfel und das Teilen brauchen Skripte.</div></noscript>
     <button id="shWa" type="button">WhatsApp</button>
     <button id="shMail" type="button">Mail</button>
     <button id="shCopy" type="button">Link kopieren</button>
+    <button id="shBild" type="button" hidden>Bild sichern</button>
     <button class="zu" data-zu type="button">Schliessen</button>
   </div>
 </div>
@@ -1657,6 +1658,9 @@ window.addEventListener("error", function(e){
     document.getElementById("vsWer").textContent="Mantrify";
     document.getElementById("vsSatz").textContent=shareText();
     document.getElementById("vsFuss").textContent = "Dazu geht der Link mit";
+    /* Bild sichern gibt es nur, wo es eine Karte gibt, also nicht auf der
+       Titelflaeche und nicht ausserhalb der Wuerfelansicht (MC·316). */
+    document.getElementById("shBild").hidden = !(innen && v);
     sheet.hidden=false;
     document.body.style.overflow="hidden";
     var f=sheet.querySelector("button:not([hidden])"); if(f) f.focus();
@@ -1692,6 +1696,42 @@ window.addEventListener("error", function(e){
     (navigator.clipboard ? navigator.clipboard.writeText(shareText()+"\n"+teilenURL()) : Promise.reject())
       .then(function(){ b.textContent="Kopiert"; }).catch(function(){ b.textContent="Strg C"; })
       .then(function(){ setTimeout(function(){ b.textContent=alt; closeSheet(); }, 900); });
+  });
+
+  /* "Bild sichern" laedt die Vorschaukarte herunter, statt einen Beitrag
+     vorzuformulieren (MC·316). Der Anlass war Stefans Ueberlegung, ob wir fuer
+     LinkedIn einen fertigen Post anbieten sollten. Wollen wir nicht: Wer
+     oeffentlich schreibt, traegt das Risiko allein, und der Text kaeme von uns.
+     Das Bild dagegen ist neutral; was jemand dazuschreibt, bleibt seine Sache.
+     Zwei Wege, je nach Geraet. Kann das Geraet Dateien teilen, geht die Karte
+     ans System-Blatt: Dort steht "Bild sichern" neben allen Apps, und der
+     Nutzer entscheidet. Sonst der klassische Download ueber ein a-Element mit
+     download-Attribut; das funktioniert, weil die Karte von derselben Herkunft
+     kommt. Gezaehlt wird als teilen mit weg=bild, damit es in der Aufschluesselung
+     sichtbar bleibt und sich bei Bedarf herausrechnen laesst. */
+  document.getElementById("shBild").addEventListener("click", function(){
+    var b=this, alt=b.textContent, vk=currentVoiceKey();
+    if(vk==="titel") return;
+    var url=location.origin+"/karten/"+state.mantra+"-"+vk+".jpg";
+    var name="mantrify-"+state.mantra+"-"+vk+".jpg";
+    spurEinmal("teilen", {weg:"bild", mantra:state.mantra});
+    b.textContent="Lädt…"; b.disabled=true;
+    fetch(url).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(blob){
+      var datei=new File([blob], name, {type:"image/jpeg"});
+      if(navigator.canShare && navigator.canShare({files:[datei]})){
+        return navigator.share({files:[datei]}).catch(function(){});
+      }
+      var a=document.createElement("a");
+      a.href=URL.createObjectURL(blob); a.download=name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    }).catch(function(){
+      /* Wenn das Holen scheitert, das Bild wenigstens oeffnen: Dann kann man es
+         mit dem Finger lange druecken und selbst sichern. */
+      window.open(url, "_blank", "noopener");
+    }).then(function(){
+      b.textContent=alt; b.disabled=false; closeSheet();
+    });
   });
 
   /* Zwei Regler statt vier Karten (12.08.2026, nachmittags).
