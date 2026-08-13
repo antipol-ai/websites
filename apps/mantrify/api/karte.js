@@ -72,8 +72,22 @@ export default function handler(req, res) {
 
   const bild  = `${BASIS}/karten/${m}-${vv}.jpg`;
   const ziel  = `/?m=${encodeURIComponent(m)}&v=${encodeURIComponent(vv)}#g`;
-  const titel = k.satz;
-  const text  = `${k.wer} auf „${k.name}“. Mantrify: hilft jetzt, ändert nix.`;
+  /* Der Titel trug bis zum 13.08.2026 den Satz und stand damit wortgleich unter
+     dem Bild, das ihn schon zeigt (MC·315). Jetzt steht dort der Name des
+     Würfels, also die Lage, auf die das Mantra antwortet. Drei Zeilen, drei
+     verschiedene Angaben: oben die Lage, im Bild die Antwort, darunter wer
+     spricht und was das Ding ist. */
+  /* "Trigger:" davor, weil der blosse Name sonst falsch gelesen wird: "Wer hat's
+     verbockt?" als fette Zeile ueber einer Nachricht klingt wie eine Frage an
+     den Empfaenger, fast wie ein Vorwurf. Mit dem Wort davor ist klar, dass es
+     die Lage benennt und nicht ihn.
+     In der Beschreibung stand zuerst "Ein Mantra, fünf Stimmen. Dreh, bis du
+     schmunzelst." Das ist eine Bedienungsanleitung fuer etwas, das der
+     Empfaenger noch nie gesehen hat, und damit an dieser Stelle wertlos. Jetzt
+     steht dort, wer spricht, und der Claim, der die Haltung in vier Woertern
+     erklaert. */
+  const titel = `Trigger: ${k.name}`;
+  const text  = `${k.wer}. Hilft jetzt. Ändert nix.`;
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -97,7 +111,7 @@ export default function handler(req, res) {
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="${esc(k.wer)} und der Satz: ${esc(titel)}">
+<meta property="og:image:alt" content="${esc(k.wer)} und das Mantra: ${esc(k.satz)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(titel)}">
 <meta name="twitter:description" content="${esc(text)}">

@@ -779,7 +779,7 @@ der Würfel und das Teilen brauchen Skripte.</div></noscript>
     <p>Ein Würfel, ein Gedanke, fünf Stimmen. Du drehst, bis eine dich erreicht. An manchen
     Tagen ist es eine andere als gestern, und das sagt mehr über den Tag als über dich.</p>
     <p>Der Auslöser ist selten das eigentliche Problem, meistens ist es die Summe. Daran ändert
-    dieser Würfel nichts. Er gibt dir einen Satz für die nächste halbe Stunde. Manchmal reicht
+    dieser Würfel nichts. Er gibt dir ein Mantra für die nächste halbe Stunde. Manchmal reicht
     das schon, um nicht das Falsche zu tun.</p>
     <!-- Der Link zeigt seit dem 12.08.2026 auf die Detailseite des Experiments und
          nicht mehr auf die Startseite; drueben steht jetzt etwas. Beschriftet ist
@@ -794,7 +794,7 @@ der Würfel und das Teilen brauchen Skripte.</div></noscript>
     <p class="micro">Die fünf Stimmen</p>
     <h2>Du kennst sie alle. Leider.</h2>
     <p>Keine Ratgeber, sondern Leute aus deinem Arbeitsleben. Jeden von ihnen gibt es nur,
-    weil moderne Arbeit ist, wie sie ist. Ihre Sätze nimmst du dir, wenn sie passen.</p>
+    weil moderne Arbeit ist, wie sie ist. Ihre Mantras nimmst du dir, wenn sie passen.</p>
     <div class="steckbriefe" id="steckbriefe"></div>
   </section>
 
@@ -805,7 +805,7 @@ der Würfel und das Teilen brauchen Skripte.</div></noscript>
          genau danach fragen wir eine Stufe weiter unten. Jetzt fragt sie nach dem
          Ding, nicht nach dem Werkstoff. -->
     <h2>Willst du sie in echt?</h2>
-    <p>Gedacht ist ein Satz aus sechs Würfeln in einer flachen Schachtel, offen aufstellbar,
+    <p>Gedacht sind sechs Würfel in einer flachen Schachtel, offen aufstellbar,
     damit er auf dem Schreibtisch stehen bleibt. Woraus er gemacht ist, ist offen. Es gibt
     ihn noch nicht.</p>
     <!-- Die Produktbilder liegen wieder in dieser Datei (11.08.2026, zurueckgenommen
@@ -1598,21 +1598,39 @@ window.addEventListener("error", function(e){
      findet, muesste sie widerrufen. Die Variante unten laesst beides offen.
      Auf der Titelflaeche und ausserhalb der Wuerfelansicht gibt es keine
      Einleitung, weil dort kein Satz steht, auf den sie sich beziehen koennte. */
-  var EINLEITUNG = "Das hat mir heute durch den Tag geholfen:";
+  /* Seit dem 13.08.2026 eine Frage an den Empfaenger statt einer Aussage ueber
+     den Absender (MC·315). "Das hat mir durch den Tag geholfen" kam ohne den
+     vor, an den es geht; es ist der Ton eines oeffentlichen Beitrags, nicht der
+     einer Nachricht an eine bestimmte Person. Eine reine Frage an den Empfaenger
+     ("Kannst du das gerade brauchen?") verschob das Problem nur: Dann kam der
+     Absender nicht mehr vor, und die Zeile haette auch von einem Automaten
+     stammen koennen. Was jetzt dort steht, zeigt beide und behauptet nichts
+     ueber die Wirkung. "Das hat mir geholfen" waere eine Wirkungsaussage, die
+     widerrufen muesste, wer das Mantra nur treffend oder komisch findet.
+     Auf der Titelflaeche und ausserhalb der Wuerfelansicht gibt es weiter keine
+     Einleitung, weil dort kein Mantra steht, auf das sie sich beziehen koennte. */
+  var EINLEITUNG = "Musste ich an dich denken.";
 
-  function shareText(){
+  function shareText(kurz){
     if(!document.getElementById("innen").classList.contains("on"))
       return "Mantrify von ANTIPOL. Hilft jetzt. Ändert nix.";
     var m=byId[state.mantra], vk=currentVoiceKey();
     if(vk==="titel") return m.name+" · Mantrify von ANTIPOL. Hilft jetzt. Ändert nix.";
-    var v=null;
-    for(var i=0;i<VOICES.length;i++){ if(VOICES[i].key===vk) v=VOICES[i]; }
-    /* Klammern statt Gedankenstrich (Zeichenregel), und der Absender steht drin:
-       Seit die Marke aus dem Kopf raus ist, ist der geteilte Text die einzige
-       Stelle, an der ein Empfaenger sie vor dem Klick sieht.
-       Drei Zeilen statt einer: Einleitung, Zitat mit Stimme, Absender. In jedem
-       Messenger steht der Satz dann fuer sich und nicht in einer Textwurst. */
-    return EINLEITUNG+"\n„"+m.f[vk]+"“ ("+(v?v.label:"")+")\nMantrify von ANTIPOL";
+    /* Der Text richtet sich seit dem 13.08.2026 danach, ob mit einer Vorschau zu
+       rechnen ist (MC·315). Steht sie, traegt sie das Mantra im Bild, und es
+       hier zu wiederholen ist nur Laenge. Steht sie nicht, waere die Nachricht
+       ohne das Zitat inhaltsleer.
+       Sicher wissen laesst sich das nie. Beim WhatsApp-Knopf ist es aber
+       begruendet anzunehmen: Der Text landet im Eingabefeld, WhatsApp holt die
+       Vorschau dort und zeigt sie dem Absender, bevor er sendet. Er sieht also
+       selbst, was rausgeht. Bei Mail, beim Kopieren und beim System-Teilen
+       wissen wir nichts, und dann gilt die vorsichtige Fassung: Redundanz ist
+       der billigere Fehler als eine leere Nachricht.
+       Die Stimme steht in keiner der beiden Fassungen; sie steht auf der Karte
+       und in deren Beschreibungszeile. */
+    var kopf = EINLEITUNG, fuss = "\nMantrify von ANTIPOL";
+    if (kurz) return kopf + fuss;
+    return kopf + "\n„" + m.f[vk] + "“" + fuss;
   }
   /* Die Adresse, die weitergegeben wird, ist seit dem 13.08.2026 nicht mehr die
      eigene (MC·313). /m/<wuerfel>/<stimme> laeuft ueber eine Funktion, die dem
@@ -1659,7 +1677,7 @@ window.addEventListener("error", function(e){
   }
   document.getElementById("shWa").addEventListener("click", function(){
     spurEinmal("teilen", {weg:"whatsapp", mantra:state.mantra});
-    window.open("https://wa.me/?text="+encodeURIComponent(shareText()+"\n"+teilenURL()),"_blank","noopener");
+    window.open("https://wa.me/?text="+encodeURIComponent(shareText(true)+"\n"+teilenURL()),"_blank","noopener");
     closeSheet();
   });
   document.getElementById("shMail").addEventListener("click", function(){
