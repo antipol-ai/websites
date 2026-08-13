@@ -59,15 +59,19 @@ export default function handler(req, res) {
     return res.end();
   }
 
-  const k = KARTEN[`${m}/${v}`];
+  /* Der Marketing Guru hiess intern bis zum 13.08.2026 "omr" (MC·314). Bereits
+     verschickte Links tragen den alten Schluessel; sie sollen weiter tragen. */
+  const vv = (v === 'omr') ? 'guru' : v;
+
+  const k = KARTEN[`${m}/${vv}`];
   if (!k) {
     res.statusCode = 302;
     res.setHeader('Location', '/');
     return res.end();
   }
 
-  const bild  = `${BASIS}/karten/${m}-${v}.jpg`;
-  const ziel  = `/?m=${encodeURIComponent(m)}&v=${encodeURIComponent(v)}#g`;
+  const bild  = `${BASIS}/karten/${m}-${vv}.jpg`;
+  const ziel  = `/?m=${encodeURIComponent(m)}&v=${encodeURIComponent(vv)}#g`;
   const titel = k.satz;
   const text  = `${k.wer} auf „${k.name}“. Mantrify: hilft jetzt, ändert nix.`;
 
@@ -86,7 +90,7 @@ export default function handler(req, res) {
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Mantrify">
 <meta property="og:locale" content="de_DE">
-<meta property="og:url" content="${BASIS}/m/${esc(m)}/${esc(v)}">
+<meta property="og:url" content="${BASIS}/m/${esc(m)}/${esc(vv)}">
 <meta property="og:title" content="${esc(titel)}">
 <meta property="og:description" content="${esc(text)}">
 <meta property="og:image" content="${bild}">

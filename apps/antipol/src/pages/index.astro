@@ -135,8 +135,10 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
         </div>
       </article>
       <article class="founder-card fade-in">
-        <div class="founder-photo" role="img" aria-label="Portrait Catrin Schröder-Jaross - Platzhalter">
-          <span class="placeholder-label">Foto Catrin</span>
+        <div class="founder-photo">
+          <img src="/bilder/catrin-schroeder-jaross.webp" width="840" height="1050"
+               loading="lazy" decoding="async"
+               alt="Catrin Schröder-Jaross, Schwarzweissaufnahme auf einer Bühne, Headset-Mikrofon, dunkles Oberteil mit hellem Cardigan, blickt lächelnd zur Seite ins Publikum." />
         </div>
         <div>
           <h3>Catrin Schröder-Jaross</h3>
@@ -420,7 +422,8 @@ import AntipolLayout from '../layouts/AntipolLayout.astro';
     width: 100%; height: 100%; object-fit: cover; display: block;
   }
 
-  .founder-photo .placeholder-label { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted); }
+  /* Die Platzhalterschrift ist am 13.08.2026 entfallen: Beide Gründerbilder
+     liegen jetzt vor, es gibt keine leere Fläche mehr zu beschriften. */
 
   .founder-photo::after {
     content: ''; position: absolute; inset: 0;
