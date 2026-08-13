@@ -25,28 +25,19 @@
  * einer Weitergabe kommt. Vorher wurde dafür location.search geprüft, und das
  * zählte jeden Neuladen nach dem Drehen als Weitergabe mit.
  *
- * Die Sätze stehen in karten/index.json und werden von machkarten.js erzeugt,
+ * Die Sätze stehen in api/karten-daten.js und werden von machkarten.js erzeugt,
  * zusammen mit den Bildern. Das ist kein zweiter Datenbestand, der auseinander
  * laufen kann: Ändert sich ein Satz, muss ohnehin die Karte neu gerendert
  * werden, weil der Satz im Bild steht.
+ *
+ * Als Modul, nicht als JSON-Datei: Ein import wird von Vercel automatisch mit
+ * gebündelt. Eine Datei danebenzulegen hiesse, sie über includeFiles mitnehmen
+ * zu müssen und sie über process.cwd() zu finden, und cwd ist in einer Funktion
+ * nicht das Projektverzeichnis. Zwei Möglichkeiten zu scheitern statt keiner.
  */
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { KARTEN } from './karten-daten.js';
 
 const BASIS = 'https://mantrify.antipol.ai';
-
-/* Einmal beim Kaltstart lesen, nicht bei jeder Anfrage. */
-let KARTEN = null;
-function karten() {
-  if (!KARTEN) {
-    try {
-      KARTEN = JSON.parse(readFileSync(join(process.cwd(), 'karten/index.json'), 'utf8'));
-    } catch (e) {
-      KARTEN = {};
-    }
-  }
-  return KARTEN;
-}
 
 const SAUBER = /^[a-z0-9_-]{1,24}$/i;
 
@@ -68,7 +59,7 @@ export default function handler(req, res) {
     return res.end();
   }
 
-  const k = karten()[`${m}/${v}`];
+  const k = KARTEN[`${m}/${v}`];
   if (!k) {
     res.statusCode = 302;
     res.setHeader('Location', '/');
