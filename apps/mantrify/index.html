@@ -1244,7 +1244,18 @@ window.addEventListener("error", function(e){
     MESSUNG.gesendet[name]=true;
     spur(name, daten);
   }
-  spur("aufruf", {ansicht: location.search ? "geteilt" : "direkt"});
+  /* Woher der Aufruf kommt, seit dem 13.08.2026 am Fragment #g statt an
+     location.search (MC·313). Die alte Regel zaehlte jeden Neuladen mit, denn
+     nach dem ersten Drehen steht ?m=…&v=… ohnehin in der Adresszeile; die
+     Weitergabe war dadurch systematisch zu hoch. Das Fragment setzt nur
+     /api/karte, also nur ein Link, der wirklich weitergegeben wurde. Es geht
+     nicht an den Server und wird gleich danach entfernt, damit es beim
+     Weiterteilen nicht mitreist. */
+  var ausWeitergabe = location.hash === "#g";
+  if (ausWeitergabe) {
+    try { history.replaceState(null, "", location.pathname + location.search); } catch(e){}
+  }
+  spur("aufruf", {ansicht: ausWeitergabe ? "geteilt" : "direkt"});
 
   /* ---------------- Würfel aufbauen ----------------
      Fünf Stimmenflächen tragen nur Stimme und Satz. Die sechste Fläche
@@ -1603,6 +1614,19 @@ window.addEventListener("error", function(e){
        Messenger steht der Satz dann fuer sich und nicht in einer Textwurst. */
     return EINLEITUNG+"\n„"+m.f[vk]+"“ ("+(v?v.label:"")+")\nMantrify von ANTIPOL";
   }
+  /* Die Adresse, die weitergegeben wird, ist seit dem 13.08.2026 nicht mehr die
+     eigene (MC·313). /m/<wuerfel>/<stimme> laeuft ueber eine Funktion, die dem
+     Link seine eigene Vorschau mitgibt: den Satz als Titel, die Karte mit
+     Gesicht und Satz als Bild. Nur geteilte Links gehen diesen Weg, alle
+     normalen Aufrufe bleiben statisch und kosten keinen Funktionsaufruf.
+     Auf der Titelflaeche spricht niemand, dort gibt es keine Karte; dann geht
+     die eigene Adresse hinaus wie bisher. */
+  function teilenURL(){
+    var innen=document.getElementById("innen").classList.contains("on");
+    var vk=currentVoiceKey();
+    if(!innen || vk==="titel") return location.origin + "/";
+    return location.origin + "/m/" + encodeURIComponent(state.mantra) + "/" + encodeURIComponent(vk);
+  }
   var sheet=document.getElementById("sheet");
   function openSheet(){
     var innen=document.getElementById("innen").classList.contains("on");
@@ -1628,26 +1652,26 @@ window.addEventListener("error", function(e){
   if(navigator.share){
     var sn=document.getElementById("shNative"); sn.hidden=false;
     sn.addEventListener("click", function(){
-      navigator.share({title:"Mantrify", text:shareText()+"\n", url:location.href})
+      navigator.share({title:"Mantrify", text:shareText()+"\n", url:teilenURL()})
         .then(function(){ spurEinmal("teilen", {weg:"system", mantra:state.mantra}); closeSheet(); })
         .catch(function(){});
     });
   }
   document.getElementById("shWa").addEventListener("click", function(){
     spurEinmal("teilen", {weg:"whatsapp", mantra:state.mantra});
-    window.open("https://wa.me/?text="+encodeURIComponent(shareText()+"\n"+location.href),"_blank","noopener");
+    window.open("https://wa.me/?text="+encodeURIComponent(shareText()+"\n"+teilenURL()),"_blank","noopener");
     closeSheet();
   });
   document.getElementById("shMail").addEventListener("click", function(){
     spurEinmal("teilen", {weg:"mail", mantra:state.mantra});
     location.href="mailto:?subject="+encodeURIComponent("Ein Satz für dich")+
-      "&body="+encodeURIComponent(shareText()+"\n\n"+location.href);
+      "&body="+encodeURIComponent(shareText()+"\n\n"+teilenURL());
     closeSheet();
   });
   document.getElementById("shCopy").addEventListener("click", function(){
     var b=this, alt=b.textContent;
     spurEinmal("teilen", {weg:"kopiert", mantra:state.mantra});
-    (navigator.clipboard ? navigator.clipboard.writeText(shareText()+"\n"+location.href) : Promise.reject())
+    (navigator.clipboard ? navigator.clipboard.writeText(shareText()+"\n"+teilenURL()) : Promise.reject())
       .then(function(){ b.textContent="Kopiert"; }).catch(function(){ b.textContent="Strg C"; })
       .then(function(){ setTimeout(function(){ b.textContent=alt; closeSheet(); }, 900); });
   });

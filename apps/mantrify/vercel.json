@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/m/:m/:v", "destination": "/api/karte?m=:m&v=:v" }
+  ],
+  "functions": {
+    "api/karte.js": {
+      "includeFiles": "karten/index.json"
+    }
+  }
+}
