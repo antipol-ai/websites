@@ -264,7 +264,13 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
 .ens-reihe img{width:60px;height:60px;border-radius:50%;object-fit:cover;background:#000;
   border:1px solid var(--border);transition:border-color .15s ease,transform .15s ease}
 .ens-reihe button:hover img{border-color:var(--ember);transform:translateY(-2px)}
-.ensemble .wer{max-width:24ch;text-align:center;line-height:1.6;font-size:.62rem}
+/* Breiter als beim Sprechernamen darunter, weil hier ein ganzer Satz steht und
+   kein Name. 24ch liessen ihn dreizeilig brechen, was unter fuenf Gesichtern
+   wie ein Absatz aussieht statt wie eine Zeile. text-wrap:balance teilt die
+   beiden Haelften gleichmaessig auf, und der Satz hat seine Sinngrenze genau in
+   der Mitte: 27 Zeichen vor dem Punkt, 26 danach. */
+.ensemble .wer{max-width:34ch;text-align:center;line-height:1.6;font-size:.62rem;
+  text-wrap:balance;text-wrap:pretty}
 /* 128 statt 160: Mit echten Gesichtern trägt der Avatar deutlich mehr als mit
    grauen Platzhaltern und darf dem Würfel wieder den Vortritt lassen (MC·199). */
 .sprecher img{width:128px;height:128px;border-radius:50%;object-fit:cover;background:#000;
