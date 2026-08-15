@@ -176,10 +176,32 @@ const hypothesen = [
   }
 
   /* === BILD ===
-     Der Puls kommt quer aus der Komponente; hier wird er quadratisch
-     gerahmt, damit er die rechte Haelfte fuellt. */
-  .spalte-bild { border: 1px solid var(--color-border); border-radius: 3px; overflow: hidden; }
-  .puls-quadrat :global(.puls-kachel) { aspect-ratio: 1 / 1; }
+     Der Puls kommt quer aus der Komponente und wird hier auf quadratisch
+     gestellt, damit er die rechte Haelfte fuellt.
+
+     Bewusst ohne sichtbare Kante: Der Puls ist ein Motiv, das nach aussen
+     ausklingt, kein Bild mit Rand. Ein Rahmen wuerde ihm eine Grenze geben,
+     die die Zeichnung selbst nicht hat. Das Feld traegt deshalb nur seinen
+     eigenen Grund. */
+  .spalte-bild { overflow: hidden; }
+  .puls-quadrat :global(.puls-kachel) {
+    aspect-ratio: 1 / 1;
+    /* Die Komponente bringt fuer die Uebersichtskachel ein eigenes #0A0A0E
+       mit. Das ist zwei Nuancen dunkler als der Panelgrund und zeichnet
+       deshalb genau die Kante, die hier nicht sein soll. Der Zeichencode
+       raeumt das Canvas mit clearRect, malt also keinen Grund; transparent
+       ist damit gefahrlos und traegt jeden Panelhintergrund. */
+    background: transparent;
+
+    /* Der Schein, den die Zeichnung selbst legt, laeuft bis an die
+       Canvas-Kante und ergibt dort wieder ein sichtbares Rechteck. Die Maske
+       blendet ihn kreisfoermig aus. closest-side, damit die Blende an der
+       Seitenmitte endet und nicht erst in den Ecken; sonst bleibt ein
+       Achteck stehen. Ab 66 Prozent, das liegt hinter dem aeussersten Ring,
+       es wird also nichts von der Zeichnung angeschnitten. */
+    -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, #000 66%, transparent 100%);
+    mask-image: radial-gradient(circle closest-side at 50% 50%, #000 66%, transparent 100%);
+  }
 
   /* === HYPOTHESEN === */
   .hypothesen { list-style: none; margin: 0; padding: 0; max-width: 860px; }
