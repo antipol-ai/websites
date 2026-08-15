@@ -7,24 +7,35 @@
  * Adresse, damit man einzeln darauf verlinken kann, und keines verschwindet
  * mehr unter der Länge des anderen.
  *
- * Zweite Fassung, nach Feedback von Stefan:
+ * Zweite Fassung: keine Spalten mehr, sondern volle Breite und gestapelt.
+ * Bildanteil statt reiner Textkachel, beide Bilder sind echte Stände. Die
+ * Einladung ist kein drittes Experiment mehr.
  *
- * - Keine Spalten mehr, sondern volle Breite und gestapelt. Ein Raster aus
- *   drei Kacheln bricht bei jeder neuen Zeile anders um und zwingt alle
- *   Kacheln auf dieselbe Höhe. Gestapelte Bänder tragen responsiv besser und
- *   lassen jedes Experiment so lang sein, wie es ist.
- * - Bildanteil statt reiner Textkachel. Beide Bilder sind echte Stände, keine
- *   Attrappen: der gerenderte Würfel aus der Mantrify-Microsite und der Kopf
- *   der ausgelieferten Momance-Seite.
- * - Die Einladung ist kein drittes Experiment mehr. Sie trug vorher die Nummer
- *   03, was bei jedem echten dritten Experiment hätte nachgezogen werden
- *   müssen. Jetzt ist sie ein Teaser in eigenem Format, ohne Nummer, ohne
- *   Bild, ohne Metazeile.
+ * Dritte Fassung, 15.08.2026, nach Feedback von Stefan und Catrin: Die Seite
+ * ist eine Übersicht, keine Abfolge. Wer sie betritt, soll Kurzbeschreibung
+ * und beide Teaser gleichzeitig sehen, ohne zu scrollen.
+ *
+ * - Der Kopf hatte min-height 100vh und füllte damit zwangsläufig den ersten
+ *   Bildschirm allein. Das war der eigentliche Grund, warum nichts gemeinsam
+ *   sichtbar war, nicht die Höhe der Teaser. Jetzt normaler Dokumentfluss.
+ * - Die Metazeile (Typ, Zeitraum, Status) ist raus. Sie steht auf den
+ *   Detailseiten, wo sie hingehört. In der Übersicht kostete sie vier Zeilen
+ *   pro Teaser für eine Information, nach der auf dieser Ebene niemand fragt.
+ * - Das Bild bekommt eine feste schmale Spalte statt fast der halben Breite.
+ *   Damit wird aus einem Band von rund 400 Pixeln eines von etwa 180.
+ * - Der Pfeil sitzt jetzt in der Überschrift statt in einer eigenen Zeile.
+ *   Spart Höhe und macht deutlicher, dass der Name das Ziel ist.
+ * - Die Einladung ist eine gestrichelte Zeile. Sie bleibt bewusst unter den
+ *   beiden Experimenten: Die Seite behauptet „wir bauen", der Beleg gehört vor
+ *   das Angebot. Durch das flachere Layout steht sie trotzdem im ersten Bild.
+ * - Die Zeile zum Radical Empathy Process steht jetzt unter der Liste. Sie
+ *   ordnet ein, was man gesehen hat, statt vorab zu erklären, was kommt.
  *
  * Farben: Alle Werte auf dieser Seite sind gegen ihre tatsächliche Fläche
  * gemessen. Die Karten liegen auf --color-surface, nicht auf einer
  * halbtransparenten Aufhellung; nur so ist der Kontrast überhaupt berechenbar.
- * Geprüft mit design-system/pruefen.mjs.
+ * Gegenüber der zweiten Fassung wurde kein Farbwert verändert, nur Grösse und
+ * Anordnung. Geprüft mit design-system/pruefen.mjs.
  */
 import AntipolLayout from '../../layouts/AntipolLayout.astro';
 
@@ -34,10 +45,7 @@ const experimente = [
     name: 'Momance',
     einzeiler: 'Ein Wahrnehmungstraining, das sich selbst überflüssig macht.',
     beschreibung:
-      'Eine App gegen die Gewohnheit, das Gute zu übersehen. Entstanden im Sparring mit einer KI, dokumentiert vom ersten Missverständnis an.',
-    typ: 'Produktentwicklung mit AI',
-    zeitraum: 'Seit März 2026',
-    status: 'In Entwicklung, Phase 1',
+      'Eine App gegen die Gewohnheit, das Gute zu übersehen. Dokumentiert vom ersten Missverständnis an.',
     href: '/experimente/momance',
     bild: '/bilder/momance-landing.webp',
     alt: 'Der Kopf der Momance-Website: die Zeile „Eine App, die will, dass du sie löschst" neben der pulsierenden grünen Bildmarke auf schwarzem Grund.',
@@ -47,10 +55,7 @@ const experimente = [
     name: 'Mantrify',
     einzeiler: 'Hilft jetzt. Ändert nix.',
     beschreibung:
-      'Ein Würfel trägt einen Gedanken in fünf Stimmen. Ein Gadget gegen den Moment, nicht gegen das Problem. Arbeitstitel, und die einzige Kennzahl ist das Teilen.',
-    typ: 'Produktexperiment, digital und physisch',
-    zeitraum: 'Seit August 2026',
-    status: 'Prototyp, nicht veröffentlicht',
+      'Ein Würfel trägt einen Gedanken in fünf Stimmen. Ein Gadget gegen den Moment, nicht gegen das Problem.',
     href: '/experimente/mantrify',
     bild: '/bilder/mantrify-wuerfel.webp',
     alt: 'Der Prototyp von Mantrify: ein goldener Würfel mit dem Satz „Ich trenne, was in meinem Einfluss liegt und was nicht", darüber der gezeichnete Kopf der Figur „Dein Therapeut".',
@@ -63,24 +68,16 @@ const experimente = [
   description="Wir reden nicht nur. Wir bauen. Zwei laufende Experimente, unaufgeräumt dokumentiert."
   activePage="experimente"
 >
-  <section class="panel panel-dark" id="hero" aria-label="Experimente, Einleitung">
-    <div class="hero-content">
+  <section class="uebersicht" aria-label="Experimente">
+    <div class="kopf">
       <div class="section-label fade-in">Experimente</div>
       <h1 class="fade-in">Wir reden nicht nur.<br />Wir bauen.</h1>
       <p class="intro fade-in">
         Wer anderen empfiehlt zu experimentieren, muss das selbst können. Hier ist der Beweis,
         unaufgeräumt.
       </p>
-      <p class="why-line fade-in fade-in-delay">
-        Jedes Experiment folgt <a href="/fokus"
-          >The Radical Empathy &amp; Experimentation Process<span class="tm">™</span></a
-        >. Kein aufgeräumter Erfolgsnachweis, sondern ein ehrlicher Bericht davon, welcher Schritt
-        welche Entscheidung erzeugt hat.
-      </p>
     </div>
-  </section>
 
-  <section class="liste-panel" aria-label="Liste der Experimente">
     <div class="liste">
       {
         experimente.map((e) => (
@@ -88,25 +85,13 @@ const experimente = [
             <div class="spur-text">
               <p class="spur-label">Experiment {e.nummer}</p>
               <h2>
-                <a href={e.href}>{e.name}</a>
+                <a href={e.href}>
+                  {e.name}
+                  <span class="pfeil" aria-hidden="true" />
+                </a>
               </h2>
               <p class="spur-einzeiler">{e.einzeiler}</p>
               <p class="spur-beschreibung">{e.beschreibung}</p>
-              <dl class="spur-meta">
-                <div>
-                  <dt>Typ</dt>
-                  <dd>{e.typ}</dd>
-                </div>
-                <div>
-                  <dt>Zeitraum</dt>
-                  <dd>{e.zeitraum}</dd>
-                </div>
-                <div>
-                  <dt>Status</dt>
-                  <dd>{e.status}</dd>
-                </div>
-              </dl>
-              <p class="spur-cta" aria-hidden="true">Das Experiment ansehen</p>
             </div>
 
             <div class="spur-bild">
@@ -118,42 +103,48 @@ const experimente = [
 
       {/*
         Die Einladung ist bewusst kein drittes Experiment: keine Nummer, kein
-        Bild, keine Metazeile, halbe Höhe. Sie soll wie freier Platz wirken und
-        nicht wie ein Angebot, das man gerade noch untergebracht hat.
+        Bild, keine eigene Karte, sondern eine Zeile. Gestrichelt und ohne
+        Fläche, damit sie nach freiem Platz aussieht und nicht nach einem
+        Angebot, das man gerade noch untergebracht hat.
       */}
-      <article class="spur spur-einladung fade-in">
-        <div class="spur-text">
-          <p class="spur-label">Experiment starten</p>
-          <h2><a href="/#kontakt">Eure Frage</a></h2>
-          <p class="spur-einzeiler">Das nächste Experiment hat noch keinen Namen.</p>
-          <p class="spur-beschreibung">
-            Wenn ihr eine Annahme habt, die sich nicht durch Nachdenken klären lässt, sondern nur
-            durch Ausprobieren, dann ist das der Anfang. Wir bauen es mit euch und dokumentieren es
-            genauso offen wie die beiden darüber.
-          </p>
-          <p class="spur-cta" aria-hidden="true">Schreibt uns</p>
-        </div>
-      </article>
+      <a class="einladung fade-in" href="/#kontakt">
+        <span class="einladung-label">Experiment starten</span>
+        <span class="einladung-text">
+          Das nächste Experiment hat noch keinen Namen. Habt ihr eine Annahme, die sich nur durch
+          Ausprobieren klären lässt? Schreibt uns.
+        </span>
+        <span class="pfeil" aria-hidden="true"></span>
+      </a>
+
+      <p class="why-line fade-in">
+        Jedes Experiment folgt <a href="/fokus"
+          >The Radical Empathy &amp; Experimentation Process<span class="tm">™</span></a
+        >. Kein aufgeräumter Erfolgsnachweis, sondern ein ehrlicher Bericht davon, welcher Schritt
+        welche Entscheidung erzeugt hat.
+      </p>
     </div>
   </section>
 </AntipolLayout>
 
 <style>
-  /* === PANEL === */
-  /* Die Definitionen stehen hier lokal, weil Astro Styles scoped und es keine
-     gemeinsame Panel-Klasse im Shared-Paket gibt. Werte identisch zu den
-     Detailseiten, damit der Wechsel nicht springt. */
-  .panel {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 6rem 4rem 4rem;
-    position: relative;
+  /* === SEITE ===
+     Ein einziger Abschnitt statt Kopf-Panel plus Listen-Panel. Vorher hatte der
+     Kopf min-height 100vh; damit lag die Liste per Definition unterhalb der
+     Bildkante, egal wie flach die Teaser wurden. */
+  .uebersicht {
+    background: var(--color-bg);
+    padding: clamp(6rem, 13vh, 8rem) 4rem clamp(4rem, 10vh, 6rem);
   }
 
-  .panel-dark {
-    background: var(--color-bg);
+  .kopf,
+  .liste {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .kopf {
+    max-width: 1180px;
+    margin-bottom: clamp(1.75rem, 4vh, 2.75rem);
   }
 
   .section-label {
@@ -162,84 +153,51 @@ const experimente = [
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-primary-accessible);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
-  .tm {
-    font-size: 0.55em;
-    vertical-align: super;
-    color: var(--color-text-muted);
-    font-weight: 400;
-  }
-
-  .hero-content {
-    max-width: 760px;
-  }
-
-  .hero-content h1 {
+  .kopf h1 {
     font-family: var(--font-display);
-    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-size: clamp(2rem, 4.2vw, 3.2rem);
     font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.1;
     color: var(--color-text-pure);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
-  /* Copy: eine Groesse, eine Farbe. Vorher stand hier 1,1rem in Grau ueber
-     0,95rem in Warmweiss, was sich wie eine Hierarchie las, die nicht gemeint
-     war. Werte kommen aus den Tokens, damit es nicht wieder auseinanderlaeuft. */
-  .hero-content .intro,
-  .hero-content .why-line {
+  /* Copy: eine Groesse, eine Farbe. Werte kommen aus den Tokens, damit es
+     nicht wieder auseinanderlaeuft. */
+  .kopf .intro {
     font-size: var(--size-copy);
     line-height: var(--line-height-copy);
     color: var(--color-text-muted);
     max-width: 62ch;
-  }
-
-  .hero-content .intro {
-    margin-bottom: 1.2rem;
-  }
-
-  .hero-content .why-line a {
-    color: var(--color-primary-accessible);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(224, 122, 66, 0.4);
-    transition: border-color 0.2s;
-  }
-
-  .hero-content .why-line a:hover {
-    border-bottom-color: rgba(224, 122, 66, 0.9);
-    text-decoration: none;
+    margin: 0;
   }
 
   /* === LISTE === */
-  .liste-panel {
-    background: var(--color-bg);
-    padding: clamp(3rem, 8vh, 6rem) 4rem clamp(5rem, 12vh, 8rem);
-  }
-
   .liste {
     display: flex;
     flex-direction: column;
-    gap: clamp(1.25rem, 3vw, 2rem);
-    max-width: 1180px;
-    margin: 0 auto;
+    gap: clamp(1rem, 2vw, 1.5rem);
   }
 
-  /* === EINE SPUR === */
-  /* Volle Breite, gestapelt. Innerhalb der Spur stehen Text und Bild ab 900px
-     nebeneinander; darunter fällt das Bild nach oben und der Text darunter. */
+  /* === EINE SPUR ===
+     Volle Breite, gestapelt. Kein Raster aus Kacheln: das bricht bei jeder
+     neuen Zeile anders um und zwingt alle Kacheln auf dieselbe Hoehe.
+     Das Bild steht in einer schmalen festen Spalte, damit die Bandhoehe vom
+     Text bestimmt wird und nicht vom Seitenverhaeltnis des Bildes. */
   .spur {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
-    gap: clamp(1.5rem, 4vw, 3.5rem);
+    grid-template-columns: minmax(0, 1fr) clamp(200px, 26%, 300px);
+    gap: clamp(1.25rem, 3vw, 2.5rem);
     align-items: center;
-    padding: clamp(1.6rem, 3vw, 2.4rem);
+    padding: clamp(1.1rem, 2vw, 1.5rem);
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 16px;
+    border-radius: 14px;
     transition: border-color var(--transition-base);
   }
 
@@ -248,15 +206,15 @@ const experimente = [
   }
 
   /* Der Link liegt auf der Überschrift und wird über die ganze Spur gestreckt.
-     Vorher war die gesamte Kachel ein <a>; damit las eine Sprachausgabe den
-     kompletten Absatz samt Metazeile als Linktext vor. Jetzt heisst der Link
-     "Momance" beziehungsweise "Mantrify". */
+     Waere die gesamte Kachel ein <a>, laese eine Sprachausgabe den kompletten
+     Absatz als Linktext vor. So heisst der Link "Momance" beziehungsweise
+     "Mantrify". */
   .spur h2 {
     font-family: var(--font-display);
-    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-size: clamp(1.4rem, 2.4vw, 1.8rem);
     font-weight: 600;
     letter-spacing: -0.02em;
-    margin: 0.5rem 0 0;
+    margin: 0.35rem 0 0;
   }
 
   .spur h2 a {
@@ -268,7 +226,7 @@ const experimente = [
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: 16px;
+    border-radius: 14px;
   }
 
   .spur h2 a:hover {
@@ -287,8 +245,25 @@ const experimente = [
     outline: none;
   }
 
-  /* Mono, 12px. Vorher 9,3px in #6B6158, also 2,88 zu 1 auf dieser Fläche.
-     Jetzt 5,14 zu 1. */
+  /* Der Pfeil sass vorher in einer eigenen Zeile unter dem Text. In der
+     Uebersicht kostet das eine Zeile pro Teaser fuer ein Zeichen; jetzt haengt
+     er am Namen. aria-hidden, weil die Ueberschrift schon der Link ist. */
+  .pfeil {
+    display: inline-block;
+    transition: transform var(--transition-base);
+  }
+
+  .pfeil::after {
+    content: '\2192';
+    margin-left: 0.3em;
+  }
+
+  .spur:hover .pfeil,
+  .einladung:hover .pfeil {
+    transform: translateX(4px);
+  }
+
+  /* Mono, 12px, --color-text-label: 5,14 zu 1 auf dieser Flaeche. */
   .spur-label {
     font-family: var(--font-mono);
     font-size: var(--size-label);
@@ -305,7 +280,7 @@ const experimente = [
     font-size: var(--size-copy);
     line-height: var(--line-height-copy);
     color: var(--color-primary-accessible);
-    margin: 0.6rem 0 0;
+    margin: 0.4rem 0 0;
   }
 
   .spur-beschreibung {
@@ -313,62 +288,8 @@ const experimente = [
     font-size: var(--size-copy);
     line-height: var(--line-height-copy);
     color: var(--color-text-muted);
-    margin: 1rem 0 0;
-    max-width: 46ch;
-  }
-
-  .spur-meta {
-    display: grid;
-    gap: 0.55rem;
-    margin: 1.6rem 0 0;
-    padding-top: 1.2rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .spur-meta > div {
-    display: flex;
-    gap: 1rem;
-    align-items: baseline;
-  }
-
-  .spur-meta dt {
-    font-family: var(--font-mono);
-    font-size: var(--size-label);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-text-label);
-    min-width: 6rem;
-    flex: none;
-  }
-
-  /* Meta-Werte sind Bedienungsinformation, kein Fliesstext: --size-ui,
-     genauso wie auf den Detailseiten. */
-  .spur-meta dd {
-    font-family: var(--font-body);
-    font-size: var(--size-ui);
-    color: var(--color-text-muted);
-    margin: 0;
-  }
-
-  /* aria-hidden, weil der eigentliche Link die Überschrift ist. Eine
-     Sprachausgabe würde sonst zwei Ziele für dasselbe Ziel ansagen. */
-  .spur-cta {
-    margin: 1.5rem 0 0;
-    font-family: var(--font-display);
-    font-size: var(--size-copy);
-    font-weight: 500;
-    color: var(--color-primary-accessible);
-  }
-
-  .spur-cta::after {
-    content: '\2192';
-    display: inline-block;
-    margin-left: 0.4em;
-    transition: transform var(--transition-base);
-  }
-
-  .spur:hover .spur-cta::after {
-    transform: translateX(4px);
+    margin: 0.5rem 0 0;
+    max-width: 52ch;
   }
 
   /* === BILD === */
@@ -386,56 +307,96 @@ const experimente = [
     display: block;
   }
 
-  /* === EINLADUNG === */
-  /* Kein Bild, keine Nummer, keine Metazeile. Gestrichelt und ohne Fläche,
-     damit sie nach freiem Platz aussieht. Der Strichrahmen ist die einzige
-     Information, die hier an einer Farbe hängt, deshalb hält er 3 zu 1
-     (#6E6862 auf #0D0D0D = 3,53). */
-  .spur-einladung {
-    grid-template-columns: minmax(0, 1fr);
-    background: none;
-    border-style: dashed;
-    border-color: #6e6862;
-    padding: clamp(1.6rem, 3vw, 2.2rem) clamp(1.6rem, 3vw, 2.4rem);
+  /* === EINLADUNG ===
+     Eine Zeile, keine Karte. Gestrichelt und ohne Flaeche, damit sie nach
+     freiem Platz aussieht. Der Strichrahmen ist die einzige Information, die
+     hier an einer Farbe haengt, deshalb haelt er 3 zu 1 (#6E6862 auf #0D0D0D
+     = 3,53). */
+  .einladung {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(1rem, 2.5vw, 2rem);
+    padding: clamp(0.9rem, 1.8vw, 1.15rem) clamp(1.1rem, 2vw, 1.5rem);
+    border: 1px dashed #6e6862;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: border-color var(--transition-base);
   }
 
-  .spur-einladung .spur-text {
-    max-width: 62ch;
-  }
-
-  .spur-einladung h2 {
-    font-size: clamp(1.4rem, 2.4vw, 1.85rem);
-  }
-
-  .spur-einladung h2 a {
-    color: var(--color-text);
-  }
-
-  .spur-einladung .spur-einzeiler {
-    color: var(--color-text-muted);
-  }
-
-  .spur-einladung .spur-beschreibung {
-    max-width: none;
-  }
-
-  .spur-einladung:hover {
+  .einladung:hover {
     border-color: var(--color-primary-light);
+    text-decoration: none;
+  }
+
+  .einladung:focus-visible {
+    outline: 2px solid var(--color-primary-accessible);
+    outline-offset: 3px;
+    border-color: var(--color-primary-accessible);
+  }
+
+  .einladung-label {
+    font-family: var(--font-mono);
+    font-size: var(--size-label);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-primary-accessible);
+    flex: none;
+  }
+
+  .einladung-text {
+    font-family: var(--font-body);
+    font-size: var(--size-copy);
+    line-height: var(--line-height-copy);
+    color: var(--color-text-muted);
+    max-width: 68ch;
+  }
+
+  .einladung .pfeil {
+    margin-left: auto;
+    color: var(--color-primary-accessible);
+    flex: none;
+  }
+
+  /* === EINORDNUNG ===
+     Steht unter der Liste, weil sie erklaert, wie das Gezeigte entstanden ist.
+     Vorher stand sie im Kopf und kostete dort die Hoehe, die jetzt der zweite
+     Teaser hat. */
+  .why-line {
+    font-size: var(--size-ui);
+    line-height: var(--line-height-copy);
+    color: var(--color-text-muted);
+    max-width: 68ch;
+    margin: clamp(0.75rem, 2vh, 1.25rem) 0 0;
+  }
+
+  .why-line a {
+    color: var(--color-primary-accessible);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(224, 122, 66, 0.4);
+    transition: border-color 0.2s;
+  }
+
+  .why-line a:hover {
+    border-bottom-color: rgba(224, 122, 66, 0.9);
+    text-decoration: none;
+  }
+
+  .tm {
+    font-size: 0.55em;
+    vertical-align: super;
+    color: var(--color-text-muted);
+    font-weight: 400;
   }
 
   /* === RESPONSIV === */
   @media (max-width: 900px) {
-    .panel {
-      padding: 5rem 1.5rem 3rem;
-    }
-
-    .liste-panel {
-      padding: 3rem 1.5rem 4rem;
+    .uebersicht {
+      padding: 5.5rem 1.5rem 3.5rem;
     }
 
     .spur {
       grid-template-columns: minmax(0, 1fr);
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
     /* Auf schmalen Geräten steht das Bild oben: es erklärt in einer Sekunde,
@@ -448,10 +409,23 @@ const experimente = [
     .spur-beschreibung {
       max-width: none;
     }
+
+    /* Die Einladung bricht auf zwei Zeilen um. Der Pfeil rutscht dabei neben
+       das Label, nicht in eine dritte Zeile. */
+    .einladung {
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    .einladung-text {
+      order: 3;
+      flex-basis: 100%;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .spur:hover .spur-cta::after {
+    .spur:hover .pfeil,
+    .einladung:hover .pfeil {
       transform: none;
     }
   }

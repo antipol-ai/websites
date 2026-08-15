@@ -223,10 +223,19 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
    Gemessen: 60 Bilder je Sekunde beim Ziehen, mit und ohne Filter, sowohl bei
    1200 als auch bei 393 Pixeln Breite. Das ist im Chromium dieser Maschine
    gemessen und ersetzt keine Pruefung auf einem echten Telefon. */
-.scene{width:var(--e);height:var(--e);perspective:820px;filter:url(#kantenrundung)}
-/* Ohne Bewegung braucht es den Filter nicht zwingend, aber er bleibt: Der Umriss
-   soll im Standbild derselbe sein wie in Bewegung. */
-@supports not (filter: url(#kantenrundung)){ .scene{filter:none} }
+.scene{width:var(--e);height:var(--e);perspective:820px}
+/* Der Rundungsfilter ist am 15.08.2026 wieder ausgebaut worden, wenige Stunden
+   nachdem er eingebaut wurde (MC·327). Er hat in Chromium getan, was er sollte,
+   und auf dem iPhone gar nichts: Safari wendet ihn auf ein Element, das eine
+   perspective traegt und 3D-Nachfahren hat, nicht an. Damit sah derselbe Wuerfel
+   am Schirm rund aus und am Telefon eckig, und von beidem ist das Telefon das
+   wichtigere Geraet, weil dort geteilt wird. Ein Ergebnis, das je nach Browser
+   anders aussieht, ist schlechter als ein schlichteres, das ueberall gleich ist.
+   Was bleibt: Die Geometrie ist rechteckig und stoesst exakt aneinander, der
+   Koerper ist also geschlossen und hat keine Loecher mehr, egal wo er laeuft.
+   Wenn die Rundung zurueckkommen soll, dann als echte Geometrie mit zwoelf
+   Kanten- und acht Eckstuecken, nicht als Bildbearbeitung. */
+
 .tilt{width:100%;height:100%;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}
 .die{-webkit-user-select:none;user-select:none;position:relative;width:100%;height:100%;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}
 .die.snap{transition:transform .38s cubic-bezier(.32,.06,.2,1)}
@@ -403,17 +412,27 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
    auf Senden drückt. Bewusst gebaut wie eine Link-Vorschau, nicht wie ein
    Ausschnitt der Seite. */
 .vs-titel{margin:0 0 .5rem}
-.vs{border:1px solid var(--border);border-radius:12px;background:var(--surface);
-  padding:.85rem .95rem;margin:0 0 1rem;text-align:left}
-.vs-kopf{display:flex;align-items:center;gap:.55rem;margin-bottom:.5rem}
-.vs-kopf img{width:34px;height:34px;border-radius:50%;object-fit:cover;background:#000;flex:none}
-.vs-marke{width:34px;height:34px;border-radius:9px;flex:none;display:flex;align-items:center;
+.vs{margin:0 0 1rem;text-align:left}
+/* Die Karte ist der Teil, den der Dienst baut, nicht wir. Deshalb hat sie einen
+   eigenen Rahmen und sitzt optisch als Block im Block. */
+.vs-karte{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#0D0D0D}
+.vs-bild{display:flex;align-items:center;gap:.7rem;padding:.8rem .9rem;background:#0D0D0D}
+.vs-bild img{width:52px;height:52px;border-radius:50%;object-fit:cover;background:#000;flex:none}
+.vs-marke{width:52px;height:52px;border-radius:12px;flex:none;display:flex;align-items:center;
   justify-content:center;background:var(--warm-signal);color:#0D0D0D;
-  font-family:var(--fd);font-weight:700;font-size:1.05rem;line-height:1}
+  font-family:var(--fd);font-weight:700;font-size:1.4rem;line-height:1}
 /* Auch hier schlaegt display das hidden-Attribut. */
-.vs-marke[hidden],.vs-kopf img[hidden]{display:none}
-.vs-wer{font-family:var(--fm);font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
-.vs-satz{font-family:var(--fb);font-weight:300;font-size:1rem;line-height:1.45;margin:0;color:var(--text)}
+.vs-marke[hidden],.vs-bild img[hidden]{display:none}
+.vs-zitat{font-family:var(--fb);font-weight:300;font-size:.86rem;line-height:1.35;margin:0;
+  color:var(--text)}
+.vs-meta{padding:.6rem .9rem .7rem;background:var(--surface);border-top:1px solid var(--border)}
+.vs-h{font-family:var(--fd);font-weight:500;font-size:.88rem;margin:0 0 .15rem;color:var(--text)}
+.vs-b{font-size:.86rem;line-height:1.4;margin:0 0 .3rem;color:var(--muted)}
+.vs-url{font-family:var(--fm);font-size:.62rem;letter-spacing:.06em;margin:0;color:var(--label)}
+/* Der eigene Text steht ausserhalb der Karte, weil er ausserhalb der Karte
+   ankommt: In WhatsApp steht er unter der Vorschau, nicht darin. */
+.vs-satz{font-family:var(--fb);font-weight:300;font-size:1rem;line-height:1.45;
+  margin:.7rem 0 0;color:var(--text)}
 .vs-fuss{font-family:var(--fm);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
   color:var(--label);margin-top:.6rem}
 .sheet-wer{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem}
@@ -525,6 +544,12 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
 /* display:block schlaegt das hidden-Attribut, deshalb ausdruecklich. Derselbe
    Stolperstein wie bei .sprecher weiter oben. */
 .sec .cta[hidden],.teilen-frage[hidden]{display:none}
+/* Der gesperrte Teilen-Knopf (MC·328). Er verschwindet nicht, sondern wird
+   leise: Ein Knopf, der auftaucht und wieder geht, laesst die Seite springen,
+   und man haette ihn beim Betreten nie gesehen. So steht er da, sagt was er
+   sein wird, und die Zeile darueber sagt, was noch fehlt. */
+.teilen:disabled{opacity:.4;cursor:default;border-color:var(--border);color:var(--label)}
+.teilen:disabled:hover{background:none}
 /* Entwurfsbilder des physischen Produkts. Das Anwendungsbild führt und steht
    über die volle Breite, die drei Objektbilder darunter in einer Reihe. */
 /* Zwei Spalten seit dem 14.08.2026: Die Beilage mit den leeren Feldern ist raus
@@ -798,33 +823,6 @@ html.intern .intern-hinweis a{color:var(--ember)}
 </style>
 </head>
 <body>
-<!-- Der Rundungsfilter fuer den Wuerfel (MC·324). Steht hier und nicht im Kopf,
-     weil ein SVG mit width/height 0 im Kopf von manchen Browsern verworfen wird.
-     stdDeviation bestimmt den Radius; 8 entspricht bei 290 Pixeln Kantenlaenge
-     rund drei Prozent, also einer gebrochenen, nicht einer wulstigen Kante. Die
-     Matrix macht aus dem weichen Alphaverlauf wieder eine harte Kante, sonst
-     bekaeme der Wuerfel einen Schleier statt einer Rundung. -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
-  <!-- Die Filterflaeche muss ausdruecklich groesser gesetzt werden als das Element.
-       Voreingestellt sind -10 % bis +110 %, und der gedrehte Wuerfel ragt weiter
-       hinaus als seine eigene Buehne: Bei einer Vierteldrehung stand der Text auf
-       der linken Flaeche ploetzlich ohne seinen ersten Buchstaben da, weil der
-       Filter ihn abgeschnitten hat. -->
-  <!-- Die Filterflaeche muss ausdruecklich groesser gesetzt werden als das Element,
-       und zwar deutlich. Voreingestellt sind -10 % bis +110 %. Der Wuerfel dreht
-       aber frei, und in der unguenstigsten Lage steht seine Raumdiagonale quer zum
-       Blick: Durchgerechnet ueber alle Drehlagen braucht er dann 172 % der
-       Kantenlaenge in der Breite und 182 % in der Hoehe, dazu den Rand fuer die
-       Weichzeichnung. Bei 160 % wurde er deshalb manchmal gerade abgeschnitten,
-       und weil das nur in bestimmten Lagen passierte, sah es nach einem
-       Gespenst aus. 220 % deckt jede Lage mit Reserve. -->
-  <filter id="kantenrundung" x="-60%" y="-60%" width="220%" height="220%">
-    <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="weich"/>
-    <feColorMatrix in="weich" mode="matrix" result="maske"
-      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -12"/>
-    <feComposite in="SourceGraphic" in2="maske" operator="atop"/>
-  </filter>
-</defs></svg>
 
 <header class="top">
   <!-- Ein Kopf, ein Zustand (12.08.2026). Die Marke ANTIPOL ist hier entfallen;
@@ -1236,18 +1234,40 @@ der Würfel und das Teilen brauchen Skripte.</div></noscript>
   <div class="sheet-bg" data-zu></div>
   <div class="sheet-card" role="dialog" aria-modal="true" aria-label="Teilen">
     <p class="micro vs-titel">So kommt es an</p>
+    <!-- Umgebaut am 15.08.2026 (MC·332). Vorher war die Vorschau eine
+         Sprechblase: oben Avatar und Name, darunter der Text. Ein Bildchen mit
+         Namen ueber einem Satz heisst aber ueberall "diese Person sagt das", und
+         hier sagt die Stimme nur das Zitat. "Musste ich an dich denken" ist der
+         Satz des Absenders. Die Vorschau hat also die Rollen vertauscht.
+         Jetzt zeigt sie, was der Empfaenger wirklich bekommt: erst die Karte mit
+         Bild, Ueberschrift, Zeile und Adresse, darunter abgesetzt der eigene
+         Text. Das ist keine originalgetreue Nachbildung von WhatsApp, und das
+         soll es auch nicht sein; es ist die richtige Reihenfolge und die richtige
+         Zuordnung, und mehr kann eine Vorschau ehrlich versprechen. -->
     <div class="vs" id="vs">
-      <div class="vs-kopf">
-        <img id="vsAv" alt="" hidden>
-        <span class="vs-marke" id="vsMarke" hidden>M</span>
-        <span class="vs-wer" id="vsWer"></span>
+      <div class="vs-karte">
+        <div class="vs-bild">
+          <img id="vsAv" alt="" hidden>
+          <span class="vs-marke" id="vsMarke" hidden>M</span>
+          <p class="vs-zitat" id="vsZitat"></p>
+        </div>
+        <div class="vs-meta">
+          <p class="vs-h" id="vsH"></p>
+          <p class="vs-b" id="vsB"></p>
+          <p class="vs-url">mantrify.antipol.ai</p>
+        </div>
       </div>
       <p class="vs-satz" id="vsSatz"></p>
       <div class="vs-fuss" id="vsFuss"></div>
     </div>
     <button class="prim" id="shNative" type="button" hidden>Weiterschicken</button>
     <button id="shWa" type="button">WhatsApp</button>
-    <button id="shMail" type="button">Mail</button>
+    <!-- Mail ist am 15.08.2026 entfallen (MC·331). Drei Gruende, die zusammen
+         zaehlen: mailto kann keine Anhaenge (RFC 6068), also kommt dort nie ein
+         Bild an; eine Linkvorschau baut kein Mailprogramm, also ist die Karte
+         wertlos; und wer am Telefon teilt, hat Mail ohnehin im System-Menue.
+         Was Mail konnte, kann jetzt "Bild sichern" besser, und die Liste ist um
+         einen Knopf kuerzer. -->
     <button id="shCopy" type="button">Link kopieren</button>
     <button id="shBild" type="button" hidden>Bild sichern</button>
     <button class="zu" data-zu type="button">Schliessen</button>
@@ -1571,11 +1591,25 @@ window.addEventListener("error", function(e){
   /* Der Anstoss zum Teilen kommt nicht aus dem Wunsch zu teilen, sondern aus
      dem Gedanken an eine bestimmte Person. Die Zeile stellt die Frage, der
      Knopf gibt die Handlung (MC·235). */
+  /* Gesperrt, solange die Titelflaeche vorn steht (15.08.2026, MC·328).
+     Beim Betreten zeigt der Wuerfel seinen Namen, nicht sein Mantra, und kippt
+     erst nach acht Sekunden von selbst auf die erste Stimme. Bis dahin gab es
+     hier zwar einen Teilen-Text, aber der trug nur den Namen und den Claim, und
+     das ist kein Mantra, sondern eine Visitenkarte. Wer sie verschickt, hat
+     nicht geteilt, was ihn getroffen hat, sondern eine Adresse.
+     Die Sperre haengt am Zustand und nicht an einer Sekundenzahl. Ein Zaehler
+     waere raten: Er wuesste nicht, ob der Wuerfel schon gedreht wurde, und er
+     ginge falsch, sobald jemand mit reduzierter Bewegung unterwegs ist, denn
+     dort laeuft die Selbstdrehung gar nicht erst an. Die Bedingung "steht eine
+     Stimme vorn" ist dagegen immer wahr oder falsch, egal wie lange jemand
+     schon da ist. */
   function teilenText(i){
     var b=document.getElementById("btnShare"), q=document.getElementById("teilenFrage");
     if(!b) return;
     var idx = (i==null) ? faceIndex() : i;
-    if(q) q.textContent = VOICES[idx] ? "Wem geht es gerade genauso?" : "Wer kann das gerade brauchen?";
+    var stimme = !!VOICES[idx];
+    b.disabled = !stimme;
+    if(q) q.textContent = stimme ? "Wem geht es gerade genauso?" : "Erst drehen, dann teilen.";
     b.textContent = "Mantra teilen";
   }
   function zeigeSprecher(){
@@ -1878,7 +1912,12 @@ window.addEventListener("error", function(e){
        der billigere Fehler als eine leere Nachricht.
        Die Stimme steht in keiner der beiden Fassungen; sie steht auf der Karte
        und in deren Beschreibungszeile. */
-    var kopf = EINLEITUNG, fuss = "\nMantrify von ANTIPOL";
+    /* Ohne Absenderzeile seit dem 15.08.2026 (MC·330). "Mantrify von ANTIPOL"
+       stand im Text und noch einmal in der Vorschaukarte darueber, und in einer
+       Nachricht unter Bekannten liest sich eine Absenderzeile wie eine Signatur
+       unter einem Satz, den man privat geschickt hat. Die Marke steht im Bild
+       und in der Adresse; zweimal genuegt. */
+    var kopf = EINLEITUNG, fuss = "";
     if (kurz) return kopf + fuss;
     return kopf + "\n„" + m.f[vk] + "“" + fuss;
   }
@@ -1900,13 +1939,21 @@ window.addEventListener("error", function(e){
     var innen=document.getElementById("innen").classList.contains("on");
     var v=innen?VOICES[faceIndex()]:null;
     var av=document.getElementById("vsAv"), mk=document.getElementById("vsMarke");
-    /* Die Kopfzeile nennt die Quelle, nicht die Stimme: Der Name der Stimme
-       steht seit MC·240 im Text selbst und stünde hier ein zweites Mal. */
+    /* Im Bildteil der Karte steht der Avatar der Stimme, und nur dort. Frueher
+       stand er als Absenderbild oben und machte aus der Stimme den Sprecher der
+       ganzen Nachricht (MC·332). */
     if(v){ av.hidden=false; mk.hidden=true; av.src=v.mini||v.av; av.alt=v.label; }
     else { av.hidden=true; mk.hidden=false; }
-    document.getElementById("vsWer").textContent="Mantrify";
-    document.getElementById("vsSatz").textContent=shareText();
-    document.getElementById("vsFuss").textContent = "Dazu geht der Link mit";
+    /* Die Karte traegt dieselben Angaben, die /api/karte als Open-Graph-Tags
+       ausliefert. Wenn sich dort etwas aendert, muss es hier mitgeaendert
+       werden; die beiden Stellen kennen einander nicht. */
+    var m2=byId[state.mantra];
+    document.getElementById("vsZitat").textContent = v ? "„"+m2.f[v.key]+"“" : m2.name;
+    document.getElementById("vsH").textContent = "Trigger: "+m2.name;
+    document.getElementById("vsB").textContent = v ? "Ein Mantra von: "+v.label
+                                                  : "Hilft jetzt. Ändert nix.";
+    document.getElementById("vsSatz").textContent=shareText(true);
+    document.getElementById("vsFuss").textContent = "Darunter steht dein Text";
     /* Bild sichern gibt es nur, wo es eine Karte gibt, also nicht auf der
        Titelflaeche und nicht ausserhalb der Wuerfelansicht (MC·316). */
     document.getElementById("shBild").hidden = !(innen && v);
@@ -1922,6 +1969,14 @@ window.addEventListener("error", function(e){
 
   if(navigator.share){
     var sn=document.getElementById("shNative"); sn.hidden=false;
+    /* Wo das Geraet selbst teilen kann, faellt der eigene WhatsApp-Knopf weg
+       (15.08.2026, MC·329). WhatsApp steht dort ohnehin im Menue, und zwar mit
+       der Adressliste des Nutzers; unser Knopf oeffnet stattdessen wa.me im
+       Browser und fragt erst einmal, ob App oder Web. Zwei Wege zum selben Ziel,
+       von denen einer schlechter ist, sind einer zu viel. Ohne System-Teilen,
+       also vor allem in Firefox und in aelteren Browsern am Schirm, bleibt der
+       Knopf der einzige direkte Weg und deshalb stehen. */
+    document.getElementById("shWa").hidden = true;
     sn.addEventListener("click", function(){
       navigator.share({title:"Mantrify", text:shareText()+"\n", url:teilenURL()})
         .then(function(){ spurEinmal("teilen", {weg:"system", mantra:state.mantra}); closeSheet(); })
@@ -1931,12 +1986,6 @@ window.addEventListener("error", function(e){
   document.getElementById("shWa").addEventListener("click", function(){
     spurEinmal("teilen", {weg:"whatsapp", mantra:state.mantra});
     window.open("https://wa.me/?text="+encodeURIComponent(shareText(true)+"\n"+teilenURL()),"_blank","noopener");
-    closeSheet();
-  });
-  document.getElementById("shMail").addEventListener("click", function(){
-    spurEinmal("teilen", {weg:"mail", mantra:state.mantra});
-    location.href="mailto:?subject="+encodeURIComponent("Ein Satz für dich")+
-      "&body="+encodeURIComponent(shareText()+"\n\n"+teilenURL());
     closeSheet();
   });
   document.getElementById("shCopy").addEventListener("click", function(){

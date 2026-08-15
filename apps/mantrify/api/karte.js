@@ -87,7 +87,18 @@ export default function handler(req, res) {
      steht dort, wer spricht, und der Claim, der die Haltung in vier Woertern
      erklaert. */
   const titel = `Trigger: ${k.name}`;
-  const text  = `${k.wer}. Hilft jetzt. Ändert nix.`;
+  /* Die zweite Zeile hiess bis zum 15.08.2026 "<Stimme>. Hilft jetzt. Ändert nix."
+     Darueber stand fett "Trigger: Wer hat's verbockt?", und wer beides
+     hintereinander liest, bekommt eine Anklage: Wer hat's verbockt? Deine
+     Therapeutin. Der Zusatz "Ein Mantra von" dreht die Rolle wieder um, aus der
+     Verdaechtigen wird die Absenderin. Der Doppelpunkt ist Absicht und kein
+     Satzzeichen aus Verlegenheit: Er macht aus dem folgenden Namen eine Angabe
+     und erspart die fuenf verschiedenen Dativformen, die "von deiner
+     Therapeutin", "vom Code Ninja" und "von der Bald-Ex-Kollegin" sonst
+     verlangen wuerden.
+     Der Claim ist hier raus. Er steht bereits im Kartenbild, in der Fusszeile
+     unter dem Mantra, und zweimal in derselben Vorschau ist einmal zu viel. */
+  const text  = `Ein Mantra von: ${k.wer}`;
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
