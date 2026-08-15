@@ -1,504 +1,212 @@
 ---
 /**
- * Detailseite Experiment 01: Momance.
+ * Detailseite Experiment 02: Momance.
  *
- * Bis zum 11.08.2026 war dies die gesamte Seite /experimente. Seit es ein
- * zweites Experiment gibt, liegt dort ein Verteiler, und dieser Text lebt
- * unter einer eigenen Adresse.
+ * Zweite Fassung vom 15.08.2026, am Launch-Tag radikal gekuerzt. Die erste
+ * erzaehlte den kompletten Radical-Empathy-Prozess ueber Methodik plus fuenf
+ * Schritte, mit gezeichneten Diagrammen und Belegbildern. Das war fuer den
+ * Live-Gang zu tief und hat die eigentliche Aussage begraben. Diese Fassung
+ * hat genau zwei Container:
+ *
+ *   1. Was ist das Experiment, plus die Teaser-Grafik der Uebersichtsseite.
+ *      Momance hat noch keinen Link, weil es nicht oeffentlich ist; an der
+ *      Stelle steht deshalb der Zustand und kein toter Knopf.
+ *   2. Die Hypothesen, kurz. Ohne Bild, dafuer breiter.
+ *
+ * Das Muster kommt von der ANTIPOL-Startseite: ein Container je Aussage, er
+ * laeuft breit wenn er nur Text traegt, und wird auf die halbe Breite
+ * begrenzt sobald rechts ein Bild steht.
+ *
+ * Der Puls wird hier quadratisch gezeigt, auf der Uebersicht quer. Die
+ * Komponente nimmt ohnehin die kleinere Seite als Mass, das Seitenverhaeltnis
+ * kommt von aussen ueber .puls-quadrat.
+ *
+ * Was hier bewusst NICHT mehr steht: Methodik, die fuenf Prozessschritte, die
+ * Design-Vergleiche und die Belege. Der Text dazu ist nicht verloren, er steht
+ * in momance/docs/ und in 16-design-entscheidungen.md. Wer die Seite spaeter
+ * wieder vertieft, holt ihn von dort und nicht aus der Erinnerung. Die dafuer
+ * gebauten Bilder liegen unter /bilder/momance/.
  */
 import AntipolLayout from '../../layouts/AntipolLayout.astro';
+import MomancePuls from '../../components/MomancePuls.astro';
+
+/**
+ * Die Hypothesen aus der Nutzerbefragung, mit den Original-IDs aus dem
+ * Validierungs-Dashboard. Die Nummerierung hat Luecken: H·03 und H·04 wurden
+ * im Verlauf verworfen. Die Luecken bleiben stehen, weil eine glattgezogene
+ * Reihe so tut, als haette es die beiden nie gegeben.
+ */
+const hypothesen = [
+  {
+    id: 'H·01',
+    titel: 'Wahrnehmungsdefizit',
+    text: 'Menschen bewerten ihr Leben als „gut“, können aber kaum konkrete Glücksmomente benennen.',
+  },
+  {
+    id: 'H·02',
+    titel: 'Dopamin-Substitution',
+    text: 'Digitaler Konsum wird als Ersatz für echte Glücksmomente genutzt, mit abnehmendem Ertrag.',
+  },
+  {
+    id: 'H·05',
+    titel: 'Stadien-Entwicklung',
+    text: 'Selbstoptimierungs-Apps erzeugen Druck statt nachhaltiger Veränderung.',
+  },
+  {
+    id: 'H·06',
+    titel: 'Design-to-Delete',
+    text: 'Nutzer wünschen sich eine App, die Selbstständigkeit fördert statt Abhängigkeit.',
+  },
+  {
+    id: 'H·07',
+    titel: 'Innen-Außen-Diskrepanz',
+    text: 'Menschen bewerten ihr Leben nach außen besser, als es sich innen anfühlt. Diese Diskrepanz geht mit einer geringeren Wahrnehmungsfähigkeit für positive Momente einher.',
+  },
+];
 ---
 
-<AntipolLayout title="Momance - Experiment 01" description="Ein Wahrnehmungstraining, das sich selbst überflüssig macht. Der Weg dahin, unaufgeräumt." activePage="experimente">
+<AntipolLayout
+  title="Momance - Experiment 02"
+  description="Ein Wahrnehmungstraining, das sich selbst überflüssig macht."
+  activePage="experimente">
 
-  <!-- Scroll Dots -->
-  <nav class="scroll-dots" role="navigation" aria-label="Seitenabschnitte">
-    <button class="scroll-dot active" data-target="hero" aria-label="Intro"></button>
-    <button class="scroll-dot" data-target="momance" aria-label="Momance"></button>
-    <button class="scroll-dot" data-target="methodik" aria-label="Methodik"></button>
-    <button class="scroll-dot" data-target="verstehen" aria-label="Verstehen"></button>
-    <button class="scroll-dot" data-target="freilegen" aria-label="Freilegen"></button>
-    <button class="scroll-dot" data-target="entwerfen" aria-label="Entwerfen"></button>
-    <button class="scroll-dot" data-target="erproben" aria-label="Erproben"></button>
-    <button class="scroll-dot" data-target="leben" aria-label="Leben"></button>
-  </nav>
-
-  <!-- PANEL 1: HERO -->
-  <section class="panel panel-dark" id="hero" aria-label="Momance - Intro">
-    <div class="hero-content">
-      <div class="section-label fade-in"><a href="/experimente" class="zurueck">Experimente</a> · 01</div>
-      <h1 class="fade-in">Wir reden nicht nur.<br>Wir bauen.</h1>
-      <p class="intro fade-in">Momance ist ein Wahrnehmungstraining, das sich selbst überflüssig machen will. Was hier steht, ist nicht das Produkt, sondern der Weg dahin.</p>
-      <p class="why-line fade-in fade-in-delay">Das Experiment folgt <a href="/fokus">The Radical Empathy &amp; Experimentation Process<span class="tm">™</span></a>. Kein aufgeräumter Erfolgsnachweis - ein ehrlicher Bericht davon, welcher Schritt welche Entscheidung erzeugt hat.</p>
-    </div>
-  </section>
-
-  <!-- PANEL 2: MOMANCE COVER -->
-  <section class="panel panel-mid intro-panel" id="momance" aria-label="Experiment 01: Momance">
-    <div class="exp-number-bg fade-in" aria-hidden="true">01</div>
-    <div class="exp-label fade-in">Experiment 01</div>
-    <h2 class="fade-in">Momance</h2>
-    <p class="oneliner fade-in">Ein Wahrnehmungstraining, das sich selbst überflüssig macht.<br>Nicht das Produkt ist die Geschichte - sondern der Weg dahin.</p>
-    <div class="meta-row fade-in fade-in-delay">
-      <div class="meta-item">
-        <span class="meta-label">Typ</span>
-        <span class="meta-value">Produktentwicklung mit AI</span>
+  <!-- ============ CONTAINER 1: Was ist das ============ -->
+  <section class="panel panel-dark" aria-label="Momance - worum es geht">
+    <div class="container mit-bild">
+      <div class="spalte-text">
+        <div class="section-label fade-in">
+          <a href="/experimente" class="zurueck">Experimente</a> · 02
+        </div>
+        <h1 class="fade-in">Momance</h1>
+        <p class="einzeiler fade-in">Ein Wahrnehmungstraining, das sich selbst überflüssig macht.</p>
+        <p class="fade-in">Eine App gegen die Gewohnheit, das Gute zu übersehen. Sie verordnet keine Dankbarkeit, sie trainiert die Wahrnehmung. Und sie ist darauf angelegt, irgendwann gelöscht zu werden.</p>
+        <p class="fade-in">Ein Experiment von ANTIPOL, seit April 2026 in Arbeit.</p>
+        <p class="zustand fade-in fade-in-delay">Noch nicht öffentlich. Was hier steht, ist der Stand von heute.</p>
       </div>
-      <div class="meta-item">
-        <span class="meta-label">Zeitraum</span>
-        <span class="meta-value">März - Mai 2026</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Status</span>
-        <span class="meta-value">In Entwicklung · Phase 1</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Methode</span>
-        <span class="meta-value"><a href="/fokus">Radical Empathy &amp; Experimentation</a></span>
+      <div class="spalte-bild puls-quadrat fade-in fade-in-delay">
+        <MomancePuls />
       </div>
     </div>
   </section>
 
-  <!-- PANEL 3: METHODIK -->
-  <section class="panel panel-dark" id="methodik" aria-label="Methodik - Mensch und Claude im Sparring">
-    <div class="chapter-layout fade-in">
-      <div class="chapter-text">
-        <div class="chapter-step">Methodik</div>
-        <h3>Ideen von uns.<br>Struktur von Claude.</h3>
-        <p>Einen Prompt hinwerfen kann jeder. Was Momance zeigt: die Qualität der Vorarbeit entscheidet. Design Thinking, Hypothesentests, User Research - <span class="highlight">jede Methode bewusst gewählt, nicht zufällig eingesetzt.</span></p>
-        <p>Claude ist dabei kein Autor, sondern Sparringspartner - hinterfragt Annahmen, strukturiert Workshops, schreibt mit. Damit jede Session reproduzierbar bleibt, haben wir einen eigenen Dokumentations-Skill entwickelt.</p>
-        <div class="process-callout">
-          <div class="process-label">→ The Radical Empathy &amp; Experimentation Process<span class="tm">™</span></div>
-          <p>Die Methode ist kein Werkzeugkasten. Sie ist ein Denkrahmen - und Claude ist der erste, der ihn ernst nimmt.</p>
-        </div>
-      </div>
-      <div class="chapter-visual">
-        <svg viewBox="0 0 360 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mensch-Claude Kollaborationsmodell und Methodenübersicht">
-          <rect x="0" y="0" width="130" height="64" rx="4" fill="#1A1A1A" stroke="#C4421A" stroke-width="1.5"/>
-          <text x="65" y="22" text-anchor="middle" fill="#6B6158" font-size="8.5" font-family="JetBrains Mono, monospace" letter-spacing="0.12em">MENSCH</text>
-          <text x="65" y="38" text-anchor="middle" fill="#E8E2D9" font-size="10.5" font-weight="600" letter-spacing="-0.01em" font-family="Space Grotesk, sans-serif">Ideen · Kreativität</text>
-          <text x="65" y="52" text-anchor="middle" fill="#9C9489" font-size="9.5" font-family="Source Serif 4, serif" font-style="italic">Entscheidung · Vision</text>
-          <polygon points="143,32 135,28 135,36" fill="#6B6158"/>
-          <polygon points="217,32 225,28 225,36" fill="#6B6158"/>
-          <line x1="138" y1="32" x2="222" y2="32" stroke="#6B6158" stroke-width="1"/>
-          <text x="180" y="25" text-anchor="middle" fill="#6B6158" font-size="8" font-family="JetBrains Mono, monospace" letter-spacing="0.06em">Sparring</text>
-          <rect x="228" y="0" width="132" height="64" rx="4" fill="#1A1A1A" stroke="#3A3A3A" stroke-width="1.5"/>
-          <text x="294" y="22" text-anchor="middle" fill="#6B6158" font-size="8.5" font-family="JetBrains Mono, monospace" letter-spacing="0.12em">CLAUDE</text>
-          <text x="294" y="38" text-anchor="middle" fill="#E8E2D9" font-size="10.5" font-weight="600" letter-spacing="-0.01em" font-family="Space Grotesk, sans-serif">Struktur · Analyse</text>
-          <text x="294" y="52" text-anchor="middle" fill="#9C9489" font-size="9.5" font-family="Source Serif 4, serif" font-style="italic">Dokumentation · Critique</text>
-          <line x1="0" y1="82" x2="360" y2="82" stroke="#3A3A3A" stroke-width="0.6"/>
-          <text x="0" y="100" fill="#6B6158" font-size="9" font-family="JetBrains Mono, monospace" letter-spacing="0.12em">EXPLIZIT ANGEWENDET</text>
-          <text x="0" y="118" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Design Thinking</text>
-          <text x="0" y="133" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Hypothesis Testing</text>
-          <text x="0" y="148" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Persona-Entwicklung</text>
-          <text x="0" y="163" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">User Testing T1 bis T3</text>
-          <text x="185" y="118" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Business Canvas</text>
-          <text x="185" y="133" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Savoring / SDT / TTM</text>
-          <text x="185" y="148" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Product Field Map</text>
-          <text x="185" y="163" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">MAAS-Skala</text>
-          <line x1="0" y1="178" x2="360" y2="178" stroke="#3A3A3A" stroke-width="0.5"/>
-          <text x="0" y="196" fill="#6B6158" font-size="9" font-family="JetBrains Mono, monospace" letter-spacing="0.12em">IMPLIZIT ANGEWENDET</text>
-          <text x="0" y="214" fill="#6B6158" font-size="10.5" font-family="Source Serif 4, serif">Jobs-to-be-Done</text>
-          <text x="185" y="214" fill="#6B6158" font-size="10.5" font-family="Source Serif 4, serif">Customer Journey</text>
-          <text x="0" y="229" fill="#6B6158" font-size="10.5" font-family="Source Serif 4, serif">Five Whys</text>
-          <text x="185" y="229" fill="#6B6158" font-size="10.5" font-family="Source Serif 4, serif">Competitive Analysis</text>
-          <line x1="0" y1="244" x2="360" y2="244" stroke="#3A3A3A" stroke-width="0.5"/>
-          <text x="0" y="262" fill="#6B6158" font-size="9" font-family="JetBrains Mono, monospace" letter-spacing="0.12em">ARTEFAKTE &amp; TOOLS</text>
-          <text x="0" y="280" fill="#C4421A" font-size="10.5" font-family="JetBrains Mono, monospace">Dokumentations-Skill</text>
-          <text x="185" y="280" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">22 Spezifikationsdoks.</text>
-          <text x="0" y="295" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Design Discoveries</text>
-          <text x="185" y="295" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Interaktive Prototypen</text>
-          <text x="0" y="310" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Linear + GitHub Workflow</text>
-          <text x="185" y="310" fill="#9C9489" font-size="10.5" font-family="Source Serif 4, serif">Validierungs-Dashboard</text>
-        </svg>
-      </div>
+  <!-- ============ CONTAINER 2: Hypothesen ============ -->
+  <section class="panel panel-mid" aria-label="Was geprüft wird">
+    <div class="container">
+      <div class="section-label fade-in">Was wir prüfen</div>
+      <h2 class="fade-in">Fünf Hypothesen aus der Nutzerbefragung</h2>
+      <ol class="hypothesen" role="list">
+        {hypothesen.map((h) => (
+          <li class="hypothese fade-in">
+            <span class="h-nr" aria-hidden="true">{h.id}</span>
+            <div class="h-inhalt">
+              <h3>{h.titel}</h3>
+              <p>{h.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="luecke fade-in">H·03 und H·04 wurden im Verlauf verworfen. Die Lücken bleiben stehen.</p>
     </div>
-      <div class="beleg-reihe fade-in">
-        <figure class="beleg">
-          <img src="/bilder/momance/beleg-entscheidungen.webp" alt="Ausschnitt aus der Datei 16-design-entscheidungen.md im Editor: die Einträge E·88, E·89 und E·10 mit je einer Entscheidung und ihrer Begründung." loading="lazy" decoding="async" />
-          <figcaption>Kein Diagramm, sondern die Datei selbst. Jede Entscheidung steht mit Begründung darin, auch die verworfenen.</figcaption>
-        </figure>
-      </div>
-  </section>
-
-  <!-- PANEL 4: 01 VERSTEHEN -->
-  <section class="panel panel-dark" id="verstehen" aria-label="Schritt 01: Verstehen">
-    <div class="chapter-layout fade-in">
-      <div class="chapter-text">
-        <div class="chapter-step">01 · Verstehen</div>
-        <h3>Zuhören, bevor man baut</h3>
-        <p>Momance begann nicht mit einer App-Idee. Es begann mit einer Beobachtung: Das Gehirn übersieht positive Momente dreimal häufiger als negative. Evolution, kein Versagen.</p>
-        <p>Bestehende Ansätze - Achtsamkeitsapps, Dankbarkeitstagebücher - arbeiten mit Willenskraft. Die Frage, die offenblieb: <span class="highlight">Was würde die Wahrnehmung selbst verändern, nicht nur kompensieren?</span></p>
-        <div class="process-callout">
-          <div class="process-label">→ Prozess · Schritt 01 · Verstehen</div>
-          <p>Bevor die richtige Lösung gefunden werden kann, muss die richtige Frage gefunden werden.</p>
-        </div>
-      </div>
-      <div class="chapter-visual">
-        <svg viewBox="0 0 324 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Von 40 Momenten werden durchschnittlich 10 bewusst wahrgenommen">
-          <circle cx="19" cy="19" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="57" cy="19" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="133" cy="19" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="171" cy="19" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="209" cy="19" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="247" cy="19" r="9" fill="#3A3A3A" opacity="0.5"/>
-          <circle cx="19" cy="57" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="57" cy="57" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="133" cy="57" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="171" cy="57" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="209" cy="57" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="247" cy="57" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="285" cy="57" r="9" fill="#3A3A3A" opacity="0.5"/>
-          <circle cx="19" cy="95" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="57" cy="95" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="95" cy="95" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="171" cy="95" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="247" cy="95" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="285" cy="95" r="9" fill="#3A3A3A" opacity="0.5"/>
-          <circle cx="19" cy="133" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="57" cy="133" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="133" cy="133" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="171" cy="133" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="247" cy="133" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="285" cy="133" r="9" fill="#3A3A3A" opacity="0.5"/>
-          <circle cx="19" cy="171" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="57" cy="171" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="133" cy="171" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="171" cy="171" r="9" fill="#3A3A3A" opacity="0.5"/><circle cx="285" cy="171" r="9" fill="#3A3A3A" opacity="0.5"/>
-          <circle cx="95" cy="19" r="9" fill="#C4421A"/><circle cx="285" cy="19" r="9" fill="#C4421A"/><circle cx="95" cy="57" r="9" fill="#C4421A"/><circle cx="133" cy="95" r="9" fill="#C4421A"/><circle cx="209" cy="95" r="9" fill="#C4421A"/><circle cx="95" cy="133" r="9" fill="#C4421A"/><circle cx="209" cy="133" r="9" fill="#C4421A"/><circle cx="95" cy="171" r="9" fill="#C4421A"/><circle cx="209" cy="171" r="9" fill="#C4421A"/><circle cx="247" cy="171" r="9" fill="#C4421A"/>
-          <text x="0" y="215" fill="#9C9489" font-size="11" font-family="JetBrains Mono, monospace" letter-spacing="0.05em">10 VON 40 MOMENTEN WAHRGENOMMEN</text>
-          <text x="0" y="235" fill="#6B6158" font-size="10" font-family="Source Serif 4, serif" font-style="italic">Das ist Negativity Bias - nicht Undankbarkeit.</text>
-        </svg>
-      </div>
-    </div>
-      <div class="beleg-reihe fade-in">
-        <div class="beleg beleg-leer">
-          <span class="was">Platz für einen Beleg</span>
-          <p>Hier gehört das Material aus dem Zuhören hin, also das, was vor der ersten Skizze da war. Denkbar: die Hypothesenliste im Rohzustand oder eine Seite aus den Personas.</p>
-        </div>
-      </div>
-  </section>
-
-  <!-- PANEL 5: 02 FREILEGEN -->
-  <section class="panel panel-mid" id="freilegen" aria-label="Schritt 02: Freilegen">
-    <div class="chapter-layout alt fade-in">
-      <div class="chapter-visual">
-        <svg viewBox="0 0 380 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vier Wahrnehmungsdimensionen: Genauigkeit, Vielfalt, Im Moment, Eigenimpuls">
-          <circle cx="190" cy="170" r="30" fill="none" stroke="#3A3A3A" stroke-width="0.5" stroke-dasharray="4,5" opacity="0.5"/><circle cx="190" cy="170" r="60" fill="none" stroke="#3A3A3A" stroke-width="0.5" stroke-dasharray="4,5" opacity="0.5"/><circle cx="190" cy="170" r="90" fill="none" stroke="#3A3A3A" stroke-width="0.5" stroke-dasharray="4,5" opacity="0.5"/><circle cx="190" cy="170" r="115" fill="none" stroke="#3A3A3A" stroke-width="0.8" opacity="0.4"/>
-          <line x1="190" y1="55" x2="190" y2="285" stroke="#3A3A3A" stroke-width="0.8" opacity="0.6"/><line x1="75" y1="170" x2="305" y2="170" stroke="#3A3A3A" stroke-width="0.8" opacity="0.6"/>
-          <polygon points="190,101 282,170 190,216 121,170" fill="rgba(196,66,26,0.15)" stroke="#C4421A" stroke-width="1.5" stroke-linejoin="round"/>
-          <circle cx="190" cy="55" r="4" fill="#C4421A"/><circle cx="305" cy="170" r="4" fill="#C4421A"/><circle cx="190" cy="285" r="4" fill="#C4421A"/><circle cx="75" cy="170" r="4" fill="#C4421A"/>
-          <circle cx="190" cy="101" r="5" fill="#D4652E"/><circle cx="282" cy="170" r="5" fill="#D4652E"/><circle cx="190" cy="216" r="5" fill="#D4652E"/><circle cx="121" cy="170" r="5" fill="#D4652E"/>
-          <text x="190" y="44" text-anchor="middle" fill="#E8E2D9" font-size="11" font-weight="600" letter-spacing="-0.01em" font-family="Space Grotesk, sans-serif">Genauigkeit</text>
-          <text x="315" y="174" text-anchor="start" fill="#E8E2D9" font-size="11" font-weight="600" letter-spacing="-0.01em" font-family="Space Grotesk, sans-serif">Vielfalt</text>
-          <text x="190" y="304" text-anchor="middle" fill="#E8E2D9" font-size="11" font-weight="600" letter-spacing="-0.01em" font-family="Space Grotesk, sans-serif">Im Moment</text>
-          <text x="65" y="174" text-anchor="end" fill="#E8E2D9" font-size="11" font-weight="600" letter-spacing="-0.01em" font-family="Space Grotesk, sans-serif">Eigenimpuls</text>
-          <text x="190" y="328" text-anchor="middle" fill="#6B6158" font-size="9.5" font-family="Source Serif 4, serif" font-style="italic">Beispielprofil - Entwicklung ist nie linear</text>
-        </svg>
-      </div>
-      <div class="chapter-text">
-        <div class="chapter-step">02 · Freilegen</div>
-        <h3>Das eigentliche Problem</h3>
-        <p>Der Negativity Bias ist nicht abschaltbar. Aber trainierbar. <span class="highlight">Das ist der Unterschied, der alles andere bestimmt.</span></p>
-        <p>Daraus entstand das Vier-Dimensionen-Modell: Genauigkeit, Vielfalt, Im Moment, Eigenimpuls. Kein lineares Level-System - weil Entwicklung nie linear verläuft.</p>
-        <div class="process-callout">
-          <div class="process-label">→ Prozess · Schritt 02 · Freilegen</div>
-          <p>"Ich will glücklicher sein" ist das Symptom. "Mein Gehirn überspringt, was bereits gut ist" ist die Ursache. Aus diesem Unterschied folgt alles andere.</p>
-        </div>
-      </div>
-    </div>
-      <div class="beleg-reihe fade-in">
-        <div class="beleg beleg-leer">
-          <span class="was">Platz für einen Beleg</span>
-          <p>Der Weg zum Dimensionsmodell. Denkbar: eine frühe Fassung mit mehr als vier Dimensionen, damit sichtbar wird, was weggefallen ist.</p>
-        </div>
-      </div>
-  </section>
-
-  <!-- PANEL 6: 03 ENTWERFEN -->
-  <section class="panel panel-dark" id="entwerfen" aria-label="Schritt 03: Entwerfen">
-    <div class="chapter-layout fade-in">
-      <div class="chapter-text">
-        <div class="chapter-step">03 · Entwerfen</div>
-        <h3>Die Hypothese - und die Entscheidungen, die sie erzwingt</h3>
-        <p>"Build to Delete" ist kein Slogan. Es ist die direkte Konsequenz der Hypothese: <span class="highlight">Wer auf Retention setzt, widerspricht der eigenen These.</span></p>
-        <p>Also: keine Push-Notifications. Kein Social Layer. Keine Streaks. Einmalzahlung statt Abo. 44 dokumentierte Entscheidungen - jede begründet, keine aus Angst.</p>
-        <div class="process-callout">
-          <div class="process-label">→ Prozess · Schritt 03 · Entwerfen</div>
-          <p>Eine Hypothese erzwingt Entscheidungen. Auch die unbequemen.</p>
-        </div>
-      </div>
-      <div class="chapter-visual">
-        <svg viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="44 dokumentierte Entscheidungen - bewusst nicht gebaut">
-          <text x="0" y="110" fill="rgba(58,58,58,0.4)" font-size="120" font-weight="700" letter-spacing="-0.05em" font-family="Space Grotesk, sans-serif">44</text>
-          <text x="2" y="132" fill="#6B6158" font-size="10" font-family="JetBrains Mono, monospace" letter-spacing="0.08em">DOKUMENTIERTE ENTSCHEIDUNGEN</text>
-          <line x1="0" y1="148" x2="340" y2="148" stroke="#3A3A3A" stroke-width="0.8"/>
-          <text x="0" y="172" fill="#6B6158" font-size="9.5" font-family="JetBrains Mono, monospace" letter-spacing="0.08em">BEWUSST NICHT GEBAUT</text>
-          <text x="0" y="198" fill="#C4421A" font-size="13" font-weight="600" font-family="Space Grotesk, sans-serif">×</text><text x="18" y="198" fill="#9C9489" font-size="12" font-family="Source Serif 4, serif">Push-Notifications</text>
-          <text x="0" y="220" fill="#C4421A" font-size="13" font-weight="600" font-family="Space Grotesk, sans-serif">×</text><text x="18" y="220" fill="#9C9489" font-size="12" font-family="Source Serif 4, serif">Streaks &amp; Abzeichen</text>
-          <text x="0" y="242" fill="#C4421A" font-size="13" font-weight="600" font-family="Space Grotesk, sans-serif">×</text><text x="18" y="242" fill="#9C9489" font-size="12" font-family="Source Serif 4, serif">Social Layer</text>
-          <text x="0" y="264" fill="#C4421A" font-size="13" font-weight="600" font-family="Space Grotesk, sans-serif">×</text><text x="18" y="264" fill="#9C9489" font-size="12" font-family="Source Serif 4, serif">Abo-Modell</text>
-          <text x="0" y="286" fill="#C4421A" font-size="13" font-weight="600" font-family="Space Grotesk, sans-serif">×</text><text x="18" y="286" fill="#9C9489" font-size="12" font-family="Source Serif 4, serif">Engagement-Design</text>
-        </svg>
-      </div>
-    </div>
-      <div class="beleg-reihe fade-in">
-        <figure class="beleg">
-          <img src="/bilder/momance/beleg-ikonen.webp" alt="Die Entdeckungsseite für die Symbole der Navigationsleiste: mehrere Varianten je Reiter nebeneinander, zum Vergleichen gebaut." loading="lazy" decoding="async" />
-          <figcaption>Die Symbole der Navigationsleiste wurden nicht entworfen, sondern verglichen. Dafür entstand eine eigene Seite.</figcaption>
-        </figure>
-      </div>
-  </section>
-
-  <!-- PANEL 7: 04 ERPROBEN -->
-  <section class="panel panel-mid" id="erproben" aria-label="Schritt 04: Erproben">
-    <div class="chapter-layout alt fade-in">
-      <div class="chapter-visual">
-        <svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Automatisierte Validierungs-Pipeline: Google Forms zu Linear">
-          <defs>
-            <marker id="arr" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0,0 7,2.5 0,5" fill="#6B6158"/></marker>
-            <marker id="arr-e" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0,0 7,2.5 0,5" fill="#C4421A"/></marker>
-          </defs>
-          <text x="0" y="18" fill="#6B6158" font-size="9.5" font-family="JetBrains Mono, monospace" letter-spacing="0.1em">VALIDIERUNGS-PIPELINE</text>
-          <rect x="0" y="30" width="90" height="54" rx="3" fill="#1A1A1A" stroke="#3A3A3A" stroke-width="1"/><text x="45" y="52" text-anchor="middle" fill="#E8E2D9" font-size="10" font-weight="600" font-family="Space Grotesk, sans-serif">Google</text><text x="45" y="66" text-anchor="middle" fill="#E8E2D9" font-size="10" font-weight="600" font-family="Space Grotesk, sans-serif">Forms</text><text x="45" y="78" text-anchor="middle" fill="#6B6158" font-size="8.5" font-family="Source Serif 4, serif" font-style="italic">Umfrage</text>
-          <line x1="91" y1="57" x2="128" y2="57" stroke="#6B6158" stroke-width="1" marker-end="url(#arr)"/>
-          <rect x="130" y="30" width="90" height="54" rx="3" fill="#1A1A1A" stroke="#3A3A3A" stroke-width="1"/><text x="175" y="52" text-anchor="middle" fill="#E8E2D9" font-size="10" font-weight="600" font-family="Space Grotesk, sans-serif">Google</text><text x="175" y="66" text-anchor="middle" fill="#E8E2D9" font-size="10" font-weight="600" font-family="Space Grotesk, sans-serif">Sheets</text><text x="175" y="78" text-anchor="middle" fill="#6B6158" font-size="8.5" font-family="Source Serif 4, serif" font-style="italic">Rohdaten</text>
-          <line x1="221" y1="57" x2="258" y2="57" stroke="#6B6158" stroke-width="1" marker-end="url(#arr)"/>
-          <rect x="260" y="30" width="90" height="54" rx="3" fill="#1A1A1A" stroke="#3A3A3A" stroke-width="1"/><text x="305" y="52" text-anchor="middle" fill="#E8E2D9" font-size="10" font-weight="600" font-family="Space Grotesk, sans-serif">Hypo-</text><text x="305" y="66" text-anchor="middle" fill="#E8E2D9" font-size="10" font-weight="600" font-family="Space Grotesk, sans-serif">Dashboard</text><text x="305" y="78" text-anchor="middle" fill="#6B6158" font-size="8.5" font-family="Source Serif 4, serif" font-style="italic">Scoring</text>
-          <line x1="351" y1="57" x2="388" y2="57" stroke="#C4421A" stroke-width="1.2" marker-end="url(#arr-e)"/><text x="370" y="48" text-anchor="middle" fill="#6B6158" font-size="8" font-family="JetBrains Mono, monospace">auto</text>
-          <rect x="390" y="30" width="90" height="54" rx="3" fill="#1A1A1A" stroke="#C4421A" stroke-width="1.2"/><text x="435" y="52" text-anchor="middle" fill="#E8E2D9" font-size="10" font-weight="600" font-family="Space Grotesk, sans-serif">Linear</text><text x="435" y="66" text-anchor="middle" fill="#C4421A" font-size="10" font-weight="600" font-family="Space Grotesk, sans-serif">MOM-56</text><text x="435" y="78" text-anchor="middle" fill="#6B6158" font-size="8.5" font-family="Source Serif 4, serif" font-style="italic">Live-Update</text>
-          <line x1="0" y1="104" x2="480" y2="104" stroke="#3A3A3A" stroke-width="0.6"/>
-          <text x="0" y="124" fill="#6B6158" font-size="9.5" font-family="JetBrains Mono, monospace" letter-spacing="0.1em">HYPOTHESEN-SCORES · ECHTZEIT</text>
-          <rect x="0" y="138" width="100" height="52" rx="3" fill="#1A1A1A" stroke="#3A3A3A" stroke-width="0.8"/><text x="50" y="157" text-anchor="middle" fill="#9C9489" font-size="8.5" font-family="JetBrains Mono, monospace">H·01</text><text x="50" y="172" text-anchor="middle" fill="#E8E2D9" font-size="11" font-weight="600" font-family="Space Grotesk, sans-serif">3.72</text><text x="50" y="184" text-anchor="middle" fill="#C4421A" font-size="14">✓</text>
-          <rect x="126" y="138" width="100" height="52" rx="3" fill="#1A1A1A" stroke="#3A3A3A" stroke-width="0.8"/><text x="176" y="157" text-anchor="middle" fill="#9C9489" font-size="8.5" font-family="JetBrains Mono, monospace">H·02</text><text x="176" y="172" text-anchor="middle" fill="#E8E2D9" font-size="11" font-weight="600" font-family="Space Grotesk, sans-serif">3.81</text><text x="176" y="184" text-anchor="middle" fill="#C4421A" font-size="14">✓</text>
-          <rect x="252" y="138" width="100" height="52" rx="3" fill="#1A1A1A" stroke="#3A3A3A" stroke-width="0.8"/><text x="302" y="157" text-anchor="middle" fill="#9C9489" font-size="8.5" font-family="JetBrains Mono, monospace">H·05</text><text x="302" y="172" text-anchor="middle" fill="#E8E2D9" font-size="11" font-weight="600" font-family="Space Grotesk, sans-serif">2.94</text><text x="302" y="184" text-anchor="middle" fill="#D4652E" font-size="14">~</text>
-          <rect x="378" y="138" width="100" height="52" rx="3" fill="#1A1A1A" stroke="#3A3A3A" stroke-width="0.8"/><text x="428" y="157" text-anchor="middle" fill="#9C9489" font-size="8.5" font-family="JetBrains Mono, monospace">H·06</text><text x="428" y="172" text-anchor="middle" fill="#E8E2D9" font-size="11" font-weight="600" font-family="Space Grotesk, sans-serif">3.55</text><text x="428" y="184" text-anchor="middle" fill="#C4421A" font-size="14">✓</text>
-          <text x="0" y="222" fill="#6B6158" font-size="9" font-family="Source Serif 4, serif" font-style="italic">≥ 3.50 = bestätigt  ·  2.50–3.49 = offen  ·  &lt; 2.50 = widerlegt</text>
-          <text x="0" y="240" fill="#6B6158" font-size="9" font-family="JetBrains Mono, monospace" letter-spacing="0.04em">Google Apps Script sendet Update bei jeder neuen Antwort</text>
-        </svg>
-      </div>
-      <div class="chapter-text">
-        <div class="chapter-step">04 · Erproben</div>
-        <h3>AI als Sparringspartner - nicht als Abkürzung</h3>
-        <p>Momance wurde nicht von AI gebaut. Mit AI gedacht. Jede Entscheidung entstand im Dialog - <span class="highlight">AI als Gegenüber, das hinterfragt und spiegelt, nicht als Generator.</span></p>
-        <p>Parallel: eine Nutzerbefragung mit Echtzeit-Auswertung. Jede neue Antwort berechnete automatisch die Hypothesen-Scores und postete ein Update in Linear. Messen war kein Schritt am Ende - es war Teil der Infrastruktur.</p>
-        <div class="process-callout">
-          <div class="process-label">→ Prozess · Schritt 04 · Erproben</div>
-          <p>Den Wert von AI als Denkpartner spürt man erst, wenn man aufgehört hat, ihn als Werkzeug zu behandeln.</p>
-        </div>
-      </div>
-    </div>
-      <div class="beleg-reihe fade-in">
-        <div class="beleg beleg-leer">
-          <span class="was">Platz für einen Beleg</span>
-          <p>Das Erproben auf dem Gerät. Denkbar: der erste Build in TestFlight oder eine Seite aus dem Rückmeldebogen der Testenden.</p>
-        </div>
-      </div>
-  </section>
-
-  <!-- PANEL 8: 05 LEBEN -->
-  <section class="panel panel-dark" id="leben" aria-label="Schritt 05: Leben">
-    <div class="leben-layout fade-in">
-      <div class="leben-text">
-        <div class="chapter-step">05 · Leben</div>
-        <h3>Was der Prototyp beweist. Und was noch offen ist.</h3>
-        <p>Momance ist ein funktionierender Prototyp in aktiver Entwicklung. Die Hypothese trägt: <span class="highlight">Das Build-to-Delete-Prinzip funktioniert als Designkompass - es macht Entscheidungen klarer, nicht schwerer.</span></p>
-        <p>Was noch offen ist: ob Nutzer den Unterschied spüren. Ob vier Dimensionen die richtige Granularität sind. Das beantwortet Phase 2.</p>
-        <div class="process-callout">
-          <div class="process-label">→ Prozess · Schritt 05 · Leben</div>
-          <p>"Leben" heißt nicht fertig. Es heißt: die nächsten Fragen können jetzt selbst gestellt werden.</p>
-        </div>
-      </div>
-
-      <div class="screens-row fade-in fade-in-delay" role="list" aria-label="App-Screen-Platzhalter">
-        <div class="screen-frame" role="listitem">
-          <svg viewBox="0 0 160 300" xmlns="http://www.w3.org/2000/svg" aria-label="Platzhalter: Onboarding">
-            <rect x="4" y="4" width="152" height="292" rx="18" fill="#1A1A1A" stroke="#3A3A3A" stroke-width="1.5"/><rect x="10" y="28" width="140" height="248" rx="4" fill="#0D0D0D"/><rect x="10" y="28" width="140" height="18" rx="4" fill="#151515"/><rect x="55" y="28" width="50" height="10" rx="5" fill="#1A1A1A"/><rect x="60" y="284" width="40" height="4" rx="2" fill="#3A3A3A"/>
-            <text x="80" y="130" text-anchor="middle" fill="#3A3A3A" font-size="28" font-weight="700" font-family="Space Grotesk, sans-serif">M</text><rect x="30" y="148" width="100" height="6" rx="3" fill="#2A2A2A"/><rect x="45" y="162" width="70" height="5" rx="2.5" fill="#222222"/><rect x="35" y="200" width="90" height="28" rx="4" fill="#222222" stroke="#3A3A3A" stroke-width="1"/><text x="80" y="219" text-anchor="middle" fill="#6B6158" font-size="9" font-family="Space Grotesk, sans-serif">App Screen</text>
-          </svg>
-          <div class="screen-label">Onboarding</div>
-        </div>
-        <div class="screen-frame" role="listitem">
-          <svg viewBox="0 0 160 300" xmlns="http://www.w3.org/2000/svg" aria-label="Platzhalter: Moment erfassen">
-            <rect x="4" y="4" width="152" height="292" rx="18" fill="#1A1A1A" stroke="#C4421A" stroke-width="1.5"/><rect x="10" y="28" width="140" height="248" rx="4" fill="#0D0D0D"/><rect x="10" y="28" width="140" height="18" rx="4" fill="#151515"/><rect x="55" y="28" width="50" height="10" rx="5" fill="#1A1A1A"/><rect x="60" y="284" width="40" height="4" rx="2" fill="#3A3A3A"/>
-            <rect x="20" y="60" width="120" height="80" rx="6" fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1"/><text x="80" y="105" text-anchor="middle" fill="#3A3A3A" font-size="9" font-family="Source Serif 4, serif" font-style="italic">App Screen</text><rect x="20" y="158" width="120" height="8" rx="4" fill="#2A2A2A"/><rect x="20" y="174" width="85" height="6" rx="3" fill="#222222"/><circle cx="80" cy="230" r="20" fill="#1A1A1A" stroke="#C4421A" stroke-width="1.5"/><text x="80" y="234" text-anchor="middle" fill="#C4421A" font-size="14">+</text>
-          </svg>
-          <div class="screen-label">Moment erfassen</div>
-        </div>
-        <div class="screen-frame" role="listitem">
-          <svg viewBox="0 0 160 300" xmlns="http://www.w3.org/2000/svg" aria-label="Platzhalter: Dimensionsprofil">
-            <rect x="4" y="4" width="152" height="292" rx="18" fill="#1A1A1A" stroke="#3A3A3A" stroke-width="1.5"/><rect x="10" y="28" width="140" height="248" rx="4" fill="#0D0D0D"/><rect x="10" y="28" width="140" height="18" rx="4" fill="#151515"/><rect x="55" y="28" width="50" height="10" rx="5" fill="#1A1A1A"/><rect x="60" y="284" width="40" height="4" rx="2" fill="#3A3A3A"/>
-            <circle cx="80" cy="145" r="55" fill="none" stroke="#222222" stroke-width="0.8"/><circle cx="80" cy="145" r="35" fill="none" stroke="#222222" stroke-width="0.6"/><circle cx="80" cy="145" r="15" fill="none" stroke="#222222" stroke-width="0.5"/><line x1="80" y1="90" x2="80" y2="200" stroke="#2A2A2A" stroke-width="0.8"/><line x1="25" y1="145" x2="135" y2="145" stroke="#2A2A2A" stroke-width="0.8"/><polygon points="80,110 107,145 80,168 53,145" fill="rgba(196,66,26,0.2)" stroke="#C4421A" stroke-width="1"/><text x="80" y="222" text-anchor="middle" fill="#3A3A3A" font-size="8" font-family="JetBrains Mono, monospace">App Screen</text>
-          </svg>
-          <div class="screen-label">Dimensionsprofil</div>
-        </div>
-      </div>
-    </div>
-      <div class="beleg-reihe fade-in">
-        <figure class="beleg">
-          <img src="/bilder/momance/beleg-store.webp" alt="Simulation des App-Store-Eintrags: die Suchergebnisliste und die Detailansicht von Momance nebeneinander, beide im Dunkelmodus." loading="lazy" decoding="async" />
-          <figcaption>Der Auftritt im Store wurde simuliert, bevor es ihn gab. Der Name ist am 11. April 2026 daraus entschieden worden.</figcaption>
-        </figure>
-      </div>
   </section>
 
 </AntipolLayout>
 
 <style>
-  /* === SCROLL SNAP === */
-  html { scroll-snap-type: y proximity; }
-
-  /* === PANELS === */
+  /* === PANEL === */
   .panel {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 6rem 4rem 4rem;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 7rem 4rem 5rem;
     position: relative;
-    scroll-snap-align: start;
   }
-
   .panel-dark { background: var(--color-bg); }
-  .panel-mid { background: var(--color-surface); border-bottom: 1px solid rgba(58,58,58,0.4); }
-
+  .panel-mid { background: var(--color-surface); border-top: 1px solid rgba(58,58,58,0.4); }
   @media (max-width: 768px) {
-    .panel { padding: 5rem 1.5rem 3rem; }
+    .panel { min-height: auto; padding: 5rem 1.5rem 3.5rem; }
   }
 
+  /* === CONTAINER === */
+  .container { width: 100%; max-width: 1100px; margin: 0 auto; }
+  .container.mit-bild {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4.5rem; align-items: center;
+  }
+  @media (max-width: 900px) {
+    .container.mit-bild { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+
+  /* === TYPOGRAFIE === */
   .section-label {
     font-family: var(--font-mono);
     font-size: var(--size-label); letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--color-primary-accessible); margin-bottom: 1.5rem;
+    color: var(--color-primary-accessible); margin-bottom: 1.2rem;
   }
-
-  .tm { font-size: 0.55em; vertical-align: super; color: var(--color-text-muted); font-weight: 400; }
-
-  /* === SCROLL DOTS === */
-  .scroll-dots { position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%); z-index: 90; display: flex; flex-direction: column; gap: 0.75rem; align-items: center; }
-  .scroll-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-border); border: none; padding: 0; cursor: pointer; transition: background 0.3s ease, transform 0.3s ease; }
-  .scroll-dot:hover { background: var(--color-text-muted); transform: scale(1.3); }
-  .scroll-dot.active { background: var(--color-primary); transform: scale(1.3); }
-  @media (max-width: 768px) { .scroll-dots { right: 0.75rem; gap: 0.6rem; } .scroll-dot { width: 6px; height: 6px; } }
-
-  /* === HERO === */
-  .hero-content { max-width: 760px; }
-  .hero-content h1 { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; color: var(--color-text-pure); margin-bottom: 1.5rem; }
-  .hero-content .intro { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); max-width: 560px; margin-bottom: 1.5rem; }
-  .hero-content .why-line { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); max-width: 560px; }
-  .hero-content .why-line a { color: var(--color-primary-accessible); text-decoration: none; border-bottom: 1px solid rgba(224,122,66,0.3); transition: border-color 0.2s; }
-  .hero-content .why-line a:hover { border-bottom-color: rgba(224,122,66,0.7); text-decoration: none; }
-
-  /* === INTRO PANEL === */
-  .intro-panel { align-items: center; text-align: center; }
-  .intro-panel .exp-number-bg { font-family: var(--font-display); font-size: clamp(6rem, 15vw, 12rem); font-weight: 700; letter-spacing: -0.05em; color: rgba(58,58,58,0.25); line-height: 1; margin-bottom: -0.3em; user-select: none; }
-  .intro-panel .exp-label { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-text-label); margin-bottom: 0.5rem; }
-  .intro-panel h2 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 600; letter-spacing: -0.03em; color: var(--color-text-pure); margin-bottom: 1rem; }
-  .intro-panel .oneliner { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); font-style: italic; max-width: 540px; margin: 0 auto 2rem; }
-  .meta-row { display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem; }
-  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
-  .meta-label { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-label); }
-  .meta-value { font-family: var(--font-display); font-size: var(--size-ui); font-weight: 500; color: var(--color-text); }
-  .meta-value a { color: var(--color-primary-accessible); text-decoration: none; transition: color 0.2s; }
-  .meta-value a:hover { color: var(--color-text); text-decoration: none; }
-
-  /* === CHAPTER LAYOUTS === */
-  .chapter-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; width: 100%; max-width: 1100px; }
-  .chapter-layout.alt .chapter-text { order: 2; }
-  .chapter-layout.alt .chapter-visual { order: 1; }
-  @media (max-width: 900px) { .chapter-layout { grid-template-columns: 1fr; gap: 2.5rem; } .chapter-layout.alt .chapter-text { order: 1; } .chapter-layout.alt .chapter-visual { order: 2; } }
-
-  .chapter-step { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.15em; color: var(--color-primary); margin-bottom: 0.5rem; }
-  .chapter-text h3 { font-family: var(--font-display); font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 600; letter-spacing: -0.02em; color: var(--color-text-pure); margin-bottom: 1rem; }
-  .chapter-text p { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); margin-bottom: 0.8rem; }
-  .chapter-text p:last-of-type { margin-bottom: 0; }
-  .chapter-text .highlight { color: var(--color-text-light); }
-
-  .process-callout { margin-top: 1.5rem; padding: 1.1rem 1.4rem; border-left: 2px solid var(--color-primary); background: rgba(26, 26, 26, 0.6); }
-  .process-label { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-primary); margin-bottom: 0.4rem; }
-  .process-callout p { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); margin-bottom: 0 !important; }
-
-  .chapter-visual { display: flex; justify-content: center; align-items: center; }
-  /* ---------- Belege (15.08.2026) ----------
-     Bis hierher zeigte die Seite Diagramme: gezeichnete Erklaerungen dessen,
-     was passiert ist. Was fehlte, war das Material selbst. Ein Diagramm ueber
-     44 dokumentierte Entscheidungen behauptet, dass dokumentiert wurde; ein
-     Ausschnitt aus der Entscheidungsdatei zeigt es. Die Belege stehen deshalb
-     unter dem jeweiligen Kapitel und nicht daneben: Erst die Erklaerung, dann
-     der Beleg, in dieser Reihenfolge liest man auch eine Fussnote.
-
-     Zwei Zustaende: gefuellt und leer. Die leeren sind keine Luecken, sondern
-     Aushandlungsplaetze; sie benennen, was dort hingehoert, damit man darueber
-     reden kann, statt es zu vergessen. */
-  .beleg-reihe {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.4rem;
-    width: 100%;
-    max-width: 1100px;
-    margin-top: 3rem;
-  }
-  .beleg {
-    margin: 0;
-  }
-  .beleg img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    background: var(--color-surface);
-  }
-  .beleg figcaption {
-    font-size: var(--size-ui);
-    line-height: var(--line-height-copy);
-    color: var(--color-text-label);
-    margin-top: 0.7rem;
-  }
-  /* Der leere Platz sieht bewusst nach Platz aus und nicht nach Fehler:
-     gestrichelt, ohne Flaeche, mit der Frage darin, was hier hingehoert. */
-  .beleg-leer {
-    border: 1px dashed var(--color-border);
-    border-radius: 6px;
-    aspect-ratio: 4 / 3;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 1.4rem;
-    text-align: left;
-  }
-  .beleg-leer .was {
-    font-family: var(--font-mono);
-    font-size: var(--size-label);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-primary-accessible);
-  }
-  .beleg-leer p {
-    font-size: var(--size-ui);
-    line-height: var(--line-height-copy);
-    color: var(--color-text-label);
-    margin: 0;
-  }
-
-  .chapter-visual svg { max-width: 100%; height: auto; }
-  svg text { font-family: var(--font-display); }
-
-  /* === LEBEN LAYOUT === */
-  .leben-layout { width: 100%; max-width: 1000px; }
-  .leben-text { margin-bottom: 3rem; max-width: 560px; }
-  .leben-text h3 { font-family: var(--font-display); font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 600; letter-spacing: -0.02em; color: var(--color-text-pure); margin-bottom: 1rem; }
-  .leben-text p { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); margin-bottom: 0.8rem; }
-  .leben-text .highlight { color: var(--color-text-light); }
-
-  .screens-row { display: flex; gap: 2rem; align-items: flex-end; }
-  .screen-frame { flex: 1; max-width: 180px; }
-  .screen-frame svg { width: 100%; height: auto; }
-  .screen-label { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-label); text-align: center; margin-top: 0.75rem; }
-  @media (max-width: 600px) { .screens-row { gap: 1rem; } .screen-frame { max-width: 120px; } }
-
   .zurueck { color: inherit; text-decoration: none; border-bottom: 1px solid var(--color-text-label); }
   .zurueck:hover { color: var(--color-primary-light); border-bottom-color: var(--color-primary-light); }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 600;
+    letter-spacing: -0.03em; line-height: 1.05;
+    color: var(--color-text-pure); margin: 0 0 0.6rem;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 600;
+    letter-spacing: -0.025em; line-height: 1.15;
+    color: var(--color-text-pure); margin: 0 0 2.4rem;
+  }
+  .einzeiler {
+    font-family: var(--font-display); font-size: clamp(1.05rem, 2vw, 1.25rem);
+    font-weight: 500; color: var(--color-primary-accessible);
+    margin: 0 0 1.4rem; letter-spacing: -0.01em;
+  }
+  .spalte-text p {
+    font-size: var(--size-copy); color: var(--color-text-muted);
+    line-height: var(--line-height-copy); margin: 0 0 0.9rem;
+  }
+  /* Statt eines toten Knopfes: der Zustand, an derselben Stelle wie bei
+     Mantrify der Link. */
+  .zustand {
+    margin: 1.6rem 0 0 !important;
+    padding-left: 1rem; border-left: 2px solid var(--color-primary);
+    font-family: var(--font-mono) !important; font-size: var(--size-label) !important;
+    letter-spacing: 0.04em; line-height: 1.75 !important;
+    color: var(--color-text-label) !important;
+  }
+
+  /* === BILD ===
+     Der Puls kommt quer aus der Komponente; hier wird er quadratisch
+     gerahmt, damit er die rechte Haelfte fuellt. */
+  .spalte-bild { border: 1px solid var(--color-border); border-radius: 3px; overflow: hidden; }
+  .puls-quadrat :global(.puls-kachel) { aspect-ratio: 1 / 1; }
+
+  /* === HYPOTHESEN === */
+  .hypothesen { list-style: none; margin: 0; padding: 0; max-width: 860px; }
+  .hypothese {
+    display: grid; grid-template-columns: 4.6rem 1fr; gap: 0 1.4rem;
+    padding: 1.4rem 0; border-top: 1px solid var(--color-border);
+  }
+  .hypothese:last-child { border-bottom: 1px solid var(--color-border); }
+  .h-nr {
+    font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.04em;
+    line-height: 1.9; color: var(--color-text-label);
+  }
+  .h-inhalt h3 {
+    font-family: var(--font-display); font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+    font-weight: 600; letter-spacing: -0.015em;
+    color: var(--color-text-light); margin: 0 0 0.5rem; line-height: 1.3;
+  }
+  .h-inhalt p {
+    font-size: var(--size-copy); color: var(--color-text-muted);
+    line-height: var(--line-height-copy); margin: 0;
+  }
+  .luecke {
+    font-family: var(--font-mono); font-size: var(--size-label);
+    color: var(--color-text-label); margin: 1.2rem 0 0; max-width: 860px;
+  }
+  @media (max-width: 600px) {
+    .hypothese { grid-template-columns: 1fr; gap: 0.3rem; }
+    .h-nr { line-height: 1.4; }
+  }
 </style>
-
-<script>
-  // Scroll dot navigation
-  document.querySelectorAll('.scroll-dot').forEach(dot => {
-    dot.addEventListener('click', () => {
-      const target = document.getElementById((dot as HTMLElement).dataset.target!);
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-    });
-  });
-
-  const panels = document.querySelectorAll('.panel[id]');
-  const dots = document.querySelectorAll('.scroll-dot');
-
-  const dotObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        dots.forEach(d => d.classList.remove('active'));
-        const active = document.querySelector(`.scroll-dot[data-target="${entry.target.id}"]`);
-        if (active) active.classList.add('active');
-      }
-    });
-  }, { threshold: 0.4 });
-
-  panels.forEach(p => dotObserver.observe(p));
-</script>

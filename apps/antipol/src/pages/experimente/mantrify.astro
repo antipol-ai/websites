@@ -1,26 +1,30 @@
 ---
 /**
- * Detailseite Experiment 02: Mantrify.
+ * Detailseite Experiment 01: Mantrify.
  *
- * Erste Fassung vom 11.08.2026, zweite vom 12.08.2026. Die zweite schliesst
- * die Luecke, die im Kopf der ersten als To-do stand: Genese, Hypothesen,
- * Laufzeit und Schwelle. Damit ist es methodisch ein Experiment und nicht mehr
- * nur ein Prototyp mit Fallbeschreibung.
+ * Dritte Fassung vom 15.08.2026, am Launch-Tag radikal gekuerzt. Die zweite
+ * Fassung erzaehlte den kompletten Radical-Empathy-Prozess ueber sieben
+ * Kapitel; das war fuer den Live-Gang zu viel und hat die eigentliche Aussage
+ * begraben. Diese Fassung hat genau zwei Container:
  *
- * Zur Genese gibt es Regeln, die nicht verhandelbar sind und in
- * antipol/docs/experimente/mantrify-backstory.md ausformuliert stehen:
+ *   1. Was ist das Experiment, plus die Teaser-Grafik der Uebersichtsseite
+ *      und der Link zur laufenden Microsite.
+ *   2. Die Hypothesen, kurz. Ohne Bild, dafuer breiter.
+ *
+ * Das Muster kommt von der ANTIPOL-Startseite: ein Container je Aussage, er
+ * laeuft breit wenn er nur Text traegt, und wird auf die halbe Breite
+ * begrenzt sobald rechts ein Bild steht. Bilder sind deshalb quadratisch
+ * angelegt, sonst passen sie nicht in die rechte Haelfte.
+ *
+ * Was hier bewusst NICHT mehr steht: Genese, Prozessschritte, Laufzeit und
+ * Schwelle, Arbeitsweise. Der Text dazu ist nicht verloren, er steht in
+ * antipol/docs/experimente/mantrify-backstory.md und im Entscheidungs-Log.
+ * Wer die Seite spaeter wieder vertieft, holt ihn von dort und nicht aus der
+ * Erinnerung.
+ *
+ * Die Regeln zur Genese bleiben gueltig, sobald wieder davon erzaehlt wird:
  * kein Arbeitgeber, keine Branche, keine Rolle, keine Zeitangabe, die auf eine
- * Anstellung zeigt, keine private Ebene, kein Verursacher. Der Text spricht
- * deshalb vom Muster und nicht vom Fall. Pruefsatz vor jeder Zeile: Koennte
- * jemand beim Lesen erkennen, worum es konkret geht? Dann ist der Satz zu
- * konkret, egal wie gut er klingt.
- *
- * Durchgaengig "wir". Die Beobachtung ist zu zweit gemacht, nicht von einer
- * Person, und das ist fuer die Hypothese der Unterschied zwischen n=1 und n=2.
- * Beides ist wenig; die Seite sagt das auch.
- *
- * Das Triggerboard kommt vor, wird aber ausdruecklich nicht als Produkt
- * gerahmt. Es steht hier, weil ohne es der Wuerfel nicht entstanden waere.
+ * Anstellung zeigt, keine private Ebene, kein Verursacher.
  */
 import AntipolLayout from '../../layouts/AntipolLayout.astro';
 
@@ -29,265 +33,178 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
  * sich noch aendern kann. VOR DEM PUSH PRUEFEN.
  */
 const MANTRIFY = 'https://mantrify.antipol.ai';
+
+/**
+ * Die drei Hypothesen, gekuerzt aus der zweiten Fassung. Die dritte ist die
+ * eigentliche Frage; die erste ist die, bei der wir selbst befangen sind.
+ * Diese Einordnung gehoert in den Text und nicht ins Kleingedruckte.
+ */
+const hypothesen = [
+  {
+    nr: '01',
+    titel: 'Benennen verkürzt',
+    text: 'Ein Werkzeug, das den Auslöser benennt, verkürzt den Weg zurück auf die Sachebene. Geprüft haben wir das über Wochen an uns selbst, und für uns funktioniert es deutlich. Wir sind allerdings zwei Menschen, und einer davon hat das Ding gebaut. Das ist ein Grund weiterzumachen und kein Beleg.',
+  },
+  {
+    nr: '02',
+    titel: 'Der Weg zurück führt über den Humor',
+    text: 'Nicht über den guten Rat. Wer über eine Situation lachen kann, steht schon nicht mehr mittendrin. Die Kante dabei: Solange der Witz der Lage gilt, arbeitet er für den, der ihn liest. Sobald er Personen gilt, wird aus Entlastung Zynismus.',
+  },
+  {
+    nr: '03',
+    titel: 'Was für uns funktioniert, funktioniert auch für andere',
+    text: 'Das ist die eigentliche Frage und der Grund für die Microsite. Gemessen wird sie am Weitergeben, weil man dafür jemandem etwas zumuten muss: Man gibt nichts weiter, was einen selbst kaltgelassen hat.',
+  },
+];
 ---
 
-<AntipolLayout title="Mantrify - Experiment 02" description="Ein Würfel trägt einen Gedanken in fünf Stimmen. Hilft jetzt. Ändert nix." activePage="experimente">
+<AntipolLayout
+  title="Mantrify - Experiment 01"
+  description="Ein Würfel trägt ein Mantra in fünf Stimmen. Hilft jetzt. Ändert nix."
+  activePage="experimente">
 
-  <section class="panel panel-dark" id="hero" aria-label="Mantrify - Intro">
-    <div class="hero-content">
-      <div class="section-label fade-in"><a href="/experimente" class="zurueck">Experimente</a> · 02</div>
-      <h1 class="fade-in">Hilft jetzt.<br>Ändert nix.</h1>
-      <p class="intro fade-in">Ein Würfel trägt einen Gedanken in fünf Stimmen. Man dreht, bis eine davon trifft.</p>
-      <p class="why-line fade-in fade-in-delay">Das Experiment läuft seit dem 8. August 2026. Was hier steht, ist der Stand von heute und wird sich ändern.</p>
-    </div>
-  </section>
-
-  <section class="panel panel-mid intro-panel" id="mantrify" aria-label="Experiment 02: Mantrify">
-    <div class="exp-number-bg fade-in" aria-hidden="true">02</div>
-    <div class="exp-label fade-in">Experiment 02</div>
-    <h2 class="fade-in">Mantrify</h2>
-    <p class="oneliner fade-in">Ein Gadget gegen den Moment, nicht gegen das Problem.</p>
-    <div class="meta-row fade-in fade-in-delay">
-      <div class="meta-item">
-        <span class="meta-label">Typ</span>
-        <span class="meta-value">Produktexperiment, digital und physisch</span>
+  <!-- ============ CONTAINER 1: Was ist das ============ -->
+  <section class="panel panel-dark" aria-label="Mantrify - worum es geht">
+    <div class="container mit-bild">
+      <div class="spalte-text">
+        <div class="section-label fade-in">
+          <a href="/experimente" class="zurueck">Experimente</a> · 01
+        </div>
+        <h1 class="fade-in">Mantrify</h1>
+        <p class="einzeiler fade-in">Hilft jetzt. Ändert nix.</p>
+        <p class="fade-in">Ein Würfel trägt fünf Stimmen zu derselben Lage. Man dreht ihn, bis eine davon trifft. Das Ding löst nichts. Es verkürzt die halbe Stunde nach dem falschen Satz.</p>
+        <p class="fade-in">Ein Experiment von ANTIPOL, seit dem 8. August 2026 öffentlich.</p>
+        <p class="cta-zeile fade-in fade-in-delay">
+          <a class="cta" href={MANTRIFY} rel="noopener">Zum Experiment</a>
+        </p>
       </div>
-      <div class="meta-item">
-        <span class="meta-label">Zeitraum</span>
-        <span class="meta-value">Seit August 2026</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Laufzeit</span>
-        <span class="meta-value">Bis 31. Oktober 2026</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Kennzahl</span>
-        <span class="meta-value">Teilen</span>
+      <div class="spalte-bild fade-in fade-in-delay">
+        <img src="/bilder/mantrify-teaser.webp" width="1000" height="1000" loading="eager" decoding="async"
+             alt="Eine Teilen-Karte aus Mantrify: das gezeichnete Porträt des Marketing Guru, darunter sein Mantra „Ich bin hier by choice, nicht by default“ und die Zeile Mantrify, hilft jetzt, ändert nix." />
       </div>
     </div>
   </section>
 
-  <section class="panel panel-dark" aria-label="Woher es kommt">
-    <div class="text-panel">
-      <div class="section-label fade-in">Woher es kommt</div>
-      <h3 class="fade-in">Es fängt nicht mit einer Idee an</h3>
-      <p class="fade-in">Es gibt Sätze, nach denen man eine halbe Stunde nicht arbeiten kann. Der Nebensatz in der Runde, die Entscheidung über den eigenen Kopf hinweg. Selten ist der Anlass gross genug, um ihn zu verhandeln, und genau deshalb bleibt er liegen.</p>
-      <p class="fade-in">Das Problem ist nicht die Reaktion, die ist normal, sondern die Zeit danach. Der Anspruch dagegen passt in drei Worte: Resilienz, Versachlichung, Professionalität. Nicht als Ideal, sondern als Arbeitsweise unter Bedingungen, die man sich nicht ausgesucht hat.</p>
-    </div>
-  </section>
-
-  <section class="panel panel-mid" aria-label="Was daraus wurde">
-    <div class="text-panel">
-      <div class="section-label fade-in">Was daraus wurde</div>
-      <h3 class="fade-in">Zuerst ein Brett, dann ein Würfel</h3>
-      <p class="fade-in">Am Anfang stand kein Produkt, sondern ein Board für den eigenen Gebrauch: Trigger benennen, einordnen, ablegen. Es funktioniert, weil Benennen die halbe Arbeit ist, aber es kostet Aufwand, und im Moment des Triggers hat man den nicht übrig.</p>
-      <p class="fade-in">Der Würfel ist die Abkürzung: nichts sortieren, nichts eintragen, nur drehen. Gebaut haben wir beides für uns und nicht für einen Markt. Keine Bescheidenheitsformel, sondern der Grund, warum wir weitermachen.</p>
-
-      <figure class="bild fade-in">
-        <img src="/bilder/mantrify/mobil.webp" width="815" height="1400" loading="lazy" decoding="async"
-             alt="Die Microsite auf dem Telefon: oben die Marke Mantrify mit dem Claim „Hilft jetzt. Ändert nix." und den Reitern Trigger und Mantra. Darunter der Trigger „Nicht mein Zirkus", das runde Porträt der Therapeutin mit ihrem Namen, der olivfarbene Würfel mit dem Mantra „Ich trenne, was in meinem Einfluss liegt und was nicht", und ganz unten die Frage „Wem geht es gerade genauso?" über dem Knopf „Mantra teilen"." />
-      </figure>
-    </div>
-  </section>
-
-  <section class="panel panel-dark" aria-label="Was es ist">
-    <div class="text-panel">
-      <div class="section-label fade-in">Worum es geht</div>
-      <h3 class="fade-in">Löst nichts. Trägt trotzdem.</h3>
-      <p class="fade-in">Der Auslöser ist selten das eigentliche Problem, meistens ist es die Summe. Daran ändert der Würfel nichts. Er gibt ein Mantra für die nächste halbe Stunde, und manchmal reicht das, um nicht das Falsche zu tun.</p>
-      <p class="fade-in">Sechs Würfel, sechs Haltungen. Jeder trägt <strong>denselben Gedanken in fünf Tonlagen</strong>. Gedreht wird nicht, um irgendein Mantra zu bekommen, sondern um den Ton zu finden, den man an diesem Tag annehmen kann. Ein richtiges Mantra im falschen Ton wird nicht angenommen, und das weiss jeder, der schon einmal in der falschen Minute getröstet wurde.</p>
-      <p class="fade-in">Vier der fünf Stimmen kennt man aus dem Büro: die Kollegin kurz vor der Kündigung, den Entwickler, den Marketing-Guru, die Feelgood-Managerin. Die fünfte trifft man dort nicht. Dass ausgerechnet eine Therapeutin mitspricht, ist die freundlichste Unterstellung des Würfels: dass man eine hat.</p>
-
-      <figure class="bild fade-in">
-        <img src="/bilder/mantrify/ensemble.webp" width="744" height="220" loading="lazy" decoding="async"
-             alt="Fünf gezeichnete Porträts nebeneinander in runden Rahmen: eine Frau mit halblangem Haar, ein Mann mit Basecap und Bart, eine blonde Frau, eine Person mit Kopfhörern und dunklem Haar, eine Frau mit Locken und Schal. Darunter die Zeile „Ein Gedanke, fünf Tonlagen. Dreh, bis eine durchkommt."" />
-        <figcaption>Keine Ratgeber. Zu jeder Stimme gibt es einen Steckbrief, damit man weiss, warum sie so redet.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section class="panel panel-mid" aria-label="Die Kennzahl">
-    <div class="text-panel">
-      <div class="section-label fade-in">Die einzige Kennzahl</div>
-      <h3 class="fade-in">Teilen, nicht Verkaufen</h3>
-      <p class="fade-in">Von Anfang an gilt eine einzige Messgrösse: Wird es weitergegeben. Nicht Umsatz, nicht Verweildauer, nicht Wiederkehr. Das hat Folgen, die man erst merkt, wenn man sie ernst nimmt: Der Empfänger ist wichtiger als der Absender, und das Ding muss ohne Kontext funktionieren. Die wichtigste Zeile der Seite steht deshalb nicht auf dem Würfel, sondern über dem Knopf: <em>Wem geht es gerade genauso?</em></p>
-    </div>
-  </section>
-
-  <section class="panel panel-dark" aria-label="Was geprüft wird">
-    <div class="text-panel">
-      <div class="section-label fade-in">Was geprüft wird</div>
-      <h3 class="fade-in">Drei Hypothesen, eine davon unbequem</h3>
-      <p class="fade-in"><strong>Erstens:</strong> Ein Werkzeug, das den Trigger benennt, verkürzt den Weg zurück auf die Sachebene. Das haben wir über Wochen an uns selbst geprüft, und für uns funktioniert es deutlich. Genau hier liegt aber die Grenze, und sie gehört auf diese Seite und nicht ins Kleingedruckte: Wir sind zwei Menschen, und einer davon hat das Ding gebaut. Das ist ein guter Grund weiterzumachen und kein Beleg.</p>
-      <p class="fade-in"><strong>Zweitens:</strong> Der Weg zurück führt über den Humor, nicht über den guten Rat. Wer über eine Situation lachen kann, steht schon nicht mehr mittendrin. In der Dramentheorie heisst das <em>comic relief</em>; psychologisch ist es eine Neubewertung, der Versuch, dieselbe Lage anders zu lesen. Samson und Gross fanden 2012, dass das negative Gefühle messbar dämpft, dass es aber sehr darauf ankommt, welcher Humor: Gutmütiger wirkte besser als spöttischer, sofort und noch Tage später.</p>
-      <p class="fade-in">Für uns ist das kein Beleg, sondern eine Kante. Unsere Mantras sind ironisch, einige bissig. Solange der Witz der Situation gilt, arbeitet er für den, der ihn liest. Sobald er Personen gilt, wird aus Entlastung Zynismus, und der fühlt sich kurz gut an und lässt einen stehen, wo man war. Diese Grenze verläuft mitten durch unsere eigenen Mantras.</p>
-      <p class="fade-in"><strong>Drittens:</strong> Was für uns funktioniert, funktioniert auch für andere. Das ist die eigentliche Frage und der Grund für die Microsite. Gemessen wird sie am Teilen, weil man dafür jemandem etwas zumuten muss: Man gibt nichts weiter, was einen selbst kaltgelassen hat.</p>
-
-      <figure class="bild fade-in">
-        <img src="/bilder/mantrify/leporello.webp" width="1100" height="1100" loading="lazy" decoding="async"
-             alt="Entwurf des physischen Produkts: die geöffnete Schachtel mit fünf farbigen Würfeln, davor ein einzelner blauer Würfel mit dem Mantra „Ich bleib freiwillig" und ein aufgestelltes Faltblatt, auf dem die fünf gezeichneten Porträts in runden Feldern stehen." />
-        <figcaption>Die Beilage stellt die fünf Stimmen vor.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section class="panel panel-mid" aria-label="Laufzeit und Schwelle">
-    <div class="text-panel">
-      <div class="section-label fade-in">Laufzeit und Schwelle</div>
-      <h3 class="fade-in">Vorher festgelegt, damit es hinterher zählt</h3>
-      <p class="fade-in">Ein Experiment ohne Enddatum läuft ewig, und ohne vorher festgelegte Schwelle liest man hinterher jedes Ergebnis als Bestätigung. Deshalb steht beides hier, bevor die Zahlen da sind. <strong>Laufzeit:</strong> bis zum 31. Oktober 2026. <strong>Mindestmenge:</strong> zweihundert Menschen, die den Würfel wenigstens einmal drehen; darunter wird nicht ausgewertet, weil jede Quote auf kleiner Basis Zufall ist.</p>
-      <p class="fade-in"><strong>Schwelle:</strong> Die Hypothese gilt als gestützt, wenn jeder Zehnte davon ein Mantra weitergibt. Kommen keine zweihundert zusammen, ist nicht die Idee widerlegt, sondern die Reichweite fehlt. Das ist ein Unterschied, und wir werden ihn benennen statt ihn zu verwechseln.</p>
-    </div>
-  </section>
-
-  <section class="panel panel-dark" aria-label="Wie gearbeitet wird">
-    <div class="text-panel">
-      <div class="section-label fade-in">Wie gearbeitet wird</div>
-      <h3 class="fade-in">Jede Entscheidung wird mitgeschrieben</h3>
-      <p class="fade-in">Parallel zum Bauen läuft ein Entscheidungs-Log, inzwischen über dreihundert Einträge, mit dem Verworfenen und den Irrtümern darin: dass fünf von elf Farbwerten die Kontrastprüfung nicht bestanden, weil Dekorfarben für Text verwendet wurden. Dass die Wortmarke auf dem Würfel einfarbig weiss wurde, weil zweifarbiger Druck auf vier Zentimetern zwei Durchgänge und eine Passermarke bedeutet. Solche Sätze stehen normalerweise in keiner Fallstudie.</p>
-    </div>
-  </section>
-
-  <section class="panel panel-mid" aria-label="Was offen ist">
-    <div class="text-panel">
-      <div class="section-label fade-in">Was offen ist</div>
-      <h3 class="fade-in">Ehrlich unfertig</h3>
-      <p class="fade-in">Die Produktbilder sind Entwürfe und keine Fotos. Woraus die Würfel am Ende sind, ist offen, und ob es sie überhaupt geben wird, entscheidet dieses Experiment. Genau deshalb ist es eines und keine Ankündigung.</p>
-      <figure class="bild fade-in">
-        <img src="/bilder/mantrify/produkt-schachtel.webp" width="1000" height="1000" loading="lazy" decoding="async"
-             alt="Entwurf der geöffneten Schachtel: sechs Würfel in zwei Reihen, jeder in einer anderen Farbe, auf jeder Oberseite steht das Mantra dieses Würfels." />
-        <figcaption>Entwurf, kein Foto. Die Mantras sind nachträglich aufgesetzt, damit sie unserer Typografie folgen.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section class="panel panel-dark" aria-label="Selbst ausprobieren">
-    <div class="text-panel">
-      <div class="section-label fade-in">Selbst ausprobieren</div>
-      <h3 class="fade-in">Der Würfel steht drüben</h3>
-      <figure class="bild bild-oben fade-in">
-        <img src="/bilder/mantrify/produkt-tisch.webp" width="1200" height="632" loading="lazy" decoding="async"
-             alt="Ein blauer Würfel steht auf einem Schreibtisch vor einem Monitor, auf der Vorderseite steht „Ich bleib freiwillig", dahinter die geöffnete Schachtel mit den übrigen Würfeln." />
-      </figure>
-      <p class="fade-in">Am schnellsten versteht man es, indem man dreht. Die Microsite braucht keine Anmeldung, setzt keine Cookies und will nichts verkaufen.</p>
-      <p class="fade-in"><a class="cta" href={MANTRIFY}>Zu Mantrify</a></p>
+  <!-- ============ CONTAINER 2: Hypothesen ============ -->
+  <section class="panel panel-mid" aria-label="Was geprüft wird">
+    <div class="container">
+      <div class="section-label fade-in">Was wir prüfen</div>
+      <h2 class="fade-in">Drei Hypothesen, eine davon unbequem</h2>
+      <ol class="hypothesen" role="list">
+        {hypothesen.map((h) => (
+          <li class="hypothese fade-in">
+            <span class="h-nr" aria-hidden="true">{h.nr}</span>
+            <div class="h-inhalt">
+              <h3>{h.titel}</h3>
+              <p>{h.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
 </AntipolLayout>
 
 <style>
+  /* === PANEL === */
   .panel {
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: clamp(4rem, 10vh, 8rem) 2rem;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 7rem 4rem 5rem;
+    position: relative;
   }
   .panel-dark { background: var(--color-bg); }
-  .panel-mid { background: var(--color-bg-mid, #131313); }
+  .panel-mid { background: var(--color-surface); border-top: 1px solid rgba(58,58,58,0.4); }
+  @media (max-width: 768px) {
+    .panel { min-height: auto; padding: 5rem 1.5rem 3.5rem; }
+  }
 
-  .hero-content, .text-panel { max-width: 46rem; margin: 0 auto; }
+  /* === CONTAINER ===
+     Nur Text: laeuft breit. Mit Bild: zwei Spalten, Text links.
+     Das ist das Muster der Startseite, hier als echtes Grid statt als
+     max-width-Begrenzung, weil rechts ein Bild steht und keine Textur. */
+  .container { width: 100%; max-width: 1100px; margin: 0 auto; }
+  .container.mit-bild {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4.5rem; align-items: center;
+  }
+  @media (max-width: 900px) {
+    .container.mit-bild { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
 
+  /* === TYPOGRAFIE === */
   .section-label {
     font-family: var(--font-mono);
-    font-size: var(--size-label);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--color-text-label);
-    margin-bottom: 1.5rem;
+    font-size: var(--size-label); letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--color-primary-accessible); margin-bottom: 1.2rem;
   }
-
-  h1 {
-    font-family: var(--font-display);
-    font-size: clamp(2.4rem, 6vw, 4.4rem);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-    margin: 0 0 1.5rem;
-  }
-
-  h2 {
-    font-family: var(--font-display);
-    font-size: clamp(2.2rem, 5vw, 3.6rem);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    margin: 0.5rem 0 1rem;
-  }
-
-  h3 {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3.2vw, 2.2rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    margin: 0 0 1.2rem;
-  }
-
-  .intro { font-size: var(--size-copy); line-height: var(--line-height-copy); color: var(--color-text-muted); max-width: 34rem; }
-  .why-line { font-size: var(--size-copy); line-height: var(--line-height-copy); color: var(--color-text-muted); max-width: 36rem; margin-top: 1.5rem; }
-  .oneliner { font-size: var(--size-copy); line-height: var(--line-height-copy); color: var(--color-text-muted); max-width: 34rem; }
-  .text-panel p { font-family: var(--font-body); font-size: var(--size-copy); line-height: var(--line-height-copy); color: var(--color-text-muted); margin: 0 0 1.1rem; }
-  .text-panel em { color: var(--color-text-light); font-style: italic; }
-  /* Hervorhebungen tragen die Gliederung der Hypothesen und muessen deshalb
-     heller sein als der Fliesstext, nicht nur fetter. */
-  .text-panel strong { color: var(--color-text-light); font-weight: 600; }
-
-  .intro-panel { position: relative; flex-direction: column; align-items: flex-start; max-width: 100%; }
-  .intro-panel > * { max-width: 46rem; margin-left: auto; margin-right: auto; width: 100%; }
-
-  .exp-number-bg {
-    position: absolute;
-    top: 12vh; right: 4vw;
-    font-family: var(--font-display);
-    font-size: clamp(6rem, 15vw, 12rem);
-    font-weight: 700;
-    color: rgba(255,255,255,0.03);
-    line-height: 1;
-    pointer-events: none;
-  }
-
-  .exp-label { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-text-label); }
-
-  .meta-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border, #2A2A2A); }
-  .meta-item { display: flex; flex-direction: column; gap: 0.35rem; }
-  .meta-label { font-family: var(--font-mono); font-size: var(--size-label); letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-text-label); }
-  .meta-value { font-family: var(--font-body); font-size: var(--size-ui); color: var(--color-text-muted); }
-
-  /* Bilder in der Fallstudie. width und height stehen als Attribute am img,
-     damit beim Laden nichts springt; height:auto ist dann Pflicht, sonst gilt
-     die Attributhoehe als CSS-Hoehe und das Bild wird verzerrt. */
-  .bild { margin: 2.2rem 0 1.8rem; }
-  .bild.bild-oben { margin: 1.6rem 0 1.8rem; }
-  .bild img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 14px;
-    background: var(--color-surface);
-  }
-  .bild figcaption {
-    font-family: var(--font-body);
-    font-size: var(--size-ui);
-    line-height: 1.5;
-    color: var(--color-text-label);
-    margin-top: 0.7rem;
-  }
-
   .zurueck { color: inherit; text-decoration: none; border-bottom: 1px solid var(--color-text-label); }
   .zurueck:hover { color: var(--color-primary-light); border-bottom-color: var(--color-primary-light); }
 
-  /* Der einzige Knopf der Seite. Umriss statt Flaeche, wie auf der Microsite,
-     damit die beiden Seiten als dasselbe Projekt lesbar sind. */
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 600;
+    letter-spacing: -0.03em; line-height: 1.05;
+    color: var(--color-text-pure); margin: 0 0 0.6rem;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 600;
+    letter-spacing: -0.025em; line-height: 1.15;
+    color: var(--color-text-pure); margin: 0 0 2.4rem;
+  }
+  .einzeiler {
+    font-family: var(--font-display); font-size: clamp(1.05rem, 2vw, 1.25rem);
+    font-weight: 500; color: var(--color-primary-accessible);
+    margin: 0 0 1.4rem; letter-spacing: -0.01em;
+  }
+  .spalte-text p {
+    font-size: var(--size-copy); color: var(--color-text-muted);
+    line-height: var(--line-height-copy); margin: 0 0 0.9rem;
+  }
+
+  /* === LINK ZUM EXPERIMENT === */
+  .cta-zeile { margin: 1.8rem 0 0 !important; }
   .cta {
     display: inline-block;
-    padding: 0.9rem 1.6rem;
-    min-height: 48px;
-    border: 1px solid var(--color-primary-accessible);
-    border-radius: 11px;
-    color: var(--color-primary-accessible);
-    font-family: var(--font-display);
-    font-size: var(--size-copy);
-    text-decoration: none;
-    transition: background 0.15s ease, color 0.15s ease;
+    font-family: var(--font-display); font-size: var(--size-copy); font-weight: 500;
+    color: var(--color-text); background: var(--color-primary);
+    text-decoration: none; padding: 0.85rem 2rem; border-radius: 4px;
+    transition: background 0.3s ease;
   }
-  .cta:hover { background: rgba(196, 66, 26, 0.14); }
+  .cta:hover { background: var(--color-primary-deep); text-decoration: none; }
+
+  /* === BILD ===
+     Quadratisch, damit es die rechte Haelfte fuellt ohne Luft zu lassen. */
+  .spalte-bild img {
+    display: block; width: 100%; height: auto; aspect-ratio: 1 / 1;
+    object-fit: cover; border: 1px solid var(--color-border); border-radius: 3px;
+  }
+
+  /* === HYPOTHESEN === */
+  .hypothesen { list-style: none; margin: 0; padding: 0; max-width: 860px; }
+  .hypothese {
+    display: grid; grid-template-columns: 3.4rem 1fr; gap: 0 1.4rem;
+    padding: 1.5rem 0; border-top: 1px solid var(--color-border);
+  }
+  .hypothese:last-child { border-bottom: 1px solid var(--color-border); }
+  .h-nr {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 1.6rem; line-height: 1.1; letter-spacing: -0.04em;
+    color: var(--color-border);
+  }
+  .h-inhalt h3 {
+    font-family: var(--font-display); font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+    font-weight: 600; letter-spacing: -0.015em;
+    color: var(--color-text-light); margin: 0 0 0.5rem; line-height: 1.3;
+  }
+  .h-inhalt p {
+    font-size: var(--size-copy); color: var(--color-text-muted);
+    line-height: var(--line-height-copy); margin: 0;
+  }
+  @media (max-width: 600px) {
+    .hypothese { grid-template-columns: 2.6rem 1fr; gap: 0 1rem; }
+    .h-nr { font-size: 1.25rem; }
+  }
 </style>
