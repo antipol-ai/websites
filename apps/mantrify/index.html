@@ -1575,6 +1575,16 @@ window.addEventListener("error", function(e){
     var i=faceIndex(), m=byId[state.mantra], v=VOICES[i];
     document.getElementById("innen").classList.toggle("titel", i===5);
     zeigeSprecher();
+    /* Der Teilen-Knopf gehoert seit dem 15.08.2026 hierher (MC·333). Vorher
+       stand er nur in goTo() und enter(), also in den Pfaden, die eine Flaeche
+       ansteuern. Wer den Wuerfel dagegen mit der Hand drehte, lief ueber up()
+       und settle() und damit an teilenText() vorbei: Der Sprecher wechselte,
+       der Knopf blieb gesperrt. Sichtbar wurde es beim Einstieg ueber einen
+       Trigger, weil dort die Titelflaeche vorn steht und der Knopf deshalb
+       zu Recht gesperrt startet. Wer vor der Selbstdrehung nach acht Sekunden
+       selbst drehte, konnte nicht teilen. sync() ist die Stelle, an der die
+       Oberflaeche mit state.M abgeglichen wird; der Knopf ist Teil davon. */
+    teilenText(i);
     document.getElementById("srtext").textContent =
       m.name+", "+(v?v.label:"Titel")+": "+(v?m.f[v.key]:m.name);
     writeURL();
@@ -1750,6 +1760,10 @@ window.addEventListener("error", function(e){
     }
     var i=POS.indexOf(frontFace(state.M));
     state.M = (i<0) ? nearestRest(state.M) : restForIndex(i);
+    /* Ohne diese Zeile faellt die Freigabe erst mit dem sync() 390 ms nach dem
+       Einrasten. Das ist kurz, aber es ist genau der Moment, in dem die Hand
+       schon zum Knopf unterwegs ist. */
+    teilenText();
     settle();
   }
   stage.addEventListener("mousedown",down); window.addEventListener("mousemove",move); window.addEventListener("mouseup",up);
