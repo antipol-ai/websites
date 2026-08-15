@@ -147,7 +147,15 @@ button{font:inherit;color:inherit}
 }
 
 /* ---------- Ansichten ---------- */
-.view{display:none;padding:1.3rem var(--pad) 2.4rem;max-width:46rem;margin:0 auto}
+/* Unten knapper als oben, und das ist Absicht (15.08.2026, MC·326): Auf kurzen
+   Telefonen stand die Ueberschrift des ersten Abschnitts genau unter der Falz. Wer
+   nach dem Drehen nichts mehr sieht, haelt die Seite fuer zu Ende. Jetzt ragt sie
+   ein Stueck ins Bild und zeigt damit, dass es weitergeht. Gemessen beim iPhone SE
+   mit 667 Pixeln Fensterhoehe: vorher begann sie bei 693 und war unsichtbar. */
+.view{display:none;padding:1.3rem var(--pad) 1.1rem;max-width:46rem;margin:0 auto}
+/* Nur der erste Abschnitt rueckt naeher heran. Die Abstaende zwischen den
+   Abschnitten bleiben, wie sie heute frueh eingestellt wurden. */
+.view + .sec{padding-top:1.1rem}
 .view.on{display:block}
 .micro{font-family:var(--fm);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--label);margin:0}
@@ -204,22 +212,70 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
 .arw:hover{color:var(--text)} .arw.next{right:0}
 .stage{display:flex;align-items:center;justify-content:center;touch-action:none;
   width:calc(var(--e)*1.26);height:calc(var(--e)*1.26);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-.scene{width:var(--e);height:var(--e);perspective:820px}
+/* Die Rundung entsteht hier, am fertig gerechneten Bild, und nicht an der
+   Geometrie (15.08.2026, MC·324). Der Filter weichzeichnet nur den Alphakanal,
+   verstaerkt ihn dann hart (feColorMatrix) und legt mit feComposite atop das
+   unveraenderte Original wieder darueber. Ergebnis: Der Umriss bekommt runde
+   Ecken und Kanten, Farben und Schrift bleiben unangetastet scharf.
+   Warum das ueberhaupt geht, obwohl .scene die Perspektive traegt: Der Filter
+   arbeitet auf dem Ergebnis, nicht auf den Kindern. Die 3D-Verschachtelung
+   darunter bleibt unberuehrt, weil .tilt und .die ihr preserve-3d behalten.
+   Gemessen: 60 Bilder je Sekunde beim Ziehen, mit und ohne Filter, sowohl bei
+   1200 als auch bei 393 Pixeln Breite. Das ist im Chromium dieser Maschine
+   gemessen und ersetzt keine Pruefung auf einem echten Telefon. */
+.scene{width:var(--e);height:var(--e);perspective:820px;filter:url(#kantenrundung)}
+/* Ohne Bewegung braucht es den Filter nicht zwingend, aber er bleibt: Der Umriss
+   soll im Standbild derselbe sein wie in Bewegung. */
+@supports not (filter: url(#kantenrundung)){ .scene{filter:none} }
 .tilt{width:100%;height:100%;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}
 .die{-webkit-user-select:none;user-select:none;position:relative;width:100%;height:100%;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}
 .die.snap{transition:transform .38s cubic-bezier(.32,.06,.2,1)}
 .core{position:absolute;inset:0;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;pointer-events:none}
-.core i{position:absolute;inset:0;border-radius:2.5%;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+/* Kernradius 0 statt 2,5 % (15.08.2026, MC·323). Der Kern hat genau eine
+   Aufgabe: die Kante von innen zu fuellen. Jede Rundung an ihm nimmt genau
+   dort Material weg, wo gefuellt werden muss, und zwar an den Ecken, wo drei
+   Kanten zusammenlaufen und die Luecke ohnehin am groessten ist. */
+/* Der Kern ist seit dem 15.08.2026 keine Fase mehr, sondern nur noch Nahtfueller:
+   Zwei Flaechen, die an einer Kante exakt aneinanderstossen, treffen sich im
+   Geraetepixelraster nie exakt, und durch diesen Bruchteil eines Pixels sah der
+   Hintergrund durch (MC·305).
+   Das eine Prozent Rueckversatz ist nicht Kosmetik, sondern Notwehr (MC·325).
+   Zuerst lag der Kern exakt buendig, also in derselben Ebene wie die Aussenflaeche,
+   und damit hatten zwei Flaechen identische Tiefe. Welche davon der Browser malt,
+   entscheidet er dann je nach Winkel neu: Mal gewann die Aussenflaeche, mal der
+   Kern, und der Kern traegt weder Schrift noch Glanzverlauf. Sichtbar war das als
+   Flaeche ohne Text und als fleckige Aufhellungen, und beides trat "manchmal" auf,
+   was das Kennzeichen dieses Fehlers ist. Ein Prozent sind bei 290 Pixeln knapp
+   drei Pixel, genug fuer eine eindeutige Reihenfolge und zu wenig, um an einer
+   Kante als eigene Flaeche zu erscheinen. */
+.core i{position:absolute;inset:0;border-radius:0;-webkit-backface-visibility:hidden;backface-visibility:hidden}
 /* inset:-1px statt 0 (13.08.2026, MC·305). Zwei Flaechen, die an einer Kante
    exakt aneinanderstossen, treffen sich im Geraetepixelraster nie exakt: Es
    bleibt ein Bruchteil eines Pixels Naht, durch den der dunkle Kern durchsah.
    Auf der angeschnittenen Seitenflaeche wurde daraus eine zweite senkrechte
    Linie direkt neben der Kante. Ein Pixel Ueberstand deckt die Naht zu; die
    Fase bleibt sichtbar, weil sie an den Ecken weiter durchscheint. */
-.face{position:absolute;inset:-1px;border-radius:11%;padding:14% 9%;text-align:center;
+/* Rundung 9,5 % statt 11 % (15.08.2026, MC·323). Das ist keine Geschmacksfrage,
+   sondern folgt aus der Fasentiefe: Der Kern sitzt 5 % der Kantenlaenge tief und
+   kann deshalb nur eine Ecke fuellen, deren Rundung in derselben Groessenordnung
+   liegt. Bei 11 % nahm die Rundung an der Ecke mehr Material weg, als der Kern
+   dahinter fuellen konnte, und es blieb ein dreieckiges Loch, durch das der
+   Hintergrund sah. Sichtbar war das an der oberen rechten Ecke, waehrend die
+   untere sauber aussah: Die Flaeche, die dort haette fuellen muessen, ist die
+   Oberseite, und die wird ausgeblendet, sobald sie wegzeigt. Unten zeigt die
+   Unterseite zum Betrachter und fuellt mit. Deshalb sah dieselbe Kante oben und
+   unten verschieden aus, und deshalb war es kein Zufall. */
+/* Keine Rundung mehr an den Flaechen (15.08.2026, MC·324). Der ganze Weg dorthin
+   steht in MC·323: Eine Rundung an sechs einzelnen Flaechen kann keinen gerundeten
+   Koerper ergeben, weil an jeder Ecke, wo drei Rundungen zusammenlaufen, ein
+   dreieckiges Loch bleibt, das keine siebte Flaeche fuellt. Jeder Wert, den wir
+   probiert haben, verschob das Loch nur. Jetzt sind die Flaechen rechteckig und
+   stossen exakt aneinander; der Koerper ist damit garantiert geschlossen, und die
+   Rundung entsteht danach am fertigen Bild (siehe Filter weiter unten). */
+.face{position:absolute;inset:-1px;border-radius:0;padding:14% 9%;text-align:center;
   display:flex;align-items:center;justify-content:center;
   -webkit-backface-visibility:hidden;backface-visibility:hidden}
-.face::after{content:"";position:absolute;inset:0;border-radius:11%;pointer-events:none;
+.face::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(125% 95% at 24% 10%, rgba(255,255,255,.12), rgba(255,255,255,0) 60%)}
 .p-front{transform:translateZ(calc(var(--e)/2))}
 .p-back{transform:rotateY(180deg) translateZ(calc(var(--e)/2))}
@@ -227,12 +283,12 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
 .p-left{transform:rotateY(-90deg) translateZ(calc(var(--e)/2))}
 .p-top{transform:rotateX(90deg) translateZ(calc(var(--e)/2))}
 .p-bottom{transform:rotateX(-90deg) translateZ(calc(var(--e)/2))}
-.core .p-front{transform:translateZ(calc(var(--e)/2 - var(--e)*.05))}
-.core .p-back{transform:rotateY(180deg) translateZ(calc(var(--e)/2 - var(--e)*.05))}
-.core .p-right{transform:rotateY(90deg) translateZ(calc(var(--e)/2 - var(--e)*.05))}
-.core .p-left{transform:rotateY(-90deg) translateZ(calc(var(--e)/2 - var(--e)*.05))}
-.core .p-top{transform:rotateX(90deg) translateZ(calc(var(--e)/2 - var(--e)*.05))}
-.core .p-bottom{transform:rotateX(-90deg) translateZ(calc(var(--e)/2 - var(--e)*.05))}
+.core .p-front{transform:translateZ(calc(var(--e)/2 - var(--e)*.01))}
+.core .p-back{transform:rotateY(180deg) translateZ(calc(var(--e)/2 - var(--e)*.01))}
+.core .p-right{transform:rotateY(90deg) translateZ(calc(var(--e)/2 - var(--e)*.01))}
+.core .p-left{transform:rotateY(-90deg) translateZ(calc(var(--e)/2 - var(--e)*.01))}
+.core .p-top{transform:rotateX(90deg) translateZ(calc(var(--e)/2 - var(--e)*.01))}
+.core .p-bottom{transform:rotateX(-90deg) translateZ(calc(var(--e)/2 - var(--e)*.01))}
 .f-lab{position:absolute;bottom:7.5%;left:6%;right:6%;
   font-family:var(--fm);font-size:calc(var(--e)*.033);letter-spacing:.13em;text-transform:uppercase;
   opacity:.58;line-height:1.25}
@@ -697,6 +753,9 @@ html.intern .intern-hinweis a{color:var(--ember)}
   .teilen-frage{margin-top:1.5rem}
   .arw{font-size:1.7rem}
   .sec .cta{margin-top:2rem}
+  /* Am Schirm ist Platz genug, dort bleibt der grosse Abstand zum ersten Abschnitt. */
+  .view{padding-bottom:2.4rem}
+  .view + .sec{padding-top:1.9rem}
   /* Auch hier um ein Drittel gekuerzt (15.08.2026): 3 + 2,8 rem Luft zwischen
      zwei Abschnitten waren 5,8, jetzt sind es 3,9. Diese Zeile ist der Grund,
      warum die Aenderung an der Grundregel oben zunaechst wirkungslos blieb:
@@ -739,6 +798,33 @@ html.intern .intern-hinweis a{color:var(--ember)}
 </style>
 </head>
 <body>
+<!-- Der Rundungsfilter fuer den Wuerfel (MC·324). Steht hier und nicht im Kopf,
+     weil ein SVG mit width/height 0 im Kopf von manchen Browsern verworfen wird.
+     stdDeviation bestimmt den Radius; 8 entspricht bei 290 Pixeln Kantenlaenge
+     rund drei Prozent, also einer gebrochenen, nicht einer wulstigen Kante. Die
+     Matrix macht aus dem weichen Alphaverlauf wieder eine harte Kante, sonst
+     bekaeme der Wuerfel einen Schleier statt einer Rundung. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <!-- Die Filterflaeche muss ausdruecklich groesser gesetzt werden als das Element.
+       Voreingestellt sind -10 % bis +110 %, und der gedrehte Wuerfel ragt weiter
+       hinaus als seine eigene Buehne: Bei einer Vierteldrehung stand der Text auf
+       der linken Flaeche ploetzlich ohne seinen ersten Buchstaben da, weil der
+       Filter ihn abgeschnitten hat. -->
+  <!-- Die Filterflaeche muss ausdruecklich groesser gesetzt werden als das Element,
+       und zwar deutlich. Voreingestellt sind -10 % bis +110 %. Der Wuerfel dreht
+       aber frei, und in der unguenstigsten Lage steht seine Raumdiagonale quer zum
+       Blick: Durchgerechnet ueber alle Drehlagen braucht er dann 172 % der
+       Kantenlaenge in der Breite und 182 % in der Hoehe, dazu den Rand fuer die
+       Weichzeichnung. Bei 160 % wurde er deshalb manchmal gerade abgeschnitten,
+       und weil das nur in bestimmten Lagen passierte, sah es nach einem
+       Gespenst aus. 220 % deckt jede Lage mit Reserve. -->
+  <filter id="kantenrundung" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="weich"/>
+    <feColorMatrix in="weich" mode="matrix" result="maske"
+      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -12"/>
+    <feComposite in="SourceGraphic" in2="maske" operator="atop"/>
+  </filter>
+</defs></svg>
 
 <header class="top">
   <!-- Ein Kopf, ein Zustand (12.08.2026). Die Marke ANTIPOL ist hier entfallen;
@@ -1408,8 +1494,16 @@ window.addEventListener("error", function(e){
   /* ---------------- Würfel aufbauen ----------------
      Fünf Stimmenflächen tragen nur Stimme und Satz. Die sechste Fläche
      trägt ANTIPOL und den Namen des Mantras, so wie in MC·2 festgelegt. */
+  /* Der Kern trug bis zum 15.08.2026 eine eigene, um 42 Prozent abgedunkelte
+     Farbe. Gedacht war er als Fase, gelesen wurde er als zweite Linie neben der
+     Kante: zwei harte Farbspruenge im Abstand von wenigen Pixeln, und genau das
+     nimmt das Auge als Doppelkontur wahr. Jetzt traegt jede Kernflaeche exakt die
+     Farbe ihrer Aussenflaeche. Damit verlaengert sie diese optisch bis zur Kante,
+     der Wuerfel liest sich als geschlossener Koerper, und die Kante bleibt trotzdem
+     sichtbar, weil die angrenzende Flaeche eine andere Helligkeit hat. Die Variable
+     heisst weiter bev, damit die Stellen, die sie benutzen, unveraendert bleiben. */
   function buildDie(){
-    var m=byId[state.mantra], bev=mixDark(m.c,.42), h="";
+    var m=byId[state.mantra], bev=m.c, h="";
     h+='<div class="core">'+POS.map(function(p){
       return '<i class="p-'+p+'" style="background:'+bev+'"></i>'; }).join("")+'</div>';
     h+=POS.map(function(p,i){
@@ -1426,14 +1520,14 @@ window.addEventListener("error", function(e){
   /* Licht steckt in der Farbe, nicht in einem CSS-Filter. Abgewandte Flächen
      werden aktiv ausgeblendet, damit kein Browser eine Rückseite nach vorn malt. */
   function light(){
-    var base=byId[state.mantra].c, bev=mixDark(base,.42);
+    var base=byId[state.mantra].c, bev=base;
     POS.forEach(function(p){
       var n=mv(state.M,GEO[p].n), b=1+(-n[1])*.16+n[2]*.03-Math.abs(n[0])*.16;
       var f=dieEl.querySelector('.face.p-'+p), c=dieEl.querySelector('.core .p-'+p);
       var sicht = n[2] < -0.02 ? "hidden" : "visible";
       if(f){ f.style.background=shade(base,b); f.style.visibility=sicht;
              f.style.cursor = n[2]>0.9 ? "grab" : "pointer"; }
-      if(c){ c.style.background=shade(bev,b*.92); c.style.visibility=sicht; }
+      if(c){ c.style.background=shade(bev,b); c.style.visibility=sicht; }
     });
   }
   function apply(){ dieEl.style.transform=cssm(state.M); }
