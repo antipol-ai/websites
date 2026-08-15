@@ -196,7 +196,11 @@
         const logicalH = h / dpr;
         const cx = logicalW * 0.5;
         const cy = logicalH * 0.5;
-        const S = Math.min(logicalW, logicalH) * 0.48;
+        /* 0.72 statt 0.48 wie auf der Momance-Startseite (15.08.2026): Dort steht
+         der Puls allein auf einem ganzen Bildschirm und darf Luft um sich haben.
+         Hier ist er eine Kachel von 230 Pixeln neben zwei Textzeilen, und in
+         dieser Groesse verschwindet er, wenn er nur die halbe Flaeche nutzt. */
+      const S = Math.min(logicalW, logicalH) * 0.72;
 
         const breathPhase = (sec % BREATH_PERIOD) / BREATH_PERIOD;
         const breathSin = Math.sin(breathPhase * Math.PI * 2);

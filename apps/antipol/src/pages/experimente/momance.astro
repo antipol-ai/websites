@@ -113,6 +113,12 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
         </svg>
       </div>
     </div>
+      <div class="beleg-reihe fade-in">
+        <figure class="beleg">
+          <img src="/bilder/momance/beleg-entscheidungen.webp" alt="Ausschnitt aus der Datei 16-design-entscheidungen.md im Editor: die Einträge E·88, E·89 und E·10 mit je einer Entscheidung und ihrer Begründung." loading="lazy" decoding="async" />
+          <figcaption>Kein Diagramm, sondern die Datei selbst. Jede Entscheidung steht mit Begründung darin, auch die verworfenen.</figcaption>
+        </figure>
+      </div>
   </section>
 
   <!-- PANEL 4: 01 VERSTEHEN -->
@@ -141,6 +147,12 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
         </svg>
       </div>
     </div>
+      <div class="beleg-reihe fade-in">
+        <div class="beleg beleg-leer">
+          <span class="was">Platz für einen Beleg</span>
+          <p>Hier gehört das Material aus dem Zuhören hin, also das, was vor der ersten Skizze da war. Denkbar: die Hypothesenliste im Rohzustand oder eine Seite aus den Personas.</p>
+        </div>
+      </div>
   </section>
 
   <!-- PANEL 5: 02 FREILEGEN -->
@@ -171,6 +183,12 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
         </div>
       </div>
     </div>
+      <div class="beleg-reihe fade-in">
+        <div class="beleg beleg-leer">
+          <span class="was">Platz für einen Beleg</span>
+          <p>Der Weg zum Dimensionsmodell. Denkbar: eine frühe Fassung mit mehr als vier Dimensionen, damit sichtbar wird, was weggefallen ist.</p>
+        </div>
+      </div>
   </section>
 
   <!-- PANEL 6: 03 ENTWERFEN -->
@@ -200,6 +218,12 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
         </svg>
       </div>
     </div>
+      <div class="beleg-reihe fade-in">
+        <figure class="beleg">
+          <img src="/bilder/momance/beleg-ikonen.webp" alt="Die Entdeckungsseite für die Symbole der Navigationsleiste: mehrere Varianten je Reiter nebeneinander, zum Vergleichen gebaut." loading="lazy" decoding="async" />
+          <figcaption>Die Symbole der Navigationsleiste wurden nicht entworfen, sondern verglichen. Dafür entstand eine eigene Seite.</figcaption>
+        </figure>
+      </div>
   </section>
 
   <!-- PANEL 7: 04 ERPROBEN -->
@@ -240,6 +264,12 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
         </div>
       </div>
     </div>
+      <div class="beleg-reihe fade-in">
+        <div class="beleg beleg-leer">
+          <span class="was">Platz für einen Beleg</span>
+          <p>Das Erproben auf dem Gerät. Denkbar: der erste Build in TestFlight oder eine Seite aus dem Rückmeldebogen der Testenden.</p>
+        </div>
+      </div>
   </section>
 
   <!-- PANEL 8: 05 LEBEN -->
@@ -280,6 +310,12 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
         </div>
       </div>
     </div>
+      <div class="beleg-reihe fade-in">
+        <figure class="beleg">
+          <img src="/bilder/momance/beleg-store.webp" alt="Simulation des App-Store-Eintrags: die Suchergebnisliste und die Detailansicht von Momance nebeneinander, beide im Dunkelmodus." loading="lazy" decoding="async" />
+          <figcaption>Der Auftritt im Store wurde simuliert, bevor es ihn gab. Der Name ist am 11. April 2026 daraus entschieden worden.</figcaption>
+        </figure>
+      </div>
   </section>
 
 </AntipolLayout>
@@ -359,6 +395,69 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
   .process-callout p { font-size: var(--size-copy); color: var(--color-text-muted); line-height: var(--line-height-copy); margin-bottom: 0 !important; }
 
   .chapter-visual { display: flex; justify-content: center; align-items: center; }
+  /* ---------- Belege (15.08.2026) ----------
+     Bis hierher zeigte die Seite Diagramme: gezeichnete Erklaerungen dessen,
+     was passiert ist. Was fehlte, war das Material selbst. Ein Diagramm ueber
+     44 dokumentierte Entscheidungen behauptet, dass dokumentiert wurde; ein
+     Ausschnitt aus der Entscheidungsdatei zeigt es. Die Belege stehen deshalb
+     unter dem jeweiligen Kapitel und nicht daneben: Erst die Erklaerung, dann
+     der Beleg, in dieser Reihenfolge liest man auch eine Fussnote.
+
+     Zwei Zustaende: gefuellt und leer. Die leeren sind keine Luecken, sondern
+     Aushandlungsplaetze; sie benennen, was dort hingehoert, damit man darueber
+     reden kann, statt es zu vergessen. */
+  .beleg-reihe {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.4rem;
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 3rem;
+  }
+  .beleg {
+    margin: 0;
+  }
+  .beleg img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-surface);
+  }
+  .beleg figcaption {
+    font-size: var(--size-ui);
+    line-height: var(--line-height-copy);
+    color: var(--color-text-label);
+    margin-top: 0.7rem;
+  }
+  /* Der leere Platz sieht bewusst nach Platz aus und nicht nach Fehler:
+     gestrichelt, ohne Flaeche, mit der Frage darin, was hier hingehoert. */
+  .beleg-leer {
+    border: 1px dashed var(--color-border);
+    border-radius: 6px;
+    aspect-ratio: 4 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.4rem;
+    text-align: left;
+  }
+  .beleg-leer .was {
+    font-family: var(--font-mono);
+    font-size: var(--size-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-primary-accessible);
+  }
+  .beleg-leer p {
+    font-size: var(--size-ui);
+    line-height: var(--line-height-copy);
+    color: var(--color-text-label);
+    margin: 0;
+  }
+
   .chapter-visual svg { max-width: 100%; height: auto; }
   svg text { font-family: var(--font-display); }
 
