@@ -57,9 +57,9 @@ const FREI_OPERATIONEN = 10000;
 const AB_TAG = '2026-08-15';
 
 // Muss zu REIHE in ereignis.js passen. Der Praefix trennt Messreihen mit
-// unterschiedlicher Zaehlweise voneinander; die alte Reihe e/ liegt weiter im
-// Speicher, wird aber nicht mehr gelesen. Ein Aufruf mit ?reihe=e zeigt sie.
-const REIHE = 'e2';
+// unterschiedlicher Zaehlweise voneinander; die alten Reihen e/ und e2/ liegen weiter im
+// Speicher, wird aber nicht mehr gelesen. Ein Aufruf mit ?reihe=e2 zeigt die Testphase vor dem Launch.
+const REIHE = 'e3';
 
 /**
  * Zeitkonstanter Vergleich. Ein normaler Vergleich mit === bricht beim ersten

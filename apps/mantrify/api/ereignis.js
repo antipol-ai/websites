@@ -45,7 +45,7 @@ const ERLAUBT = {
 
 const SAUBER = /^[a-z0-9_-]{1,24}$/i;
 
-const REIHE = 'e2';
+const REIHE = 'e3';
 
 function detail(name, daten) {
   const felder = ERLAUBT[name];
