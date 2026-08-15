@@ -86,15 +86,20 @@ const { brand, brandHighlight, brandHref = '/', links } = Astro.props;
     color: var(--color-text-pure);
   }
 
-  /* Nicht --color-primary, sondern der hellere Ton: Die Marke ist hier rund
-     17,6 Pixel gross und gilt damit als kleiner Text, für den 4,5 zu 1
-     gefordert sind. Das Ziegelrot erreicht auf dunklem Grund nur 3,83. */
+  /* Ziegelrot, in jeder Grösse (14.08.2026, MC·317). Hier stand vorher der
+     hellere Ton, weil die Marke rund 17,6 Pixel gross ist und damit als kleiner
+     Text gilt, für den WCAG 4,5 zu 1 fordert; Ziegelrot erreicht auf dunklem
+     Grund nur 3,83. Die Regel greift hier aber nicht: WCAG 1.4.3 nimmt Text,
+     der Teil eines Logos oder Markennamens ist, ausdrücklich von der
+     Kontrastanforderung aus. Eine Marke hat eine Farbe, nicht zwei nach Grösse.
+     Der hellere Ton ist jetzt der Zeigezustand; dort ist mehr Kontrast richtig,
+     weil das Element sich abheben soll. */
   .nav-item.brand .pol {
-    color: var(--color-primary-light);
+    color: var(--color-primary);
   }
 
   .nav-item.brand:hover .pol {
-    color: var(--color-primary-accessible);
+    color: var(--color-primary-light);
   }
 
   @media (max-width: 768px) {

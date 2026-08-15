@@ -60,12 +60,14 @@ const { company, companyHighlight, companySuffix = '', people, links } = Astro.p
     color: var(--color-text-muted);
   }
 
-  /* Der hellere Ton, nicht das Ziegelrot: Die Zeile ist 13,6 Pixel gross und
-     gilt damit als kleiner Text, für den 4,5 zu 1 gefordert sind (E·11, siehe
-     docs/logo-guideline.md). Der Rechtsformzusatz gehört ausdrücklich nicht in
-     die Auszeichnung, dafür gibt es companySuffix. */
+  /* Ziegelrot, in jeder Grösse (14.08.2026, MC·317). Hier stand der hellere Ton,
+     weil die Zeile 13,6 Pixel gross ist und damit als kleiner Text gilt. Die
+     Kontrastanforderung greift für einen Markennamen aber nicht (WCAG 1.4.3),
+     und eine Marke, deren Farbe von der Grösse abhängt, ist keine.
+     Der Rechtsformzusatz gehört ausdrücklich nicht in die Auszeichnung, dafür
+     gibt es companySuffix. */
   .footer-company .pol {
-    color: var(--color-primary-light);
+    color: var(--color-primary);
   }
 
   .footer-people {
