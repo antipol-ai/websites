@@ -1,0 +1,240 @@
+---
+/**
+ * Der Puls von Momance als Kachelbild fuer die Experimente-Uebersicht.
+ *
+ * Der Zeichencode ist wortgleich aus apps/momance/src/pages/index.astro
+ * uebernommen, wo er als heroPuls den Kopf der Momance-Startseite traegt.
+ * Wortgleich heisst hier auch: Er ist eine Kopie und keine gemeinsame Quelle.
+ * Wer die Animation drueben aendert, muss sie hier mitaendern; die saubere
+ * Loesung waere ein geteiltes Paket, und die ist ein eigener Umbau.
+ *
+ * Drei Zusaetze gegenueber dem Original, alle wegen des Ortes:
+ * 1. Die Kachel steht in einer Liste und ist meistens nicht im Bild. Ein
+ *    IntersectionObserver haelt die Schleife an, solange sie es nicht ist.
+ *    Sonst laeuft eine Animation mit sechzig Bildern je Sekunde durch,
+ *    waehrend niemand hinsieht.
+ * 2. Wer reduzierte Bewegung eingestellt hat, bekommt ein einziges Standbild
+ *    statt der Schleife. Der Puls ist dann da, er atmet nur nicht.
+ * 3. Das Seitenverhaeltnis ist quer statt quadratisch, weil die Kachel quer
+ *    ist. Die Zeichnung nimmt ohnehin die kleinere Seite als Mass.
+ */
+---
+
+<div class="puls-kachel" aria-label="Die Bildmarke von Momance: drei Ringe um einen leuchtenden Kern, der atmet und dabei langsam die Farbe wechselt" role="img">
+  <canvas width="1200" height="630"></canvas>
+</div>
+
+<style>
+  .puls-kachel {
+    aspect-ratio: 1200 / 630;
+    background: #0A0A0E;
+    line-height: 0;
+  }
+  .puls-kachel canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>
+
+<script>
+  (function () {
+    const BREATH_PERIOD = 6;
+    const COLOR_PERIOD = 9;
+    const CREAM = [240, 234, 224];
+    const CATEGORIES = [
+      [194, 178, 110], // still
+      [101, 148, 199], // connect
+      [199, 105, 82],  // body
+      [93, 173, 126],  // nature
+      [163, 113, 191], // create
+      [191, 101, 143], // senses
+    ];
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function hermite(t) { return t * t * (3 - 2 * t); }
+    function rgba(rgb, a) { return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`; }
+
+    function getCycleColor(sec) {
+      const t = (sec % COLOR_PERIOD) / COLOR_PERIOD * CATEGORIES.length;
+      const i = Math.floor(t) % CATEGORIES.length;
+      const j = (i + 1) % CATEGORIES.length;
+      const f = hermite(t - Math.floor(t));
+      return CATEGORIES[i].map((c, k) => Math.round(lerp(c, CATEGORIES[j][k], f)));
+    }
+
+    function drawMoment(ctx, cx, cy, r, rgb, seed) {
+      // Wide glow
+      let g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 2.8);
+      g.addColorStop(0, rgba(rgb, 0.45));
+      g.addColorStop(0.2, rgba(rgb, 0.25));
+      g.addColorStop(0.5, rgba(rgb, 0.06));
+      g.addColorStop(1, rgba(rgb, 0));
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(cx, cy, r * 2.8, 0, Math.PI * 2); ctx.fill();
+
+      // Organic body
+      const N = 72;
+      ctx.beginPath();
+      for (let i = 0; i <= N; i++) {
+        const a = (i / N) * Math.PI * 2;
+        const d = 1 + Math.sin(a * 3 + seed) * 0.03 + Math.cos(a * 5 + seed * 1.7) * 0.015;
+        const x = cx + Math.cos(a) * r * d;
+        const y = cy + Math.sin(a) * r * d;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+
+      const lighter = rgb.map(c => Math.min(255, c + 40));
+      const body = ctx.createRadialGradient(cx - r * 0.2, cy - r * 0.2, r * 0.05, cx + r * 0.15, cy + r * 0.15, r * 1.1);
+      body.addColorStop(0, rgba(lighter, 1));
+      body.addColorStop(0.4, rgba(rgb, 1));
+      body.addColorStop(1, rgba(rgb.map(c => Math.max(0, c - 30)), 1));
+      ctx.fillStyle = body;
+      ctx.fill();
+
+      // Specular highlight
+      const spec = ctx.createRadialGradient(cx - r * 0.2, cy - r * 0.25, 0, cx - r * 0.08, cy - r * 0.1, r * 0.5);
+      spec.addColorStop(0, 'rgba(255,255,245,0.30)');
+      spec.addColorStop(0.4, 'rgba(255,255,245,0.06)');
+      spec.addColorStop(1, 'rgba(255,255,245,0)');
+      ctx.fillStyle = spec;
+      ctx.fill();
+    }
+
+    function drawHeroPuls(ctx, cx, cy, S, breathScale, color, seed) {
+      const r1 = S * 0.33 * breathScale;
+      const r2 = S * 0.39 * breathScale;
+      const r3 = S * 0.45 * breathScale;
+      const mr = S * 0.24;
+      const lw1 = Math.max(1.2, S / 100 * 1.5);
+      const lwO = lw1 * 0.6;
+      const bn = (breathScale - 1) / 0.15;
+
+      // Wide ambient corona
+      const cg2 = ctx.createRadialGradient(cx, cy, r1 * 0.1, cx, cy, S * 0.9);
+      cg2.addColorStop(0, rgba(color, 0.10));
+      cg2.addColorStop(0.2, rgba(color, 0.06));
+      cg2.addColorStop(0.5, rgba(color, 0.02));
+      cg2.addColorStop(1, rgba(color, 0));
+      ctx.fillStyle = cg2;
+      ctx.beginPath(); ctx.arc(cx, cy, S * 0.9, 0, Math.PI * 2); ctx.fill();
+
+      // Corona glow
+      const cg = ctx.createRadialGradient(cx, cy, r1 * 0.3, cx, cy, r3 * 2.2);
+      cg.addColorStop(0, rgba(color, 0.18));
+      cg.addColorStop(0.3, rgba(color, 0.08));
+      cg.addColorStop(1, rgba(color, 0));
+      ctx.fillStyle = cg;
+      ctx.beginPath(); ctx.arc(cx, cy, r3 * 2.2, 0, Math.PI * 2); ctx.fill();
+
+      // Outer ring
+      ctx.strokeStyle = rgba(CREAM, 0.15 + 0.06 * bn);
+      ctx.lineWidth = lwO;
+      ctx.beginPath(); ctx.arc(cx, cy, r3, 0, Math.PI * 2); ctx.stroke();
+
+      // Middle ring
+      ctx.strokeStyle = rgba(CREAM, 0.22 + 0.08 * bn);
+      ctx.lineWidth = lwO;
+      ctx.beginPath(); ctx.arc(cx, cy, r2, 0, Math.PI * 2); ctx.stroke();
+
+      // Inner ring
+      ctx.strokeStyle = rgba(CREAM, 0.35 + 0.12 * bn);
+      ctx.lineWidth = lw1;
+      ctx.beginPath(); ctx.arc(cx, cy, r1, 0, Math.PI * 2); ctx.stroke();
+
+      // Dark core
+      const kernR = S * 0.33 * 0.85;
+      const kg = ctx.createRadialGradient(cx, cy, 0, cx, cy, kernR);
+      kg.addColorStop(0, 'rgba(10,10,14,0.95)');
+      kg.addColorStop(0.7, 'rgba(10,10,14,0.88)');
+      kg.addColorStop(1, 'rgba(10,10,14,0.3)');
+      ctx.fillStyle = kg;
+      ctx.beginPath(); ctx.arc(cx, cy, kernR, 0, Math.PI * 2); ctx.fill();
+
+      // Moment nucleus
+      drawMoment(ctx, cx, cy, mr, color, seed);
+    }
+
+    // Hero canvas animation loop, robust gegen Layout-Races
+    function startPuls(wurzel, ruhig) {
+      let raf = 0, abgebrochen = false;
+      const heroCanvas = wurzel.querySelector('canvas');
+      if (!heroCanvas) return;
+      const ctx = heroCanvas.getContext('2d');
+      if (!ctx) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      function resizeHeroCanvas() {
+        const rect = heroCanvas.getBoundingClientRect();
+        // Fallback auf das HTML-Attribut, wenn Layout noch nicht stabil ist
+        const w = rect.width > 0 ? rect.width : 560;
+        const h = rect.height > 0 ? rect.height : 560;
+        heroCanvas.width = w * dpr;
+        heroCanvas.height = h * dpr;
+      }
+      resizeHeroCanvas();
+      window.addEventListener('resize', resizeHeroCanvas);
+
+      const start = performance.now();
+
+      function heroFrame(timestamp) {
+        // Resize-Check bei jedem Frame: falls Initial-Layout zu früh war, jetzt korrigieren
+        const rect = heroCanvas.getBoundingClientRect();
+        if (rect.width > 0 && Math.abs(heroCanvas.width - rect.width * dpr) > 1) {
+          heroCanvas.width = rect.width * dpr;
+          heroCanvas.height = rect.height * dpr;
+        }
+
+        const sec = Math.max(0, (timestamp - start) / 1000);
+        const w = heroCanvas.width;
+        const h = heroCanvas.height;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, w, h);
+
+        const logicalW = w / dpr;
+        const logicalH = h / dpr;
+        const cx = logicalW * 0.5;
+        const cy = logicalH * 0.5;
+        const S = Math.min(logicalW, logicalH) * 0.48;
+
+        const breathPhase = (sec % BREATH_PERIOD) / BREATH_PERIOD;
+        const breathSin = Math.sin(breathPhase * Math.PI * 2);
+        const breathScale = 1.0 + ((1 + breathSin) / 2) * 0.15;
+
+        const color = getCycleColor(sec);
+        const seed = 17 + sec * 0.8;
+
+        drawHeroPuls(ctx, cx, cy, S, breathScale, color, seed);
+        if (!ruhig && !abgebrochen) raf = requestAnimationFrame(heroFrame);
+      }
+      raf = requestAnimationFrame(heroFrame);
+      return function () { abgebrochen = true; if (raf) cancelAnimationFrame(raf); };
+    }
+
+    document.querySelectorAll('.puls-kachel').forEach(function (wurzel) {
+      const canvas = wurzel.querySelector('canvas');
+      if (!canvas || !canvas.getContext) return;
+      const ruhig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let laeuft = false;
+      let stop = null;
+
+      function an() {
+        if (laeuft) return;
+        laeuft = true;
+        stop = startPuls(wurzel, ruhig);
+      }
+      function aus() {
+        if (!laeuft) return;
+        laeuft = false;
+        if (stop) stop();
+      }
+
+      if (ruhig) { startPuls(wurzel, true); return; }
+      if (!('IntersectionObserver' in window)) { an(); return; }
+      new IntersectionObserver(function (eintraege) {
+        eintraege.forEach(function (e) { e.isIntersecting ? an() : aus(); });
+      }, { rootMargin: '120px' }).observe(wurzel);
+    });
+  })();
+</script>

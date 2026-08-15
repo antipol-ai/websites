@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Momance, der Puls als bewegtes Kachelbild fuer die Experimente-Uebersicht.
+  Angelegt am 15.08.2026.
+
+  Die Vorlage ist die App-Komponente PulsingLogo.tsx, die dort mit Skia auf
+  einer Leinwand laeuft. Uebernommen sind ihre drei Groessen, weil sie die
+  Marke ausmachen: der Atem mit rund 6,3 Sekunden je Zug (dort sin(t)), die
+  Ringe in gedecktem Gold, und der Farbzyklus des Kerns durch die sechs
+  Kategorietoene 45, 210, 12, 152, 280 und 340 Grad. In der App braucht der
+  Zyklus knapp 55 Sekunden; hier sind es 48, weil eine Kachel niemand eine
+  Minute lang ansieht und der Wechsel sonst nie auffaellt.
+
+  Als SVG mit CSS-Keyframes und nicht als bewegtes WebP: Die Datei ist zwei
+  Kilobyte statt einiger hundert, sie bleibt bei jeder Groesse scharf, und sie
+  kennt prefers-reduced-motion. Wer Bewegung abgestellt hat, sieht denselben
+  Puls, nur still.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630"
+     role="img" aria-label="Die Bildmarke von Momance: drei goldene Ringe um einen leuchtenden Kern, der langsam atmet und dabei die Farbe wechselt">
+  <style>
+    .atem  { animation: atem 6.3s ease-in-out infinite; transform-origin: 600px 315px; }
+    .kern  { animation: atem 6.3s ease-in-out infinite, farbe 48s linear infinite;
+             transform-origin: 600px 315px; }
+    .hof   { animation: hof 6.3s ease-in-out infinite, farbe 48s linear infinite;
+             transform-origin: 600px 315px; }
+    @keyframes atem { 0%,100% { transform: scale(.94) } 50% { transform: scale(1.05) } }
+    @keyframes hof  { 0%,100% { transform: scale(.97); opacity:.42 }
+                      50%     { transform: scale(1.08); opacity:.66 } }
+    /* Der Farbzyklus laeuft durch dieselben sechs Toene wie in der App. */
+    @keyframes farbe {
+      0%      { fill: hsl(45,62%,66%) }
+      16.66%  { fill: hsl(210,62%,66%) }
+      33.33%  { fill: hsl(12,62%,66%) }
+      50%     { fill: hsl(152,62%,66%) }
+      66.66%  { fill: hsl(280,62%,66%) }
+      83.33%  { fill: hsl(340,62%,66%) }
+      100%    { fill: hsl(45,62%,66%) }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .atem, .kern, .hof { animation: none }
+      .hof { opacity: .5 }
+    }
+  </style>
+
+  <rect width="1200" height="630" fill="#111116"/>
+
+  <!-- Der Hof. Radialer Verlauf mit weichem Rand, damit er als Licht liest und
+       nicht als zweite Scheibe. -->
+  <defs>
+    <radialGradient id="weich">
+      <stop offset="0%"   stop-color="#fff" stop-opacity=".85"/>
+      <stop offset="55%"  stop-color="#fff" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="hofmaske">
+      <circle cx="600" cy="315" r="250" fill="url(#weich)"/>
+    </mask>
+  </defs>
+  <g mask="url(#hofmaske)">
+    <circle class="hof" cx="600" cy="315" r="250" fill="hsl(45,62%,66%)"/>
+  </g>
+
+  <!-- Drei konzentrische Ringe, gedecktes Gold, nach aussen leiser. -->
+  <g class="atem" fill="none" stroke="#C9A84C">
+    <circle cx="600" cy="315" r="188" stroke-width="5"  opacity=".30"/>
+    <circle cx="600" cy="315" r="140" stroke-width="6"  opacity=".42"/>
+    <circle cx="600" cy="315" r="92"  stroke-width="10" opacity=".62"/>
+  </g>
+
+  <!-- Der Kern. -->
+  <circle class="kern" cx="600" cy="315" r="46" fill="hsl(45,62%,66%)"/>
+</svg>

@@ -45,6 +45,10 @@
  * Anordnung. Geprüft mit design-system/pruefen.mjs.
  */
 import AntipolLayout from '../../layouts/AntipolLayout.astro';
+/* Momance zeigt keine Aufnahme, sondern die Animation selbst: denselben
+   heroPuls, der auf der Momance-Startseite den Kopf traegt. Ein Standbild
+   davon waere ein Punkt auf schwarzem Grund und wuerde nichts erzaehlen. */
+import MomancePuls from '../../components/MomancePuls.astro';
 
 const experimente = [
   {
@@ -56,7 +60,7 @@ const experimente = [
       'Ein Würfel gegen die halbe Stunde nach dem falschen Satz.',
     href: '/experimente/mantrify',
     bild: '/bilder/mantrify-wuerfel.webp',
-    alt: 'Der Prototyp von Mantrify: ein olivfarbener Würfel mit dem Mantra „Ich trenne, was in meinem Einfluss liegt und was nicht", darüber das gezeichnete Porträt der Figur „Deine Therapeutin".',
+    alt: 'Eine Teilen-Karte aus Mantrify: links das gezeichnete Porträt des Marketing Guru, rechts sein Mantra „Ich bin hier by choice, nicht by default", darunter die Zeile Mantrify, hilft jetzt, ändert nix.',
   },
   {
     nummer: '02',
@@ -66,8 +70,7 @@ const experimente = [
     beschreibung:
       'Eine App gegen die Gewohnheit, das Gute zu übersehen.',
     href: '/experimente/momance',
-    bild: '/bilder/momance-landing.webp',
-    alt: 'Der Kopf der Momance-Website: die Zeile „Eine App, die will, dass du sie löschst" neben der pulsierenden grünen Bildmarke auf schwarzem Grund.',
+    puls: true,
   },
 ];
 
@@ -119,7 +122,9 @@ const STATUS = {
             </div>
 
             <div class="spur-bild">
-              <img src={e.bild} alt={e.alt} width="1600" height="900" loading="lazy" decoding="async" />
+              {e.puls
+                ? <MomancePuls />
+                : <img src={e.bild} alt={e.alt} width="1200" height="630" loading="lazy" decoding="async" />}
             </div>
           </article>
         ))
@@ -134,7 +139,7 @@ const STATUS = {
       <a class="einladung fade-in" href="/#kontakt">
         <span class="einladung-label">Experiment starten</span>
         <span class="einladung-text">
-          Du hast eine Vermutung über dein Geschäft und keinen Beleg dafür? Lass sie uns prüfen.
+          Du hast eine Vermutung, aber keinen Beleg? Lass sie uns prüfen.
         </span>
       </a>
 
