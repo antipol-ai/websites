@@ -50,7 +50,11 @@ const FREI_OPERATIONEN = 10000;
 // drin, die niemand geloescht haben will, nur nicht mitzaehlen sollen.
 // Am Releasetag hier das Datum eintragen, Format 2026-08-13. null = alles.
 // Ein Aufruf mit ?ab=2026-08-13 setzt es einmalig ausser Kraft.
-const AB_TAG = null;
+// Gesetzt am 15.08.2026, dem Releasetag. Alles davor waren unsere eigenen
+// Durchlaeufe, meist mit Absicht schiefe (Preisregler bis zum Anschlag, jeder
+// Weg einmal durchprobiert). Sie bleiben liegen, zaehlen aber nicht mit;
+// ?ab=2026-08-01 holt sie bei Bedarf zurueck ins Bild.
+const AB_TAG = '2026-08-15';
 
 // Muss zu REIHE in ereignis.js passen. Der Praefix trennt Messreihen mit
 // unterschiedlicher Zaehlweise voneinander; die alte Reihe e/ liegt weiter im
