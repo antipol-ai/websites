@@ -49,7 +49,19 @@ import AntipolLayout from '../../layouts/AntipolLayout.astro';
 const experimente = [
   {
     nummer: '01',
+    name: 'Mantrify',
+    status: 'live',
+    einzeiler: 'Hilft jetzt. Ändert nix.',
+    beschreibung:
+      'Ein Würfel gegen die halbe Stunde nach dem falschen Satz.',
+    href: '/experimente/mantrify',
+    bild: '/bilder/mantrify-wuerfel.webp',
+    alt: 'Der Prototyp von Mantrify: ein olivfarbener Würfel mit dem Mantra „Ich trenne, was in meinem Einfluss liegt und was nicht", darüber das gezeichnete Porträt der Figur „Deine Therapeutin".',
+  },
+  {
+    nummer: '02',
     name: 'Momance',
+    status: 'bau',
     einzeiler: 'Ein Wahrnehmungstraining, das sich selbst überflüssig macht.',
     beschreibung:
       'Eine App gegen die Gewohnheit, das Gute zu übersehen.',
@@ -57,17 +69,22 @@ const experimente = [
     bild: '/bilder/momance-landing.webp',
     alt: 'Der Kopf der Momance-Website: die Zeile „Eine App, die will, dass du sie löschst" neben der pulsierenden grünen Bildmarke auf schwarzem Grund.',
   },
-  {
-    nummer: '02',
-    name: 'Mantrify',
-    einzeiler: 'Hilft jetzt. Ändert nix.',
-    beschreibung:
-      'Ein Würfel trägt einen Gedanken in fünf Stimmen.',
-    href: '/experimente/mantrify',
-    bild: '/bilder/mantrify-wuerfel.webp',
-    alt: 'Der Prototyp von Mantrify: ein goldener Würfel mit dem Satz „Ich trenne, was in meinem Einfluss liegt und was nicht", darüber der gezeichnete Kopf der Figur „Dein Therapeut".',
-  },
 ];
+
+/* Die Nummern sind am 15.08.2026 getauscht: Mantrify steht auf 01, Momance auf
+   02. Das ist keine Chronologie, sondern eine Reihenfolge nach Zustand. Momance
+   ist seit April in Arbeit und laeuft noch, Mantrify geht heute live, und die
+   Uebersicht soll zeigen, was man jetzt anfassen kann. Wer das anders liest,
+   findet die Daten auf den Detailseiten.
+
+   Der Status steht als Marke neben dem Namen. Zwei Zustaende reichen: "live"
+   heisst, es steht draussen und man kann es benutzen; "in Arbeit" heisst, es
+   wird gebaut. Ein dritter Zustand ("abgeschlossen") kommt erst, wenn eines
+   wirklich endet, und dann mit der Frage, ob die Hypothese getragen hat. */
+const STATUS = {
+  live: { text: 'live', titel: 'Läuft und ist benutzbar' },
+  bau:  { text: 'in Arbeit', titel: 'Wird gerade gebaut' },
+};
 ---
 
 <AntipolLayout
@@ -92,10 +109,10 @@ const experimente = [
             <div class="spur-text">
               <p class="spur-label">Experiment {e.nummer}</p>
               <h2>
-                <a href={e.href}>
-                  {e.name}
-                  <span class="pfeil" aria-hidden="true" />
-                </a>
+                <a href={e.href}>{e.name}</a>
+                <span class={`marke marke-${e.status}`} title={STATUS[e.status].titel}>
+                  {STATUS[e.status].text}
+                </span>
               </h2>
               <p class="spur-einzeiler">{e.einzeiler}</p>
               <p class="spur-beschreibung">{e.beschreibung}</p>
@@ -117,9 +134,8 @@ const experimente = [
       <a class="einladung fade-in" href="/#kontakt">
         <span class="einladung-label">Experiment starten</span>
         <span class="einladung-text">
-          Das nächste Experiment hat noch keinen Namen. Bringt uns eure Annahme.
+          Du hast eine Vermutung über dein Geschäft und keinen Beleg dafür? Lass sie uns prüfen.
         </span>
-        <span class="pfeil" aria-hidden="true"></span>
       </a>
 
       <p class="why-line fade-in">
@@ -215,6 +231,30 @@ const experimente = [
      Waere die gesamte Kachel ein <a>, laese eine Sprachausgabe den kompletten
      Absatz als Linktext vor. So heisst der Link "Momance" beziehungsweise
      "Mantrify". */
+  /* Die Statusmarke (15.08.2026). Mono, Grosse der Labels, damit sie neben dem
+     Namen als Angabe und nicht als zweite Ueberschrift liest. "live" traegt die
+     Markenfarbe, "in Arbeit" bleibt neutral: Der Unterschied soll auffallen,
+     ohne dass die neutrale Variante nach Mangel aussieht. */
+  .marke {
+    font-family: var(--font-mono);
+    font-size: var(--size-label);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2em 0.55em;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    white-space: nowrap;
+    vertical-align: 0.25em;
+    margin-left: 0.6em;
+  }
+  .marke-live {
+    color: var(--color-primary-accessible);
+    border-color: var(--color-primary-accessible);
+  }
+  .marke-bau {
+    color: var(--color-text-label);
+  }
+
   .spur h2 {
     font-family: var(--font-display);
     font-size: clamp(1.4rem, 2.4vw, 1.8rem);
@@ -254,21 +294,9 @@ const experimente = [
   /* Der Pfeil sass vorher in einer eigenen Zeile unter dem Text. In der
      Uebersicht kostet das eine Zeile pro Teaser fuer ein Zeichen; jetzt haengt
      er am Namen. aria-hidden, weil die Ueberschrift schon der Link ist. */
-  .pfeil {
-    display: inline-block;
-    transition: transform var(--transition-base);
-  }
-
-  .pfeil::after {
-    content: '\2192';
-    margin-left: 0.3em;
-  }
-
-  .spur:hover .pfeil,
-  .einladung:hover .pfeil {
-    transform: translateX(4px);
-  }
-
+  /* Die Pfeile sind am 15.08.2026 entfallen. Der Name ist der Link, das
+     Unterstreichen beim Zeigen sagt das bereits, und drei Pfeile untereinander
+     heben ihre eigene Betonung gegenseitig auf. Was bleibt, ist Zierrat. */
   /* Mono, 12px, --color-text-label: 5,14 zu 1 auf dieser Flaeche. */
   .spur-label {
     font-family: var(--font-mono);
@@ -357,12 +385,6 @@ const experimente = [
     max-width: 90ch;
   }
 
-  .einladung .pfeil {
-    margin-left: auto;
-    color: var(--color-primary-accessible);
-    flex: none;
-  }
-
   /* === EINORDNUNG ===
      Steht unter der Liste, weil sie erklaert, wie das Gezeigte entstanden ist.
      Vorher stand sie im Kopf und kostete dort die Hoehe, die jetzt der zweite
@@ -430,9 +452,5 @@ const experimente = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .spur:hover .pfeil,
-    .einladung:hover .pfeil {
-      transform: none;
-    }
   }
 </style>
