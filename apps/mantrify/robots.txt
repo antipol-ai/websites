@@ -1,40 +1,36 @@
-# Mantrify. Nicht indexieren.
+# Mantrify. Indexierung erlaubt.
 #
-# Der urspruengliche Grund (Impressum und Datenschutz ungeprueft, MC·45) ist
-# seit dem 12.08.2026 erledigt. Die Sperre bleibt trotzdem, aus einem anderen:
-# Suchverkehr wuerde die Messung verwaessern. Unsere Schwelle lautet "jeder
-# Zehnte gibt weiter". Kaemen Leute ueber die Suche statt ueber eine
-# Weitergabe, mischten sich zwei Herkuenfte in denselben Nenner. Ausserdem
-# endet das Experiment am 31.10.2026, eine indexierte Seite ueberlebt es.
-# Wer die Sperre aufheben will, muss also diesen Grund entkraeften, nicht den
-# alten (MC·298).
+# Bis zum 15.08.2026 stand hier eine vollstaendige Sperre. Sie hatte zwei
+# Gruende, und beide sind erledigt, aber auf unterschiedliche Weise:
+#
+# 1. Impressum und Datenschutz waren ungeprueft (MC·45). Erledigt am
+#    12.08.2026, die Rechtstexte sind final.
+#
+# 2. Suchverkehr verwaessert die Messung (MC·298). Unsere Schwelle lautet
+#    "jeder Zehnte gibt weiter". Kommen Leute ueber die Suche statt ueber eine
+#    Weitergabe, mischen sich zwei Herkuenfte in denselben Nenner.
+#
+# Grund 2 ist nicht widerlegt, sondern abgewogen und bewusst in Kauf genommen
+# (Stefan und Catrin, 15.08.2026, am Launch-Abend). Die Begruendung:
+#
+#    Eine Domain, die es seit einer Woche gibt, bekommt vor dem Ende des
+#    Experiments am 31.10.2026 praktisch keinen Suchverkehr. Der Schaden am
+#    Nenner ist in diesem Fenster also nahe null, waehrend die Seite das
+#    Experiment ueberleben und danach gefunden werden soll.
+#
+# Was noch fehlt, damit die Abwaegung sauber bleibt: Das Ereignis "aufruf"
+# speichert bisher keine Herkunft, es traegt nur das Feld "ansicht". Solange
+# das so ist, laesst sich Suchverkehr im Nachhinein nicht aus dem Nenner
+# herausrechnen. Vorgesehen ist ein grob gebucketetes Feld (direkt, suche,
+# social, sonstige) aus document.referrer; das speichert keine Adresse und
+# keine personenbezogenen Daten. Bis dahin gilt der Nenner als unbereinigt,
+# und das gehoert bei jeder Auswertung dazugesagt.
+
 User-agent: *
-Disallow: /
-
-# Die Vorschau beim Teilen soll trotzdem funktionieren. Das ist kein
-# Widerspruch: Diese Dienste indexieren nicht, sie holen nur Titel, Text und
-# Bild fuer die Karte, die im Chat erscheint. Teilen ist unsere einzige
-# Kennzahl, und eine Nachricht ohne Vorschau wird seltener geoeffnet.
-User-agent: facebookexternalhit
 Allow: /
 
-User-agent: WhatsApp
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: LinkedInBot
-Allow: /
-
-User-agent: Slackbot-LinkExpanding
-Allow: /
-
-User-agent: TelegramBot
-Allow: /
-
-User-agent: Discordbot
-Allow: /
-
-User-agent: SignalBot
-Allow: /
+# Die frueheren Einzelfreigaben fuer Vorschau-Bots (facebookexternalhit,
+# WhatsApp, Twitterbot, LinkedInBot, Slackbot-LinkExpanding, TelegramBot,
+# Discordbot, SignalBot) sind entfallen. Sie waren Ausnahmen von der Sperre;
+# ohne Sperre sind sie ueberfluessig, und eine Liste, die niemand pflegt,
+# faellt irgendwann hinter die Wirklichkeit zurueck.
