@@ -23,16 +23,28 @@
 <meta property="og:site_name" content="Mantrify">
 <meta property="og:locale" content="de_DE">
 <meta property="og:url" content="https://mantrify.antipol.ai/">
+<!-- Die Beschreibung traegt seit dem 22.08.2026 den Dreiklang und nicht mehr
+     die Produktbeschreibung. Grund: Geteilt wird jetzt die Startseite, also ist
+     diese Karte das, was ein Empfohlener als Erstes sieht. Sie muss ihm sagen,
+     was er tun wird, nicht was das Ding ist. Die Zeile ist wortgleich mit der
+     Beschreibungszeile im Teilen-Fenster (openSheet, vsB); wer eine aendert,
+     muss die andere mitaendern, und das Pruefskript vergleicht die beiden.
+     Die description fuer die Suche bleibt der erklaerende Satz: Ein Suchender
+     kennt das Produkt nicht und braucht eine Beschreibung, kein Versprechen. -->
 <meta property="og:title" content="Hilft jetzt. Ändert nix.">
-<meta property="og:description" content="Ein Würfel, ein Mantra, fünf Stimmen. Du drehst, bis du schmunzelst. Ein Experiment von ANTIPOL.">
-<meta property="og:image" content="https://mantrify.antipol.ai/vorschau.jpg">
+<meta property="og:description" content="Trigger wählen. Mantra drehen. Ärger loslassen. Ein Experiment von ANTIPOL.">
+<meta property="og:image" content="https://mantrify.antipol.ai/vorschau-3klang.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Ein blauer Würfel auf einem Schreibtisch, auf der Vorderseite steht Ich bleib freiwillig, dahinter die geöffnete Schachtel.">
+<!-- Das Vorschaubild zeigt seit dem 22.08.2026 den Dreiklang und nicht mehr
+     den physischen Würfel. Den gibt es noch nicht zu kaufen; wer ihn im Chat
+     sieht und dann eine Web-Seite bekommt, ist verwirrt, bevor er angefangen
+     hat. Die drei Zeichen sagen dagegen genau das, was hinter dem Link steht. -->
+<meta property="og:image:alt" content="Drei Zeichen nebeneinander: ein Blitz für „Trigger wählen“, ein Würfel für „Mantra drehen“, ein aufsteigender Luftballon für „Ärger loslassen“. Darüber Mantrify, hilft jetzt, ändert nix.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hilft jetzt. Ändert nix.">
-<meta name="twitter:description" content="Ein Würfel, ein Mantra, fünf Stimmen. Du drehst, bis du schmunzelst. Ein Experiment von ANTIPOL.">
-<meta name="twitter:image" content="https://mantrify.antipol.ai/vorschau.jpg">
+<meta name="twitter:description" content="Trigger wählen. Mantra drehen. Ärger loslassen. Ein Experiment von ANTIPOL.">
+<meta name="twitter:image" content="https://mantrify.antipol.ai/vorschau-3klang.jpg">
 <meta name="description" content="Ein Würfel, ein Mantra, fünf Stimmen. Du drehst, bis du schmunzelst. Ein Experiment von ANTIPOL.">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230D0D0D'/%3E%3Crect x='38' y='38' width='104' height='104' rx='12' fill='%23614D18'/%3E%3C/svg%3E">
 <title>Mantrify · ein Experiment von ANTIPOL</title>
@@ -113,42 +125,91 @@ button{font:inherit;color:inherit}
    daneben Platz behalten. Kein Umschalten beim Scrollen mehr: Was immer gilt,
    braucht keine zweite Fassung. */
 .row{align-items:center}
-.reiter{display:flex;justify-content:flex-end;max-width:none;margin:0;padding:0;flex:none}
-/* Diese beiden Regeln standen bis zum 13.08.2026 hinter den Medienabfragen und
-   haben sie damit ausgehebelt: Gleiche Spezifitaet, spaetere Stelle, also gewann
-   die Grundregel. Die kleinere Schrift und der engere Abstand aus MC·283 sind
-   nie angekommen. Grundregel zuerst, Ausnahmen danach (MC·310). */
-.switch{display:flex;gap:1.6rem}
-.switch button{background:none;border:0;color:var(--label);font-family:var(--fd);font-size:.9rem;
-  padding:.55rem 0;min-height:44px;cursor:pointer;white-space:nowrap;position:relative}
-.switch button::after{content:"";position:absolute;left:0;right:0;bottom:.35rem;height:2px;
-  background:transparent;transition:background .15s ease}
-.switch button[aria-selected="true"]{color:var(--text)}
-.switch button[aria-selected="true"]::after{background:var(--ember)}
-.switch button:hover{color:var(--text)}
-/* Die Reiter heissen auf jeder Breite Trigger und Mantra, ohne Artikel. Die
-   Ansprache steht in den Ueberschriften der Ansichten; hier ist es Navigation,
-   und Navigation ist kurz. Nebeneffekt: Die Zeile passt auf schmaleren Geraeten. */
+/* Die Reiter Trigger und Mantra sind am 22.08.2026 entfallen, mitsamt ihrem CSS.
+   Sie waren aus der Zeit, als die Seite zwei gleichrangige Ansichten hatte, in
+   die man springen konnte. Seit dem Dreiklang ist es ein Weg: Trigger, Mantra,
+   loslassen. Ein Reiter, der einen Schritt ueberspringt, fuehrt aus dem Weg
+   heraus statt hinein. Zurueck kommt man jetzt ueber den Knopf unter dem
+   Empfehlen und ueber das Wort Mantrify oben links.
+   An ihrer Stelle steht der Absender. Er war vorher nur in der Fusszeile, und
+   damit stand auf dem ersten Bildschirm nirgends, von wem das hier ist. */
+.ap-marke{margin-left:auto;text-decoration:none;font-family:var(--fd);font-size:.8rem;
+  line-height:1;display:flex;align-items:center}
+.ap-marke b{font-family:var(--fd);font-weight:700;letter-spacing:.06em;color:var(--text)}
+.ap-marke b i{font-style:normal;color:var(--ember)}
+.ap-marke:hover b{color:#fff}
 @media(max-width:560px){
   .top{padding-left:1rem;padding-right:1rem}
   .produkt{gap:.45rem;white-space:nowrap;flex-wrap:nowrap}
   .produkt b{font-size:1.15rem}
   .produkt span{font-size:.8rem}
-  /* Trigger und Mantra sind eine Gruppe und mussten enger zusammen (Stefans
-     Beobachtung am 13.08.2026). Gemessen standen sie mit 26 Pixeln genauso weit
-     auseinander wie die Gruppe vom Claim entfernt war; damit war sie als Gruppe
-     nicht mehr lesbar. Jetzt etwa halb so weit wie der Abstand nach aussen. */
-  .switch{gap:.7rem}
-  .switch button{font-size:.85rem;min-height:40px}
 }
-/* Unter 375 Pixeln reicht auch das nicht mehr: Gemessen braucht die Zeile dort
-   337 Pixel und hat 328. Dann rutschen die Reiter unter die Marke, aber der
-   Claim bleibt bei ihr in derselben Zeile; er ist der Grund, warum jemand
-   weiterliest. */
+/* Unter 375 Pixeln wird die Kopfzeile zweizeilig: Marke und Claim oben, der
+   Absender darunter. Gemessen brauchte die Zeile dort 337 Pixel und hatte 328.
+   Frueher rutschten hier die Reiter; die Regel bleibt, weil der Absender genauso
+   umbricht, nur ohne eigene Klasse: margin-left:auto laeuft in der zweiten Zeile
+   ins Leere und stellt ihn nach links, was in einer eigenen Zeile richtig ist. */
 @media(max-width:374px){
   .row{flex-wrap:wrap;row-gap:.4rem}
   .produkt{flex:1 0 100%}
-  .reiter{flex:1 0 100%;justify-content:flex-start}
+}
+
+/* ---------- Dreiklang ---------- */
+/* Drei Zeichen mit drei Woertern ueber der Triggerliste. Anlass war Feedback vom
+   17.08.2026: Mehrere Bekannte schrieben, sie verstuenden die Seite nicht. Der
+   Text darunter erklaerte das Produkt erst, nachdem man schon haette klicken
+   sollen. Der Dreiklang nennt den ganzen Weg, bevor der erste Schritt kommt.
+   1,85rem Luft nach unten, damit er als eigene Aussage steht und nicht an der
+   Aufforderung klebt. Die Bewegung laeuft einmal je Seitenaufruf, sobald der
+   Block sichtbar wird; eine Schleife wuerde neben einer Liste flackern. */
+.dreiklang{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.55rem;margin:.1rem 0 1.85rem}
+.dk-schritt{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.5rem}
+.dk-schritt svg{display:block;overflow:visible}
+.dk-txt{font-family:var(--fb);font-weight:400;font-size:.87rem;line-height:1.25;color:var(--text)}
+/* transform-box:fill-box, sonst bezieht sich transform-origin auf das ganze
+   SVG-Koordinatensystem statt auf das Zeichen. */
+.dkg{transform-box:fill-box}
+.dk-blitz{transform-origin:50% 50%}
+/* Der Flug traegt Ballon UND Leine; die Leine dreht nur noch in sich um ihren
+   Knoten. Vorher hingen beide an eigenen translateY-Keyframes und loesten sich
+   in der Luft voneinander. */
+.dk-flug{transform-origin:50% 100%}
+.dk-schnur{transform-origin:50% 0%}
+@keyframes dkEinschlag{
+  0%{transform:scale(1.30);opacity:.25;fill:#D4652E}
+  5%{transform:scale(1);opacity:1;fill:#D4652E}
+  12%{opacity:.28} 18%{opacity:1} 25%{opacity:.42} 31%{opacity:1}
+  38%{opacity:.6} 44%{opacity:1;fill:#D4652E}
+  82%{fill:rgba(212,101,46,0)}
+  100%{transform:scale(1);opacity:1;fill:rgba(212,101,46,0)}
+}
+/* Der Ballon steigt linear zwischen den Marken, nicht mit der Kurve der anderen
+   beiden. Mit cubic-bezier(.32,.02,.3,1) laeuft jeder Abschnitt schnell los und
+   wieder aus; er lag dann nach einem Drittel der Zeit schon bei drei Vierteln
+   der Strecke und war bei 700 ms nur noch zu einem Viertel sichtbar. Gemessen
+   war er langsam, gesehen nicht. Die Beschleunigung steckt jetzt in den
+   Abstaenden der Marken: 17, 22, 28, dann 56 Pixel je Sekunde. */
+@keyframes dkWegfliegen{
+  0%{transform:translateY(0);opacity:1}
+  8%{transform:translateY(1.6px);opacity:1}
+  26%{transform:translateY(-4px);opacity:1}
+  46%{transform:translateY(-12px);opacity:.92}
+  62%{transform:translateY(-20px);opacity:.6}
+  72%{transform:translateY(-30px);opacity:0}
+  84%{transform:translateY(0);opacity:0}
+  100%{transform:translateY(0);opacity:1}
+}
+@keyframes dkLeine{
+  0%{transform:rotate(0deg)} 8%{transform:rotate(0deg)} 30%{transform:rotate(11deg)}
+  50%{transform:rotate(-7deg)} 68%{transform:rotate(3deg)} 100%{transform:rotate(0deg)}
+}
+/* Alle drei gleich lang, im Abstand von 1,3 s. Wenn eine Bewegung kuerzer ist,
+   liest sich die Reihe als drei ungleich wichtige Schritte. */
+.dk-los .dk-blitz{animation:dkEinschlag 1.8s ease-out 0s 1}
+.dk-los .dk-flug{animation:dkWegfliegen 1.8s linear 2.6s 1}
+.dk-los .dk-schnur{animation:dkLeine 1.8s cubic-bezier(.32,.02,.3,1) 2.6s 1}
+@media (prefers-reduced-motion: reduce){
+  .dk-los .dk-blitz,.dk-los .dk-flug,.dk-los .dk-schnur{animation:none}
 }
 
 /* ---------- Ansichten ---------- */
@@ -168,14 +229,28 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
   font-size:clamp(1.4rem,6.2vw,1.95rem);line-height:1.15}
 
 /* Aussen */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+/* Einspaltig seit dem 22.08.2026. Zweispaltig blieb neben dem Winkel rechts so
+   wenig Platz, dass fast jede Kachel dreizeilig wurde; gemessen brauchte die
+   laengste 353 Pixel Spaltenbreite und hatte 165. Untereinander liest sich die
+   Liste ausserdem als Liste und nicht als Raster, und genau das ist sie. */
+.grid{display:grid;grid-template-columns:1fr;gap:.55rem}
 /* Flach statt hoch. Der erste Screen ist eine Liste, kein Raster aus Karten:
    Die Farbmarke ist raus, weil sie die Zuordnung zum Würfel verrät, bevor sie
-   jemanden interessiert, und die Höhe folgt jetzt dem Satz statt einem Raster. */
+   jemanden interessiert, und die Höhe folgt jetzt dem Satz statt einem Raster.
+   Seit dem 22.08.2026 ohne feste Mindesthoehe: Bei einer Spalte sind die meisten
+   Kacheln einzeilig, und 60 Pixel machten daraus lauter halbleere Kaesten. Die
+   0,85rem Polsterung halten sie trotzdem ueber der 44-Pixel-Tippflaeche. Rechts
+   2,1rem, weil dort der Winkel sitzt und der Satz nicht darunter laufen darf. */
 .tile{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:11px;
-  padding:.8rem .9rem;text-align:left;font-family:var(--fb);font-weight:300;
-  font-size:.92rem;line-height:1.32;min-height:60px;display:flex;align-items:center;cursor:pointer;
+  padding:.85rem 2.1rem .85rem .9rem;text-align:left;font-family:var(--fb);font-weight:300;
+  font-size:.92rem;line-height:1.32;min-height:0;display:flex;align-items:center;cursor:pointer;
   transition:border-color .18s ease, transform .12s ease}
+/* Der Winkel sagt, dass hinter der Kachel etwas kommt. Ein Nutzer hatte nicht
+   verstanden, dass die Trigger anklickbar sind (Feedback vom 17.08.2026).
+   display:flex, weil das Inline-Kaestchen sonst Platz fuer Unterlaengen
+   freihaelt und das Zeichen darin 2,7 Pixel zu hoch sitzt. */
+.tile .chev{position:absolute;right:.85rem;top:50%;transform:translateY(-50%);
+  display:flex;line-height:0;color:var(--warm-signal)}
 .tile:active{transform:scale(.985)}
 .tile:hover{border-color:var(--warm-signal)}
 .tile.wild{grid-column:1/-1;min-height:46px;align-items:center;justify-content:center;text-align:center;
@@ -436,8 +511,10 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
 .vs-url{font-family:var(--fm);font-size:.62rem;letter-spacing:.06em;margin:0;color:var(--label)}
 /* Der eigene Text steht ausserhalb der Karte, weil er ausserhalb der Karte
    ankommt: In WhatsApp steht er unter der Vorschau, nicht darin. */
-.vs-satz{font-family:var(--fb);font-weight:300;font-size:1rem;line-height:1.45;
-  margin:.7rem 0 0;color:var(--text)}
+/* Die Zeile fuer den eigenen Text der Absenderin ist am 22.08.2026 entfallen,
+   samt ihrer Regel: Es gibt keinen vorgegebenen Text mehr, den sie zeigen
+   koennte. Was darunter noch steht, ist der Hinweis, dass dort selbst
+   geschrieben wird. */
 .vs-fuss{font-family:var(--fm);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
   color:var(--label);margin-top:.6rem}
 .sheet-wer{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem}
@@ -452,19 +529,24 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
 /* Teilen sitzt seit MC·229 wieder am Objekt statt in der Leiste: direkt unter
    den Punkten, in Ziegelrot als Vollfläche. Die Kennzahl ist das Teilen, und
    ein Reiter zwischen zwei Ansichten war dafür zu leise. */
-/* Seit dem 13.08.2026 so gross wie die Zeile unter den Avataren und in
-   Textweiss statt Label-Grau (MC·312). Sie stand vorher zwei Stufen leiser als
-   die einzige andere Versalzeile auf demselben Bildschirm und las sich wie eine
-   Fussnote. Teilen ist die Kennzahl des Experiments, und diese Frage ist der
-   einzige Anstoss dazu. */
+/* Diese Klasse traegt seit dem 22.08.2026 nur noch die Frage im Produktmodul
+   ("Würdest du dir so einen hinstellen?"). Ueber dem Empfehlen-Knopf stand sie
+   bis dahin auch, erst als Einladung, zuletzt nur noch als Begruendung der
+   Sperre. Beides ist weg: Die Einladung sagt der Knopf selbst, und eine Zeile,
+   die auftaucht und wieder verschwindet, hat den Knopf springen lassen. */
 .teilen-frage{font-family:var(--fm);font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;
   color:var(--text);text-align:center;margin:1rem 0 .6rem}
 /* Im Produktmodul leitet die Frage den Abschluss ein und braucht Luft nach oben,
    sonst haengt sie am Absatz darueber. */
 .sec .teilen-frage{margin-top:2.8rem;margin-bottom:1rem}
 /* Umriss statt Fläche, und in der Farbe des Würfels: Ziegelrot als Vollfläche
-   schlug jede Würfelfarbe tot und wirkte wie ein fremdes Element (MC·238). */
-.teilen{display:block;margin:0 auto;padding:.85rem 1.6rem;min-height:48px;
+   schlug jede Würfelfarbe tot und wirkte wie ein fremdes Element (MC·238).
+   Der obere Abstand sass bis zum 22.08.2026 an der Zeile darueber. Die ist weg,
+   und damit sass der Knopf mal hier und mal 26 Pixel hoeher, je nachdem ob die
+   Zeile gerade Text hatte. Jetzt traegt er den Abstand selbst: 2,6rem sind
+   gemessen die 41,6 Pixel, die vorher aus Aussenrand, Zeilenhoehe und Aussenrand
+   zusammenkamen. Am Schirm waren es 49,6, also 3,1rem. */
+.teilen{display:block;margin:2.6rem auto 0;padding:.85rem 1.6rem;min-height:48px;
   border:1px solid var(--accent-text);border-radius:11px;background:none;
   color:var(--accent-text);cursor:pointer;
   font-family:var(--fd);font-weight:500;font-size:.95rem;letter-spacing:-.01em;
@@ -494,9 +576,16 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
 .cta:hover{background:rgba(196,66,26,.14);color:#E88A5A}
 .sec .cta{display:block;width:100%;max-width:300px;margin:1.2rem auto 0;min-height:48px;
   border:1px solid var(--ember);border-radius:11px}
-.backlink{display:block;margin:.9rem auto 0;background:none;border:0;color:var(--label);
-  font-family:var(--fm);font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;cursor:pointer;padding:.65rem}
-.backlink:hover{color:var(--muted)}
+/* Zurueck-Weg unter dem Knopf. Er ersetzt die Reiter oben und steht bewusst
+   NACH dem Empfehlen: erst das Angebot, dann der Ausgang. Er hiess bis zum
+   22.08.2026 .backlink und hatte kein Markup mehr; die Regel stand seit dem
+   11.08. ungenutzt im Blatt. Gleiche Rolle, neuer Name, diesmal mit Zeichen. */
+.zurueck-unten{display:flex;align-items:center;justify-content:center;gap:.4rem;
+  margin:.9rem auto 0;font-family:var(--fm);font-size:.7rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--label);background:none;border:0;
+  padding:.5rem;cursor:pointer}
+.zurueck-unten:hover{color:var(--warm-signal)}
+.zurueck-unten svg{display:block}
 
 /* ---------- Teilen als Overlay ---------- */
 .sheet[hidden]{display:none}
@@ -774,13 +863,13 @@ html.intern .intern-hinweis a{color:var(--ember)}
   .view{padding-top:1.9rem;padding-bottom:3.4rem}
   #innen{--e:min(34vw,285px)}
   .grid{gap:.75rem}
-  .tile{min-height:68px;font-size:.98rem;padding:.9rem 1.05rem}
+  .tile{font-size:.98rem;padding:.9rem 2.3rem .9rem 1.05rem}
   .claim{font-size:1.1rem;max-width:38ch}
   .cube{margin-top:1.6rem}
   /* Die engeren Abstände vom 13.08.2026 sind eine Handy-Massnahme (MC·304).
      Hier oben ist Platz genug, also gelten wieder die alten Werte. */
   .sprecher,.ensemble{margin-top:1.4rem}
-  .teilen-frage{margin-top:1.5rem}
+  .teilen{margin-top:3.1rem}
   .arw{font-size:1.7rem}
   .sec .cta{margin-top:2rem}
   /* Am Schirm ist Platz genug, dort bleibt der grosse Abstand zum ersten Abschnitt. */
@@ -837,19 +926,14 @@ html.intern .intern-hinweis a{color:var(--ember)}
        den gescrollten Zustand mehr. -->
   <div class="row">
     <a class="produkt" id="heim" href="?"><b>Mantrify</b><span>Hilft jetzt. Ändert nix.</span></a>
-    <nav class="reiter" aria-label="Ansicht">
-      <div class="switch">
-        <div role="tablist" aria-label="Ansicht" style="display:contents">
-          <button role="tab" data-view="aussen" aria-selected="true">Trigger</button>
-          <button role="tab" data-view="innen" aria-selected="false">Mantra</button>
-        </div>
-      </div>
-    </nav>
+    <a class="ap-marke" href="https://antipol.ai" aria-label="ANTIPOL"><b>ANTI<i>POL</i></b></a>
   </div>
-  <!-- Der Umschalter stand bis zum 11.08.2026 als schwebende Leiste am unteren
-       Rand und hat dort den Wuerfel angeschnitten. Er gehoert nach oben, weil
-       er kein Sprungziel ist, sondern zwei Zustaende desselben Objekts
-       umschaltet. Eine Leiste statt zwei. -->
+  <!-- Hier stand bis zum 22.08.2026 der Umschalter zwischen Trigger und Mantra.
+       Er kam am 11.08. von einer schwebenden Leiste am unteren Rand hierher.
+       Jetzt ist er ganz weg: Die Seite hat keine zwei gleichrangigen Ansichten
+       mehr, sondern einen Weg in drei Schritten. Wer springen kann, ueberspringt
+       den ersten und landet auf einem Wuerfel ohne Anlass. An seiner Stelle steht
+       der Absender, damit auf dem ersten Bildschirm steht, von wem das ist. -->
 </header>
 
 
@@ -858,18 +942,29 @@ der Würfel und das Teilen brauchen Skripte.</div></noscript>
 
 <main>
   <section class="view on" id="aussen" role="tabpanel" aria-label="Situationen">
-    <h1>Was hat dich heute getriggert?</h1>
+    <!-- Der Dreiklang nennt den Weg, bevor der erste Schritt kommt. Ohne ihn stand
+         ueber der Liste nur eine Frage, und was danach passiert, erfuhr man erst
+         im Text unter dem Wuerfel, also eine Ansicht zu spaet. -->
+    <div class="dreiklang" id="dreiklang" aria-hidden="true">
+      <div class="dk-schritt"><svg width="28" height="28" viewBox="0 0 24 24" style="color:var(--warm-signal)"><path class="dkg dk-blitz" d="M13.4 2.8 5.9 13.3h4.9L10.6 21.2 18.1 10.7h-4.9l.2-7.9Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="dk-txt">Trigger wählen</span></div>
+      <div class="dk-schritt"><svg width="28" height="28" viewBox="0 0 24 24" style="color:var(--warm-signal)"><path id="dkWuerfel" d="M19.45 16.30 L12.00 20.60 L12.00 12.00 L19.45 7.70 Z M4.55 16.30 L4.55 7.70 L12.00 12.00 L12.00 20.60 Z M12.00 3.40 L19.45 7.70 L12.00 12.00 L4.55 7.70 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="dk-txt">Mantra drehen</span></div>
+      <div class="dk-schritt"><svg width="28" height="28" viewBox="0 0 24 24" style="color:var(--warm-signal)"><g class="dkg dk-flug"><path d="M12 2.3c-3.4 0-6 2.6-6 6 0 3.3 2.8 6 4.8 7.3l1.2.8 1.2-.8c2-1.3 4.8-4 4.8-7.3 0-3.4-2.6-6-6-6Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><g class="dkg dk-schnur"><path d="M12 16.4c2 1.5-2 2.9 0 4.4.8.6 1.1 1.1 1.1 1.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg><span class="dk-txt">Ärger loslassen</span></div>
+    </div>
+    <!-- Aufforderung statt Frage: Unter dem Dreiklang ist schon gesagt, worum
+         es geht; eine zweite Frage wuerde nur noch einmal fragen. "Tipp an"
+         sagt ausserdem, dass man etwas anfassen soll. -->
+    <h1>Tipp an, was heute war.</h1>
     <!-- Die Kacheln stehen fest im Markup, damit die Auswahl auch ohne Skript lesbar ist. -->
     <div class="grid" id="grid">
-      <button class="tile" type="button" data-m="einfluss">Über meinen Kopf hinweg entschieden.</button>
-      <button class="tile" type="button" data-m="einfluss">Ich soll retten, was mir nicht gehört.</button>
-      <button class="tile" type="button" data-m="schuld">Nicht mein Fehler, trotzdem mein Problem.</button>
-      <button class="tile" type="button" data-m="schuld">Ich räume auf, was andere verbockt haben.</button>
-      <button class="tile" type="button" data-m="ernst">Meine Arbeit ist gut. Das Drumherum nicht.</button>
-      <button class="tile" type="button" data-m="wahl">Ich frage mich, was ich hier noch mache.</button>
-      <button class="tile" type="button" data-m="einzige">Ohne mich läuft es nicht. Schon wieder.</button>
-      <button class="tile" type="button" data-m="traegt">Ich habe geliefert. Es passiert nichts.</button>
-      <button class="tile wild" type="button">Nichts davon. Überrasch mich.</button>
+      <button class="tile" type="button" data-m="einfluss">Über meinen Kopf hinweg entschieden.<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>
+      <button class="tile" type="button" data-m="einfluss">Ich soll retten, was mir nicht gehört.<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>
+      <button class="tile" type="button" data-m="schuld">Nicht mein Fehler, trotzdem mein Problem.<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>
+      <button class="tile" type="button" data-m="schuld">Ich räume auf, was andere verbockt haben.<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>
+      <button class="tile" type="button" data-m="ernst">Meine Arbeit ist gut. Das Drumherum nicht.<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>
+      <button class="tile" type="button" data-m="wahl">Ich frage mich, was ich hier noch mache.<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>
+      <button class="tile" type="button" data-m="einzige">Ohne mich läuft es nicht. Schon wieder.<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>
+      <button class="tile" type="button" data-m="traegt">Ich habe geliefert. Es passiert nichts.<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>
+      <button class="tile wild" type="button">Nichts davon. Überrasch mich.<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>
     </div>
   </section>
 
@@ -909,8 +1004,8 @@ der Würfel und das Teilen brauchen Skripte.</div></noscript>
         <div class="scene"><div class="tilt"><div class="die" id="die"></div></div></div>
       </div>
     </div>
-    <p class="teilen-frage" id="teilenFrage">Wem geht es gerade genauso?</p>
-    <button class="teilen" id="btnShare" type="button">Mantra teilen</button>
+    <button class="teilen" id="btnShare" type="button">Mantrify empfehlen</button>
+    <button class="zurueck-unten" id="zurueckTrigger" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span>Anderer Trigger</span></button>
 
     <p class="sr" id="srtext" aria-live="polite"></p>
   </section>
@@ -1274,7 +1369,6 @@ der Würfel und das Teilen brauchen Skripte.</div></noscript>
           <p class="vs-url">mantrify.antipol.ai</p>
         </div>
       </div>
-      <p class="vs-satz" id="vsSatz"></p>
       <div class="vs-fuss" id="vsFuss"></div>
     </div>
     <button class="prim" id="shNative" type="button" hidden>Weiterschicken</button>
@@ -1578,13 +1672,13 @@ window.addEventListener("error", function(e){
     /* Der Teilen-Knopf gehoert seit dem 15.08.2026 hierher (MC·333). Vorher
        stand er nur in goTo() und enter(), also in den Pfaden, die eine Flaeche
        ansteuern. Wer den Wuerfel dagegen mit der Hand drehte, lief ueber up()
-       und settle() und damit an teilenText() vorbei: Der Sprecher wechselte,
+       und settle() und damit an teilenSperre() vorbei: Der Sprecher wechselte,
        der Knopf blieb gesperrt. Sichtbar wurde es beim Einstieg ueber einen
        Trigger, weil dort die Titelflaeche vorn steht und der Knopf deshalb
        zu Recht gesperrt startet. Wer vor der Selbstdrehung nach acht Sekunden
        selbst drehte, konnte nicht teilen. sync() ist die Stelle, an der die
        Oberflaeche mit state.M abgeglichen wird; der Knopf ist Teil davon. */
-    teilenText(i);
+    teilenSperre(i);
     document.getElementById("srtext").textContent =
       m.name+", "+(v?v.label:"Titel")+": "+(v?m.f[v.key]:m.name);
     writeURL();
@@ -1630,14 +1724,16 @@ window.addEventListener("error", function(e){
      dort laeuft die Selbstdrehung gar nicht erst an. Die Bedingung "steht eine
      Stimme vorn" ist dagegen immer wahr oder falsch, egal wie lange jemand
      schon da ist. */
-  function teilenText(i){
-    var b=document.getElementById("btnShare"), q=document.getElementById("teilenFrage");
+  /* Hiess bis zum 22.08.2026 teilenText() und hat auch die Beschriftung gesetzt,
+     weil die zwischen "Mantra teilen" und einem Sperrhinweis wechselte. Beides
+     ist weg: Der Knopf heisst immer gleich und steht deshalb im Markup, und die
+     Zeile darueber gibt es nicht mehr. Uebrig bleibt genau eine Aufgabe, und die
+     steht jetzt auch im Namen. Gesperrt ist, solange keine Stimme vorn steht;
+     die Titelflaeche traegt keinen Satz, den man empfehlen koennte. */
+  function teilenSperre(i){
+    var b=document.getElementById("btnShare");
     if(!b) return;
-    var idx = (i==null) ? faceIndex() : i;
-    var stimme = !!VOICES[idx];
-    b.disabled = !stimme;
-    if(q) q.textContent = stimme ? "Wem geht es gerade genauso?" : "Erst drehen, dann teilen.";
-    b.textContent = "Mantra teilen";
+    b.disabled = !VOICES[(i==null) ? faceIndex() : i];
   }
   function zeigeSprecher(){
     var v=VOICES[faceIndex()];
@@ -1682,7 +1778,7 @@ window.addEventListener("error", function(e){
     i=(i+6)%6;
     /* Die Blende der Überschrift läuft mit der Drehung, nicht danach */
     document.getElementById("innen").classList.toggle("titel", i===5);
-    zeigeSprecher(); teilenText(i);
+    zeigeSprecher(); teilenSperre(i);
     state.M=restForIndex(i); settle();
   }
   function step(d){ goTo(faceIndex()+d); }
@@ -1763,7 +1859,7 @@ window.addEventListener("error", function(e){
     /* Ohne diese Zeile faellt die Freigabe erst mit dem sync() 390 ms nach dem
        Einrasten. Das ist kurz, aber es ist genau der Moment, in dem die Hand
        schon zum Knopf unterwegs ist. */
-    teilenText();
+    teilenSperre();
     settle();
   }
   stage.addEventListener("mousedown",down); window.addEventListener("mousemove",move); window.addEventListener("mouseup",up);
@@ -1775,8 +1871,6 @@ window.addEventListener("error", function(e){
   function setView(v){
     document.getElementById("aussen").classList.toggle("on", v==="aussen");
     document.getElementById("innen").classList.toggle("on", v==="innen");
-    document.querySelectorAll(".switch button[data-view]").forEach(function(b){
-      b.setAttribute("aria-selected", String(b.dataset.view===v)); });
     window.scrollTo({top:0, behavior:"auto"});
   }
   var flyer=document.getElementById("flyer");
@@ -1819,8 +1913,10 @@ window.addEventListener("error", function(e){
     document.documentElement.style.setProperty("--accent-weich",
       "rgba("+parseInt(t.substr(1,2),16)+","+parseInt(t.substr(3,2),16)+","+parseInt(t.substr(5,2),16)+",.15)");
   }
-  /* Nach dem Eintritt bleibt der Würfel acht Sekunden auf der Titelfläche stehen
-     und kippt dann von selbst auf die erste Stimme. Das zeigt, dass er sich dreht,
+  /* Nach dem Eintritt bleibt der Würfel sieben Sekunden auf der Titelfläche stehen
+     und kippt dann von selbst auf die erste Stimme. Acht waren gemessen an einer
+     Seite, auf der man erst herausfinden musste, wozu der Würfel da ist; das
+     erledigt jetzt der Dreiklang auf der Ansicht davor. Das zeigt, dass er sich dreht,
      ohne es zu erklären. Jede eigene Bewegung des Nutzers bricht es ab, und wer
      reduzierte Bewegung eingestellt hat, bekommt es gar nicht (MC·241). */
   var autoDreh=null;
@@ -1828,7 +1924,7 @@ window.addEventListener("error", function(e){
   function autoStart(){
     autoStop();
     if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    autoDreh=setTimeout(function(){ autoDreh=null; if(faceIndex()===5) goTo(0); }, 8000);
+    autoDreh=setTimeout(function(){ autoDreh=null; if(faceIndex()===5) goTo(0); }, 7000);
   }
   function enter(mid, fromEl, flaeche){
     var ziel = (flaeche==null) ? 5 : flaeche;
@@ -1837,7 +1933,7 @@ window.addEventListener("error", function(e){
     setzeAkzent(m.c);
     document.getElementById("mname").textContent=m.name;
     document.getElementById("innen").classList.toggle("titel", ziel===5);
-    buildDie(); setView("innen"); sync(); zeigeSprecher(); teilenText(ziel);
+    buildDie(); setView("innen"); sync(); zeigeSprecher(); teilenSperre(ziel);
     if(ziel===5) autoStart(); else autoStop();
     /* Der fliegende Kachelabdruck ist am 13.08.2026 entfallen (MC·308). Er
        stammt aus MC·84: Die getippte Kachel sollte zur Buehne des Wuerfels
@@ -1879,14 +1975,6 @@ window.addEventListener("error", function(e){
       b.addEventListener("click", function(){ enter(b.dataset.m, b); });
     }
   });
-  /* Der Teilen-Knopf sitzt seit MC·202 im selben Rahmen wie die beiden Ansichten,
-     ist aber keine Ansicht. Ohne diese Ausnahme warf er die Würfelansicht ab und
-     teilte deshalb aus der Trigger-Ansicht heraus den falschen Text (MC·216). */
-  document.querySelectorAll(".switch button[data-view]").forEach(function(b){
-    b.addEventListener("click", function(){
-      if(b.dataset.view==="innen") enter(state.mantra, null, faceIndex()); else setView("aussen");
-    });
-  });
 
   /* ---------------- Adresse und Teilen ---------------- */
   var booted=false;
@@ -1922,15 +2010,23 @@ window.addEventListener("error", function(e){
      stammen koennen. Was jetzt dort steht, zeigt beide und behauptet nichts
      ueber die Wirkung. "Das hat mir geholfen" waere eine Wirkungsaussage, die
      widerrufen muesste, wer das Mantra nur treffend oder komisch findet.
-     Auf der Titelflaeche und ausserhalb der Wuerfelansicht gibt es weiter keine
-     Einleitung, weil dort kein Mantra steht, auf das sie sich beziehen koennte. */
-  var EINLEITUNG = "Musste ich an dich denken.";
+     Nachtrag 22.08.2026: Der Satz ist ersatzlos weg, und mit ihm die ganze
+     Funktion shareText(). Zwei Gruende. Erstens gab er dem Absender ein Gefuehl
+     vor, das er vielleicht gar nicht hat; seit der Knopf "Mantrify empfehlen"
+     heisst, passt eine private Regung ohnehin nicht mehr zu dem, was man tut.
+     Zweitens war die ganze Unterscheidung kurz/lang aus MC·315 an die Frage
+     geknuepft, ob die Vorschaukarte das Mantra traegt. Seit die Startseite
+     geteilt wird, traegt sie den Dreiklang. Damit gibt es nichts mehr zu
+     entscheiden: Es geht die Adresse hinaus und sonst nichts, und was der
+     Absender dazu meint, schreibt er selbst. Das Mantra reist als Bild ueber
+     "Bild sichern"; das ist der Beleg. */
 
-  function shareText(kurz){
-    if(!document.getElementById("innen").classList.contains("on"))
-      return "Mantrify von ANTIPOL. Hilft jetzt. Ändert nix.";
-    var m=byId[state.mantra], vk=currentVoiceKey();
-    if(vk==="titel") return m.name+" · Mantrify von ANTIPOL. Hilft jetzt. Ändert nix.";
+  /* Hier stand shareText(). Ihre beiden Sonderfaelle (ausserhalb der
+     Wuerfelansicht, Titelflaeche) waren zuletzt ohnehin unerreichbar: openSheet()
+     haengt allein am Empfehlen-Knopf, und der ist gesperrt, solange keine Stimme
+     vorn steht. Was blieb, war eine Funktion, die immer denselben leeren Text
+     zurueckgab. Die Begruendungen von MC·315 und MC·330 stehen darunter, weil sie
+     die Frage beantworten, warum es die Unterscheidung ueberhaupt gab. */
     /* Der Text richtet sich seit dem 13.08.2026 danach, ob mit einer Vorschau zu
        rechnen ist (MC·315). Steht sie, traegt sie das Mantra im Bild, und es
        hier zu wiederholen ist nur Laenge. Steht sie nicht, waere die Nachricht
@@ -1948,10 +2044,6 @@ window.addEventListener("error", function(e){
        Nachricht unter Bekannten liest sich eine Absenderzeile wie eine Signatur
        unter einem Satz, den man privat geschickt hat. Die Marke steht im Bild
        und in der Adresse; zweimal genuegt. */
-    var kopf = EINLEITUNG, fuss = "";
-    if (kurz) return kopf + fuss;
-    return kopf + "\n„" + m.f[vk] + "“" + fuss;
-  }
   /* Die Adresse, die weitergegeben wird, ist seit dem 13.08.2026 nicht mehr die
      eigene (MC·313). /m/<wuerfel>/<stimme> laeuft ueber eine Funktion, die dem
      Link seine eigene Vorschau mitgibt: den Satz als Titel, die Karte mit
@@ -1959,12 +2051,13 @@ window.addEventListener("error", function(e){
      normalen Aufrufe bleiben statisch und kosten keinen Funktionsaufruf.
      Auf der Titelflaeche spricht niemand, dort gibt es keine Karte; dann geht
      die eigene Adresse hinaus wie bisher. */
-  function teilenURL(){
-    var innen=document.getElementById("innen").classList.contains("on");
-    var vk=currentVoiceKey();
-    if(!innen || vk==="titel") return location.origin + "/";
-    return location.origin + "/m/" + encodeURIComponent(state.mantra) + "/" + encodeURIComponent(vk);
-  }
+  /* Seit dem 22.08.2026 geht immer die Startseite hinaus, nicht mehr das
+     einzelne Mantra. Wer empfohlen bekommt, soll seinen eigenen Trigger waehlen
+     und nicht in der Lage eines anderen landen; das war der haeufigste Einwand
+     aus dem Feedback. Die Route /m/<wuerfel>/<stimme> bleibt bestehen, weil
+     bereits verschickte Links sonst ins Leere laufen; neu erzeugt wird sie
+     nicht mehr. */
+  function teilenURL(){ return location.origin + "/"; }
   var sheet=document.getElementById("sheet");
   function openSheet(){
     var innen=document.getElementById("innen").classList.contains("on");
@@ -1981,10 +2074,12 @@ window.addEventListener("error", function(e){
     var m2=byId[state.mantra];
     document.getElementById("vsZitat").textContent = v ? "„"+m2.f[v.key]+"“" : m2.name;
     document.getElementById("vsH").textContent = "Trigger: "+m2.name;
-    document.getElementById("vsB").textContent = v ? "Ein Mantra von: "+v.label
-                                                  : "Hilft jetzt. Ändert nix.";
-    document.getElementById("vsSatz").textContent=shareText(true);
-    document.getElementById("vsFuss").textContent = "Darunter steht dein Text";
+    /* Statt "Ein Mantra von: <Stimme>" steht hier seit dem 22.08.2026 der
+       Dreiklang in Worten. Die Stimme stand schon im Bild darueber und war an
+       dieser Stelle die zweite Nennung; der Dreiklang dagegen ist das Einzige,
+       was ein Fremder braucht, um zu verstehen, wofuer er klickt. */
+    document.getElementById("vsB").textContent = "Trigger wählen. Mantra drehen. Ärger loslassen. Ein Experiment von ANTIPOL.";
+    document.getElementById("vsFuss").textContent = "Darunter schreibst du selbst";
     /* Bild sichern gibt es nur, wo es eine Karte gibt, also nicht auf der
        Titelflaeche und nicht ausserhalb der Wuerfelansicht (MC·316). */
     document.getElementById("shBild").hidden = !(innen && v);
@@ -2009,20 +2104,20 @@ window.addEventListener("error", function(e){
        Knopf der einzige direkte Weg und deshalb stehen. */
     document.getElementById("shWa").hidden = true;
     sn.addEventListener("click", function(){
-      navigator.share({title:"Mantrify", text:shareText()+"\n", url:teilenURL()})
+      navigator.share({title:"Mantrify", url:teilenURL()})
         .then(function(){ spurEinmal("teilen", {weg:"system", mantra:state.mantra}); closeSheet(); })
         .catch(function(){});
     });
   }
   document.getElementById("shWa").addEventListener("click", function(){
     spurEinmal("teilen", {weg:"whatsapp", mantra:state.mantra});
-    window.open("https://wa.me/?text="+encodeURIComponent(shareText(true)+"\n"+teilenURL()),"_blank","noopener");
+    window.open("https://wa.me/?text="+encodeURIComponent(teilenURL()),"_blank","noopener");
     closeSheet();
   });
   document.getElementById("shCopy").addEventListener("click", function(){
     var b=this, alt=b.textContent;
     spurEinmal("teilen", {weg:"kopiert", mantra:state.mantra});
-    (navigator.clipboard ? navigator.clipboard.writeText(shareText()+"\n"+teilenURL()) : Promise.reject())
+    (navigator.clipboard ? navigator.clipboard.writeText(teilenURL()) : Promise.reject())
       .then(function(){ b.textContent="Kopiert"; }).catch(function(){ b.textContent="Strg C"; })
       .then(function(){ setTimeout(function(){ b.textContent=alt; closeSheet(); }, 900); });
   });
@@ -2251,8 +2346,61 @@ window.addEventListener("error", function(e){
     if(idx>=0){ state.M=restForIndex(idx); apply(); }
     light(); setView("innen"); sync(); setTimeout(nudge, 400);
   })();
+
+  /* ---------------- Dreiklang ---------------- */
+  /* Der Wuerfel im Dreiklang laeuft nicht ueber CSS. Ein isometrisch
+     gezeichneter Wuerfel ist eine flache Zeichnung; wer sie staucht, staucht ein
+     Bild und dreht keinen Koerper. Deshalb sind hier 24 fertige Stellungen
+     hinterlegt, je 15 Grad um die Hochachse, und im Browser laeuft nur noch das
+     Umschalten. Gerechnet wurde: Drehung um Y, dann isometrische Projektion
+     X=(x-z)*cos30, Y=(x+z)*sin30-y, sichtbar sind die drei Flaechen mit dem
+     groessten Skalarprodukt zur Blickrichtung (1,1,1). */
+  (function(){
+    var PFADE = ["M19.45 16.30 L12.00 20.60 L12.00 12.00 L19.45 7.70 Z M4.55 16.30 L4.55 7.70 L12.00 12.00 L12.00 20.60 Z M12.00 3.40 L19.45 7.70 L12.00 12.00 L4.55 7.70 Z", "M4.68 17.51 L4.68 8.76 L13.96 11.85 L13.96 20.60 Z M10.04 3.40 L19.32 6.49 L13.96 11.85 L4.68 8.76 Z M19.32 15.24 L13.96 20.60 L13.96 11.85 L19.32 6.49 Z", "M5.09 18.91 L5.09 9.70 L15.99 11.38 L15.99 20.60 Z M8.01 3.40 L18.91 5.09 L15.99 11.38 L5.09 9.70 Z M18.91 14.30 L15.99 20.60 L15.99 11.38 L18.91 5.09 Z", "M5.83 20.60 L5.83 10.52 L18.17 10.52 L18.17 20.60 Z M5.83 3.40 L18.17 3.40 L18.17 10.52 L5.83 10.52 Z M18.17 13.48 L18.17 20.60 L18.17 10.52 L18.17 3.40 Z", "M8.01 20.60 L8.01 11.38 L18.91 9.70 L18.91 18.91 Z M5.09 5.09 L15.99 3.40 L18.91 9.70 L8.01 11.38 Z M5.09 14.30 L5.09 5.09 L8.01 11.38 L8.01 20.60 Z", "M10.04 20.60 L10.04 11.85 L19.32 8.76 L19.32 17.51 Z M4.68 6.49 L13.96 3.40 L19.32 8.76 L10.04 11.85 Z M4.68 15.24 L4.68 6.49 L10.04 11.85 L10.04 20.60 Z", "M12.00 20.60 L12.00 12.00 L19.45 7.70 L19.45 16.30 Z M4.55 7.70 L12.00 3.40 L19.45 7.70 L12.00 12.00 Z M4.55 16.30 L4.55 7.70 L12.00 12.00 L12.00 20.60 Z", "M4.68 17.51 L4.68 8.76 L13.96 11.85 L13.96 20.60 Z M4.68 8.76 L10.04 3.40 L19.32 6.49 L13.96 11.85 Z M13.96 20.60 L13.96 11.85 L19.32 6.49 L19.32 15.24 Z", "M5.09 18.91 L5.09 9.70 L15.99 11.38 L15.99 20.60 Z M5.09 9.70 L8.01 3.40 L18.91 5.09 L15.99 11.38 Z M15.99 20.60 L15.99 11.38 L18.91 5.09 L18.91 14.30 Z", "M5.83 20.60 L5.83 10.52 L18.17 10.52 L18.17 20.60 Z M5.83 10.52 L5.83 3.40 L18.17 3.40 L18.17 10.52 Z M18.17 20.60 L18.17 10.52 L18.17 3.40 L18.17 13.48 Z", "M8.01 20.60 L8.01 11.38 L18.91 9.70 L18.91 18.91 Z M8.01 11.38 L5.09 5.09 L15.99 3.40 L18.91 9.70 Z M8.01 20.60 L5.09 14.30 L5.09 5.09 L8.01 11.38 Z", "M10.04 20.60 L10.04 11.85 L19.32 8.76 L19.32 17.51 Z M10.04 11.85 L4.68 6.49 L13.96 3.40 L19.32 8.76 Z M10.04 20.60 L4.68 15.24 L4.68 6.49 L10.04 11.85 Z", "M12.00 20.60 L12.00 12.00 L19.45 7.70 L19.45 16.30 Z M12.00 12.00 L4.55 7.70 L12.00 3.40 L19.45 7.70 Z M12.00 20.60 L4.55 16.30 L4.55 7.70 L12.00 12.00 Z", "M13.96 20.60 L4.68 17.51 L4.68 8.76 L13.96 11.85 Z M13.96 11.85 L4.68 8.76 L10.04 3.40 L19.32 6.49 Z M13.96 20.60 L13.96 11.85 L19.32 6.49 L19.32 15.24 Z", "M15.99 20.60 L5.09 18.91 L5.09 9.70 L15.99 11.38 Z M15.99 11.38 L5.09 9.70 L8.01 3.40 L18.91 5.09 Z M15.99 20.60 L15.99 11.38 L18.91 5.09 L18.91 14.30 Z", "M18.17 20.60 L5.83 20.60 L5.83 10.52 L18.17 10.52 Z M18.17 10.52 L5.83 10.52 L5.83 3.40 L18.17 3.40 Z M18.17 20.60 L18.17 10.52 L18.17 3.40 L18.17 13.48 Z", "M18.91 18.91 L8.01 20.60 L8.01 11.38 L18.91 9.70 Z M18.91 9.70 L8.01 11.38 L5.09 5.09 L15.99 3.40 Z M8.01 20.60 L5.09 14.30 L5.09 5.09 L8.01 11.38 Z", "M19.32 17.51 L10.04 20.60 L10.04 11.85 L19.32 8.76 Z M19.32 8.76 L10.04 11.85 L4.68 6.49 L13.96 3.40 Z M10.04 20.60 L4.68 15.24 L4.68 6.49 L10.04 11.85 Z", "M19.45 16.30 L12.00 20.60 L12.00 12.00 L19.45 7.70 Z M19.45 7.70 L12.00 12.00 L4.55 7.70 L12.00 3.40 Z M12.00 20.60 L4.55 16.30 L4.55 7.70 L12.00 12.00 Z", "M13.96 20.60 L4.68 17.51 L4.68 8.76 L13.96 11.85 Z M19.32 6.49 L13.96 11.85 L4.68 8.76 L10.04 3.40 Z M19.32 15.24 L13.96 20.60 L13.96 11.85 L19.32 6.49 Z", "M15.99 20.60 L5.09 18.91 L5.09 9.70 L15.99 11.38 Z M18.91 5.09 L15.99 11.38 L5.09 9.70 L8.01 3.40 Z M18.91 14.30 L15.99 20.60 L15.99 11.38 L18.91 5.09 Z", "M18.17 20.60 L5.83 20.60 L5.83 10.52 L18.17 10.52 Z M18.17 3.40 L18.17 10.52 L5.83 10.52 L5.83 3.40 Z M18.17 13.48 L18.17 20.60 L18.17 10.52 L18.17 3.40 Z", "M18.91 18.91 L8.01 20.60 L8.01 11.38 L18.91 9.70 Z M15.99 3.40 L18.91 9.70 L8.01 11.38 L5.09 5.09 Z M5.09 14.30 L5.09 5.09 L8.01 11.38 L8.01 20.60 Z", "M19.32 17.51 L10.04 20.60 L10.04 11.85 L19.32 8.76 Z M13.96 3.40 L19.32 8.76 L10.04 11.85 L4.68 6.49 Z M4.68 15.24 L4.68 6.49 L10.04 11.85 L10.04 20.60 Z"];
+    var wuerfel = document.getElementById("dkWuerfel");
+    var block   = document.getElementById("dreiklang");
+    if(!block || !wuerfel) return;
+    var START = 1.3, DAUER = 1.8, ruhe = PFADE[0], laeuft = null, gelaufen = false;
+
+    function dreheWuerfel(){
+      if(laeuft) cancelAnimationFrame(laeuft);
+      var t0 = null;
+      function bild(t){
+        if(t0 === null) t0 = t;
+        var p = (t - t0) / 1000 / DAUER;
+        if(p >= 1){ wuerfel.setAttribute("d", ruhe); laeuft = null; return; }
+        var e = p < .5 ? 2*p*p : 1 - Math.pow(-2*p+2, 2)/2;
+        wuerfel.setAttribute("d", PFADE[Math.floor(e * PFADE.length) % PFADE.length]);
+        laeuft = requestAnimationFrame(bild);
+      }
+      laeuft = requestAnimationFrame(bild);
+    }
+    /* Einmal je Seitenaufruf. Bei jedem Sichtbarwerden waere es eine Schleife
+       neben einer Liste, die man lesen soll. */
+    function spielen(){
+      if(gelaufen) return;
+      gelaufen = true;
+      block.classList.add("dk-los");
+      if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+        setTimeout(dreheWuerfel, START * 1000);
+    }
+    if("IntersectionObserver" in window){
+      new IntersectionObserver(function(e){
+        e.forEach(function(x){ if(x.isIntersecting) spielen(); });
+      }, {threshold:.6}).observe(block);
+    } else { spielen(); }
+  })();
+
+  /* Der Zurueck-Weg unter dem Empfehlen. Er tut dasselbe wie das Wort Mantrify
+     oben links, deshalb loest er dessen Klick aus statt die Logik zu doppeln. */
+  (function(){
+    var zurueck = document.getElementById("zurueckTrigger");
+    var heim = document.getElementById("heim");
+    if(zurueck && heim) zurueck.addEventListener("click", function(){ heim.click(); });
+  })();
+
   booted=true;
-  (function(){ var v=document.getElementById("ver"); if(v) v.textContent="Aufbau 61"; })();
+  (function(){ var v=document.getElementById("ver"); if(v) v.textContent="Aufbau 63"; })();
 })();
 </script>
 <!-- Vercel Web Analytics: zaehlt Seitenaufrufe und Besucher ohne Cookies.
