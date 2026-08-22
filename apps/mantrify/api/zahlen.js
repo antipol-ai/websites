@@ -103,7 +103,7 @@ async function allePfade(reihe) {
 function auswerten(pfade, abTag) {
   const z = { aufruf: 0, dreh: 0, teilen_auf: 0, teilen: 0, kauf_auf: 0,
               preis: 0, fuer: 0, kein_kauf: 0 };
-  const wege = {}, wen = {}, mantras = {}, tage = {};
+  const wege = {}, wen = {}, mantras = {}, tage = {}, ansichten = {}, quellen = {};
   const betraege = [];
   const monat = new Date().toISOString().slice(0, 7);
   let diesenMonat = 0;
@@ -124,6 +124,12 @@ function auswerten(pfade, abTag) {
       else if (feld === 'weg') wege[wert] = (wege[wert] || 0) + 1;
       else if (feld === 'wen') wen[wert] = (wen[wert] || 0) + 1;
       else if (feld === 'mantra') mantras[wert] = (mantras[wert] || 0) + 1;
+      /* Diese beiden wurden bis zum 22.08.2026 zwar gespeichert, aber nie
+         ausgewertet: "ansicht" lag seit dem 13.08. in jedem Aufruf und tauchte
+         auf dieser Seite nirgends auf. Messen und nicht hinsehen ist dasselbe
+         wie nicht messen. */
+      else if (feld === 'ansicht') ansichten[wert] = (ansichten[wert] || 0) + 1;
+      else if (feld === 'von') quellen[wert] = (quellen[wert] || 0) + 1;
     }
   }
   betraege.sort((a, b) => a - b);
@@ -132,7 +138,7 @@ function auswerten(pfade, abTag) {
         ? betraege[(betraege.length - 1) / 2]
         : Math.round((betraege[betraege.length / 2 - 1] + betraege[betraege.length / 2]) / 2))
     : null;
-  return { z, wege, wen, mantras, tage, betraege, median, diesenMonat };
+  return { z, wege, wen, mantras, tage, betraege, median, diesenMonat, ansichten, quellen };
 }
 
 /* ---------- Vercel Web Analytics: Zahlen von woanders ---------- */
@@ -218,7 +224,8 @@ export default async function handler(req, res) {
     blobFehler = String(e && e.message || e);
   }
   const abTag = (req.query && req.query.ab) || AB_TAG || null;
-  const { z, wege, wen, mantras, tage, betraege, median, diesenMonat } = auswerten(pfade, abTag);
+  const { z, wege, wen, mantras, tage, betraege, median, diesenMonat,
+          ansichten, quellen } = auswerten(pfade, abTag);
   const rw = await reichweite();
 
   const besucher = rw.gesamt && !rw.gesamt.fehler && rw.gesamt.data
@@ -332,6 +339,12 @@ ${unstimmig ? '<br><span class="warn">Achtung: Oben steht eine Quote über hunde
 ${tabelle('Für wen', wen)}
 <p class="klein">Alle genannten Beträge: ${betraege.length ? schuetz(betraege.join(' · ')) + ' €' : 'noch keine'}</p>
 
+${tabelle('Wie der Aufruf zustande kam', ansichten,
+  'geteilt heisst: über einen weitergegebenen Link gekommen, erkannt am Fragment #g. '
+  + 'Alles andere ist direkt. Vor dem 22.08.2026 wurde das gezählt, aber nicht angezeigt.')}
+${tabelle('Woher die Aufrufe kommen', quellen,
+  'Grobe Klasse aus dem Referrer. Apps schicken oft keinen, deshalb ist „direkt“ '
+  + 'immer zu groß; es enthält auch WhatsApp und alles, was seine Herkunft verschweigt.')}
 ${tabelle('Wie geteilt wird', wege)}
 ${tabelle('Welcher Würfel geteilt wird', mantras)}
 

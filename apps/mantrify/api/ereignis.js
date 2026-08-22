@@ -33,7 +33,12 @@ import { put } from '@vercel/blob';
 
 /** Was gezählt werden darf. Alles andere wird abgewiesen. */
 const ERLAUBT = {
-  aufruf:     ['ansicht'],
+  /* "von" ist seit dem 22.08.2026 dabei: eine grobe Herkunftsklasse aus dem
+     Referrer (direkt, suche, social, intern, sonstige). Ohne sie war "direkt"
+     ein Sammelbecken, und die Frage aus MC·298, ob Suchverkehr den Nenner
+     verwaessert, liess sich nicht beantworten. Gespeichert wird die Klasse,
+     nicht die Adresse: Mehr brauchen wir nicht, und weniger geht nicht. */
+  aufruf:     ['ansicht', 'von'],
   dreh:       [],
   teilen_auf: [],
   teilen:     ['weg', 'mantra'],

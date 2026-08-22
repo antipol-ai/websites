@@ -1380,7 +1380,14 @@ der Würfel und das Teilen brauchen Skripte.</div></noscript>
          Was Mail konnte, kann jetzt "Bild sichern" besser, und die Liste ist um
          einen Knopf kuerzer. -->
     <button id="shCopy" type="button">Link kopieren</button>
-    <button id="shBild" type="button" hidden>Bild sichern</button>
+    <!-- Hiess bis zum 22.08.2026 "Bild sichern". Das klang nach "in meine Fotos
+         legen", und damit war der zweite Weg nicht als Weg erkennbar. Genau
+         darauf beruht aber die Aufteilung: Der Link ist die Einladung und geht
+         automatisch hinaus, das Bild ist der Beleg und geht bewusst. Wo das
+         Geraet es kann, uebergibt der Knopf die Karte direkt an das
+         System-Teilen; auf dem Telefon ist das also wirklich Senden und nicht
+         Speichern. Nur wo das fehlt, faellt er auf einen Download zurueck. -->
+    <button id="shBild" type="button" hidden>Mantra als Bild senden</button>
     <button class="zu" data-zu type="button">Schliessen</button>
   </div>
 </div>
@@ -1620,7 +1627,27 @@ window.addEventListener("error", function(e){
   if (ausWeitergabe) {
     try { history.replaceState(null, "", location.pathname + location.search); } catch(e){}
   }
-  spur("aufruf", {ansicht: ausWeitergabe ? "geteilt" : "direkt"});
+  /* Zusaetzlich zur Weitergabe die grobe Herkunft, seit dem 22.08.2026. Ohne
+     sie war "direkt" ein Sammelbecken aus Lesezeichen, getippter Adresse,
+     Suche und sozialen Netzen, und die Frage "verwaessert Suchverkehr unseren
+     Nenner?" (MC·298) liess sich gar nicht beantworten, sondern nur vermuten.
+     Das Feld kommt HINZU und aendert kein bestehendes; die laufende Messreihe
+     bleibt damit vergleichbar.
+     Der Referrer ist grob und oft leer: Apps schicken meist gar keinen, und
+     mehr als die Herkunftsklasse steht ohnehin nicht drin. Genau deshalb wird
+     hier nur einsortiert und nicht die Adresse selbst gespeichert. */
+  function herkunft(){
+    var r = "";
+    try { r = document.referrer || ""; } catch(e){ return "sonstige"; }
+    if (!r) return "direkt";
+    var h = "";
+    try { h = new URL(r).hostname.replace(/^www\./, ""); } catch(e){ return "sonstige"; }
+    if (h === location.hostname) return "intern";
+    if (/(^|\.)(google|bing|duckduckgo|ecosia|yahoo|startpage|qwant)\./.test(h + ".")) return "suche";
+    if (/(^|\.)(linkedin|facebook|instagram|threads|x|twitter|t|mastodon|bsky|reddit|whatsapp|telegram)\./.test(h + ".")) return "social";
+    return "sonstige";
+  }
+  spur("aufruf", {ansicht: ausWeitergabe ? "geteilt" : "direkt", von: herkunft()});
 
   /* ---------------- Würfel aufbauen ----------------
      Fünf Stimmenflächen tragen nur Stimme und Satz. Die sechste Fläche
@@ -2057,7 +2084,19 @@ window.addEventListener("error", function(e){
      aus dem Feedback. Die Route /m/<wuerfel>/<stimme> bleibt bestehen, weil
      bereits verschickte Links sonst ins Leere laufen; neu erzeugt wird sie
      nicht mehr. */
-  function teilenURL(){ return location.origin + "/"; }
+  function teilenURL(){
+    /* Das Fragment #g ist die Herkunftsmarke. Bis zum 22.08.2026 hat sie
+       api/karte.js gesetzt, weil geteilte Links ueber /m/<wuerfel>/<stimme>
+       liefen. Seit die blosse Startseite hinausgeht, muesste sie hier stehen,
+       und sie fehlte: Jeder Besuch aus einer Empfehlung zaehlte als
+       Direktaufruf. Damit war ausgerechnet die Zahl blind, um die es in diesem
+       Experiment geht, naemlich ob sich das Ding weitertraegt.
+       Das Fragment geht nicht an den Server, kostet keine Anfrage, aendert die
+       Vorschau nicht (Vorschau-Bots ignorieren Fragmente) und wird beim
+       Ankommen sofort aus der Adresszeile entfernt, damit es beim Weiterteilen
+       nicht mitreist. */
+    return location.origin + "/#g";
+  }
   var sheet=document.getElementById("sheet");
   function openSheet(){
     var innen=document.getElementById("innen").classList.contains("on");
@@ -2400,7 +2439,7 @@ window.addEventListener("error", function(e){
   })();
 
   booted=true;
-  (function(){ var v=document.getElementById("ver"); if(v) v.textContent="Aufbau 63"; })();
+  (function(){ var v=document.getElementById("ver"); if(v) v.textContent="Aufbau 64"; })();
 })();
 </script>
 <!-- Vercel Web Analytics: zaehlt Seitenaufrufe und Besucher ohne Cookies.

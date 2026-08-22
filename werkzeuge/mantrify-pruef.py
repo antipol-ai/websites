@@ -21,6 +21,7 @@ import pathlib
 import re
 import subprocess
 import sys
+from urllib.parse import unquote
 
 HIER = pathlib.Path(__file__).resolve().parent.parent / 'apps/mantrify'
 DATEI = HIER / 'index.html'
@@ -70,6 +71,16 @@ for da, anzahl in [('id="dreiklang"', 1), ('id="dkWuerfel"', 1), ('class="ap-mar
     ist = code.count(da)
     pruefe(ist == anzahl, f'{da}: {ist} von {anzahl}')
 
+# --- Die Herkunftsmarke und die Herkunftsklasse. Ohne #g zaehlt jeder Besuch
+#     aus einer Empfehlung als Direktaufruf, und ohne von= ist "direkt" ein
+#     Sammelbecken aus Lesezeichen, Suche und sozialen Netzen.
+pruefe('location.origin + "/#g"' in code, 'die geteilte Adresse traegt #g')
+pruefe('von: herkunft()' in code, 'das Aufruf-Ereignis nennt die Herkunft')
+for klasse in ['"direkt"', '"suche"', '"social"', '"intern"', '"sonstige"']:
+    pruefe(klasse in code, f'Herkunftsklasse {klasse} ist vorgesehen')
+pruefe('Mantra als Bild senden' in code and 'Bild sichern' not in code,
+       'der zweite Weg heisst Mantra als Bild senden')
+
 # --- Genau eine Spalte, keine ueberschreibende Regel am Blattende
 pruefe(code.count('grid-template-columns:1fr}') >= 1 and 'grid-template-columns:1fr 1fr;gap:.55rem' not in code,
        'Triggerraster ist einspaltig, ohne Gegenregel')
@@ -98,6 +109,43 @@ _vsb = re.search(r'getElementById\("vsB"\)\.textContent = "([^"]+)"', roh).group
 pruefe(_og == _vsb, f'Vorschau und og:description sind wortgleich\n      og : {_og}\n      vsB: {_vsb}')
 pruefe(_og.startswith('Trigger wählen. Mantra drehen. Ärger loslassen.'),
        f'og:description traegt den Dreiklang ({_og[:60]})')
+
+# --- Die Herkunftsklassen mit Beispielen durchspielen. Geprueft wird der
+#     ausgelieferte Quelltext selbst: Die Funktion wird aus dem HTML geschnitten
+#     und mit gestelltem document.referrer unter node ausgefuehrt. Ein Regex,
+#     der google.de trifft und googleblog.com mitnimmt, faellt sonst niemandem auf.
+_FAELLE = [('', 'direkt'), ('https://www.google.de/search?q=mantrify', 'suche'),
+           ('https://news.google.com/x', 'suche'), ('https://googleblog.com/x', 'sonstige'),
+           ('https://duckduckgo.com/', 'suche'), ('https://www.linkedin.com/feed/', 'social'),
+           ('https://x.com/i/web', 'social'), ('https://t.co/abc', 'social'),
+           ('https://flux.com/', 'sonstige'), ('https://mantrify.antipol.ai/', 'intern'),
+           ('https://irgendwas.de/blog', 'sonstige'), ('kaputt', 'sonstige')]
+_fn = re.search(r'  function herkunft\(\)\{.*?\n  \}', roh, re.S)
+pruefe(_fn is not None, 'herkunft() steht im Blatt')
+if _fn:
+    _h = pathlib.Path('/tmp/mantrify_herkunft.js')
+    _h.write_text("var document={referrer:''}, location={hostname:'mantrify.antipol.ai'};\n"
+                  + _fn.group(0) + "\nvar f=" + json.dumps(_FAELLE) + ";var s=[];"
+                  + "f.forEach(function(x){document.referrer=x[0];var i=herkunft();"
+                  + "if(i!==x[1])s.push(x[0]+' -> '+i+', erwartet '+x[1]);});"
+                  + "console.log(s.join(' | '));", encoding='utf-8')
+    try:
+        _r = subprocess.run(['node', str(_h)], capture_output=True, text=True)
+        pruefe(_r.returncode == 0 and not _r.stdout.strip(),
+               f'Herkunft ordnet alle Beispiele richtig ein ({_r.stdout.strip() or _r.stderr.strip()[:120]})')
+    except FileNotFoundError:
+        warnung.append('node fehlt, Herkunftspruefung uebersprungen')
+
+# --- Der Weg eines Messfeldes geht ueber drei Dateien: index.html schickt es,
+#     api/ereignis.js laesst es durch (alles nicht Gelistete wird verworfen) und
+#     api/zahlen.js zeigt es an. Faellt eine Stelle aus, wird gemessen und nicht
+#     hingesehen; genau das war mit "ansicht" seit dem 13.08.2026 der Fall.
+_ere = (HIER / 'api/ereignis.js').read_text(encoding='utf-8')
+_zah = (HIER / 'api/zahlen.js').read_text(encoding='utf-8')
+pruefe("aufruf:     ['ansicht', 'von']" in _ere, 'ereignis.js laesst ansicht und von durch')
+for feld, zaehler in [('ansicht', 'ansichten'), ('von', 'quellen')]:
+    pruefe(f"feld === '{feld}'" in _zah, f'zahlen.js zaehlt {feld}')
+    pruefe(f'tabelle(' in _zah and zaehler in _zah, f'zahlen.js zeigt {zaehler} an')
 
 # --- Verschachtelte Blockkommentare zerlegen das Skript still
 skripte = re.findall(r'<script>(.*?)</script>', roh, re.S)
@@ -205,15 +253,29 @@ def im_browser(url, marke, breite=390, sollLuecke=41.6):
         pruefe(karte['b'] == _og, f'{marke}: Karte zeigt die echte og:description')
         pruefe(not karte['satz'], f'{marke}: kein vorgegebener Text mehr in der Vorschau')
 
-        # --- Die Adresse, die hinausgeht
-        adresse = seite.evaluate("""() => {
-          const a=document.getElementById('shCopy'); return a ? true : false; }""")
-        pruefe(adresse, f'{marke}: Knopf Link kopieren ist da')
+        # --- Die Adresse, die wirklich hinausgeht. teilenURL() steckt in einer
+        #     IIFE und ist von aussen nicht aufrufbar; deshalb wird window.open
+        #     abgefangen und der WhatsApp-Knopf gedrueckt. Geprueft wird der Weg,
+        #     den ein Mensch nimmt, und nicht eine Funktion, die ich mir denke.
+        raus = seite.evaluate("""() => new Promise(r => {
+          const echt = window.open;
+          window.open = (u) => { window.open = echt; r(u || ''); return null; };
+          document.getElementById('shWa').click();
+          setTimeout(() => r('KEIN AUFRUF'), 2000);
+        })""")
+        adresse = unquote(raus.split('text=', 1)[1]) if 'text=' in raus else raus
+        pruefe(adresse.endswith('/#g'),
+               f'{marke}: die geteilte Adresse traegt die Herkunftsmarke #g ({adresse})')
+        pruefe('/m/' not in adresse,
+               f'{marke}: geteilt wird die Startseite, nicht das fremde Mantra ({adresse})')
+        pruefe('\n' not in adresse,
+               f'{marke}: kein vorgegebener Text vor der Adresse ({adresse!r})')
+        seite.wait_for_timeout(400)
 
         # --- Zurueck fuehrt auf die Triggerliste
-        seite.keyboard.press('Escape')
+        seite.evaluate("""() => { const s=document.getElementById('sheet');
+          if(s) s.hidden=true; document.body.style.overflow=''; }""")
         seite.wait_for_timeout(300)
-        seite.evaluate("() => { const s=document.getElementById('sheet'); if(s) s.hidden=true; }")
         seite.locator('#zurueckTrigger').click()
         seite.wait_for_timeout(700)
         pruefe(seite.evaluate("() => document.getElementById('aussen').classList.contains('on')"),
