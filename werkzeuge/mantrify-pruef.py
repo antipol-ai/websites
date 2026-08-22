@@ -56,6 +56,8 @@ pruefe(re.search(r'\b\d{4}/\d{3}/\d{5}\b', roh) is None,
 
 # --- Was der Umbau vom 22.08.2026 entfernt hat
 for weg in ['teilenFrage', 'shareText', 'EINLEITUNG', 'vsSatz',
+            'vsAv', 'vsZitat', '"vsH"', '"vsB"', 'vsFuss', 'vs-karte', 'sheet-wer',
+            'shWa', 'wa.me',
             'class="reiter"', '.switch button', 'backlink',
             'Erst drehen, dann teilen', 'Musste ich an dich denken',
             'Mantra teilen', '}, 8000)', 'vorschau.jpg', 'vorschau-mantra',
@@ -66,7 +68,7 @@ for weg in ['teilenFrage', 'shareText', 'EINLEITUNG', 'vsSatz',
 for da, anzahl in [('id="dreiklang"', 1), ('id="dkWuerfel"', 1), ('class="ap-marke"', 1),
                    ('id="zurueckTrigger"', 1), ('Mantrify empfehlen', 1), ('teilenText', 0),
                    ('Tipp an, was heute war.', 1), ('vorschau-3klang.jpg', 2),
-                   ('class="chev"', 9), ('Trigger wählen. Mantra drehen. Ärger loslassen.', 3),
+                   ('class="chev"', 9), ('Trigger wählen. Mantra drehen. Ärger loslassen.', 2),
                    ('}, 7000)', 1)]:
     ist = code.count(da)
     pruefe(ist == anzahl, f'{da}: {ist} von {anzahl}')
@@ -78,8 +80,10 @@ pruefe('location.origin + "/#g"' in code, 'die geteilte Adresse traegt #g')
 pruefe('von: herkunft()' in code, 'das Aufruf-Ereignis nennt die Herkunft')
 for klasse in ['"direkt"', '"suche"', '"social"', '"intern"', '"sonstige"']:
     pruefe(klasse in code, f'Herkunftsklasse {klasse} ist vorgesehen')
-pruefe('Mantra als Bild senden' in code and 'Bild sichern' not in code,
-       'der zweite Weg heisst Mantra als Bild senden')
+# "Bild sichern" ist seit dem 22.08.2026 wieder erlaubt, aber nur als die
+# Beschriftung fuer Geraete, die keine Dateien teilen koennen. Als feste
+# Beschriftung im Markup waere es der alte Fehler.
+pruefe('>Bild sichern<' not in code, 'Bild sichern steht nicht fest im Markup')
 
 # --- Genau eine Spalte, keine ueberschreibende Regel am Blattende
 pruefe(code.count('grid-template-columns:1fr}') >= 1 and 'grid-template-columns:1fr 1fr;gap:.55rem' not in code,
@@ -105,10 +109,16 @@ for stueck in bau.split():
 #     Die beiden Stellen kennen einander nicht; wer eine aendert, vergisst leicht
 #     die andere, und dann zeigt die Vorschau etwas anderes als der Empfaenger sieht.
 _og = re.search(r'<meta property="og:description" content="([^"]+)"', roh).group(1)
-_vsb = re.search(r'getElementById\("vsB"\)\.textContent = "([^"]+)"', roh).group(1)
-pruefe(_og == _vsb, f'Vorschau und og:description sind wortgleich\n      og : {_og}\n      vsB: {_vsb}')
 pruefe(_og.startswith('Trigger wählen. Mantra drehen. Ärger loslassen.'),
        f'og:description traegt den Dreiklang ({_og[:60]})')
+
+# --- Die Knoepfe heissen nach dem, was hinausgeht. Ein Knopf, der "senden"
+#     sagt und in den Download-Ordner legt, ist dasselbe Versprechen wie
+#     "Bild sichern" es war, nur andersherum.
+pruefe('>Link weiterschicken<' in code, 'System-Teilen heisst Link weiterschicken')
+pruefe('>Link kopieren<' in code, 'Kopieren heisst Link kopieren')
+pruefe('"Mantra als Bild senden" : "Mantra als Bild sichern"' in code,
+       'der Bild-Knopf beschriftet sich nach dem, was das Geraet kann')
 
 # --- Die Herkunftsklassen mit Beispielen durchspielen. Geprueft wird der
 #     ausgelieferte Quelltext selbst: Die Funktion wird aus dem HTML geschnitten
@@ -243,27 +253,32 @@ def im_browser(url, marke, breite=390, sollLuecke=41.6):
         # --- Teilen
         seite.locator('#btnShare').click()
         seite.wait_for_timeout(900)
-        karte = seite.evaluate("""() => ({
-          h: (document.getElementById('vsH')||{}).textContent,
-          b: (document.getElementById('vsB')||{}).textContent,
-          fuss: (document.getElementById('vsFuss')||{}).textContent,
-          satz: !!document.getElementById('vsSatz')
+        blatt = seite.evaluate("""() => ({
+          vorschau: !!document.querySelector('#sheet .vs, #sheet .vs-karte'),
+          knoepfe: Array.from(document.querySelectorAll('#sheet button'))
+                        .filter(b => !b.hidden && getComputedStyle(b).display !== 'none')
+                        .map(b => b.textContent.trim())
         })""")
-        pruefe(karte['h'].startswith('Trigger: '), f'{marke}: Karte nennt den Trigger ({karte["h"]})')
-        pruefe(karte['b'] == _og, f'{marke}: Karte zeigt die echte og:description')
-        pruefe(not karte['satz'], f'{marke}: kein vorgegebener Text mehr in der Vorschau')
+        pruefe(not blatt['vorschau'], f'{marke}: keine Vorschaukarte mehr im Blatt')
+        pruefe('WhatsApp' not in ' '.join(blatt['knoepfe']),
+               f'{marke}: kein WhatsApp-Knopf ({blatt["knoepfe"]})')
+        # Ohne System-Teilen bleiben Kopieren, Bild und Schliessen. Mit
+        # System-Teilen kommt "Link weiterschicken" davor.
+        pruefe(blatt['knoepfe'][-1] == 'Schliessen' and 'Link kopieren' in blatt['knoepfe']
+               and any(k.startswith('Mantra als Bild') for k in blatt['knoepfe']),
+               f'{marke}: das Blatt zeigt genau die vorgesehenen Knoepfe ({blatt["knoepfe"]})')
 
         # --- Die Adresse, die wirklich hinausgeht. teilenURL() steckt in einer
         #     IIFE und ist von aussen nicht aufrufbar; deshalb wird window.open
         #     abgefangen und der WhatsApp-Knopf gedrueckt. Geprueft wird der Weg,
         #     den ein Mensch nimmt, und nicht eine Funktion, die ich mir denke.
         raus = seite.evaluate("""() => new Promise(r => {
-          const echt = window.open;
-          window.open = (u) => { window.open = echt; r(u || ''); return null; };
-          document.getElementById('shWa').click();
+          Object.defineProperty(navigator, 'clipboard',
+            {value: {writeText: (s) => { r(s); return Promise.resolve(); }}, configurable: true});
+          document.getElementById('shCopy').click();
           setTimeout(() => r('KEIN AUFRUF'), 2000);
         })""")
-        adresse = unquote(raus.split('text=', 1)[1]) if 'text=' in raus else raus
+        adresse = raus
         pruefe(adresse.endswith('/#g'),
                f'{marke}: die geteilte Adresse traegt die Herkunftsmarke #g ({adresse})')
         pruefe('/m/' not in adresse,

@@ -488,38 +488,9 @@ h1{font-family:var(--fd);font-weight:500;letter-spacing:-.03em;margin:.45rem 0 .
 .pers-kopf .r{font-family:var(--fm);font-size:.55rem;letter-spacing:.13em;text-transform:uppercase;
   color:var(--label);margin-top:.25rem}
 .pers p{color:var(--muted);font-size:.92rem;line-height:1.6;margin:0 0 .7rem;text-align:left}
-/* Vorschau im Teilen-Blatt: zeigt, was beim Empfänger ankommt, bevor man
-   auf Senden drückt. Bewusst gebaut wie eine Link-Vorschau, nicht wie ein
-   Ausschnitt der Seite. */
-.vs-titel{margin:0 0 .5rem}
-.vs{margin:0 0 1rem;text-align:left}
-/* Die Karte ist der Teil, den der Dienst baut, nicht wir. Deshalb hat sie einen
-   eigenen Rahmen und sitzt optisch als Block im Block. */
-.vs-karte{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#0D0D0D}
-.vs-bild{display:flex;align-items:center;gap:.7rem;padding:.8rem .9rem;background:#0D0D0D}
-.vs-bild img{width:52px;height:52px;border-radius:50%;object-fit:cover;background:#000;flex:none}
-.vs-marke{width:52px;height:52px;border-radius:12px;flex:none;display:flex;align-items:center;
-  justify-content:center;background:var(--warm-signal);color:#0D0D0D;
-  font-family:var(--fd);font-weight:700;font-size:1.4rem;line-height:1}
-/* Auch hier schlaegt display das hidden-Attribut. */
-.vs-marke[hidden],.vs-bild img[hidden]{display:none}
-.vs-zitat{font-family:var(--fb);font-weight:300;font-size:.86rem;line-height:1.35;margin:0;
-  color:var(--text)}
-.vs-meta{padding:.6rem .9rem .7rem;background:var(--surface);border-top:1px solid var(--border)}
-.vs-h{font-family:var(--fd);font-weight:500;font-size:.88rem;margin:0 0 .15rem;color:var(--text)}
-.vs-b{font-size:.86rem;line-height:1.4;margin:0 0 .3rem;color:var(--muted)}
-.vs-url{font-family:var(--fm);font-size:.62rem;letter-spacing:.06em;margin:0;color:var(--label)}
-/* Der eigene Text steht ausserhalb der Karte, weil er ausserhalb der Karte
-   ankommt: In WhatsApp steht er unter der Vorschau, nicht darin. */
-/* Die Zeile fuer den eigenen Text der Absenderin ist am 22.08.2026 entfallen,
-   samt ihrer Regel: Es gibt keinen vorgegebenen Text mehr, den sie zeigen
-   koennte. Was darunter noch steht, ist der Hinweis, dass dort selbst
-   geschrieben wird. */
-.vs-fuss{font-family:var(--fm);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--label);margin-top:.6rem}
-.sheet-wer{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem}
-.sheet-wer img{width:40px;height:40px;border-radius:50%;object-fit:cover;background:#000}
-.sheet-wer span{font-family:var(--fd);font-size:.86rem}
+/* Die Vorschau im Teilen-Blatt ist am 22.08.2026 entfallen, mit ihr die
+   Klassen .vs-*, und ebenso .sheet-wer, das schon vorher ohne Markup dastand.
+   Begruendung am Markup des Blattes. */
 @media(min-width:720px){
   .sprecher img{width:148px;height:148px}
   .sprecher,.ensemble{min-height:11.2rem}
@@ -1345,40 +1316,28 @@ der Würfel und das Teilen brauchen Skripte.</div></noscript>
 <div class="sheet" id="sheet" hidden>
   <div class="sheet-bg" data-zu></div>
   <div class="sheet-card" role="dialog" aria-modal="true" aria-label="Teilen">
-    <p class="micro vs-titel">So kommt es an</p>
-    <!-- Umgebaut am 15.08.2026 (MC·332). Vorher war die Vorschau eine
-         Sprechblase: oben Avatar und Name, darunter der Text. Ein Bildchen mit
-         Namen ueber einem Satz heisst aber ueberall "diese Person sagt das", und
-         hier sagt die Stimme nur das Zitat. "Musste ich an dich denken" ist der
-         Satz des Absenders. Die Vorschau hat also die Rollen vertauscht.
-         Jetzt zeigt sie, was der Empfaenger wirklich bekommt: erst die Karte mit
-         Bild, Ueberschrift, Zeile und Adresse, darunter abgesetzt der eigene
-         Text. Das ist keine originalgetreue Nachbildung von WhatsApp, und das
-         soll es auch nicht sein; es ist die richtige Reihenfolge und die richtige
-         Zuordnung, und mehr kann eine Vorschau ehrlich versprechen. -->
-    <div class="vs" id="vs">
-      <div class="vs-karte">
-        <div class="vs-bild">
-          <img id="vsAv" alt="" hidden>
-          <span class="vs-marke" id="vsMarke" hidden>M</span>
-          <p class="vs-zitat" id="vsZitat"></p>
-        </div>
-        <div class="vs-meta">
-          <p class="vs-h" id="vsH"></p>
-          <p class="vs-b" id="vsB"></p>
-          <p class="vs-url">mantrify.antipol.ai</p>
-        </div>
-      </div>
-      <div class="vs-fuss" id="vsFuss"></div>
-    </div>
-    <button class="prim" id="shNative" type="button" hidden>Weiterschicken</button>
-    <button id="shWa" type="button">WhatsApp</button>
-    <!-- Mail ist am 15.08.2026 entfallen (MC·331). Drei Gruende, die zusammen
-         zaehlen: mailto kann keine Anhaenge (RFC 6068), also kommt dort nie ein
-         Bild an; eine Linkvorschau baut kein Mailprogramm, also ist die Karte
-         wertlos; und wer am Telefon teilt, hat Mail ohnehin im System-Menue.
-         Was Mail konnte, kann jetzt "Bild sichern" besser, und die Liste ist um
-         einen Knopf kuerzer. -->
+    <!-- Die Vorschaukarte ist am 22.08.2026 ersatzlos entfallen (Stefan und
+         Catrin: "weniger ist mehr"). Sie hatte einen Sinn, solange sie pro
+         geteiltem Mantra anders aussah; sie zeigte dann etwas ueber DIESE
+         Weitergabe. Seit die Startseite geteilt wird, waere sie bei jedem Mal
+         identisch, also Dekoration, und sie schob die Knoepfe nach unten,
+         ausgerechnet im Moment der Kennzahl. Schlimmer noch: Sie war zuletzt ein
+         Mischwesen. Der Bildbereich zeigte die Mantra-Karte, die nur ueber "als
+         Bild senden" hinausgeht, die Textzeilen darunter beschrieben den Link,
+         und die Ueberschrift "Trigger: …" stammte aus der /m/-Route, die gar
+         nicht mehr benutzt wird. Von vier Angaben stimmte eine.
+         Was die Karte leisten sollte, leisten jetzt die Knoepfe selbst: Sie
+         heissen nach dem, was hinausgeht, nicht nach dem Weg dorthin.
+
+         Der WhatsApp-Knopf ist ebenfalls weg. Er war der Ersatzweg fuer Browser
+         ohne System-Teilen, also praktisch nur am Rechner, und dort fuehrt wa.me
+         auf WhatsApp Web: Wer nicht angemeldet ist, bekommt einen QR-Code statt
+         eines Chats. "Link kopieren" funktioniert ueberall und ist am Rechner
+         ohnehin die natuerliche Geste, weil der Link meist in Slack oder eine
+         Mail wandert. Preis der Entscheidung: In den seltenen mobilen Browsern
+         ohne System-Teilen bleibt nur noch das Kopieren.
+         Mail ist schon am 15.08.2026 entfallen (MC·331). -->
+    <button class="prim" id="shNative" type="button" hidden>Link weiterschicken</button>
     <button id="shCopy" type="button">Link kopieren</button>
     <!-- Hiess bis zum 22.08.2026 "Bild sichern". Das klang nach "in meine Fotos
          legen", und damit war der zweite Weg nicht als Weg erkennbar. Genau
@@ -2098,28 +2057,12 @@ window.addEventListener("error", function(e){
     return location.origin + "/#g";
   }
   var sheet=document.getElementById("sheet");
+  /* Das Blatt fuellt seit dem 22.08.2026 nichts mehr aus. Es entscheidet nur
+     noch, welche Knoepfe es ueberhaupt gibt. */
   function openSheet(){
     var innen=document.getElementById("innen").classList.contains("on");
     var v=innen?VOICES[faceIndex()]:null;
-    var av=document.getElementById("vsAv"), mk=document.getElementById("vsMarke");
-    /* Im Bildteil der Karte steht der Avatar der Stimme, und nur dort. Frueher
-       stand er als Absenderbild oben und machte aus der Stimme den Sprecher der
-       ganzen Nachricht (MC·332). */
-    if(v){ av.hidden=false; mk.hidden=true; av.src=v.mini||v.av; av.alt=v.label; }
-    else { av.hidden=true; mk.hidden=false; }
-    /* Die Karte traegt dieselben Angaben, die /api/karte als Open-Graph-Tags
-       ausliefert. Wenn sich dort etwas aendert, muss es hier mitgeaendert
-       werden; die beiden Stellen kennen einander nicht. */
-    var m2=byId[state.mantra];
-    document.getElementById("vsZitat").textContent = v ? "„"+m2.f[v.key]+"“" : m2.name;
-    document.getElementById("vsH").textContent = "Trigger: "+m2.name;
-    /* Statt "Ein Mantra von: <Stimme>" steht hier seit dem 22.08.2026 der
-       Dreiklang in Worten. Die Stimme stand schon im Bild darueber und war an
-       dieser Stelle die zweite Nennung; der Dreiklang dagegen ist das Einzige,
-       was ein Fremder braucht, um zu verstehen, wofuer er klickt. */
-    document.getElementById("vsB").textContent = "Trigger wählen. Mantra drehen. Ärger loslassen. Ein Experiment von ANTIPOL.";
-    document.getElementById("vsFuss").textContent = "Darunter schreibst du selbst";
-    /* Bild sichern gibt es nur, wo es eine Karte gibt, also nicht auf der
+    /* Das Bild gibt es nur, wo es eine Karte gibt, also nicht auf der
        Titelflaeche und nicht ausserhalb der Wuerfelansicht (MC·316). */
     document.getElementById("shBild").hidden = !(innen && v);
     sheet.hidden=false;
@@ -2132,27 +2075,41 @@ window.addEventListener("error", function(e){
     spurEinmal("teilen_auf"); openSheet();
   });
 
+  /* Beschriftet wird nach dem, was hinausgeht, nicht nach dem Weg dorthin
+     (22.08.2026). Deshalb "Link weiterschicken" und nicht "Weiterschicken":
+     Daneben steht ein zweiter Knopf, der auch etwas verschickt, naemlich das
+     Bild, und die beiden unterscheiden sich im Inhalt und nicht im Verfahren. */
   if(navigator.share){
     var sn=document.getElementById("shNative"); sn.hidden=false;
-    /* Wo das Geraet selbst teilen kann, faellt der eigene WhatsApp-Knopf weg
-       (15.08.2026, MC·329). WhatsApp steht dort ohnehin im Menue, und zwar mit
-       der Adressliste des Nutzers; unser Knopf oeffnet stattdessen wa.me im
-       Browser und fragt erst einmal, ob App oder Web. Zwei Wege zum selben Ziel,
-       von denen einer schlechter ist, sind einer zu viel. Ohne System-Teilen,
-       also vor allem in Firefox und in aelteren Browsern am Schirm, bleibt der
-       Knopf der einzige direkte Weg und deshalb stehen. */
-    document.getElementById("shWa").hidden = true;
     sn.addEventListener("click", function(){
       navigator.share({title:"Mantrify", url:teilenURL()})
         .then(function(){ spurEinmal("teilen", {weg:"system", mantra:state.mantra}); closeSheet(); })
         .catch(function(){});
     });
   }
-  document.getElementById("shWa").addEventListener("click", function(){
-    spurEinmal("teilen", {weg:"whatsapp", mantra:state.mantra});
-    window.open("https://wa.me/?text="+encodeURIComponent(teilenURL()),"_blank","noopener");
-    closeSheet();
-  });
+  /* Ohne System-Teilen ist "Link kopieren" der einzige Weg fuer den Link und
+     damit die Hauptsache im Blatt. Ein Fenster ohne erkennbare Hauptsache laesst
+     den Blick raten; die gefuellte Flaeche wandert deshalb dorthin, wo sie sonst
+     der Weiterschicken-Knopf hat. */
+  if(document.getElementById("shNative").hidden){
+    document.getElementById("shCopy").classList.add("prim");
+  }
+
+  /* Der Bild-Knopf heisst nach dem, was er tut, und das haengt am Geraet:
+     Wo Dateien geteilt werden koennen, geht das Bild an das System-Teilen und
+     damit wirklich hinaus. Wo nicht, landet es im Download-Ordner, und dann ist
+     "senden" ein falsches Versprechen. Geprueft wird mit einer leeren
+     Beispieldatei, weil canShare die Art der Datei mitbewertet und eine Frage
+     ohne Datei nichts ueber Dateien aussagt. */
+  (function(){
+    var b = document.getElementById("shBild"), kann = false;
+    try {
+      kann = !!(navigator.canShare && navigator.canShare({
+        files: [new File([new Blob([""], {type:"image/jpeg"})], "probe.jpg", {type:"image/jpeg"})]
+      }));
+    } catch(e){ kann = false; }
+    b.textContent = kann ? "Mantra als Bild senden" : "Mantra als Bild sichern";
+  })();
   document.getElementById("shCopy").addEventListener("click", function(){
     var b=this, alt=b.textContent;
     spurEinmal("teilen", {weg:"kopiert", mantra:state.mantra});
@@ -2439,7 +2396,7 @@ window.addEventListener("error", function(e){
   })();
 
   booted=true;
-  (function(){ var v=document.getElementById("ver"); if(v) v.textContent="Aufbau 64"; })();
+  (function(){ var v=document.getElementById("ver"); if(v) v.textContent="Aufbau 65"; })();
 })();
 </script>
 <!-- Vercel Web Analytics: zaehlt Seitenaufrufe und Besucher ohne Cookies.
