@@ -5,7 +5,7 @@ window.DS_TOKENS = {
       "primary": {
         "wert": "#C4421A",
         "name": "Ember",
-        "beschreibung": "Primaerer Akzent, POL-Wortmarke"
+        "beschreibung": "Primaerer Akzent und die POL-Wortmarke, in jeder Groesse und auf jedem Grund. Seit dem 14.08.2026 gilt das ausnahmslos (MC·317): Vorher wurde POL unter 20 Pixeln auf primary-light gesetzt, weil Ziegelrot auf dunklem Grund nur 3,83 zu 1 erreicht. WCAG 1.4.3 nimmt Markennamen von der Kontrastanforderung aber aus, und auf hellem Grund kehrt sich das Verhaeltnis ohnehin um (Ziegelrot 4,54, Signalton 3,30)."
       },
       "primary-deep": {
         "wert": "#8B2500",
@@ -15,12 +15,12 @@ window.DS_TOKENS = {
       "primary-light": {
         "wert": "#D4652E",
         "name": "Warm Signal",
-        "beschreibung": "Sekundaerer Akzent, Focus-States"
+        "beschreibung": "Sekundaerer Akzent und Zustandsfarbe: Focus, Hover, aktive Zustaende. Seit dem 22.08.2026 ausserdem die Farbe fuer Strichgrafik auf dunklem Grund: Piktogramme, Chevrons, Umrisse, also alles Gezeichnete, das keine Marke ist. Grund ist der Kontrast. Ziegelrot erreicht auf bg nur 3,83 zu 1, Warm Signal 5,28. Die 3-zu-1-Schwelle fuer Nicht-Text-Inhalte (WCAG 1.4.11) reisst Ziegelrot zwar nicht, aber sie ist fuer Flaechen gedacht; bei 1,5 Pixel Strichstaerke in einem 28-Pixel-Feld bleibt davon auf dem Telefon bei Tageslicht eine Ahnung statt eines Zeichens. Die Trennung lautet deshalb: primary traegt die Identitaet (Wortmarke, gefuellter Hauptknopf), primary-light traegt die Funktion (Zustaende und Strichgrafik). Wer die Grenze verschiebt, gibt drei Erklaerzeichen dasselbe Gewicht wie dem Produktnamen daneben. Sonderfall Logo: Ist die Wortmarke verlinkt, hellt POL beim Zeigen von primary auf diesen Wert auf; ANTI geht auf reines Weiss. Die Ruhefarbe der Marke steht in primary, nicht hier (MC·317)."
       },
       "primary-accessible": {
         "wert": "#E07A42",
         "name": "Signal Accessible",
-        "beschreibung": "Kleine Texte auf dunkel (WCAG AA)"
+        "beschreibung": "Kleine Texte auf dunkel, wo WCAG AA gefordert ist. Nicht fuer die Wortmarke: Markennamen sind von der Kontrastanforderung ausgenommen, und die Marke hat genau eine Farbe (MC·317)."
       },
       "bg": {
         "wert": "#0D0D0D",

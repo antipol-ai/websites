@@ -34,7 +34,8 @@
       "ARIA-Labels auf interaktiven Elementen",
       "prefers-reduced-motion Support",
       "Semantisches HTML (nav, main, article, section)",
-      "Kontrastverhaltnis mindestens 4.5:1 (normaler Text), 3:1 (grosser Text)"
+      "Kontrastverhaltnis mindestens 4.5:1 (normaler Text), 3:1 (grosser Text)",
+      "Duenne Strichgrafik wie eine Schrift behandeln, nicht wie eine Flaeche: Piktogramme, Chevrons und Umrisse unter etwa 2 Pixel Strichstaerke brauchen die 4.5:1 des Textes und nicht die 3:1 fuer Nicht-Text-Inhalte. Die 3:1 sind fuer Flaechen und Rahmen gedacht, bei denen die Farbe ueber viele Pixel steht; bei einer Linie steht sie ueber ein bis zwei. Ergaenzt am 22.08.2026, nachdem im Mantrify-Dreiklang auffiel, dass die Regel nirgends stand und die Farbwahl deshalb nicht nachvollziehbar war."
     ]
   },
   "prinzipien": {
